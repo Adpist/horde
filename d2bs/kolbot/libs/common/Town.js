@@ -2,6 +2,7 @@
 *	@filename	Town.js
 *	@author		kolton
 *	@desc		do town chores like buying, selling and gambling
+*	@credits	adpist (auto merc integration)
 */
 
 var NPC = {
@@ -88,12 +89,15 @@ var Town = {
 		this.buyPotions();
 		this.clearInventory();
 		Item.autoEquip();
+		Item.autoEquipMerc();
 		this.buyKeys();
 		this.repair(repair);
 		this.gamble();
 		this.reviveMerc();
 		Cubing.doCubing();
 		Runewords.makeRunewords();
+		Item.autoEquip();
+		Item.autoEquipMerc();
 		this.stash(true);
 		this.clearScrolls();
 
@@ -440,7 +444,7 @@ var Town = {
 	},
 
 	fillTome: function (code) {
-		if (me.gold < 450) {
+		if (me.gold < 200) {
 			return false;
 		}
 
@@ -523,7 +527,7 @@ var Town = {
 		// Avoid unnecessary NPC visits
 		for (i = 0; i < list.length; i += 1) {
 			// Only unid items or sellable junk (low level) should trigger a NPC visit
-			if ((!list[i].getFlag(0x10) || Config.LowGold > 0) && ([-1, 4].indexOf(Pickit.checkItem(list[i]).result) > -1 || (!list[i].getFlag(0x10) && Item.hasTier(list[i])))) {
+			if ((!list[i].getFlag(0x10) || Config.LowGold > 0) && ([-1, 4].indexOf(Pickit.checkItem(list[i]).result) > -1 || (!list[i].getFlag(0x10) && (Item.hasTier(list[i]) || Item.hasMercTier(list[i]))))) {
 				break;
 			}
 		}
@@ -552,7 +556,7 @@ MainLoop:
 				result = Pickit.checkItem(item);
 
 				// Force ID for unid items matching autoEquip criteria
-				if (result.result === 1 && !item.getFlag(0x10) && Item.hasTier(item)) {
+				if (result.result === 1 && !item.getFlag(0x10) && (Item.hasTier(list[i]) || Item.hasMercTier(list[i]))) {
 					result.result = -1;
 				}
 
@@ -600,9 +604,9 @@ MainLoop:
 
 					result = Pickit.checkItem(item);
 
-					if (!Item.autoEquipCheck(item)) {
+					/*if (!Item.autoEquipCheck(item)) {
 						result.result = 0;
-					}
+					}*/
 
 					switch (result.result) {
 					case 1:
@@ -703,9 +707,9 @@ MainLoop:
 			for (i = 0; i < unids.length; i += 1) {
 				result = Pickit.checkItem(unids[i]);
 
-				if (!Item.autoEquipCheck(unids[i])) {
+				/*if (!Item.autoEquipCheck(unids[i])) {
 					result = 0;
-				}
+				}*/
 
 				switch (result.result) {
 				case 0:
@@ -757,9 +761,9 @@ MainLoop:
 
 				result = Pickit.checkItem(item);
 
-				if (!Item.autoEquipCheck(item)) {
+				/*if (!Item.autoEquipCheck(item)) {
 					result.result = 0;
-				}
+				}*/
 
 				switch (result.result) {
 				case 0:
@@ -875,8 +879,14 @@ CursorLoop:
 		if (!Config.MiniShopBot) {
 			return true;
 		}
-
-		var i, item, result,
+		
+		//Don't shop bot if Low Gold is enabled and we don't have enough gold
+		if (Config.LowGold > 0 && me.getStat(14) + me.getStat(15) <= Config.LowGold)
+		{
+			return true;
+		}
+		
+		var i, item, result, gold,
 			items = [],
 			npc = getInteractedNPC();
 
@@ -901,9 +911,10 @@ CursorLoop:
 		for (i = 0; i < items.length; i += 1) {
 			result = Pickit.checkItem(items[i]);
 
-			if (result.result === 1 && Item.autoEquipCheck(items[i])) {
+			if (result.result === 1 /*&& Item.autoEquipCheck(items[i])*/) {
 				try {
-					if (Storage.Inventory.CanFit(items[i]) && me.getStat(14) + me.getStat(15) >= items[i].getItemCost(0)) {
+					gold = me.getStat(14) + me.getStat(15);
+					if (Storage.Inventory.CanFit(items[i]) && gold >= items[i].getItemCost(0) && (Config.LowGold <= 0 || gold >= items[i].getItemCost(0) + Config.LowGold)) {
 						Misc.itemLogger("Shopped", items[i]);
 						Misc.logItem("Shopped", items[i], result.line);
 						items[i].buy();
@@ -911,6 +922,11 @@ CursorLoop:
 				} catch (e) {
 					print(e);
 				}
+			}
+			
+			if (Config.LowGold > 0 && me.getStat(14) + me.getStat(15) <= Config.LowGold)
+			{
+				break;
 			}
 
 			delay(2);
@@ -993,9 +1009,9 @@ CursorLoop:
 					if (newItem) {
 						result = Pickit.checkItem(newItem);
 
-						if (!Item.autoEquipCheck(newItem)) {
+						/*if (!Item.autoEquipCheck(newItem)) {
 							result = 0;
-						}
+						}*/
 
 						switch (result.result) {
 						case 1:
@@ -1533,16 +1549,16 @@ MainLoop:
 		if (items) {
 			for (i = 0; i < items.length; i += 1) {
 				if (this.canStash(items[i])) {
-					result = (Pickit.checkItem(items[i]).result > 0 && Pickit.checkItem(items[i]).result < 4) || Cubing.keepItem(items[i]) || Runewords.keepItem(items[i]) || CraftingSystem.keepItem(items[i]);
+					result = (NTIP.CheckItem(items[i], NTIP_CheckListNoTier, true).result > 0 && NTIP.CheckItem(items[i], NTIP_CheckListNoTier, true).result < 4) || Cubing.keepItem(items[i]) || Runewords.keepItem(items[i]) || CraftingSystem.keepItem(items[i]);
 
 					// Don't stash low tier autoequip items.
-					if (Config.AutoEquip && Pickit.checkItem(items[i]).result === 1) {
+					/*if (Config.AutoEquip && Pickit.checkItem(items[i]).result === 1) {
 						tier = NTIP.GetTier(items[i]);
 
 						if (tier > 0 && tier < 100) {
 							result = false;
 						}
-					}
+					}*/
 
 					if (result) {
 						Misc.itemLogger("Stashed", items[i]);
@@ -1908,9 +1924,9 @@ MainLoop:
 					) {
 				result = Pickit.checkItem(items[i]).result;
 
-				if (!Item.autoEquipCheck(items[i])) {
+				/*if (!Item.autoEquipCheck(items[i])) {
 					result = 0;
-				}
+				}*/
 
 				switch (result) {
 				case 0: // Drop item

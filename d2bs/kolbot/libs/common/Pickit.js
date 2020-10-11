@@ -2,6 +2,7 @@
 *	@filename	Pickit.js
 *	@author		kolton
 *	@desc		handle item pickup
+*	@credits	adpist (auto merc integration)
 */
 
 var Pickit = {
@@ -57,6 +58,33 @@ var Pickit = {
 				result: 3,
 				line: null
 			};
+		}
+		
+		// POINTS BASED PICKIT
+		if ((NTIP.GetMercTier(unit) > 0 || NTIP.GetTier(unit) > 0) && !unit.getFlag(0x10)) {
+			return {
+				result: -1,
+				line: null
+			};
+		}
+
+		// POINTS BASED PICKIT
+		if ((NTIP.GetMercTier(unit) > 0 || NTIP.GetTier(unit) > 0) && unit.getFlag(0x10)) {
+			if (Item.autoEquipCheck(unit)) {
+				return {
+					result: 1,
+					line: "Equip char tier: " + NTIP.GetTier(unit)
+				};
+			}
+
+			if (Item.autoEquipCheckMerc(unit)) {
+				return {
+					result: 1,
+					line: "Equip merc tier: " + NTIP.GetMercTier(unit)
+				};
+			}
+			//print("ÿc4Checking " + Pickit.itemColor(unit) + unit.name + " ÿc0 vs no Tier pickit.");
+			rval = NTIP.CheckItem(unit, NTIP_CheckListNoTier, true);
 		}
 
 		// If total gold is less than 10k pick up anything worth 10 gold per
@@ -119,7 +147,7 @@ var Pickit = {
 				// Check if the item should be picked
 				status = this.checkItem(pickList[0]);
 
-				if (status.result && this.canPick(pickList[0]) && Item.autoEquipCheck(pickList[0])) {
+				if (status.result && this.canPick(pickList[0]) /*&& Item.autoEquipCheck(pickList[0])*/) {
 					// Override canFit for scrolls, potions and gold
 					canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
 

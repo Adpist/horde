@@ -454,7 +454,7 @@ MainLoop:
 
 	// get a list of items to mule
 	getMuleItems: function () {
-		var item, items,
+		var item, items,  checkItemResult,
 			info = this.getInfo();
 
 		if (!info || !info.hasOwnProperty("muleInfo")) {
@@ -466,9 +466,10 @@ MainLoop:
 
 		if (item) {
 			do {
+				checkItemResult = Pickit.checkItem(item).result;
 				if (Town.ignoredItemTypes.indexOf(item.itemType) === -1 &&
-						(Pickit.checkItem(item).result > 0 || (item.location === 7 && info.muleInfo.hasOwnProperty("muleOrphans") && info.muleInfo.muleOrphans)) &&
-						item.classid !== 549 && // Don't drop Horadric Cube
+						(checkItemResult > 0 || (item.location === 7 && info.muleInfo.hasOwnProperty("muleOrphans") && info.muleInfo.muleOrphans)) &&
+						checkItemResult !== 4 &&
 						(item.classid !== 603 || item.quality !== 7) && // Don't drop Annihilus
 						(item.classid !== 604 || item.quality !== 7) && // Don't drop Hellfire Torch
 						(item.location === 7 || (item.location === 3 && !Storage.Inventory.IsLocked(item, Config.Inventory))) && // Don't drop items in locked slots
