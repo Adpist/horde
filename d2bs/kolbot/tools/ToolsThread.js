@@ -655,6 +655,17 @@ function main() {
 			if (Config.LogExperience) {
 				Experience.log();
 			}
+			
+			//Basic rand delay when exiting
+			try
+			{
+				Town.goToTown();
+				delay(rand(5000,12000));
+			
+			} catch(e) {
+				Misc.errorReport(e, "ToolsThread quit flag");
+				delay(rand(2000,5000));			
+			}
 
 			this.checkPing(false); // In case of quitlist triggering first
 			this.exit();
