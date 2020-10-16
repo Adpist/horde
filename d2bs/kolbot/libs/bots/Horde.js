@@ -264,6 +264,11 @@ function Horde() {
 					Farm.areasLevelling(HordeSettings.tristLvlAreas, HordeSettings.tristLvl);
 				}
 			}
+			if (me.getQuest(4, 0) && !me.getQuest(7, 0) && ((me.diff === 0 && !Party.hasReachedLevel(HordeSettings.catacLvl)) || (me.diff !== 0))) {
+				//Use this time to travel kill to catacomes				
+				Travel.travel(1);
+			}
+		}
 		}
 
 		if (me.diff > 0) { // Nightmare & Hell difficulty.
@@ -278,7 +283,8 @@ function Horde() {
 		}
 		
 		//andy
-		if (!me.getQuest(7, 0) && ((me.diff === 0 && Party.hasReachedLevel(HordeSettings.tristLvl)) || (me.diff !== 0))) {
+		if (!me.getQuest(7, 0) && ((me.diff === 0 && Party.hasReachedLevel(HordeSettings.catacLvl)) || (me.diff !== 0))) {
+			//Will not kill Andy unless andyLvl is met when you get to lvl 4
 			HordeSystem.runSequence("andy", false);
 		}
 	}
