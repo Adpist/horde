@@ -16,7 +16,7 @@ var Role = {
 
 			print("I am the Leader");
 
-		} else if (HordeSystem.boProfileChar === me.profile) {
+		} else if (HordeSystem.boProfile === me.profile) {
 			this.boChar = true;
 
 			print("I am the BOer");
@@ -58,7 +58,7 @@ var Role = {
 	goToLeader: function () {
 		var leader = this.getLeaderUnit();
 		if (leader) {
-			if (this.boChar) {//why bo only ?
+			if (this.boProfile) {//why bo only ?
 				if (me.area != leader.area)
 					return false;
 				var count = 0;

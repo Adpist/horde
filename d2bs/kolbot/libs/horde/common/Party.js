@@ -251,6 +251,8 @@ var Party = {
 	},
 	
 	waitTeamReady: function() {
+		var tick;
+		
 		Party.iAmReady = true; // Prevents premature teamIsReady announcment.
 
 		print("I am ready ; act = " + me.act);

@@ -4,9 +4,10 @@
 *	@desc		Sorceress skill builds :
 *					"Cold" : Blizzard sorc
 *					"Light" : Lightning sorc
+*					"Fire" : Meteor sorc
 *					"TeleChant" : teleport, enchant & static sorc. a bit passive but efficient navigation
 *					"Meteorb" : Fireball / meteor / frozen orb sorc
-*	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
+*	@credits	Adpist, Mark, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 *	
 */
 
@@ -17,11 +18,15 @@ var SkillsBuilds = {
 		[37, 1, false], //Warmth
 		[42, 1, false], //Static
 		[54, 1, false], //Teleport
+		[55, 3, false], //level Glacial Spike
 		[59, 7, false], //Level blizzard
 		[65, 1, false], //Cold mastery
+		[59, 10, false], //Max Blizzard
+		[65, 7, false], // Cold Mastery
 		[59, 20, false], //Max Blizzard
+		[55, 10, false], //level Glacial Spike
 		[65, 17, false], //Max Cold Mastery
-		[55, 5, false], //level Glacial Spike
+		[55, 15, false], //level Glacial Spike
 		[45, 10, false], //level Ice blast
 		[55, 20, false], //Max glacial spike
 		[45, 20, false], //Max ice blast
@@ -42,6 +47,31 @@ var SkillsBuilds = {
 		[38, 20, false], //Max Charged Bolt
 		[53, 20, false], //Max Chain lightning
 		[48, 20, false]  //Max Nova
+	],
+	
+	"Fire": [
+		[36, 1, false], //fire bolt
+		[40, 1, false], //frozen armor
+		[37, 1, false], //Warmth
+		[36, 4, false], //fire bolt
+		[42, 1, false], //Static
+		[43, 1, false], //Telekinesus
+		[47, 1, false], //fire ball
+		[41, 1, false], //Inferno
+		[46, 1, false], //blaze
+		[47, 3, false], //fire ball
+		[54, 1, false], //Teleport
+		[47, 10, false], //fire ball
+		[51, 1, false], //fire wall
+		[56, 6, false], //meteor
+		[61, 1, false], //fire mastery
+		[56, 10, false], // meteor
+		[61, 10, false], //fire mastery
+		[56, 20, false], //max meteor
+		[61, 20, false], //max fire mastery
+		[47, 20, false], //max fire ball
+		[36, 20, false], //max fire bolt
+		[41, 20, false] //max Inferno
 	],
 	
 	"TeleChant": [

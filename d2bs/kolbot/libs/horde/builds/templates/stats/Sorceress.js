@@ -2,7 +2,8 @@
 *	@filename	Sorceress.js
 *	@author		Adpist
 *	@desc		Sorceress stats builds :
-*					"Levelling" : a bit of energy to compensate poor gear (up to 75)
+*					"Levelling" : few points in energy (up to 30)
+*					"LevellingMana" : more energy (up to 75)
 *					"MonarchStr" : vit + str (up to 156)
 *					"NoStr" : full vit (str is provided by gear)
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
@@ -10,7 +11,29 @@
 */
 
 var StatsBuilds = {
-	"Levelling": [
+	"Levelling" : [
+		["str", 15],
+		["vit", 30],
+		["str", 25],
+		["vit", 45],
+		["str", 35],
+		["vit", 55],
+		["enr", 30],
+		["str", 45],
+		["vit", 75],
+		["str", 60],
+		["vit", 125],
+		["str", 85],
+		["vit", 150],
+		["str", 100],
+		["vit", 200],
+		["str", 125],
+		["vit", 225],
+		["str", 156],
+		["vit", "all"]
+	],
+	
+	"LevellingMana": [
 		["str", 15],
 		["vit", 30],
 		["str", 25],
