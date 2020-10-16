@@ -55,7 +55,13 @@ function andy(mfRun) {
 				Party.waitForMembers(me.area, 37);
 
 				Travel.clearToExit(36, 37, true);
-
+				
+				if(!Party.hasReachedLevel(HordeSettings.andyLvl) && !mfRun){
+					print("dont kill andy yet we too low, need group level "+HordeSettings.andyLvl);
+					Town.goToTown(1);
+					return true;
+				}
+				
 				Party.waitForMembers();
 
 				Precast.doPrecast(true);
@@ -65,7 +71,12 @@ function andy(mfRun) {
 				Travel.clearToExit(35, 36, false);
 
 				Travel.clearToExit(36, 37, false);
-
+				
+				if(!Party.hasReachedLevel(HordeSettings.andyLvl) && !mfRun){
+					print("dont kill andy yet we too low, need group level "+HordeSettings.andyLvl);
+					Town.goToTown(1);
+					return true;
+				}
 				//Pather.moveTo(22568, 9582, 3, false); //Dark-f: Follower kill other monsters when the leader kills Andy
 				//Pather.moveTo(22549, 9520, 3, false); //Dark-f: this is from running Andy
 				
