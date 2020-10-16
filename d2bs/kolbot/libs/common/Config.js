@@ -2,6 +2,7 @@
 *	@filename	Config.js
 *	@author		kolton
 *	@desc		config loading and default config values storage
+*	@credits	Adpist
 */
 
 var Scripts = {};
@@ -94,6 +95,17 @@ var Config = {
 
 				throw new Error("Config.init: Error in character config.");
 			}
+		}
+
+		try {			
+			if (Config.Horde.Team && Config.Horde.Team != ""){
+				if (!isIncluded("horde/includes.js")) {include("horde/includes.js"); includeHorde(); }
+				HordeSystem.setupConfig(Config.Horde.Team);
+			}
+		}
+		catch(eHorde){
+			print("ÿc8Error in Horde system config setup !");
+			print(eHorde.toSource());
 		}
 
 		try {
@@ -525,5 +537,8 @@ var Config = {
 		Template: "",
 		Verbose: false,
 		DebugMode: false
+	},	
+	Horde: {
+		Team: ""
 	}
 };

@@ -24,6 +24,7 @@ include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
 include("common/Merc.js");
+include("horde/includes.js");
 
 function main() {
 	D2Bot.init(); // Get D2Bot# handle
@@ -56,7 +57,6 @@ function main() {
 	if (MuleLogger.inGameCheck()) {
 		return true;
 	}
-
 	var i, sojPause, stats, anni,
 		sojCounter = 0,
 		startTime = getTickCount();
@@ -100,6 +100,9 @@ function main() {
 			}
 		}
 	};
+	
+	includeHorde();
+	HordeSystem.init();
 
 	// Initialize libs - load config variables, build pickit list, attacks, containers and cubing and runeword recipes
 	Config.init(true);
