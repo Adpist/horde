@@ -217,6 +217,13 @@ function LoadConfig() {
 	Config.MaxGameTime = 0; // Maximum game time in seconds. Quit game when limit is reached.
 	Config.TeleSwitch = false; // Switch to secondary (non-primary) slot when teleporting more than 5 nodes.
 	Config.OpenChests = false; // Open chests. Controls key buying.
+	if(me.charlvl < 30){
+		Config.OpenChestsRange = 10; //Helps from straying from team
+	} else if(me.charlvl < 90 && me.charlvl >= 30){
+		Config.OpenChestsRange = 20; //Default range
+	} else {		
+		Config.OpenChestsRange = 30; //Increased range
+	}
 	Config.MiniShopBot = true; // Scan items in NPC shops.
 	Config.PacketShopping = false; // Use packets to shop. Improves shopping speed.
 	Config.TownCheck = false; // Go to town if out of potions
