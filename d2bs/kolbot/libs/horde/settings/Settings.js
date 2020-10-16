@@ -8,7 +8,9 @@
 var HordeSettings = {
 	// -------- Normal Difficulty -------------
 	caveLvl: 7,
-	tristLvl: 15,
+	tristLvl: 12,
+	catacLvl: 13,	
+	andyLvl: 16,
 	tombsLvl: 24,
 	mephLvl: 24,
 	diaLvl: 27,
