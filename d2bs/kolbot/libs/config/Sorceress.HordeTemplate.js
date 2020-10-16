@@ -290,8 +290,16 @@ function LoadConfig() {
 	};
 
 	Config.Dodge = true; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
-	Config.DodgeRange = 15; // Distance to keep from monsters.
-	Config.DodgeHP = 80; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+	Config.DodgeRange = 12; // Distance to keep from monsters.
+	if(me.charlvl <= 20){
+		Config.DodgeHP = 60; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+	} else if(me.charlvl <= 30){
+		Config.DodgeHP = 80; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+	} else if(me.charlvl <= 50){
+		Config.DodgeHP = 90; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+	} else {
+		Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+	}
 	Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
 	Config.ClearType = 0; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
 	Config.TeleStomp = false; // Use merc to attack bosses if they're immune to attacks, but not to physical damage
@@ -300,6 +308,14 @@ function LoadConfig() {
 	Config.Wereform = false; // 0 / false - don't shapeshift, 1 / "Werewolf" - change to werewolf, 2 / "Werebear" - change to werebear
 
 	// Class specific config
-	Config.CastStatic = 60; // Cast static until the target is at designated life percent. 100 = disabled.
-	Config.StaticList = []; // List of monster NAMES or CLASSIDS to static. Example: Config.StaticList = ["Andariel", 243];
+	if(me.diff === 0 & me.charlvl >= 6){
+		Config.CastStatic = 20;
+	} else if(me.diff === 1 & me.charlvl >= 6){
+		Config.CastStatic = 40;
+	} else if(me.diff === 2 & me.charlvl >= 6){
+		Config.CastStatic = 60;
+	} else {
+		Config.CastStatic = 100;
+	}
+	Config.StaticList = ["Griswold", "Andariel", "Duriel", "Mephisto", "Izual", "Diablo"]; // List of monster NAMES or CLASSIDS to static. Example: Config.StaticList = ["Andariel", 243];
 }
