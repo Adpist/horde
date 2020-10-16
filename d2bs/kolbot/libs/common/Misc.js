@@ -2178,9 +2178,9 @@ var Packet = {
 			}
 
 			sendPacket(1, 0x2f, 4, 1, 4, unit.gid);
-			delay(me.ping * 2);
+			delay(me.ping > 0 ? me.ping * 2 : 50);
 			sendPacket(1, 0x30, 4, 1, 4, unit.gid);
-			delay(me.ping * 2);
+			delay(me.ping > 0 ? me.ping * 2 : 50);
 			this.flash(me.gid);
 		}
 
@@ -2415,9 +2415,9 @@ CursorLoop:
 		if (getDistance(me, x, y) > 10 && getTickCount() - this.telewalkTick > 3000 && Attack.validSpot(x, y)) {
 			for (i = 0; i < 5; i += 1) {
 				sendPacket(1, 0x5f, 2, x + rand(-1, 1), 2, y + rand(-1, 1));
-				delay(me.ping + 1);
+				delay(me.ping > 0 ? me.ping : 50);
 				sendPacket(1, 0x4b, 4, me.type, 4, me.gid);
-				delay(me.ping + 1);
+				delay(me.ping > 0 ? me.ping : 50);
 
 				if (getDistance(me, x, y) < maxDist) {
 					delay(200);

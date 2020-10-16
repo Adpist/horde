@@ -757,7 +757,7 @@ MainLoop:
 
 			if (result.result === -1) { // unid item that should be identified
 				this.identifyItem(item, tome);
-				delay(me.ping + 1);
+				delay(me.ping > 0 ? me.ping : 50);
 
 				result = Pickit.checkItem(item);
 

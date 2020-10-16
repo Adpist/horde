@@ -2,6 +2,7 @@
 *	@filename	ToolsThread.js
 *	@author		kolton
 *	@desc		several tools to help the player - potion use, chicken, Diablo clone stop, map reveal, quit with player
+*	@credits	adpist
 */
 
 js_strict(true);

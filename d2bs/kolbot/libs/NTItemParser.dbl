@@ -37,7 +37,7 @@ NTIP.OpenFile = function (filepath, notify) {
 	var i, nipfile, line, lines, info, item,
 		tick = getTickCount(),
 		filename = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.length),
-		entries = 0;
+		entries = 0, entriesNO = 0;
 
 	try {
 		nipfile = File.open(filepath, 0);
