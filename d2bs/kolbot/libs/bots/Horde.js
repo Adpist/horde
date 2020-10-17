@@ -565,6 +565,9 @@ function Horde() {
 
 		HordeSystem.runSequence("baal", false);
 		
+		if(HordeSettings.doCBaalStyle && runDiablo ===0){			
+			HordeSystem.runSequence("diablo", false);
+		}
 		
 		if (me.diff === 0 && !Party.hasReachedLevel(HordeSettings.baalLvl))
 		{
