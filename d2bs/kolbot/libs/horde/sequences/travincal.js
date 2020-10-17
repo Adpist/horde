@@ -103,7 +103,8 @@ function travincal(mfRun) {
 		Config.PacketCasting = 1;
 
 		Party.wholeTeamInGame();
-
+		delay(30000); //TODO better logic one day, this is to hope everyone gets ready & is here for a bit	
+		Party.wholeTeamInGame();
 		Quest.placeFlail();
 	} else { // I am not the Teleporting Sorc or Khalim's Will has been completed. If it the latter is true the while loop on the next line will be skipped.
 		while (!me.getQuest(18, 0)) { // I am not the Teleporting Sorc and have not completed Khalim's Will yet.
