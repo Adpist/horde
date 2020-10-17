@@ -392,7 +392,9 @@ function diablo(mfRun) {
 */
 	// start
 	print("diablo");
-	Town.doChores();
+	if (me.area !== 107 || !Role.teleportingChar) {
+		Town.doChores();
+	}
 	Party.wholeTeamInGame();
 
 	//if ( Role.teleportingChar && me.classid === 1) {
@@ -404,8 +406,10 @@ function diablo(mfRun) {
 	var clearType;
 
 	if (Role.teleportingChar) {
-		Pather.useWaypoint(107);
-
+		if (me.area !== 107){
+			Pather.useWaypoint(107);
+		}
+		
 		Precast.doPrecast(true);
 		if ( me.classid === 1) {
 			clearType = false;
