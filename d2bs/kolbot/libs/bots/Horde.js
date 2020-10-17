@@ -488,7 +488,7 @@ function Horde() {
 	//act4
 	var runDiablo = 0; // Dark-f: for running baal
 
-	if (me.getQuest(23, 0) && (!me.getQuest(28, 0) || !Party.hasReachedLevel(HordeSettings.diaLvl) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.diaLvlnm)))) { // Have been to Act 4 and Diablo is not done or haven't reached the difficulty specific level requirement.
+	if (me.getQuest(23, 0) && (!me.getQuest(28, 0) || !Party.hasReachedLevel(HordeSettings.diaLvl) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.diaLvlnm)) || (me.diff === 2 && !Party.hasReachedLevel(HordeSettings.diaLvlhell)))) { // Have been to Act 4 and Diablo is not done or haven't reached the difficulty specific level requirement.
 		Town.goToTown(4);
 
 		if (Role.teleportingChar) { // I am the Teleporting Sorc
@@ -541,6 +541,13 @@ function Horde() {
 
 	//if (me.gametype === 1 && me.getQuest(28, 0) && ((me.diff === 0 && Party.hasReachedLevel(HordeSettings.diaLvl)) || (me.diff === 1 && Party.hasReachedLevel(HordeSettings.diaLvlnm)) || me.diff == 2)) { // Am an expansion character, Diablo is done, and the party has reached the difficulty specific HordeSettings.diaLvl requirement or it's Hell difficulty.
 	if (me.gametype === 1 && me.getQuest(28, 0)) { //Dark-f
+				
+		if(HordeSettings.doCBaalStyle && runDiablo ===0){
+			// Do diablo first for XP incase Diablo lvl limit was low
+			// Also generates gold incase of frequent dieing by teleport sorceress
+			HordeSystem.runSequence("diablo", false);
+		}
+		
 		Town.goToTown(5);
 		if (!me.getQuest(37,1) && Role.teleportingChar) {
 			Travel.travel(9);
@@ -562,13 +569,9 @@ function Horde() {
 			HordeSystem.runSequence("ancients", false);
 		if (Role.teleportingChar && !getWaypoint(38))
 			Pather.getWP(129, false);
-
+		
 		HordeSystem.runSequence("baal", false);
-		
-		if(HordeSettings.doCBaalStyle && runDiablo ===0){			
-			HordeSystem.runSequence("diablo", false);
-		}
-		
+				
 		if (me.diff === 0 && !Party.hasReachedLevel(HordeSettings.baalLvl))
 		{
 			Farm.areasLevelling(HordeSettings.baalLvlAreas, HordeSettings.baalLvl);
