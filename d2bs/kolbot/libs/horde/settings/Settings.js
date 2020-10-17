@@ -11,15 +11,18 @@ var HordeSettings = {
 	tristLvl: 15,
 	tombsLvl: 24,
 	mephLvl: 24,
+	startAtStarLvl: 32,
 	diaLvl: 27,
 	baalLvl: 44,
 	// -------- Nightmare Difficulty ----------
 	mephLvlnm: 45,
+	startAtStarLvlnm: 50,
 	diaLvlnm: 50,
 	mfLvlnm: 58,
 	baalLvlnm: 70,
 	// ---------- Hell Difficulty --------------
 	mephLvlhell: 70,
+	startAtStarLvlHell: 95,
 	diaLvlhell: 80,
 	mfLvlhell: 86,
 	
