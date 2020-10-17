@@ -417,7 +417,7 @@ function diablo(mfRun) {
 			clearType = true;
 		}
 
-		if ((me.diff === 0 && !Party.hasReachedLevel(HordeSettings.diaLvl)) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.diaLvlnm)) || (me.diff === 2 && !Party.hasReachedLevel(HordeSettings.diaLvlhell))) {
+		if ((me.diff === 0 && !Party.hasReachedLevel(HordeSettings.startAtStarLvl)) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.startAtStarLvlnm)) || (me.diff === 2 && !Party.hasReachedLevel(HordeSettings.startAtStarLvlHell))) {
 			Pather.moveTo(7790, 5544, 10, clearType, clearType); // Start at Entrance.
 
 			Pather.makePortal();
