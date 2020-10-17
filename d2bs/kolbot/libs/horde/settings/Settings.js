@@ -25,6 +25,9 @@ var HordeSettings = {
 	
 	maxWaitTimeMinutes: 3, //Max time to wait in case smurf synchronization fails
 	
+	// -------- Cbaal style -------------	
+	doCBaalStyle :true, // When level requirement above is reached will run diablo before baal
+	
 	// -------- Extra quests -------------	
 	normalCountess: true, //for levelling a bit more
 	smithQuest: true,
