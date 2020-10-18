@@ -722,8 +722,11 @@ var Attack = {
 		}
 
 		ClassAttack.afterAttack(true);
-		this.openChests(30);
-
+		if(Config.OpenChestsRange === 20 || !Config.OpenChestsRange){
+			this.openChests(30);
+		} else {
+			this.openChests(Config.OpenChestsRange);
+		}
 		if (attackCount > 0) {
 			Pickit.pickItems();
 		}

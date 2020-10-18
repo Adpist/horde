@@ -190,6 +190,7 @@ var Config = {
 	MakeRoom: true,
 	FastPick: false,
 	OpenChests: false,
+	OpenChestsRange: 20,
 	PickitFiles: [],
 	BeltColumn: [],
 	MinColumn: [],

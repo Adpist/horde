@@ -52,7 +52,7 @@ var NodeAction = {
 	// Open chests while pathing
 	popChests: function () {
 		if (!!Config.OpenChests) {
-			Misc.openChests(20);
+			Misc.openChests(Config.OpenChestsRange);
 		}
 	},
 
