@@ -76,8 +76,8 @@ var Communication = {
 
 				break;
 			case "ready to drink":
-				Buff.readyToDrinkreadyToDrink += 1;
-				print("readyToDrink = " + Buff.readyToDrinkreadyToDrink);
+				Buff.readyToDrink += 1;
+				print("readyToDrink = " + Buff.readyToDrink);
 				break;
 			case "cube":
 				this.Questing.cube = true;

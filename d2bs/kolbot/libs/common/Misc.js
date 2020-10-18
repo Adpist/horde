@@ -933,7 +933,7 @@ var Misc = {
 		while (coords.length) {
 			coords.sort(Sort.units);
 			Pather.moveToUnit(coords[0], 1, 2);
-			this.openChests(20);
+			this.openChests(Config.OpenChestsRange);
 
 			for (i = 0; i < coords.length; i += 1) {
 				if (getDistance(coords[i].x, coords[i].y, coords[0].x, coords[0].y) < 20) {

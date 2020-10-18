@@ -215,6 +215,13 @@ function LoadConfig() {
 	Config.LastMessage = ""; // Message or array of messages to say at the end of the run. Use $nextgame to say next game - "Next game: $nextgame" (works with lead entry point)
 	Config.TeleSwitch = false; // Switch to secondary (non-primary) slot when teleporting more than 5 nodes.
 	Config.OpenChests = false; // Open chests. Controls key buying.
+	if(me.charlvl < 30){
+		Config.OpenChestsRange = 10; //Helps from straying from team
+	} else if(me.charlvl < 90 && me.charlvl >= 30){
+		Config.OpenChestsRange = 20; //Default range
+	} else {		
+		Config.OpenChestsRange = 30; //Increased range
+	}
 	Config.MiniShopBot = true; // Scan items in NPC shops.
 	Config.PacketShopping = false; // Use packets to shop. Improves shopping speed.
 	Config.TownCheck = false; // Go to town if out of potions
@@ -317,5 +324,7 @@ function LoadConfig() {
 	} else {
 		Config.CastStatic = 100;
 	}
+  
 	Config.StaticList = ["Griswold", "Andariel", "Duriel", "Mephisto", "Izual", "Diablo"]; // List of monster NAMES or CLASSIDS to static. Example: Config.StaticList = ["Andariel", 243];
+
 }
