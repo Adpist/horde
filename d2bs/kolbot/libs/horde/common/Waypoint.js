@@ -223,6 +223,7 @@ var Waypoint = {
 	},
 	
 	giveWaypoints: function() {
+		var i;
 		print("Start sharing Waypoints.");
 
 		for (i in this.waypointsToShare) {
