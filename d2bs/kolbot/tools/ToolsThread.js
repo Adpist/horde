@@ -562,14 +562,13 @@ function main() {
 			
 			//FOR LEADER ELECTION
 			if(me.gametype === 1 && Config.DoLeaderElectionByQuest && getTickCount()>Config.NextQuestSaveTime && Config.NextQuestSaveTime){ //only coded for LOD
-				Config.NextQuestSaveTime = getTickCount() + 600*1000;//update once per 10 minute
-				print("ÿc8NextQuestSaveTime: " + Config.NextQuestSaveTime);//TODO delete
+				Config.NextQuestSaveTime = getTickCount() + 60*1000;//update once per 1 minute
+				print("ÿc8NextQuestSaveTime: " + Config.NextQuestSaveTime);
 				if(!ranQuest){
-					sendPacket(1, 0x40); // Refresh quest status
+					sendPacket(1, 0x40); // Refresh quest status must do atleast once to get quests
 					delay(me.ping * 2 + 250);
 					ranQuest= true;
 				}
-
 				try {
 					var questJson = {};
 					var hordeInfo = {};
@@ -583,14 +582,10 @@ function main() {
 					} else if(me.diff ===2){
 						hordeInfo.hellQuest = questJson;
 					}
-					print(JSON.stringify(hordeInfo));
-
 					DataFile.updateStats("hordeInfo", JSON.stringify(hordeInfo));
 				} catch (error){
-
 						print("me.getQuest error "+error);
 				}
-
 			}
 			//FOR LEADER ELECTION
 			
