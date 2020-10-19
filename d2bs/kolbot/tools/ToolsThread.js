@@ -558,6 +558,37 @@ function main() {
 	// Start
 	while (true) {
 		try {
+			
+			
+			//FOR LEADER ELECTION
+			if(me.gametype === 1 && Config.DoLeaderElectionByQuest && getTickCount()>Config.NextQuestSaveTime && Config.NextQuestSaveTime){ //only coded for LOD
+				Config.NextQuestSaveTime = getTickCount() + 60*1000;//update once per 1 minute
+				print("ÿc8NextQuestSaveTime: " + Config.NextQuestSaveTime);
+				if(!ranQuest){
+					sendPacket(1, 0x40); // Refresh quest status must do atleast once to get quests
+					delay(me.ping * 2 + 250);
+					ranQuest= true;
+				}
+				try {
+					var questJson = {};
+					var hordeInfo = {};
+					for (i = 1; i < 41; i += 1) {
+						questJson[i] = me.getQuest(i,0);
+					}
+					if(me.diff ===0){
+						hordeInfo.normalQuest = questJson;
+					} else if(me.diff ===1){
+						hordeInfo.nmQuest = questJson;
+					} else if(me.diff ===2){
+						hordeInfo.hellQuest = questJson;
+					}
+					DataFile.updateStats("hordeInfo", JSON.stringify(hordeInfo));
+				} catch (error){
+						print("me.getQuest error "+error);
+				}
+			}
+			//FOR LEADER ELECTION
+			
 			if (me.gameReady && !me.inTown) {
 				if (Config.UseHP > 0 && me.hp < Math.floor(me.hpmax * Config.UseHP / 100)) {
 					this.drinkPotion(0);

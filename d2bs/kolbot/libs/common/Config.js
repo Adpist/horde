@@ -124,6 +124,8 @@ var Config = {
 	AreaDelay: 0,
 	MinGameTime: 0,
 	MaxGameTime: 0,
+	NextQuestSaveTime: 0,
+	DoLeaderElectionByQuest: true,
 
 	// Healing and chicken
 	LifeChicken: 0,
