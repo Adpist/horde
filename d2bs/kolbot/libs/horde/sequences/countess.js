@@ -5,10 +5,22 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function countess_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!mfRun && me.getQuest(5,0)) {
+		return Sequencer.skip;//Skip: quest run and already completed
+	}
+	
+	if (mfRun && !me.getQuest(5,0) && !me.getQuest(7,0)) {
+		return Sequencer.skip;//Skip : mf run and countess and andy quest are not done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function countess(mfRun) {
 	var clearPath = me.diff === 0, poi;
-	
-	print("countess");
 	
 	if (Role.teleportingChar || me.diff === 0)
 	{
@@ -93,4 +105,6 @@ function countess(mfRun) {
 	if (!Pather.usePortal(null, null)) {
 		Town.goToTown();
 	}
+	
+	return Sequencer.done;
 }

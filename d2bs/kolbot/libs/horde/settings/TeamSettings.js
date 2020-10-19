@@ -10,8 +10,7 @@ const Teams = {
 		/* Put one entry per team member. the entry must be named as the D2Bot profile name
 		*  role: role of the character : "teleport", "bo", "follower" or "summoner". Need at least one "teleport" in the team
 		*  character: name of the character
-		*  mercAct2Normal : aura of the merc to hire in act 2 normal
-		*  mercAct2Nightmare : aura of the merc to hire in act 2 nightmare
+		*  build: build for the character
 		*/
 		profiles: {
 			"SorcProfile": {
@@ -36,6 +35,7 @@ const Teams = {
 			}
 		},
 		
+		sequencesProfile: "default_xpac", //The sequence profile to use for this team
 		minGameTime: 210, //min game time to use for the whole team
 		maxGameTime: 0, //max game time to use for whole team,
 		quitList: true, //quit when any team mate leave the game

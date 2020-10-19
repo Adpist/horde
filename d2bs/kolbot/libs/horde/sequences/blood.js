@@ -5,10 +5,24 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function blood_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (mfRun) {
+		HordeDebug.logUserError("blood",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (mfRun || me.getQuest(2,0)) {
+		return Sequencer.skip;//Skip : quest completed
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function blood(mfRun) {
 	var kashya;
-
-	print("BloodRaven");
+	
 	Town.repair();
 	Party.wholeTeamInGame();
 
@@ -49,5 +63,5 @@ function blood(mfRun) {
 
 	me.cancel();
 
-	return true;
+	return Sequencer.done;
 }

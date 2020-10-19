@@ -42,7 +42,7 @@ var Role = {
 	},
 	
 	getLeaderUnit: function () {
-		var player = getUnit(0, HordeSystem.teleProfile);
+		var player = getUnit(0, HordeSystem.team.profiles[HordeSystem.teleProfile].character);
 
 		if (player) {
 			do {

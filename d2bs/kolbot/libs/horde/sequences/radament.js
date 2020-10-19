@@ -3,14 +3,35 @@
 *	@author		Adpist
 *	@desc		Kill radament, use book and complete quest
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
+*	@todo		Handle run without teleport for normal ?
 */
 
-function radament() {
+function radament_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if(!me.getQuest(7, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("radament", "andy isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if (mfRun) {
+		HordeDebug.logUserError("radament",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (!mfRun && me.getQuest(9,0)){
+		return Sequencer.skip;//Skip : quest done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
+function radament(mfRun) {
 	var i, radament, book, atma,
 		pathX = [5106, 5205, 5205, 5214, 5222],
 		pathY = [5125, 5125, 5152, 5153, 5181];
-
-	print("radament");
+	
 	Town.doChores();
 	Party.wholeTeamInGame();
 
@@ -104,5 +125,6 @@ function radament() {
 	atma.openMenu();
 	me.cancel();
 	//Pather.teleport = false;
-	return true;
+	Communication.Questing.radament = false;
+	return Sequencer.done;
 }

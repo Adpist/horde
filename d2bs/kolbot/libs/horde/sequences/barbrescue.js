@@ -5,8 +5,37 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-function rescueBarbs(mfRun) { // SiC-666 TODO: Rewrite this.
-	print("coming barbies");
+function barbrescue_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (me.gametype !== 1) {
+		HordeDebug.logUserError("barbrescue",  "not supported as classic run");
+		return Sequencer.stop;//Stop : classic
+	}
+	
+	if (!me.getQuest(28, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("barbrescue",  "diablo is not dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : diablo isn't done
+	}
+	
+	if (mfRun) {
+		HordeDebug.logUserError("barbrescue",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (!mfRun && me.getQuest(36,0)) {
+		return Sequencer.skip;//skip, quest is done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
+function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
+
+	if (Role.teleportingChar) {
+		Travel.travel(9);//Get all act wp if needed
+	}
 	
 	var i, k, qual, door, skill, completionTries,
 		coords =[],
@@ -20,8 +49,9 @@ function rescueBarbs(mfRun) { // SiC-666 TODO: Rewrite this.
 		barbSpots = getPresetUnits (me.area, 2, 473);
 
 		if (!barbSpots) {
-			return false;
+			return Sequencer.fail;
 		}
+		
 		for ( i = 0  ; i < barbSpots.length ; i += 1) {
 			coords.push({
 				x: barbSpots[i].roomx * 5 + barbSpots[i].x - 3, //Dark-f: x-3
@@ -62,7 +92,7 @@ function rescueBarbs(mfRun) { // SiC-666 TODO: Rewrite this.
 	completionTries = 0;
 	while(!me.getQuest(36,0)) {
 		if (completionTries >= 30) {
-			return false;
+			return Sequencer.fail;
 		}
 		qual.openMenu();
 		me.cancel();
@@ -74,5 +104,5 @@ function rescueBarbs(mfRun) { // SiC-666 TODO: Rewrite this.
 		completionTries += 1;
 	}
 
-	return true;
+	return Sequencer.done;
 }

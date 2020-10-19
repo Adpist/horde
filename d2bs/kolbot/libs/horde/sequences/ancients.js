@@ -6,17 +6,42 @@
 *	@todo		see "WTF" : handle hardcore + properly backup and restore the settings 
 */
 
-function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
-
-	if (mfRun){
-		return true;
+function ancients_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (me.gametype !== 1) {
+		HordeDebug.logUserError("ancients",  "not supported as classic run");
+		return Sequencer.stop;//Stop : classic
 	}
 	
-	print("ancients");
+	if (!me.getQuest(28, 0)) {
+		if(!mfRun)
+			HordeDebug.logUserError("ancients",  "diablo is not dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : diablo isn't done
+	}
+	
+	if (mfRun){
+		HordeDebug.logUserError("ancients",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (!mfRun && me.getQuest(39, 0)) {
+		return Sequencer.skip;//skip, quest is done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
 
+function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 	var i, j, altar, time;
+	
 	Town.doChores();
 	Party.wholeTeamInGame();
+	
+	if (Role.teleportingChar) {
+		Travel.travel(9);//Get all act wp if needed
+	}
+	
 	Pather.teleport = true;
 	if (Role.teleportingChar) {
 		Pather.useWaypoint(118, true);
@@ -117,5 +142,5 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 		Pather.getWP(129, false);
 	}
 	Town.goToTown();
-	return true;
+	return Sequencer.done;
 }

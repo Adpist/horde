@@ -5,11 +5,34 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function eye_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!me.getQuest(15, 0)) {
+		if (mfRun)
+			HordeDebug.logUserError("eye", "Can't be done before duriel");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 2
+	}
+	
+	if (mfRun) {
+		HordeDebug.logUserError("eye",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (me.getQuest(18,0) || me.getItem(553) || me.getItem(174)) {
+		return Sequencer.skip;//Skip: quest completed or item in inventory
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function eye(mfRun) {
-	print("getting eye");
-
 	Party.wholeTeamInGame();
-
+	
+	if (Role.teleportingChar) {
+		Travel.travel(6); // Travel to all waypoints up to and including Travincal if I don't have them.
+	}
+	
 	if (!me.inTown) {
 		Town.goToTown();
 	}
@@ -31,7 +54,7 @@ function eye(mfRun) {
 		var presetUnit = getPresetUnit(85, 2, 407);
 
 		if (!presetUnit) {
-			return false;
+			return Sequencer.fail;
 		}
 
 		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
@@ -56,5 +79,5 @@ function eye(mfRun) {
 
 	//Pather.teleport = false;
 
-	return true;
+	return Sequencer.done;
 }

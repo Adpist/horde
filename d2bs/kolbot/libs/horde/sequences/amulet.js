@@ -5,10 +5,35 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function amulet_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (mfRun) {
+		HordeDebug.logUserError("amulet",  "not supported as mf run");
+		return Sequencer.skip;//Skip : mf run not supported;
+	}
+	
+	if(!me.getQuest(7, 0)) {
+		if(!mfRun)
+			HordeDebug.logUserError("amulet", "andy isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if (me.getQuest(15, 0) || me.getQuest(11,0) || me.getQuest(10,0)
+		|| me.getItem(521) || me.getItem(91)) {
+		return Sequencer.skip; //Skip: quests are complete or we have amulet or complete staff
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function amulet(mfRun) {
 	var i, drognan;
 
-	print("getting amulet");
+	Communication.sendToList(HordeSystem.allTeamProfiles, "amulet");
+	
+	Town.goToTown(2);
+		
 	Town.repair();
 	Party.wholeTeamInGame();
 
@@ -16,7 +41,6 @@ function amulet(mfRun) {
 
 	if (me.diff !== 0 && Role.teleportingChar) { // The Teleporting Sorc needs to travel to Lost City in Nightmare and Hell, otherwise it's already been done in this.cube();
 		Travel.travel(2); // Halls Of The Dead Level 2
-
 		Travel.travel(3); // Lost City
 	}
 
@@ -118,6 +142,7 @@ function amulet(mfRun) {
 	me.cancel();
 
 	//Pather.teleport = false;
+	Communication.Questing.amulet = false;
 
-	return true;
+	return Sequencer.done;
 }

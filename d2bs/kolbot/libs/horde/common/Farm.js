@@ -8,6 +8,51 @@
 
 var Farm = {
 
+	mfSync: function(){
+		if (HordeSystem.teamSize == 1) {
+			return;
+		}
+	
+		if (!me.getQuest(7, 0)) {
+			return; //right now not supported before andy
+		}
+		
+		if (!me.inTown) {
+			Town.goToTown();
+		}
+		
+		Pather.useWaypoint(35);
+		
+		var waypoint;
+		
+		while (!waypoint) {
+			waypoint = getUnit(2, "waypoint");
+
+			delay(250);
+		}
+
+		Party.waitForMembers();
+		
+		while (getDistance(me, waypoint) < 5) { // Be sure to move off the waypoint.
+			Pather.walkTo(me.x + rand(5, 15), me.y);
+
+			delay(me.ping * 2 + 500);
+
+			Packet.flash(me.gid);
+
+			delay(me.ping * 2 + 500);
+		}
+		
+		Precast.doPrecast(true);
+		
+		if (!Role.boChar)
+		{
+			delay(5000);
+		}
+		
+		Pather.useWaypoint(1);
+	},
+		
 	areasLevelling: function(areas, targetLevel){
 		var i;
 		

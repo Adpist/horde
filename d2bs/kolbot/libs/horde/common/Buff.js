@@ -334,6 +334,11 @@ var Buff = {
 	
 	raiseSkeletonArmy: function()
 	{	
+		if (!me.getQuest(1, 0)
+			|| (me.diff === 0 /*&& TODO add AND mephisto not done*/)) {
+			return;
+		}
+		
 		var wasTeleporting = Pather.teleport;
 		if (getWaypoint(1))
 		{

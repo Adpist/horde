@@ -5,16 +5,35 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function izual_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!me.getQuest(23,0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("izual", "mephisto isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop; //Stop: Mephisto isn't dead
+	}
+	
+	if (mfRun && !me.getQuest(25, 0)) {
+		return Sequencer.skip; //Skip: mf run and izual quest isn't completed
+	}
+	
+	if ((!mfRun && me.getQuest(25, 0))) {
+		return Sequencer.skip;//Skip: quest already complete
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function izual(mfRun) {
 	var tyrael;
 
-	print("izual");
 	Town.repair();
 	Town.doChores(); // Need max amount of potions otherwise might prematurely TP in Plains Of Despair.
 
 	Party.wholeTeamInGame();
 
-	if (!me.getQuest(25, 1)) {
+	if (mfRun || !me.getQuest(25, 1)) {
 		if (Role.teleportingChar) {
 			Pather.teleport = true;
 
@@ -32,7 +51,7 @@ function izual(mfRun) {
 			var presetUnit = getPresetUnit(105, 1, 256);
 
 			if (!presetUnit) {
-				return false;
+				return Sequencer.fail;
 			}
 
 			Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
@@ -73,13 +92,12 @@ function izual(mfRun) {
 		Town.goToTown();
 	}
 
-	Town.move("tyrael");
+	if (!mfRun) {
+		Town.move("tyrael");
+		tyrael = getUnit(1, "tyrael");
+		tyrael.openMenu();
+		me.cancel();
+	}
 
-	tyrael = getUnit(1, "tyrael");
-
-	tyrael.openMenu();
-
-	me.cancel();
-
-	return true;
+	return Sequencer.done;
 }

@@ -5,9 +5,31 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-function heart(mfRun) {
+function heart_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!me.getQuest(15, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("heart", "Can't be done before duriel");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 2
+	}
+	
+	if (mfRun) {
+		HordeDebug.logUserError("heart",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (me.getQuest(18,0) || me.getItem(554) || me.getItem(174)) {
+		return Sequencer.skip;//Skip: quest completed or item in inventory
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
 
-	print("getting heart");
+function heart(mfRun) {
+	if (Role.teleportingChar) {
+		Travel.travel(6); // Travel to all waypoints up to and including Travincal if I don't have them.
+	}
 
 	Party.wholeTeamInGame();
 
@@ -35,7 +57,7 @@ function heart(mfRun) {
 		var presetUnit = getPresetUnit(93, 2, 405);
 
 		if (!presetUnit) {
-			return false;
+			return Sequencer.fail;
 		}
 
 		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
@@ -52,7 +74,7 @@ function heart(mfRun) {
 		var presetUnit = getPresetUnit(93, 2, 405);
 
 		if (!presetUnit) {
-			return false;
+			return Sequencer.fail;
 		}
 
 		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, true);
@@ -71,5 +93,5 @@ function heart(mfRun) {
 
 	//Pather.teleport = false;
 
-	return true;
+	return Sequencer.done;
 };

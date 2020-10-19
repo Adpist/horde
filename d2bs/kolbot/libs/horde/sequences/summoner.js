@@ -5,12 +5,36 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function summoner_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if(!me.getQuest(7, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("summoner", "andy isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if (mfRun && !me.getQuest(13,0)) {
+		return Sequencer.skip;//Skip: mf run and summoner is not done
+	}
+	
+	if (!mfRun && me.getQuest(13,0)) {
+		return Sequencer.skip;//Skip: questing run and summoner is done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 // Teleporting Sorc will be at least level 18 as required by MAIN to reach this stage.
+// TODO : no guarantee anymore
 function summoner(mfRun) {
 	var i, journal;
-
-	if (mfRun) 	{ print("mfing summoner"); }
-	else		{ print("killing summoner"); }
+	
+	if (!mfRun && Role.teleportingChar) {
+		Travel.travel(4);
+	}
+	
+	Communication.sendToList(HordeSystem.allTeamProfiles, "summoner");
 	
 	if (!me.inTown) {
 		Town.goToTown();
@@ -122,6 +146,8 @@ function summoner(mfRun) {
 	else {
 		Waypoint.clickWP();
 	}
+	
+	Communication.Questing.summoner = false;
 
-	return true;
+	return Sequencer.done;
 }

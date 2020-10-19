@@ -5,12 +5,36 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function staff_requirements(mfRun) {
+/***** REQUIREMENTS ******/
+	if(!me.getQuest(7, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("staff", "andy isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if (mfRun) {
+		HordeDebug.logUserError("staff",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (me.getItem(92) || me.getItem(91) || me.getQuest(10,0)){
+		return Sequencer.skip;//Skip: have staff or quest
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 // Only the Teleporting Sorc does this. She will be at least level 18 as required by MAIN to reach this stage.
 function staff(mfRun) { 
-	print("getting staff");
-
 	Party.wholeTeamInGame();
-
+	
+	if (me.diff !== 0 && Role.teleportingChar) { // The Teleporting Sorc needs to travel to Lost City in Nightmare and Hell, otherwise it's already been done in this.cube();
+		Travel.travel(2); // Halls Of The Dead Level 2
+		Travel.travel(3); // Lost City
+	}
+	
 	Pather.useWaypoint(43, true);
 
 	Precast.doPrecast(true);
@@ -27,7 +51,7 @@ function staff(mfRun) {
 		var presetUnit = getPresetUnit(64, 2, 356);
 
 		if (!presetUnit) {
-			return false;
+			return Sequencer.fail;
 		}
 
 		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
@@ -45,7 +69,7 @@ function staff(mfRun) {
 		var presetUnit = getPresetUnit(64, 2, 356);
 
 		if (!presetUnit) {
-			return false;
+			return Sequencer.fail;
 		}
 
 		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, true);
@@ -70,5 +94,5 @@ function staff(mfRun) {
 		Communication.sendToList(HordeSystem.allTeamProfiles, "GotStaff");
 	}
 
-	return true;
+	return Sequencer.done;
 }

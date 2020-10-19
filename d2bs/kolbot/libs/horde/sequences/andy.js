@@ -5,26 +5,41 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function andy_requirements(mfRun) {
+
+	/***** REQUIREMENTS ******/
+	if (mfRun && !me.getQuest(7,0)) {
+		return Sequencer.skip;//Skip : quest not completed
+	}
+	
+	if (!mfRun && me.getQuest(7,0)) {
+		return Sequencer.skip;//Skip : quest already completed
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function andy(mfRun) {
 	var oldPickRange = Config.PickRange;
-
-	if (mfRun) 	{ print("mfing andy"); }
-	else		{ print("killing andy"); }
+	
+	Town.goToTown(1);
 	
 	Town.repair();
 	Party.wholeTeamInGame();
 
 	if (mfRun) {
 		//no guarantee for tp in normal
+		//Need check
 		if(me.diff === 0){
-			return false;
+			return Sequencer.skip;
 		}
 	}
 	else {
 		//move to act 2 if not an mf run
 		if ( me.getQuest(6, 0) && !me.getQuest(7, 0)) {
 			Travel.changeAct(2);
-			return true;
+			return Sequencer.done;
 		}
 	}
 
@@ -114,10 +129,10 @@ function andy(mfRun) {
 			Pather.moveTo(22533, 9641, 3, Config.ClearType);
 
 			Config.PickRange = 0;
-
-			Pather.moveTo(22568, 9582, 3, Config.ClearType);
-
+			
 			Buff.prebuffPoisonRes();
+			
+			Pather.moveTo(22568, 9582, 3, Config.ClearType);
 
 			Pather.moveTo(22548, 9568, 3, false);
 
@@ -161,5 +176,5 @@ function andy(mfRun) {
 		Travel.changeAct(2);
 	}
 	
-	return true;
+	return Sequencer.done;
 }

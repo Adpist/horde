@@ -9,7 +9,8 @@ if (!isIncluded("horde/includes.js")) { include("horde/includes.js"); };
 includeHorde();
 
 function Horde() {
-
+	var useSequencer = false;
+	
 	this.start = function () {
 		var i;
 
@@ -121,7 +122,7 @@ function Horde() {
 		{
 			if ((me.diff === 1 && HordeSettings.nmMfCountessOn) || (me.diff === 2 && HordeSettings.hellMfCountessOn))
 			{
-				HordeSystem.runSequence("countess", true);
+				Sequencer.runSequence("countess", true);
 				Town.doChores();
 				didRun = true;
 			}
@@ -130,7 +131,7 @@ function Horde() {
 			{
 				if (didRun)
 					this.mfSync();
-				HordeSystem.runSequence("andy", true);
+				Sequencer.runSequence("andy", true);
 				Town.doChores();
 				didRun = true;
 			}
@@ -143,7 +144,7 @@ function Horde() {
 			{
 				if (didRun)
 					this.mfSync();
-				HordeSystem.runSequence("summoner", true);
+				Sequencer.runSequence("summoner", true);
 				Town.doChores();
 				didRun = true;
 			}
@@ -152,7 +153,7 @@ function Horde() {
 			{
 				if (didRun)
 					this.mfSync();
-				HordeSystem.runSequence("duriel", true);
+				Sequencer.runSequence("duriel", true);
 				Town.doChores();
 				didRun = true;
 			}
@@ -166,7 +167,7 @@ function Horde() {
 				if (didRun)
 					this.mfSync();
 
-				HordeSystem.runSequence("mephisto", true);
+				Sequencer.runSequence("mephisto", true);
 				Town.doChores();
 				didRun = true;
 			}
@@ -180,17 +181,17 @@ function Horde() {
 				if (didRun)
 					this.mfSync();
 					
-				HordeSystem.runSequence("shenk", true);
+				Sequencer.runSequence("shenk", true);
 				Town.doChores();
 				didRun = true;
 			}
 			
-			if ((me.diff === 0 && HordeSettings.normalMfPindleOn) || (me.diff === 1 && nmMfPindleOn) || (me.diff === 2 && HordeSettings.hellMfPindleOn))
+			if ((me.diff === 0 && HordeSettings.normalMfPindleOn) || (me.diff === 1 && HordeSettings.nmMfPindleOn) || (me.diff === 2 && HordeSettings.hellMfPindleOn))
 			{
 				if (didRun)
 					this.mfSync();
 				
-				HordeSystem.runSequence("pindle", true);
+				Sequencer.runSequence("pindle", true);
 				Town.doChores();
 				didRun = true;
 			}
@@ -210,13 +211,11 @@ function Horde() {
 	
 	this.start();
 
-	//Raise the deads if den quest is done
-	if (me.getQuest(1, 0)) 
+	if (useSequencer)
 	{
-		if ((me.diff != 0 || Party.hasReachedLevel(HordeSettings.mephLvl)) && HordeSystem.hasSummoner)
-		{
-			Buff.raiseSkeletonArmy();
-		}
+		print("boot horde");
+		HordeSystem.boot();
+		return true;
 	}
 	
 	this.mfScript();
@@ -225,38 +224,39 @@ function Horde() {
 	if (!me.getQuest(7, 0)) { // Andariel is not done.
 		Town.goToTown(1);
 
-		//den
+		//den - OK
 		if (!me.getQuest(1, 0)) {
-			HordeSystem.runSequence("den", false);
+			Sequencer.runSequence("den", false);
 		}
 
 		if (me.diff === 0) { // Normal difficulty.
-			//cave
+			//cave - OK (kinda)
 			if (!me.getQuest(2, 0) && me.getQuest(1, 0) && !Party.hasReachedLevel(HordeSettings.caveLvl)) { // Haven't killed Blood Raven, have completed the Den of Evil
-				HordeSystem.runSequence("cave", false);
+				Sequencer.runSequence("cave", false);
 				
 				if (!Party.hasReachedLevel(HordeSettings.caveLvl))
 				{
 					Farm.areasLevelling(HordeSettings.caveLvlAreas, HordeSettings.caveLvl);
 				}
 			}
-			//blood raven
+			//blood raven - OK
 			if (!me.getQuest(2, 0) && me.getQuest(1, 0) && Party.hasReachedLevel(HordeSettings.caveLvl)) { // Haven't killed Blood Raven, have completed the Den of Evil and the party has reached the HordeSettings.caveLvl requirement.
-				HordeSystem.runSequence("blood", false);
+				Sequencer.runSequence("blood", false);
 			}
 
-			//cain
+			//cain - OK
 			if (!me.getQuest(4, 0) && Party.hasReachedLevel(HordeSettings.caveLvl)) { // Haven't completed The Search for Cain and the party has reached the HordeSettings.caveLvl requirement.
-				HordeSystem.runSequence("cain", false); // Only rescues cain SiC-666 TODO: this is redundant, should grab the questing from autoladderreset or something to consolidate.
+				Sequencer.runSequence("cain", false); // Only rescues cain SiC-666 TODO: this is redundant, should grab the questing from autoladderreset or something to consolidate.
 			}
 
+			//Countess - OK
 			if (HordeSettings.normalCountess && !me.getQuest(5,0) && Party.hasReachedLevel(HordeSettings.caveLvl)) {
-				HordeSystem.runSequence("countess", false);
+				Sequencer.runSequence("countess", false);
 			}
 			
 			//trist
 			if (me.getQuest(4, 0) && !Party.hasReachedLevel(HordeSettings.tristLvl)) { // Have completed The Search for Cain and the party hasn't reached the HordeSettings.tristLvl requirement
-				HordeSystem.runSequence("trist", false);
+				Sequencer.runSequence("trist", false);
 				/* When the partyLevel is less than the HordeSettings.tristLvl, the game must quit.
 				I think that the party should Lv up going to Dark Wood and so on.
 				*/
@@ -268,18 +268,19 @@ function Horde() {
 
 		if (me.diff > 0) { // Nightmare & Hell difficulty.
 			if (!me.getQuest(4, 0)) { 	// Haven't completed The Search for Cain
-				HordeSystem.runSequence("cain", false);
+				Sequencer.runSequence("cain", false);
 			}
 		}
 
+		//Smith - ok
 		if (HordeSettings.smithQuest && !me.getQuest(3,0) && !me.getQuest(3,1))
 		{
-			HordeSystem.runSequence("smith", false);
+			Sequencer.runSequence("smith", false);
 		}
 		
-		//andy
+		//andy - ok
 		if (!me.getQuest(7, 0) && ((me.diff === 0 && Party.hasReachedLevel(HordeSettings.tristLvl)) || (me.diff !== 0))) {
-			HordeSystem.runSequence("andy", false);
+			Sequencer.runSequence("andy", false);
 		}
 	}
 
@@ -289,53 +290,62 @@ function Horde() {
 		Town.goToTown(2);
 
 		if (Role.teleportingChar) { // I am the leader.
+		
+			//Cube - ok ; need handle merc
 			if (!me.getItem(549) || Communication.Questing.getCube || me.charlvl < 18) { // No cube or team member is requesting cube or am not level 18 yet (required to teleport to the summoner).
 				if (me.diff === 0)
 					MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, false, 2);
 				Communication.sendToList(HordeSystem.allTeamProfiles, "cube");
-				HordeSystem.runSequence("cube", false);
+				Sequencer.runSequence("cube", false);
 			}
 
+			//Amulet - ok ; need handle merc
 			if ((!me.getItem(521) && !me.getItem(91) && !me.getQuest(10, 0)) || !me.getQuest(11, 0)) { // No Amulet of the Viper/Horadric Staff and Horadric Staff quest (staff placed in orifice) is incomplete or The Tainted Sun quest is incomplete.
-				if (me.charlvl >= HordeSettings.baalLvl && me.charlvl <= HordeSettings.HordeSettings.diaLvlnm)
+				if (me.charlvl >= HordeSettings.baalLvl && me.charlvl <= HordeSettings.diaLvlnm)
 					MercTools.hireMerc(2, HordeSystem.build.mercAct2Nightmare, false, 2);
 				Communication.sendToList(HordeSystem.allTeamProfiles, "amulet");
-				HordeSystem.runSequence("amulet", false);
+				Sequencer.runSequence("amulet", false);
 			}
 
+			//Summoner - ok
 			if (!me.getQuest(13, 0) && me.getQuest(11 , 0) || !Pather.useWaypoint(46, true)) { // Summoner quest incomplete but The Tainted Sun is complete.
 				Travel.travel(4); // Travel to all waypoints up to and including Arcane Sanctuary if I don't have them.
 
 				Communication.sendToList(HordeSystem.allTeamProfiles, "summoner");
 				
-				HordeSystem.runSequence("summoner", false);
+				Sequencer.runSequence("summoner", false);
 			}
 
+			//Tombs - ok
 			if (!Party.hasReachedLevel(HordeSettings.tombsLvl) && me.diff === 0) {
 				Travel.travel(5); // Travel to all waypoints up to and including Canyon Of The Magi if I don't have them.
 				Communication.sendToList(HordeSystem.allTeamProfiles, "tombs");
-				HordeSystem.runSequence("tombs", false);
+				Sequencer.runSequence("tombs", false);
 			}
 
+			//staff - ok
 			if (!me.getItem(92) && !me.getItem(91) && !me.getQuest(10, 0)) { // No Staff of Kings nor Horadric Staff and Horadric Staff quest (staff placed in orifice) not complete.
 				
-				HordeSystem.runSequence("staff", false);
+				Sequencer.runSequence("staff", false);
 			}
 
+			//Staff cubing - ok
 			if (me.getItem(92) && me.getItem(521) && me.getItem(549)) { // Have The Staff of Kings, The Viper Amulet, and The Horadric Cube.
 				Quest.cubeStaff();
 			}
 
+			//radament - ok
 			if (!me.getQuest(9, 0)) { // && me.diff <= 2) { // Haven't finished Radament's Lair.
 				Communication.sendToList(HordeSystem.allTeamProfiles, "radament");
 				
-				HordeSystem.runSequence("radament", false);
+				Sequencer.runSequence("radament", false);
 			}
 
+			//duriel - ok
 			if (!me.getQuest(14, 0) && (Party.hasReachedLevel(HordeSettings.tombsLvl) || me.diff !== 0)) { // Haven't completed Duriel and team has reached level goal or this isn't normal difficulty.
 				Communication.sendToList(HordeSystem.allTeamProfiles, "duriel");
 				
-				HordeSystem.runSequence("duriel", false);
+				Sequencer.runSequence("duriel", false);
 			}
 
 		} else { // Not the leader.
@@ -346,7 +356,7 @@ function Horde() {
 					if (me.diff === 0)
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, false, 2);
 						
-					HordeSystem.runSequence("cube", false);
+					Sequencer.runSequence("cube", false);
 					Communication.Questing.cube = false;
 				}
 
@@ -354,31 +364,31 @@ function Horde() {
 					if (me.charlvl >= HordeSettings.baalLvl && me.charlvl <= HordeSettings.diaLvlnm)
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Nightmare, false, 2);
 					
-					HordeSystem.runSequence("amulet", false);
+					Sequencer.runSequence("amulet", false);
 
 					Communication.Questing.amulet = false;
 				}
 
 				if (Communication.Questing.summoner) {
-					HordeSystem.runSequence("summoner", false);
+					Sequencer.runSequence("summoner", false);
 
 					Communication.Questing.summoner = false;
 				}
 
 				if (Communication.Questing.tombs) {
-					HordeSystem.runSequence("tombs", false);
+					Sequencer.runSequence("tombs", false);
 
 					Communication.Questing.tombs = false;
 				}
 
 				if (Communication.Questing.radament) {
-					HordeSystem.runSequence("radament", false);
+					Sequencer.runSequence("radament", false);
 
 					Communication.Questing.radament = false;
 				}
 
 				if (Communication.Questing.duriel) {
-					HordeSystem.runSequence("duriel", false);
+					Sequencer.runSequence("duriel", false);
 
 					Communication.Questing.duriel = false;
 				}
@@ -400,76 +410,84 @@ function Horde() {
 		if (Role.teleportingChar ) { // I am the Teleporting Sorc
 			Travel.travel(6); // Travel to all waypoints up to and including Travincal if I don't have them.
 
+			//figurine - ok
 			if (Communication.Questing.teamFigurine) { // Someone has the Jade Figurine!
 				Communication.sendToList(HordeSystem.allTeamProfiles, "figurine");
-				HordeSystem.runSequence("figurine", false);
+				Sequencer.runSequence("figurine", false);
 			}
 
+			//lamesen - ok
 			if (!me.getQuest(17, 0)) { // Haven't completed Lam Esen's Tome.
-				HordeSystem.runSequence("lamesen", false);
+				Sequencer.runSequence("lamesen", false);
 			}
 
+			//eye - ok
 			if (!me.getItem(553) && !me.getItem(174) && !me.getQuest(18, 0)) { // Don't have Eye and don't have Khalim's Will and haven't completed Khalim's Will.
-				HordeSystem.runSequence("eye", false);
+				Sequencer.runSequence("eye", false);
 			}
 
+			//heart - ok
 			if (!me.getItem(554) && !me.getItem(174) && !me.getQuest(18, 0)) { // Don't have Heart and don't have Khalim's Will and haven't completed Khalim's Will.
-				HordeSystem.runSequence("heart", false);
+				Sequencer.runSequence("heart", false);
 			}
 
+			//brain - ok
 			if (!me.getItem(555) && !me.getItem(174) && !me.getQuest(18, 0)) { // Don't have Brain and don't have Khalim's Will and haven't completed Khalim's Will.
-				HordeSystem.runSequence("brain", false);
+				Sequencer.runSequence("brain", false);
 			}
 
+			//travincal - ok
 			if (me.getItem(174) || (me.getItem(553) && me.getItem(554) && me.getItem(555)) || !me.getQuest(20, 0) || !me.getQuest(21, 0)) { // Have Khalim's Will or have Eye, Heart, and Brain, or Golden Bird isn't complete, or The Blackened Temple isn't complete.
 			//if (!me.getQuest(21, 0)) { // Have Khalim's Will or have Eye, Heart, and Brain, or Golden Bird isn't complete, or The Blackened Temple isn't complete.
 				Communication.sendToList(HordeSystem.allTeamProfiles, "travincal");
-				HordeSystem.runSequence("travincal", false);
+				Sequencer.runSequence("travincal", false);
 			}
 
+			//Figurine - ok
 			if (Communication.Questing.teamFigurine) { // Someone has the Jade Figurine!
 				Communication.sendToList(HordeSystem.allTeamProfiles, "figurine");
 				
-				HordeSystem.runSequence("figurine", false);
+				Sequencer.runSequence("figurine", false);
 			}
 
+			//mephisto - ok
 			if (!me.getQuest(23, 0) && me.getQuest(18, 0) && me.getQuest(21, 0) ) { //no matter Golden bird && me.getQuest(20, 0)) { // Haven't been "Able to go to Act IV" yet and have completed Khalim's Will (AKA the stairs to Durance of Hate Level 1 are open), The Blackened Temple (AKA everyone can enter a Durance Of Hate Level 3 Town Portal), and Golden Bird.
 				Communication.sendToList(HordeSystem.allTeamProfiles, "mephisto");
 
 				Travel.travel(7); // Travel to Durance Of Hate Level 2 Waypoint if I don't have it.
 				
-				HordeSystem.runSequence("mephisto", false);
+				Sequencer.runSequence("mephisto", false);
 			}
 		} else {
 			var j = 0;
 
 			while (!me.getQuest(23, 0)) { // Haven't completed "Able to go to Act IV" (AKA haven't gone thru red portal to Act 4)
 				if (Communication.Questing.LamEssen) {
-					HordeSystem.runSequence("lamesen", false);
+					Sequencer.runSequence("lamesen", false);
 					
 					Communication.Questing.LamEssen = false;
 				}
 
 				if (Communication.Questing.travincal) {
-					HordeSystem.runSequence("travincal", false);
+					Sequencer.runSequence("travincal", false);
 
 					Communication.Questing.travincal = false;
 				}
 
 				if (Communication.Questing.figurine) {
-					HordeSystem.runSequence("figurine", false);
+					Sequencer.runSequence("figurine", false);
 
 					Communication.Questing.figurine = false;
 				}
 
 				if (Communication.Questing.mephisto) {
-					HordeSystem.runSequence("mephisto", false);
+					Sequencer.runSequence("mephisto", false);
 
 					Communication.Questing.mephisto = false;
 				}
 
 				if (Communication.Questing.redPortal) { // I'm a straggler stuck in Act 3. TeleportingChar is going to help me thru the Red Portal to Act 4!
-					HordeSystem.runSequence("mephisto", false);
+					Sequencer.runSequence("mephisto", false);
 
 					Communication.Questing.redPortal = false;
 				}
@@ -505,21 +523,23 @@ function Horde() {
 				Communication.Questing.redPortal = true;
 				D2Bot.printToConsole("Horde: Helping straggler complete Act 3.", 5);
 				
-				HordeSystem.runSequence("mephisto", false);
+				Sequencer.runSequence("mephisto", false);
 				Communication.Questing.redPortal = false;
 			}
 
 			Travel.travel(8);	// Travel to all waypoints up to and including River of Flame if I don't have them.
 		}
 
+		//izual - ok
 		if (!me.getQuest(25, 0) || me.getQuest(25, 1)) { // The Fallen Angel is not done or it has been started.
-			HordeSystem.runSequence("izual", false);
+			Sequencer.runSequence("izual", false);
 		}
 
 		
+		//diablo - ok
 		runDiablo = 1; // Dark-f: kill diablo first.
 
-		HordeSystem.runSequence("diablo", false);
+		Sequencer.runSequence("diablo", false);
 		
 		if (me.diff === 0 && !Party.hasReachedLevel(HordeSettings.diaLvl))
 		{
@@ -546,24 +566,28 @@ function Horde() {
 			Travel.travel(9);
 		}
 
+		//Shenk - ok
 		if (!me.getQuest(35, 1) && !me.getQuest(35, 0)) {
-			HordeSystem.runSequence("shenk", false);
+			Sequencer.runSequence("shenk", false);
 		}
 
+		//Barbs - ok
 		if ((!me.getQuest(36,0) || me.getQuest(36,1)) && me.diff < 2) {
-			HordeSystem.runSequence("barbrescue", false);
+			Sequencer.runSequence("barbrescue", false);
 		}
 
+		//anya - ok
 		if ( !me.getQuest(37, 0) ) { //Dark-f
-			HordeSystem.runSequence("anya", false);
+			Sequencer.runSequence("anya", false);
 		}
+		
 		// Rite of Passage is not completed
 		if (!me.getQuest(39, 0))
-			HordeSystem.runSequence("ancients", false);
+			Sequencer.runSequence("ancients", false);
 		if (Role.teleportingChar && !getWaypoint(38))
 			Pather.getWP(129, false);
 
-		HordeSystem.runSequence("baal", false);
+		Sequencer.runSequence("baal", false);
 		
 		
 		if (me.diff === 0 && !Party.hasReachedLevel(HordeSettings.baalLvl))

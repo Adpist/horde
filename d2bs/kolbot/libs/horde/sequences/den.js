@@ -5,11 +5,24 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function den_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (mfRun) {
+		HordeDebug.logUserError("den",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (me.getQuest(1,0)) {
+		return Sequencer.skip;//Skip: quest is completed
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function den(mfRun) {
 	var i, akara;
-
-	print("den");
-
+	
 	if (!me.getQuest(1, 1)) { // Haven't cleared the Den yet.
 		Party.wholeTeamInGame();
 
@@ -146,5 +159,5 @@ function den(mfRun) {
 		delay(me.ping * 2 + 250);
 	}
 
-	return true;
+	return Sequencer.done;
 }

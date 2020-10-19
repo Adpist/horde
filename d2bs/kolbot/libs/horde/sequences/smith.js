@@ -5,10 +5,24 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function smith_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (mfRun) {
+		HordeDebug.logUserError("smith",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (me.getQuest(3,0) || me.getQuest(3,1)) {
+		return Sequencer.skip;//Skip: quest run & already completed
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function smith(mfRun) {
 	var i, charsi, clearPath = me.diff === 0;
 	
-	print("smith");
 	Town.goToTown();
 	
 	if (clearPath || Role.teleportingChar)
@@ -36,9 +50,8 @@ function smith(mfRun) {
 			}
 			else if (i === 4)
 			{
-				D2Bot.printToConsole("failed to go to smith. leaving", 9);
-				quit();
-				return false;
+				HordeDebug.logScriptError("failed to go to smith");
+				return Sequencer.fail;
 			}
 		}
 		
@@ -71,9 +84,8 @@ function smith(mfRun) {
 			}
 			else if (i === 4)
 			{
-				D2Bot.printToConsole("failed to go to smith. leaving", 9);
-				quit();
-				return false;
+				HordeDebug.logScriptError("failed to go to smith");
+				return Sequencer.fail;
 			}
 		}
 	}
@@ -108,5 +120,5 @@ function smith(mfRun) {
 		}
 	}
 	
-	return true;
+	return Sequencer.done;
 }

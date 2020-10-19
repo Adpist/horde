@@ -5,10 +5,36 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
+function shenk_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (me.gametype !== 1) {
+		HordeDebug.logUserError("shenk",  "not supported as classic run");
+		return Sequencer.stop;//Stop : classic
+	}
+	
+	if (!me.getQuest(28, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("shenk",  "diablo is not dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : diablo isn't done
+	}
+	
+	if (mfRun && !me.getQuest(35, 0) && !me.getQuest(35,1)) {
+		return Sequencer.skip;//Skip : Mf and quest isn't completed
+	}
+	
+	if (!mfRun && (me.getQuest(35,0) || me.getQuest(35,1))){
+		return Sequencer.skip;//Skip : Questing and quest is completed
+	}
+	
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
 
-	if (mfRun) 	{ print("mfing shenk"); }
-	else		{ print("killing shenk"); }
+function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
+	if (Role.teleportingChar) {
+		Travel.travel(9);//Get all act wp if needed
+	}
 	
 	if (!mfRun)
 	{
@@ -16,7 +42,7 @@ function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
 		Party.wholeTeamInGame();
 		
 		if (me.getQuest(35, 1)) {
-			return true;
+			return Sequencer.done;
 		}
 	}
 	
@@ -57,5 +83,5 @@ function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
 		Town.goToTown();
 	}
 	
-	return true;
+	return Sequencer.done;
 }

@@ -14,7 +14,6 @@ var HordeSystem = {
 	followerProfiles: [],
 	allTeamProfiles: [],
 	allTeamCharacters: [],
-	hasSummoner: false,
 	
 	init: function() {
 		print("Init horde");
@@ -27,7 +26,6 @@ var HordeSystem = {
 		this.followerProfiles = [];
 		this.allTeamProfiles = [];
 		this.allTeamCharacters = [];
-		this.hasSummoner = false;
 	},
 	
 	setupBuild: function(buildName) {
@@ -119,11 +117,6 @@ var HordeSystem = {
 					HordeSystem.followerProfiles.push(profile);
 					break;
 					
-				case "summoner":
-					HordeSystem.followerProfiles.push(profile);
-					HordeSystem.hasSummoner = true;
-					break;
-					
 				default:
 					D2Bot.printToConsole("unhandled role : " + profile.role + " => using follower");
 					HordeSystem.followerProfiles.push(profile);
@@ -175,19 +168,13 @@ var HordeSystem = {
 		}
 		
 		this.setupBuild(this.team.profiles[me.profile].build);
+		Sequencer.setupSequences(this.team.sequencesProfile);
 		
 		return true;
 	},
 	
-	runSequence: function(sequence, mfRun) {
-		var sequenceInclude = "horde/sequences/"+sequence+".js";
-		if (!isIncluded(sequenceInclude)){
-			if (!include(sequenceInclude)){
-				throw new Error("Couldn't find sequence " + sequence);
-			}
-		}
-		
-		return global[sequence](mfRun);
+	boot: function() {
+		Sequencer.run();
 	}
 	
 }

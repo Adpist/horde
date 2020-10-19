@@ -7,16 +7,44 @@
 *				areasLevelling handled in script :/
 */
 
-function mephisto(mfRun) {
+function mephisto_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!me.getQuest(15, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("mephisto", "Can't be done before duriel");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 2
+	}
+	
+	if (mfRun && !me.getQuest(23,0)) {
+		return Sequencer.skip; //Skip : mephisto is not dead
+	}
+	
+	if (!mfRun) {
+		//Skip : quest already completed
+		if (me.getQuest(23,0)) {
+			return Sequencer.skip;
+		}
+		
+		//Stop : can't complete quest
+		if (!me.getQuest(18, 0) || !me.getQuest(21, 0)) {
+			HordeDebug.logScriptError("mephisto", "Can't complete quest");
+			return Sequencer.stop;
+		}
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
+function mephisto(mfRun) {	
 	var cain, clearLvl3 = false, i, redPortal;
 
-	if (mfRun) 	{ print("mfing mephisto"); }
-	else		{ print("killing mephisto"); }
-	
 	Town.repair();
 	Pather.teleport = true;
 
 	if (Role.teleportingChar) { // I am the Teleporting Sorc.
+		Travel.travel(7);// Travel to Durance Of Hate Level 2 Waypoint if I don't have it.
+		
 		Pather.useWaypoint(101);
 
 		Precast.doPrecast(true);
@@ -34,7 +62,7 @@ function mephisto(mfRun) {
 		cain = getUnit(1, "deckard cain");
 
 		if (!cain || !cain.openMenu()) {
-			return false;
+			return Sequencer.fail;
 		}
 
 		me.cancel();
@@ -140,5 +168,5 @@ function mephisto(mfRun) {
 
 	Party.waitForMembers();
 
-	return true;
+	return Sequencer.done;
 }

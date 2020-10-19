@@ -5,7 +5,32 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function diablo_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!me.getQuest(23,0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("diablo", "mephisto isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop; //Stop, Mephisto isn't dead
+	}
+	
+	if (mfRun && !me.getQuest(28, 0)) {
+		return Sequencer.skip; //Skip: mf run and diablo isn't dead
+	}
+	
+	if ((!mfRun && me.getQuest(28, 0))) {
+		return Sequencer.skip;//Skip, quest already complete
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function diablo(mfRun) {
+	
+	if (Role.teleportingChar) {
+		Travel.travel(8);
+	}
+	
 	// Sort function
 	this.sort = function (a, b) {
 		if (Config.BossPriority) {
@@ -77,7 +102,7 @@ function diablo(mfRun) {
 		var i, seal;
 
 		for (i = 0; i < 5; i += 1) {
-			Pather.moveToPreset(me.area, 2, classid, classid === 394 ? 5 : 2, classid === 394 ? 5 : 0);
+			Pather.moveToPreset(108, 2, classid, classid === 394 ? 5 : 2, classid === 394 ? 5 : 0);
 
 			seal = getUnit(2, classid);
 
@@ -89,7 +114,11 @@ function diablo(mfRun) {
 				return true;
 			}
 
-			seal.interact();
+			if (classid === 394) {
+				Misc.click(0, 0, seal);
+			} else {
+				seal.interact();
+			}
 
 			delay(classid === 394 ? 1000 : 500); // De Seis optimization
 
@@ -165,10 +194,12 @@ function diablo(mfRun) {
 
 		this.followPath(this.vizLayout === 1 ? this.starToVizA : this.starToVizB);
 
-		if (!this.openSeal(395) || !this.openSeal(396)) {
-			throw new Error("Failed to open Vizier seals.");
+		if (Role.teleportingChar) {
+			if (!this.openSeal(395) || !this.openSeal(396)) {
+				HordeDebug.logScriptError("diablo", "Failed to open Vizier seals.");
+			}
 		}
-
+		
 		if (this.vizLayout === 1) {
 			Pather.moveTo(7691, 5292, 3, true);
 		} else {
@@ -177,7 +208,7 @@ function diablo(mfRun) {
 
 
 		if (!this.getBoss(getLocaleString(2851))) {
-			throw new Error("Failed to kill Vizier");
+			HordeDebug.logScriptError("diablo", "Failed to kill Vizier");
 		}
 
 		return true;
@@ -188,8 +219,10 @@ function diablo(mfRun) {
 
 		this.followPath(this.seisLayout === 1 ? this.starToSeisA : this.starToSeisB);
 
-		if (!this.openSeal(394)) {
-			throw new Error("Failed to open de Seis seal.");
+		if (Role.teleportingChar) {
+			if (!this.openSeal(394)) {
+				HordeDebug.logScriptError("diablo", "Failed to open de Seis seal.");
+			}
 		}
 
 		if (this.seisLayout === 1) {
@@ -209,7 +242,7 @@ function diablo(mfRun) {
 		}
 
 		if (!this.getBoss(getLocaleString(2852))) {
-			throw new Error("Failed to kill de Seis");
+			HordeDebug.logScriptError("diablo", "Failed to kill de Seis");
 		}
 
 		return true;
@@ -220,8 +253,10 @@ function diablo(mfRun) {
 
 		this.followPath(this.infLayout === 1 ? this.starToInfA : this.starToInfB);
 
-		if (!this.openSeal(392)) {
-			throw new Error("Failed to open Infector seals.");
+		if (Role.teleportingChar) {
+			if (!this.openSeal(392)) {
+				HordeDebug.logScriptError("diablo", "Failed to open Infector seal.");
+			}
 		}
 
 		if (this.infLayout === 1) {
@@ -235,11 +270,13 @@ function diablo(mfRun) {
 		}
 
 		if (!this.getBoss(getLocaleString(2853))) {
-			throw new Error("Failed to kill Infector");
+			HordeDebug.logScriptError("diablo", "Failed to kill Infector");
 		}
 
-		if (!this.openSeal(393)) {
-			throw new Error("Failed to open Infector seals.");
+		if (Role.teleportingChar) {
+			if (!this.openSeal(393)) {
+				HordeDebug.logScriptError("diablo", "Failed to open Infector seals");
+			}
 		}
 
 		return true;
@@ -391,7 +428,6 @@ function diablo(mfRun) {
 	this.starToInfB = [7809, 5268, 7834, 5306, 7852, 5280, 7852, 5310, 7869, 5294, 7895, 5274, 7927, 5275, 7932, 5297, 7923, 5313];
 */
 	// start
-	print("diablo");
 	Town.doChores();
 	Party.wholeTeamInGame();
 
@@ -483,7 +519,7 @@ function diablo(mfRun) {
 
 		delay(2000);
 
-		return true;
+		return Sequencer.done;
 	}
 
 	Party.wholeTeamInGame();
@@ -563,5 +599,5 @@ function diablo(mfRun) {
 		}
 	}
 
-	return true; // Continue to Act 5 in expansion.
+	return Sequencer.done; // Continue to Act 5 in expansion.
 }

@@ -5,14 +5,37 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function lamesen_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!me.getQuest(15, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("lamesen", "Can't be done before duriel");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 2
+	}
+	
+	if (mfRun) {
+		HordeDebug.logUserError("lamesen",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (me.getQuest(17, 0)) {
+		return Sequencer.skip;//Skip: quest is done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function lamesen(mfRun) {
 	var i, alkor, target;
-
-	print("Lam Esen's Tome");
-
+	
 	Town.goToTown(3);
 
 	Party.wholeTeamInGame();
+	
+	if (Role.teleportingChar) {
+		Travel.travel(6); // Travel to all waypoints up to and including Travincal if I don't have them.
+	}
 
 	if (!me.inTown) {
 		Town.goToTown();
@@ -86,5 +109,5 @@ function lamesen(mfRun) {
 	
 	//Pather.teleport = false;
 
-	return true;
+	return Sequencer.done;
 }

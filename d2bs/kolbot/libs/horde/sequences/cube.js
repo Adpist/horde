@@ -5,10 +5,27 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function cube_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if(!me.getQuest(7, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("cube", "andy isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if (!mfRun && (me.getItem(549) || !Communication.Questing.getCube)) {
+		return Sequencer.skip;//I already have cube and nobody requested quest
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function cube(mfRun) { // Only called in Normal Difficulty.
 	var i, chest, cube;
-
-	print("getting cube");
+	
+	Communication.sendToList(HordeSystem.allTeamProfiles, "cube");
+	
 	Town.repair();
 	Party.wholeTeamInGame();
 
@@ -65,5 +82,7 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 		Town.goToTown();
 	}
 
-	return true;
+	Communication.Questing.getCube = false;
+	
+	return Sequencer.done;
 }

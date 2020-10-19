@@ -5,8 +5,22 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-function cave(mfRun) {
-	print("cave");
+function cave_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!mfRun) {
+		HordeDebug.logUserError("cave",  "not supported as questing run");
+		return Sequencer.skip;//Skip : not a questing sequence
+	}
+	
+	if (!me.getQuest(1,0)) {
+		return Sequencer.skip;//Den is not done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
+function cave(mfRun) {	
 	Town.repair();
 	Town.doChores();
 	Pather.useWaypoint(3);
@@ -27,5 +41,5 @@ function cave(mfRun) {
 	
 	Town.goToTown();
 
-	return true;
+	return Sequencer.done;
 }

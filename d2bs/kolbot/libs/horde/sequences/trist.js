@@ -5,12 +5,27 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+
+function trist_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!mfRun) {
+		HordeDebug.logUserError("trist", "trist is a mf run");
+		return Sequencer.skip;//Skip: questing run not supported
+	}
+	
+	if (!me.getQuest(4,0)) {
+		return Sequencer.skip;//Skip: cain quest isn't done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function trist(mfRun) {
 	var coord, i,
 		xx = [ 25175, 25147, 25149, 25127, 25128, 25150, 25081],
 		yy = [ 5187,  5201,  5172,  5188,  5144,  5123,  5137];
-
-	print("trist");
+	
 	Town.repair();
 	Pather.useWaypoint(4);
 
@@ -45,5 +60,5 @@ function trist(mfRun) {
 		Attack.clear(20);
 	}
 
-	return true;
+	return Sequencer.done;
 }

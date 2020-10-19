@@ -5,10 +5,24 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function cain_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (mfRun) {
+		HordeDebug.logUserError("cain",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (me.getQuest(4,0)) {
+		return Sequencer.skip;//Skip : quest is completed
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function cain(mfRun) { // Dark-f: rewrite rescue cain
 	var i, j, akara, cain, slave, scroll1, scroll2, stoneA, stoneB, stoneC, stoneD, stoneE;
-
-	print("cain");
+	
 	Town.doChores();
 	Party.wholeTeamInGame();
 	if (!me.getQuest(4, 1) ) { // Cain isn't rescued yet
@@ -41,7 +55,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 							j += 1;
 							if (me.getQuest(4, 0))
 							{
-								return true;
+								return Sequencer.done;
 							}
 						}
 					}
@@ -102,7 +116,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				
 				if (me.getQuest(4, 0))
 				{
-					return true;
+					return Sequencer.done;
 				}
 			}
 		}
@@ -145,7 +159,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				Pather.moveTo(25175, 5160, 3, false); //Dark-f: close the slave.
 				slave = getUnit(2, 26);
 				if (!slave) {
-					return false;
+					return Sequencer.fail;
 				}
 				for (i = 0; i < 5; i += 1) {
 					if (getDistance(me, slave) > 3) {
@@ -171,7 +185,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 			Pather.moveTo(25175, 5160, 3, false); //Dark-f: close the slave.
 			slave = getUnit(2, 26);
 			if (!slave) {
-				return false;
+				return Sequencer.fail;
 			}
 			for (i = 0; i < 10; i += 1) {
 				if (getDistance(me, slave) > 3) {
@@ -196,5 +210,5 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 		me.cancel();
 	}
 
-	return true;
+	return Sequencer.done;
 }

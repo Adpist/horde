@@ -5,10 +5,37 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function tombs_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if(!me.getQuest(7, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("tombs", "andy isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if (!mfRun){
+		HordeDebug.logUserError("tombs", "tombs is a mf run");
+		return Sequencer.skip;//Skip: questing run
+	}
+	
+	if (me.diff !== 0){
+		HordeDebug.logUserError("tombs", "skipped in nightmare and hell");
+		return Sequencer.skip;//Skip: Normal only
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function tombs(mfRun) {
 	var i, j, chest;
-
-	print("cleaning tombs");
+	
+	if (!mfRun && Role.teleportingChar) {
+		Travel.travel(4);
+	}
+	
+	Communication.sendToList(HordeSystem.allTeamProfiles, "tombs");
+	
 	Town.doChores();
 	Pather.teleport = false;
 
@@ -157,6 +184,8 @@ function tombs(mfRun) {
 
 		quit();
 	}
+	
+	Communication.Questing.tombs = false;
 
-	return true;
+	return Sequencer.done;
 }

@@ -5,7 +5,34 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-function figurine(mfRun) {
+function figurine_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (!me.getQuest(15, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("figurine", "Can't be done before duriel");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 2
+	}
+	
+	if (me.getQuest(20,0)) {
+		return Sequencer.skip;//Skip: Completed the quest
+	}	
+	
+	if (me.getItem(546) || me.getItem(547)) {
+		Communication.sendToList(HordeSystem.allTeamProfiles, "figurine");
+		Communication.Questing.teamFigurine = true;
+	}
+	
+	delay(1000);
+	
+	if (!Communication.Questing.teamFigurine) {
+		return Sequencer.skip;//Skip : nobody have figurine
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
+function figurine(mfRun) {	
 	var cain, alkor, meshif, potion;
 
 /*	------- SiC-666 NOTES ------
@@ -19,7 +46,6 @@ function figurine(mfRun) {
 	me.getQuest(20, 5/12/13/16/19) = persists after drinking potion
 ----------------------------
 */
-	print("Processing the Figurine");
 
 	Town.goToTown(3);
 
@@ -102,8 +128,6 @@ function figurine(mfRun) {
 	potion = me.getItem(545);
 
 	if (potion) {
-		print("Drinking the Figurine potion!");
-
 		if (potion.location > 3) {
 			this.openStash();
 		}
@@ -115,7 +139,5 @@ function figurine(mfRun) {
 
 	Communication.Questing.teamFigurine = false;
 
-	print("Seriously, the 'Potion of Life'?? Tastes more like 'Potion of Piss'!!!");
-
-	return true;
+	return Sequencer.done;
 }

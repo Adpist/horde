@@ -5,13 +5,42 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-function anya(mfRun) { // Dark-f: Rewrite this.
-	print("anya");
+function anya_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (me.gametype !== 1) {
+		HordeDebug.logUserError("anya",  "not supported as classic run");
+		return Sequencer.stop;//Stop : classic
+	}
+	
+	if (!me.getQuest(28, 0)) {
+		if(!mfRun)
+			HordeDebug.logUserError("anya",  "diablo is not dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : diablo isn't done
+	}
+	
+	if (mfRun) {
+		HordeDebug.logUserError("anya",  "not supported as mf run");
+		return Sequencer.skip;//Skip : not supported
+	}
+	
+	if (!mfRun && me.getQuest(37,0)) {
+		return Sequencer.skip;//skip, quest is done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
 
+function anya(mfRun) { // Dark-f: Rewrite this.
 	var i, anya, malah, scroll, unit, waitAnya;
 
 	Town.doChores();
 	Party.wholeTeamInGame();
+	
+	if (Role.teleportingChar) {
+		Travel.travel(9);//Get all act wp if needed
+	}
+	
 	if (!me.getQuest(37, 1)) {
 
 		if (Role.teleportingChar) {
@@ -149,5 +178,5 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 		me.cancel();
 	}
 
-	return true;
+	return Sequencer.done;
 }

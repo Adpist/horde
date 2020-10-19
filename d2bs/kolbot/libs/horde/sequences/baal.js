@@ -5,8 +5,37 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+function baal_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if (me.gametype !== 1) {
+		HordeDebug.logUserError("baal",  "not supported as classic run");
+		return Sequencer.stop;//Stop : classic
+	}
+	
+	if (!me.getQuest(28, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("baal",  "diablo is not dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : diablo isn't done
+	}
+	
+	if (mfRun && !me.getQuest(40, 0)) {
+		return Sequencer.skip;//Skip : Mf and quest isn't completed
+	}
+
+	if (!mfRun && me.getQuest(40,0)) {
+		return Sequencer.skip;//skip, quest is done
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
+
 function baal(mfRun) { // SiC-666 TODO: Rewrite this.
-	print("baal");
+	
+	if (Role.teleportingChar && !getWaypoint(38)) {
+		Pather.getWP(129, false);
+	}
+	
 //(<3 YGM)
 	Party.wholeTeamInGame();
 	var portal, tick, baalfail, questTry, time, l, merc,
@@ -187,7 +216,7 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 				}
 				delay(10000);
 				if (baalfail === 8) {
-					D2Bot.printToConsole("I'm broken :/");
+					HordeDebug.logScriptError("baal", "I'm broken :/");
 				}
 			}
 
@@ -333,7 +362,7 @@ BaalLoop:
 
 	if (!Party.hasReachedLevel(HordeSettings.baalLvl) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.baalLvlnm)) || (me.diff === 2 && !Party.hasReachedLevel(HordeSettings.mfLvlhell))) { // If the team hasn't met the level requirement in Normal or Nightmare, don't kill baal.
 		print("don't kill baal");
-		return true;
+		return Sequencer.done;
 	}
 
 	Party.wholeTeamInGame();
@@ -389,5 +418,5 @@ BaalLoop:
 
 	//Pather.teleport = false;
 
-	return true;
+	return Sequencer.done;
 }

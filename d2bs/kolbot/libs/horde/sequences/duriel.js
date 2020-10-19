@@ -5,11 +5,28 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-function duriel(mfRun) {
-	if (mfRun) 	{ print("mfing duriel"); }
-	else		{ print("killing duriel"); }
+function duriel_requirements(mfRun) {
+	/***** REQUIREMENTS ******/
+	if(!me.getQuest(7, 0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("duriel", "andy isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if (!mfRun && me.getQuest(14, 0)){
+		return Sequencer.skip;
+	}
+	/***** END OF REQUIREMENTS ******/
+	
+	return Sequencer.ok;//We can process sequence
+}
 
+function duriel(mfRun) {
 	var i, cain, orifice, hole, npc, unit;
+
+	if (!mfRun && Role.teleportingChar) {
+		Quest.cubeStaff();
+	}
 	Town.repair();
 	Party.wholeTeamInGame();
 
@@ -35,7 +52,7 @@ function duriel(mfRun) {
 				
 				if(!Pather.moveToPreset(me.area, 2, 152, -11, 3))
 				{
-					return false;
+					return Sequencer.fail;
 				}
 				unit = getUnit(2, 100);
 
@@ -57,7 +74,7 @@ function duriel(mfRun) {
 				}
 				
 				if (me.area !== 73)
-					return false;
+					return Sequencer.fail;
 			}
 			//Quest Travelling
 			else {
@@ -161,7 +178,7 @@ function duriel(mfRun) {
 
 					j += 1;
 
-					if (clearOrifice) {
+					if (Communication.Questing.clearOrifice) {
 						Pather.usePortal(getRoom().correcttomb, null)
 					}
 				}
@@ -224,7 +241,7 @@ function duriel(mfRun) {
 			npc = getUnit(1, "tyrael");
 
 			if (!npc) {
-				return false;
+				return Sequencer.fail;
 			}
 
 			for (i = 0; i < 3; i += 1) {
@@ -250,6 +267,8 @@ function duriel(mfRun) {
 	if (!mfRun) {
 		Travel.changeAct(3);
 	}
+	
+	Communication.Questing.duriel = false;
 
-	return true;
+	return Sequencer.done;
 }
