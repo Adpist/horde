@@ -74,7 +74,7 @@ var Sequencer = {
 		this.firstSequence = true;
 		this.stopSequences = false;
 		
-		sequencesList.forEach(function(sequence) {
+		sequencesList.every(function(sequence) {
 			var sequenceResult, 
 				conditions = Sequencer.currentSequences[sequence],
 				skipSequence = false, 
@@ -136,7 +136,7 @@ var Sequencer = {
 				}
 			}
 			
-			if (!stopAfter) {
+			if (!stopAfter && !Sequencer.stopSequences) {
 				if (conditions !== undefined) {
 					if (conditions.stopAfterIf !== undefined) {
 						if (eval(conditions.stopAfterIf)) {
@@ -147,8 +147,10 @@ var Sequencer = {
 			}
 			
 			if (stopAfter) {
-				this.stopSequences = true;
+				Sequencer.stopSequences = true;
 			}
+			
+			return !Sequencer.stopSequences;
 		});
 	},
 	

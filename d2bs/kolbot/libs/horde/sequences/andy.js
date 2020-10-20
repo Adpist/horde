@@ -8,8 +8,8 @@
 function andy_requirements(mfRun) {
 
 	/***** REQUIREMENTS ******/
-	if (mfRun && !me.getQuest(7,0)) {
-		return Sequencer.skip;//Skip : quest not completed
+	if (mfRun && (!me.getQuest(7,0) || !getWaypoint(Pather.wpAreas.indexOf(35)))) {
+		return Sequencer.skip;//Skip : quest not completed or don't have wp
 	}
 	
 	if (!mfRun && me.getQuest(7,0)) {
@@ -28,14 +28,7 @@ function andy(mfRun) {
 	Town.repair();
 	Party.wholeTeamInGame();
 
-	if (mfRun) {
-		//no guarantee for tp in normal
-		//Need check
-		if(me.diff === 0){
-			return Sequencer.skip;
-		}
-	}
-	else {
+	if (!mfRun) {
 		//move to act 2 if not an mf run
 		if ( me.getQuest(6, 0) && !me.getQuest(7, 0)) {
 			Travel.changeAct(2);

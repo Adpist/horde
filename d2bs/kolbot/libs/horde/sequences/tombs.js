@@ -7,10 +7,10 @@
 
 function tombs_requirements(mfRun) {
 	/***** REQUIREMENTS ******/
-	if(!me.getQuest(7, 0)) {
+	if(!me.getQuest(7, 0) || !me.getQuest(13,0)) {
 		if (!mfRun)
 			HordeDebug.logUserError("tombs", "andy isn't dead");
-		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1 or summoner isn't done
 	}
 	
 	if (!mfRun){
