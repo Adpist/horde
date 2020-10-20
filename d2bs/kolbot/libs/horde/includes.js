@@ -11,9 +11,11 @@ function includeHorde() {
 	folders.forEach( (folder) => {
 		var files = dopen("libs/horde/"+folder+"/").getFiles();
 		files.forEach( (file) => {
-			if (!isIncluded("horde/"+folder+"/"+file)){
-				if (!include("horde/"+folder+"/"+file)){
-					throw new Error("Failed to include " + "horde/"+folder+"/"+file);
+			if (file.indexOf(".js") !== -1) {
+				if (!isIncluded("horde/"+folder+"/"+file)){
+					if (!include("horde/"+folder+"/"+file)){
+						throw new Error("Failed to include " + "horde/"+folder+"/"+file);
+					}
 				}
 			}
 		});
