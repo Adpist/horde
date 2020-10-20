@@ -13,7 +13,7 @@ function cube_requirements(mfRun) {
 		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
 	}
 	
-	if (!mfRun && (me.getItem(549) || !Communication.Questing.getCube)) {
+	if (!mfRun && (me.getItem(549) && !Communication.Questing.getCube)) {
 		return Sequencer.skip;//I already have cube and nobody requested quest
 	}
 	/***** END OF REQUIREMENTS ******/
