@@ -145,6 +145,12 @@ var Hooks = {
 			if (!this.getHook("ip")) {
 				this.add("ip");
 			}
+			
+			if (!this.getHook("coords")) {
+				this.add("coords");
+			} else {
+				this.getHook("coords").hook.text = "("+ me.x + ";" + me.y + ")";
+			}
 		},
 
 		add: function (name) {
@@ -167,6 +173,12 @@ var Hooks = {
 				this.hooks.push({
 					name: "ip",
 					hook: new Text("IP: " + (me.gameserverip.length > 0 ? me.gameserverip.split(".")[3] : "0"), 785, 88 + 16 * (Number(!!me.diff) + Number(!!me.gamepassword) + Number(!!me.gametype) + Number(!!me.gamename)), 4, 1, 1)
+				});
+				
+			case "coords":
+				this.hooks.push({
+					name: "coords",
+					hook: new Text("("+ me.x + ";" + me.y + ")", 785, 88 + 16 * (Number(!!me.diff) + Number(!!me.gamepassword) + Number(!!me.gametype) + Number(!!me.gamename) + 1), 4, 1, 1)
 				});
 
 				break;
