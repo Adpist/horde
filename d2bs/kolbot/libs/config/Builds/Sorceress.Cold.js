@@ -138,6 +138,9 @@ var AutoBuildTemplate = {
 						SkillPoints: [-1],
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
+				//switch to ice blast
+				Config.AttackSkill = [-1, 45, -1, 45, -1, 42, -1];		// ice blast
+				Config.LowManaSkill = [39, -1];							// Ice Bolt when low Mana.
 				//Config.PickitFiles.splice(Config.PickitFiles.indexOf("belowlevelseven.nip"), 1);	// Will remove index "belowlevel7.nip" from Config.PickitFiles
 			}
 		},
@@ -227,8 +230,7 @@ var AutoBuildTemplate = {
 						SkillPoints: [-1],
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
-				Config.AttackSkill = [-1, 55, -1, 55, -1, 42, -1];		// Glacial Spike
-				Config.LowManaSkill = [-1, -1];							// Ice Bolt when low Mana.
+				
 			}
 		},
 
@@ -236,7 +238,9 @@ var AutoBuildTemplate = {
 				SkillPoints: [-1],
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
-
+				//lvl 19 in case glacial spike wasn't learned at lvl 18
+				Config.AttackSkill = [-1, 45, -1, 55, -1, 42, -1];		// ice blast (boss - more damage) / Glacial Spike (mobs - AoE)
+				Config.LowManaSkill = [39, -1];							// Ice Bolt when low Mana.
 			}
 		},
 
@@ -277,8 +281,7 @@ var AutoBuildTemplate = {
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
 				Config.Cubing = true;									// Will have a cube by now.
-					Config.LowManaSkill = [-1, -1];
-									Config.AttackSkill = [-1, 59, 42, 59, 42, -1, -1];		// Use Blizzard
+				Config.AttackSkill = [-1, 59, 42, 59, 42, -1, -1];		// Use Blizzard
 				Config.LowManaSkill = [-1, -1];
 			}
 		},
