@@ -104,7 +104,7 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 
 		if (monster) {
 			do {
-				if (Attack.checkMonster(monster) && monster.y < 5080) {
+				if (Attack.checkMonster(monster) && monster.x >= 15072 && monster.x <= 15118 && monster.y < 5080) {
 					switch (monster.classid) {
 					case 23:
 					case 62:
