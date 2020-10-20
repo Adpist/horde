@@ -131,16 +131,18 @@ const Sequences = {
 			"cave": 		{skipIf: "Party.hasReachedLevel(6)"}, //Levelling
 			"trist": 		{skipIf: "Party.hasReachedLevel(11)"}, //Levelling
 			"countess": 	{skipIf: "Party.hasReachedLevel(13)"}, //Levelling
-			"andy": 		{skipIf: "Party.hasReachedLevel(18)"}, //Levelling
+			"andy": 		{skipIf: "Party.hasReachedLevel(15)"}, //Levelling
 			
 			//Act 2
+			"cube": 		{skipIf: "(Party.hasReachedLevel(18)"}, //Levelling
+			"tombs": 		{skipIf: "(Party.hasReachedLevel(22)"}, //Levelling
 			
 			//Act 3
 			"travincal": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 			"mephisto": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 			
 			//Act 4
-			"diablo": 		{skipIf:"Party.hasReachedLevel(27)"}, //Levelling
+			"diablo": 		{skipIf: "Party.hasReachedLevel(27)"}, //Levelling
 			
 			//Act 5
 			"shenk": 		{}, //MF
@@ -177,12 +179,12 @@ const Sequences = {
 			//Act 3
 			"mephisto": 	{}, //MF
 			
-			//Act 4
-			"diablo": 		{}, //MF & Levelling
-			
 			//Act 5
 			"shenk": 		{}, //MF
-			"pindle": 		{} //MF
+			"pindle": 		{}, //MF
+			
+			//Act 4
+			"diablo": 		{} //MF & Levelling
 		}
 	},
 	

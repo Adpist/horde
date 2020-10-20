@@ -116,7 +116,7 @@ function summoner(mfRun) {
 
 	Pickit.pickItems();
 
-	Pather.moveToPreset(74, 2, 357, -3, -3, Config.ClearType);
+	Pather.moveToPreset(74, 2, 357, -3, -3, true);
 
 	journal = getUnit(2, 357);
 

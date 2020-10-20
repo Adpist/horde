@@ -125,7 +125,7 @@ function tombs(mfRun) {
 			if (chest) {
 				while (getDistance(me.x, me.y, chest.roomx * 5 + chest.x, chest.roomy * 5 + chest.y) > 10) {
 					try {
-						Pather.moveToPreset(me.area, 2, 397, 0, 0, Config.ClearType, false);
+						Pather.moveToPreset(me.area, 2, 397, 0, 0, true, false);
 					} catch (e) {
 						print("Caught Error.");
 

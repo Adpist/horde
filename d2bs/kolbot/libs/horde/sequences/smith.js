@@ -45,7 +45,7 @@ function smith(mfRun) {
 
 		for(i = 0 ; i < 5 ; i += 1)
 		{
-			if (Pather.moveToPreset(28, 2, 108, 0 ,0, clearPath ? Config.ClearType : false)) {
+			if (Pather.moveToPreset(28, 2, 108, 0 ,0, clearPath)) {
 				break;
 			}
 			else if (i === 4)
@@ -79,7 +79,7 @@ function smith(mfRun) {
 		
 		for(i = 0 ; i < 5 ; i += 1)
 		{
-			if (Pather.moveToPreset(28, 2, 108, 0 ,0, clearPath ? Config.ClearType : false)) {
+			if (Pather.moveToPreset(28, 2, 108, 0 ,0, clearPath)) {
 				break;
 			}
 			else if (i === 4)

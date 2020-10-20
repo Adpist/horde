@@ -14,5 +14,10 @@ var HordeDebug = {
 	logScriptError: function(script, error){
 		D2Bot.printToConsole("[ScriptError:" + script + "]:" + error, 6);
 		print("[ScriptError:" + script + "]:" + error);
+	},
+	
+	logScriptInfo: function(script, msg){
+		D2Bot.printToConsole("[ScriptInfo:" + script + "]:" + msg);
+		print("[ScriptInfo:" + script + "]:" + msg);
 	}
 };

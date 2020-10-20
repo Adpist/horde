@@ -26,7 +26,6 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 	
 	Communication.sendToList(HordeSystem.allTeamProfiles, "cube");
 	
-	Town.repair();
 	Party.wholeTeamInGame();
 
 	print("travel halls of dead 2");
@@ -66,7 +65,7 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 
 	while (getDistance(me.x, me.y, chest.roomx * 5 + chest.x, chest.roomy * 5 + chest.y) > 10) {
 		try {
-			Pather.moveToPreset(60, 2, 354, 0, 0, Config.ClearType, false);
+			Pather.moveToPreset(60, 2, 354, 0, 0, true, false);
 		} catch (e) {
 			print("Caught Error.");
 
@@ -76,7 +75,9 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 
 	Attack.clear(20);
 
-	Quest.getQuestItem(549, 354);
+	if (!me.getItem(549)) {
+		Quest.getQuestItem(549, 354);
+	}
 
 	if (!Pather.usePortal(null, null)) {
 		Town.goToTown();

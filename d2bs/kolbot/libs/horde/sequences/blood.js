@@ -40,7 +40,7 @@ function blood(mfRun) {
 		Party.wholeTeamInGame();
 
 		try {
-			Pather.moveToPreset(17, 1, 805);
+			Pather.moveToPreset(17, 1, 805, 0, 0, true);
 			Attack.kill(getLocaleString(3111)); // Blood Raven
 		} catch(e) {
 			Attack.clear(30);

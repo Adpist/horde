@@ -198,6 +198,10 @@ var Party = {
 			orgx = me.x,
 			orgy = me.y;
 
+		if (HordeSystem.teamSize === 1) {
+			return;
+		}
+		
 		print("Waiting for Party Members.");
 
 		if (arguments.length < 1) {
@@ -234,7 +238,11 @@ var Party = {
 		var tick = getTickCount(),
 			orgx = me.x,
 			orgy = me.y;
-
+	
+		if (HordeSystem.teamSize === 1) {
+			return;
+		}
+		
 		print("Waiting for Party Members by Waypoint.");
 
 		while (Waypoint.playersAtWpCount !== HordeSystem.teamSize - 1) {

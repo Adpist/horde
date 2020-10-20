@@ -161,7 +161,7 @@ function travincal(mfRun) {
 	if (me.findItem(546) || me.findItem(547) || me.getQuest(20, 1)) { // Have A Jade Figurine or The Golden Bird or need to Return to Alkor for Reward (possible if someone's Pickit then Town processes the Quest). Tell the Teleporting Sorc so she gets us to process it.
 		Communication.sendToList(HordeSystem.allTeamProfiles, "team figurine");
 
-		Communication.Globals.teamFigurine = true;
+		Communication.Questing.teamFigurine = true;
 	}
 
 	if (Role.teleportingChar) {

@@ -22,11 +22,13 @@ function trist_requirements(mfRun) {
 }
 
 function trist(mfRun) {
-	var coord, i,
-		xx = [ 25175, 25147, 25149, 25127, 25128, 25150, 25081],
-		yy = [ 5187,  5201,  5172,  5188,  5144,  5123,  5137];
+	var coord, i, wasTeleporting,
+		xx = [ 25175, 25147, 25149, 25127, 25128, 25150, 25081, 25115],
+		yy = [ 5187,  5201,  5172,  5188,  5144,  5123,  5137, 5070];
 	
-	Town.repair();
+	wasTeleporting = Pather.teleport;
+	Pather.teleport = false;
+	
 	Pather.useWaypoint(4);
 
 	Party.waitForMembers();
@@ -41,7 +43,7 @@ function trist(mfRun) {
 		Attack.clear(25);
 	}
 
-	Pather.moveToPreset(me.area, 1, 737, 0, 0, false, false); // Move back to stones after clearing.
+	Pather.moveToPreset(me.area, 1, 737, 0, 0, true, false); // Move back to stones after clearing.
 
 	for (i = 0; i < 5; i += 1) {
 		if (Pather.usePortal(38)) {
@@ -59,6 +61,8 @@ function trist(mfRun) {
 
 		Attack.clear(20);
 	}
+	
+	Pather.teleport = wasTeleporting;
 
 	return Sequencer.done;
 }
