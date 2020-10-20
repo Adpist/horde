@@ -134,8 +134,8 @@ const Sequences = {
 			"andy": 		{skipIf: "Party.hasReachedLevel(15)"}, //Levelling
 			
 			//Act 2
-			"cube": 		{skipIf: "(Party.hasReachedLevel(18)"}, //Levelling
-			"tombs": 		{skipIf: "(Party.hasReachedLevel(22)"}, //Levelling
+			"cube": 		{skipIf: "Party.hasReachedLevel(18)"}, //Levelling
+			"tombs": 		{skipIf: "Party.hasReachedLevel(22)"}, //Levelling
 			
 			//Act 3
 			"travincal": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
