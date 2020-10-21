@@ -32,10 +32,6 @@ function den(mfRun) {
 				Travel.safeMoveToExit(2, true, true);
 				Party.wholeTeamInGame();
 				Party.waitForMembers(me.area, 3);
-				if (!Party.hasReachedLevel(4))
-				{
-					Attack.clearLevel();
-				}
 				Pather.moveToExit(3, true, true);
 				if (!getWaypoint(1))
 					Pather.getWP(3);
@@ -48,10 +44,6 @@ function den(mfRun) {
 			Party.waitForMembers();
 			Buff.Bo();
 			//Precast.doPrecast(true);
-			if (!Party.hasReachedLevel(6))
-			{
-				Attack.clearLevel();
-			}
 			Pather.moveToExit(2, true, true);
 			Pather.moveToExit(8, true, true);
 			Party.waitForMembers();
