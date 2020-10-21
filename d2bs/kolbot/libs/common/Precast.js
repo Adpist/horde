@@ -286,6 +286,10 @@ var Precast = new function () {
 				break;
 			}
 
+			if (me.getSkill(249, 0) && (!me.getState(145) || force)) {
+				Skill.cast(249, 0); // Armageddon
+			}
+				
 			if (me.getSkill(250, 0) && (!me.getState(144) || force)) {
 				Skill.cast(250, 0); // Hurricane
 			}
