@@ -15,13 +15,13 @@ function travincal_requirements(mfRun) {
 	}
 	
 	if (!mfRun){
+		if (me.getQuest(21, 0)) {
+			return Sequencer.skip; //quest done
+		}
+
 		if (Role.teleportingChar && !me.getItem(555) && !me.getItem(553) && !me.getItem(554) && !me.getItem(555)) {
 			HordeDebug.logUserError("travincal", "can't complete quest, don't have items");
 			return Sequencer.stop; //can't complete quest, don't have items
-		}
-		
-		if (me.getQuest(21, 0)) {
-			return Sequencer.skip; //quest done
 		}
 	}
 	else {
