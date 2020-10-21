@@ -73,7 +73,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 			if (me.classid ===1 ) {
 				unit = getPresetUnit(me.area, 2, 460);
 				while(true) {
-					Pather.moveToUnit(unit, 15, 15, false);
+					Pather.moveToUnit(unit, 5, 5, false);
 					anya = getUnit(2, 558);
 					if ( anya && getDistance(me, anya) < 35)
 						break;
