@@ -26,72 +26,72 @@ function staff_requirements(mfRun) {
 	return Sequencer.ok;//We can process sequence
 }
 
-// Only the Teleporting Sorc does this. She will be at least level 18 as required by MAIN to reach this stage.
 function staff(mfRun) { 
-	Party.wholeTeamInGame();
+
+	if (Role.teleportingChar) {
+		if (me.diff !== 0) { // The Teleporting Sorc needs to travel to Lost City in Nightmare and Hell, otherwise it's already been done in this.cube();
+			Travel.travel(2); // Halls Of The Dead Level 2
+			Travel.travel(3); // Lost City
+		}
 	
-	if (me.diff !== 0 && Role.teleportingChar) { // The Teleporting Sorc needs to travel to Lost City in Nightmare and Hell, otherwise it's already been done in this.cube();
-		Travel.travel(2); // Halls Of The Dead Level 2
-		Travel.travel(3); // Lost City
-	}
-	
-	Pather.useWaypoint(43, true);
+		Pather.useWaypoint(43, true);
 
-	Precast.doPrecast(true);
-	// Dark-f
-	if (me.classid === 1 ) {
-		Pather.teleport = true;
+		Precast.doPrecast(true);
+		// Dark-f
+		if (me.classid === 1 ) {
+			Pather.teleport = true;
 
-		Travel.clearToExit(43, 62, false);
+			Travel.clearToExit(43, 62, false);
 
-		Travel.clearToExit(62, 63, false);
+			Travel.clearToExit(62, 63, false);
 
-		Travel.clearToExit(63, 64, false);
+			Travel.clearToExit(63, 64, false);
 
-		var presetUnit = getPresetUnit(64, 2, 356);
+			var presetUnit = getPresetUnit(64, 2, 356);
 
-		if (!presetUnit) {
-			return Sequencer.fail;
+			if (!presetUnit) {
+				return Sequencer.fail;
+			}
+
+			Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
+
+		} else {
+
+			Pather.teleport = false;
+			Town.repair();
+			Travel.clearToExit(43, 62, true);
+
+			Travel.clearToExit(62, 63, true);
+
+			Travel.clearToExit(63, 64, true);
+
+			var presetUnit = getPresetUnit(64, 2, 356);
+
+			if (!presetUnit) {
+				return Sequencer.fail;
+			}
+
+			Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, true);
 		}
 
-		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
+		Quest.getQuestItem(92, 356);
 
-	} else {
-
-		Pather.teleport = false;
-		Town.repair();
-		Travel.clearToExit(43, 62, true);
-
-		Travel.clearToExit(62, 63, true);
-
-		Travel.clearToExit(63, 64, true);
-
-		var presetUnit = getPresetUnit(64, 2, 356);
-
-		if (!presetUnit) {
-			return Sequencer.fail;
+		if (!Pather.usePortal(null, null)) {
+			Town.goToTown();
 		}
 
-		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, true);
-	}
+		if (me.getItem(92)) {
+			Town.move("stash");
+			delay(me.ping > 0 ? me.ping : 50);
+			Town.openStash();
+			Storage.Stash.MoveTo(me.getItem(92));
+		}
 
-	Quest.getQuestItem(92, 356);
+		//Pather.teleport = false;
 
-	if (!Pather.usePortal(null, null)) {
-		Town.goToTown();
-	}
-
-	if (me.getItem(92)) {
-		Town.move("stash");
-		delay(me.ping > 0 ? me.ping : 50);
-		Town.openStash();
-		Storage.Stash.MoveTo(me.getItem(92));
-	}
-
-	//Pather.teleport = false;
-
-	if (me.getItem(92)) { //teamStaff
-		Communication.sendToList(HordeSystem.allTeamProfiles, "GotStaff");
+		if (me.getItem(92)) { //teamStaff
+			Communication.sendToList(HordeSystem.allTeamProfiles, "GotStaff");
+		}
 	}
 
 	return Sequencer.done;
