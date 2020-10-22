@@ -145,18 +145,16 @@ function summoner(mfRun) {
 
 
 	if (i === 5) {
-		throw new Error("summoner failed");
 		if(this.questGetter(13, 0)){
-
 			for (i = 0; i < 5; i += 1) {
 				Town.gotoTown();				
-				delay(500);
+				delay(1500);
 				Town.move("portalspot");				
-				delay(500);
-				if(Pather.usePortal(46,null)){
+				delay(1500);
+				if(Pather.getPortal(46)){
 					break;
 				}
-				delay(500);
+				delay(1500);
 			}
 		}
 		if (i === 5) {
