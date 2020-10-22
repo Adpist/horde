@@ -83,12 +83,17 @@ var HordeSystem = {
 		});
 	},
 	
-	setupConfig: function(teamName) {
-		
+	setupConfig: function(teamName, oog) {
 		print("setup config " + me.profile + "[" + teamName + "]");
 		
+		if (!isIncluded("horde/settings/teams/" + teamName + ".js")){
+			if (!include("horde/settings/teams/" + teamName + ".js")){
+				throw new Error("couldn't find " + teamName + ".js in libs/horde/settings/teams/");
+			}
+		}
+		
 		var isTeleportChar = false;
-		this.team = Teams[teamName];
+		this.team = HordeTeam;
 		
 		if (this.team === undefined){
 			D2Bot.printToConsole(me.profile + " isn't in " + teamName + " team", 6);
@@ -118,7 +123,7 @@ var HordeSystem = {
 					break;
 					
 				default:
-					D2Bot.printToConsole("unhandled role : " + profile.role + " => using follower");
+					D2Bot.printToConsole("unhandled role : " + profileData.role + " => using follower");
 					HordeSystem.followerProfiles.push(profile);
 					break;
 			}
@@ -167,9 +172,10 @@ var HordeSystem = {
 			Config.QuitList = [];
 		}
 		
-		this.setupBuild(this.team.profiles[me.profile].build);
-		Sequencer.setupSequences(this.team.sequencesProfile);
-		
+		if (!oog) {
+			this.setupBuild(this.team.profiles[me.profile].build);
+			Sequencer.setupSequences(this.team.sequencesProfile);
+		}
 		return true;
 	},
 	

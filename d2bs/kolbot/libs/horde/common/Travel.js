@@ -88,11 +88,62 @@ var Travel = {
 		print("End clearToExit");
 	},
 	
+	toCanyon: function() {
+		var i, journal;
+		if (me.area !== 74) {
+			if (!me.inTown) {
+				Town.goToTown();
+			}
+
+			Town.move("waypoint");
+
+			Pather.useWaypoint(74, true);
+		}
+		
+		journal = getPresetUnit(74, 2, 357);
+
+		if (!journal) {
+			throw new Error("HordeSystem.summoner: No preset unit in Arcane Sanctuary.");
+		}
+		
+		while (getDistance(me.x, me.y, journal.roomx * 5 + journal.x - 3, journal.roomy * 5 + journal.y - 3) > 10) {
+			try {
+				Pather.moveToPreset(74, 2, 357, -3, -3, false, false);
+			} catch (e) {
+				print("Caught Error.");
+
+				print(e);
+			}
+		}
+		
+		Pather.moveToPreset(74, 2, 357, -3, -3, true);
+
+		journal = getUnit(2, 357);
+
+		for (i = 0; i < 5; i += 1) {
+			if (journal) {
+				sendPacket(1, 0x13, 4, journal.type, 4, journal.gid);
+
+				delay(1000);
+
+				me.cancel();
+			}
+
+			if (Pather.getPortal(46)) {
+				break;
+			}
+		}
+		
+		Pather.usePortal(46);
+		
+		Waypoint.clickWP();
+	},
+	
 	travel: function (goal) { // 0->9, a custom waypoint getter function
 		var i, homeTown, nextAreaIndex, oldClearType, target, destination, unit,
 			wpAreas = [],
 			areaIDs = [];
-
+		
 		oldClearType = Config.ClearType;
 
 		switch (goal) { // Don't teleport until after Lost City (Act 2) if in normal difficulty
@@ -216,7 +267,8 @@ var Travel = {
 
 						Town.goToTown();
 
-						this.mephisto();
+						HordeDebug.logScriptError("Should travel to act4 by mephisto. please report");
+						//this.mephisto();
 
 						return true;
 					}
@@ -298,45 +350,7 @@ var Travel = {
 
 					break;
 				case 46: // Canyon Of The Magi
-					try {
-						this.summoner();
-					} catch(e) {
-						print(e);
-
-						Town.goToTown();
-
-						Town.move("portalspot");
-
-						delay(10000);
-
-						while (!Pather.usePortal(areaIDs[nextAreaIndex], null)) {
-							delay(10000);
-
-							Pather.usePortal(areaIDs[nextAreaIndex]-1, null);
-
-							delay(10000);
-						}
-
-						if (me.area === areaIDs[nextAreaIndex]-1) {
-							Pather.moveToExit(areaIDs[nextAreaIndex], true, Config.ClearType);
-						}
-
-						delay(me.ping);
-					} finally {
-						if (me.area !== areaIDs[nextAreaIndex]) {
-							Town.goToTown();
-
-							Town.move("portalspot");
-
-							delay(10000);
-
-							Communication.sendToList(HordeSystem.allTeamProfiles, "tp");
-
-							while (!Pather.usePortal(areaIDs[nextAreaIndex], null)) {
-								delay(1000);
-							}
-						}
-					}
+					this.toCanyon();
 					break;
 				case 78: // Flayer Jungle
 					Pather.getWP(78, false); // Travel.clearToExit() often fails when attempting to move from Great Marsh to Flayer Jungle.
@@ -487,7 +501,9 @@ var Travel = {
 				if (me.act >= 4) {
 					break;
 				}
-				this.mephisto();
+				
+				HordeDebug.logScriptError("Should travel to act4 by mephisto. please report");
+				//this.mephisto();
 				break;
 			case 5:
 				if (me.act >= 5) {

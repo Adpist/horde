@@ -85,9 +85,12 @@ function radament(mfRun) {
 					print(e);
 				}
 			}
-			radament = getUnit(1, 229); // Radament.
-			Pather.moveToUnit(radament, 0, 0, false);
+			
 			Pather.makePortal();
+			
+			//radament = getUnit(1, 229); // Radament.
+			//Pather.moveToUnit(radament, 0, 0, false);
+			
 			Communication.sendToList(HordeSystem.allTeamProfiles, "kill radament");
 		} else {
 			Town.move("portalspot");
@@ -104,6 +107,8 @@ function radament(mfRun) {
 			}
 		}
 
+		Attack.clear(30);
+		
 		Party.wholeTeamInGame();
 		Buff.Bo();
 		try {

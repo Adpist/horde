@@ -5,6 +5,10 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
+/************************************************************************************/
+/*** WILL BE DELETED, PLEASE MOVE YOUR TEAM CONFIGS TO LIBS/HORDE/SETTINGS/TEAMS/ ***/
+/************************************************************************************/
+
 const Teams = {
 	"TeamA": {
 		/* Put one entry per team member. the entry must be named as the D2Bot profile name
@@ -14,27 +18,38 @@ const Teams = {
 		*/
 		profiles: {
 			"SorcProfile": {
-				role: "teleport",
+				account: "account1",
 				character: "mySorc",
+				className: "sorceress",
+				role: "teleport",
 				build: "meteorb"
 			},
 			"BarbProfile": {
-				role: "bo",
+				account: "account2",
 				character: "myBarb",
+				className: "barbarian",
+				role: "bo",
 				build: "bo"
 			},
 			"PalaProfile": {
-				role: "follower",
+				account: "account3",
 				character: "myPala",
+				className: "paladin",
+				role: "follower",
 				build: "hammer"
 			},
 			"NecroProfile": {
-				role: "summoner",
+				account: "account4",
 				character: "myNecro",
+				className: "necromancer",
+				role: "follower",
 				build: "summoner"
 			}
 		},
 		
+		ladder: true,
+		hardcore: false,
+		expansion: true,
 		sequencesProfile: "default_xpac", //The sequence profile to use for this team
 		minGameTime: 210, //min game time to use for the whole team
 		maxGameTime: 0, //max game time to use for whole team,

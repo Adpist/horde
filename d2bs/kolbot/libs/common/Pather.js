@@ -1722,6 +1722,10 @@ MainLoop:
 			"Furnace of Pain",
 			"Tristram"];
 
-		return areas[area];
+		if (area !== undefined) {
+			return areas[area];
+		}
+		
+		return "undefined";
 	}
 };

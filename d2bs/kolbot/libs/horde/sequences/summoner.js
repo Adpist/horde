@@ -53,9 +53,7 @@ function summoner(mfRun) {
 		}
 		else {
 			Pather.teleport = true;
-
-			Config.ClearType = false;
-
+			
 			if (me.area !== 74) {
 				if (!me.inTown) {
 					Town.goToTown();
@@ -145,6 +143,16 @@ function summoner(mfRun) {
 	}
 	else {
 		Waypoint.clickWP();
+	}
+	
+	Town.goToTown();
+	
+	Town.move(NPC.Cain);
+	
+	var cain = getUnit(1, "deckard cain");
+
+	if (cain && cain.openMenu()) {
+		me.cancel();
 	}
 	
 	Communication.Questing.summoner = false;

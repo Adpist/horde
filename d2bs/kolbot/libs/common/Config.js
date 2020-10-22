@@ -8,54 +8,54 @@
 var Scripts = {};
 
 var Config = {
-	init: function (notify) {
+	init: function (notify, oog) {
 		var i, n,
 			configFilename = "",
 			classes = ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin"];
 
-		for (i = 0; i < 5; i += 1) {
-			switch (i) {
-			case 0: // Custom config
-				if (!isIncluded("config/_customconfig.js")) {
-					include("config/_customconfig.js");
-				}
+		if (!oog) {
+			for (i = 0; i < 5; i += 1) {
+				switch (i) {
+				case 0: // Custom config
+					if (!isIncluded("config/_customconfig.js")) {
+						include("config/_customconfig.js");
+					}
 
-				for (n in CustomConfig) {
-					if (CustomConfig.hasOwnProperty(n)) {
-						if (CustomConfig[n].indexOf(me.profile) > -1) {
-							if (notify) {
-								print("ÿc2Loading custom config: ÿc9" + n + ".js");
+					for (n in CustomConfig) {
+						if (CustomConfig.hasOwnProperty(n)) {
+							if (CustomConfig[n].indexOf(me.profile) > -1) {
+								if (notify) {
+									print("ÿc2Loading custom config: ÿc9" + n + ".js");
+								}
+
+								configFilename = n + ".js";
+
+								break;
 							}
-
-							configFilename = n + ".js";
-
-							break;
 						}
 					}
+
+					break;
+				case 1:// Class.Profile.js
+					configFilename = classes[me.classid] + "." + me.profile + ".js";
+					break;
+				case 2: // Realm.Class.Charname.js
+					configFilename = me.realm + "." + classes[me.classid] + "." + me.charname + ".js";
+					break;
+				case 3: // Class.Charname.js
+					configFilename = classes[me.classid] + "." + me.charname + ".js";
+					break;
+				case 4: // Profile.js
+					configFilename = me.profile + ".js";
+					break;
 				}
 
-				break;
-			case 1:// Class.Profile.js
-				configFilename = classes[me.classid] + "." + me.profile + ".js";
-
-				break;
-			case 2: // Realm.Class.Charname.js
-				configFilename = me.realm + "." + classes[me.classid] + "." + me.charname + ".js";
-
-				break;
-			case 3: // Class.Charname.js
-				configFilename = classes[me.classid] + "." + me.charname + ".js";
-
-				break;
-			case 4: // Profile.js
-				configFilename = me.profile + ".js";
-
-				break;
+				if (configFilename && FileTools.exists("libs/config/" + configFilename)) {
+					break;
+				}
 			}
-
-			if (configFilename && FileTools.exists("libs/config/" + configFilename)) {
-				break;
-			}
+		} else {
+			configFilename = HordeOOG.findCharacterConfig(me.profile);
 		}
 
 		if (FileTools.exists("libs/config/" + configFilename)) {
@@ -100,7 +100,7 @@ var Config = {
 		try {			
 			if (Config.Horde.Team && Config.Horde.Team != ""){
 				if (!isIncluded("horde/includes.js")) {include("horde/includes.js"); includeHorde(); }
-				HordeSystem.setupConfig(Config.Horde.Team);
+				HordeSystem.setupConfig(Config.Horde.Team, oog);
 			}
 		}
 		catch(eHorde){
@@ -108,13 +108,15 @@ var Config = {
 			print(eHorde.toSource());
 		}
 
-		try {
-			if (Config.AutoBuild.Enabled === true && !isIncluded("common/AutoBuild.js") && include("common/AutoBuild.js")) {
-				AutoBuild.initialize();
+		if (!oog) {
+			try {
+				if (Config.AutoBuild.Enabled === true && !isIncluded("common/AutoBuild.js") && include("common/AutoBuild.js")) {
+					AutoBuild.initialize();
+				}
+			} catch (e3) {
+				print("ÿc8Error in libs/common/AutoBuild.js (AutoBuild system is not active!)");
+				print(e3.toSource());
 			}
-		} catch (e3) {
-			print("ÿc8Error in libs/common/AutoBuild.js (AutoBuild system is not active!)");
-			print(e3.toSource());
 		}
 	},
 
@@ -124,7 +126,7 @@ var Config = {
 	AreaDelay: 0,
 	MinGameTime: 0,
 	MaxGameTime: 0,
-	NextQuestSaveTime: 0,
+	NextQuestSaveTime: 1,
 	DoLeaderElectionByQuest: true,
 
 	// Healing and chicken

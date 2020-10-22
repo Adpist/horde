@@ -1,5 +1,4 @@
 var StarterConfig = {
-	MinGameTime: 220, // Minimum game length in seconds. If a game is ended too soon, the rest of the time is waited in the lobby
 	JoinChannel: "", // Name of the channel to join
 	AnnounceGames: false, // Default value
 	AfterGameMessage: "", // Default message after a finished game. Can be an array of messages
@@ -9,6 +8,7 @@ var StarterConfig = {
 	FirstJoinMessage: "", // Message to say when first joining a channel, usually ".login"
 	ChatActionsDelay: 2, // Seconds to wait in lobby before entering a channel
 
+	CreateGameDelay: 10, // Seconds to wait before creating a new game
 	JoinRetryDelay: 5, // Time in seconds to wait before next join attempt
 	SwitchKeyDelay: 5, // Seconds to wait before switching a used/banned key or after realm down
 
@@ -26,8 +26,6 @@ var StarterConfig = {
 	LevelNM: 42, // Will use self level unless leader election by team is use then uses team average
 	LevelHell: 72, // Will use self level unless leader election by team is use then uses team average
 	LeaderElectAnyQuest: false, // Will leader priority on any quest not just the ones for act progression, ALL profiles MUST use this profile
-	DefaultLeaderProfile: "", // For horde this is typically the teleport sorc
- 	AllTeamProfiles: [] // All the profile names of the team example: ["profile-001", "profile-002","profile-003"]
 };
 
 var JoinSettings = {
@@ -62,10 +60,13 @@ include("gambling.js");
 include("craftingsystem.js");
 include("torchsystem.js");
 include("common/misc.js");
+include("common/pather.js");
 include("common/util.js");
+include("common/config.js");
+include("horde/includes.js");
 
-var i, j, gameInfo, joinInfo, gameStart, ingame, handle,useChat = false,
-	firstLogin, chatActionsDone, lastGameTick, connectFail, pingQuit,
+var i, j, gameInfo, joinInfo, gameStart, ingame, gold, handle,useChat = false,
+	firstLogin, chatActionsDone, lastGameTick, connectFail, pingQuit, minGameTime,
 	gameCount = DataFile.getStats().runs + 1,
 	loginRetry = 0,
 	lastGameStatus = "ready",
@@ -231,17 +232,19 @@ function main () {
 	while (!handle) {
 		delay(100);
 	}
+	includeHorde();
 
 	DataFile.updateStats("handle", handle);
 	D2Bot.init();
+	HordeSystem.init();
+	Config.init(false, true);
+	minGameTime = Config.MinGameTime;
 	load("tools/heartbeat.js");
 
 	while (!gameInfo) {
 		D2Bot.requestGameInfo();
 		delay(500);
 	}
-
-
 
 	if (gameInfo.error) {
 		//D2Bot.retrieve();
@@ -273,12 +276,14 @@ function main () {
 
 					lastGameStatus = "ingame";
 					ingame = true;
+					Role.initRole();
 					gameStart = getTickCount();
 
 					DataFile.updateStats("runs", gameCount);
 				}
 
-				D2Bot.updateStatus("Game: " + me.gamename + timer(gameStart));
+				gold = me.getStat(14) + me.getStat(15);
+				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]);
 			}
 
 			delay(1000);
@@ -337,7 +342,7 @@ function leaderElection(){
 	DataFile.updateStats("hordeLeader", newElection);
 	//Incase someone is ingame
 	try {
-		StarterConfig.AllTeamProfiles.forEach((profileName) => {
+		HordeSystem.allTeamProfiles.forEach((profileName) => {
 			if (profileName.toLowerCase() != me.profile.toLowerCase()) {
 				sendCopyData(null, profileName, 55, JSON.stringify({ nick: me.profile, msg: "hordequit" }));
 			}
@@ -356,8 +361,8 @@ function doLeaderElection(){
 	var uncompletedQuests = {normalQuest:{},nmQuest:{},hellQuest:{}};
 	var filteredUncompletedQuests = {normalQuest:{},nmQuest:{},hellQuest:{}};
 	try {
-		for(i=0;i<StarterConfig.AllTeamProfiles.length;i++){
-			var profileData = getOtherPlayerData(StarterConfig.AllTeamProfiles[i]);
+		for(i=0;i<HordeSystem.allTeamProfiles.length;i++){
+			var profileData = getOtherPlayerData(HordeSystem.allTeamProfiles[i]);
 			if(!!profileData){
 				if(!!profileData.level){
 					levelAggergate+=profileData.level;
@@ -376,7 +381,7 @@ function doLeaderElection(){
 									if(!uncompletedQuests.normalQuest.hasOwnProperty(hii)){
 										uncompletedQuests.normalQuest[hii]={};
 										uncompletedQuests.normalQuest[hii].count=1;
-										uncompletedQuests.normalQuest[hii].firstProfile=StarterConfig.AllTeamProfiles[i];
+										uncompletedQuests.normalQuest[hii].firstProfile=HordeSystem.allTeamProfiles[i];
 									} else {
 										uncompletedQuests.normalQuest[hii].count++;
 									}
@@ -393,7 +398,7 @@ function doLeaderElection(){
 									if(!uncompletedQuests.nmQuest.hasOwnProperty(hii)){
 										uncompletedQuests.nmQuest[hii]={};
 										uncompletedQuests.nmQuest[hii].count=1;
-										uncompletedQuests.nmQuest[hii].firstProfile=StarterConfig.AllTeamProfiles[i];
+										uncompletedQuests.nmQuest[hii].firstProfile=HordeSystem.allTeamProfiles[i];
 									} else {
 										uncompletedQuests.nmQuest[hii].count++;
 									}
@@ -411,7 +416,7 @@ function doLeaderElection(){
 									if(!uncompletedQuests.hellQuest.hasOwnProperty(hii)){
 										uncompletedQuests.hellQuest[hii]={};
 										uncompletedQuests.hellQuest[hii].count=1;
-										uncompletedQuests.hellQuest[hii].firstProfile=StarterConfig.AllTeamProfiles[i];
+										uncompletedQuests.hellQuest[hii].firstProfile=HordeSystem.allTeamProfiles[i];
 									} else {
 										uncompletedQuests.hellQuest[hii].count++;
 									}
@@ -422,10 +427,10 @@ function doLeaderElection(){
 
 
 				} else {
-					throw new Error("Did not get inner profile data, defaulting to DefaultLeaderProfile");
+					throw new Error("Did not get horde profile data, defaulting to teleport profile");
 				}
 			} else {
-				throw new Error("Did not get all profile data, defaulting to DefaultLeaderProfile");
+				throw new Error("Did not get all profile data, defaulting to teleport profile");
 
 			}
 		}
@@ -453,7 +458,7 @@ function doLeaderElection(){
 					continue;
 				}
 				if(uncompletedQuests.normalQuest.hasOwnProperty(hii)){
-					if(uncompletedQuests.normalQuest[hii].count<StarterConfig.AllTeamProfiles.length){
+					if(uncompletedQuests.normalQuest[hii].count<HordeSystem.allTeamProfiles.length){
 							filteredUncompletedQuests.normalQuest[hii]=uncompletedQuests.normalQuest[hii];
 					}
 				}
@@ -467,7 +472,7 @@ function doLeaderElection(){
 					continue;
 				}
 				if(uncompletedQuests.nmQuest.hasOwnProperty(hii)){
-					if(uncompletedQuests.nmQuest[hii].count<StarterConfig.AllTeamProfiles.length){
+					if(uncompletedQuests.nmQuest[hii].count<HordeSystem.allTeamProfiles.length){
 							filteredUncompletedQuests.nmQuest[hii]=uncompletedQuests.nmQuest[hii];
 					}
 				}
@@ -482,7 +487,7 @@ function doLeaderElection(){
 					continue;
 				}
 				if(uncompletedQuests.hellQuest.hasOwnProperty(hii)){
-					if(uncompletedQuests.hellQuest[hii].count<StarterConfig.AllTeamProfiles.length){
+					if(uncompletedQuests.hellQuest[hii].count<HordeSystem.allTeamProfiles.length){
 							filteredUncompletedQuests.hellQuest[hii]=uncompletedQuests.hellQuest[hii];
 					}
 				}
@@ -539,7 +544,7 @@ function doLeaderElection(){
 		print(error);
 	}
 	print("Default leader elected");
-	return StarterConfig.DefaultLeaderProfile;
+	return HordeSystem.teleProfile;
 }
 
 
@@ -722,6 +727,9 @@ JoinLoop2:
 
 					if (typeof AdvancedConfig[me.profile] === "object" && typeof AdvancedConfig[me.profile].JoinDelay === "number") {
 						ControlAction.timeoutDelay("Custom Join Delay", AdvancedConfig[me.profile].JoinDelay * 1e3);
+					} else {
+						var hordeJoinDelay = HordeSystem.followerProfiles.indexOf(me.profile)+1;
+						ControlAction.timeoutDelay("Custom Join Delay", rand(hordeJoinDelay*2*1e3, hordeJoinDelay*3*1e3));
 					}
 
 					me.blockMouse = true;
@@ -793,6 +801,18 @@ JoinLoop2:
 				}
 
 				loginRetry++;
+				
+				if (loginRetry == 2)
+				{
+					var info = {"charName" : Profile(me.profile).character};
+					if (!ControlAction.findCharacter(info)) {
+						if (!HordeOOG.tryCreateCharacter(me.profile))
+						{
+							D2Bot.restart();
+						}
+						break;
+					}
+				}
 			} else {
 				me.blockKeys = false;
 				print(e + " " + getLocation());
@@ -1035,6 +1055,33 @@ JoinLoop2:
 				}
 			}
 		}
+		
+		// Can't create character, button greyed out = high likelyhood of realm down
+		if (getLocation() === 42 && getControl(6, 33, 528, 168, 60).disabled === 4) {
+			D2Bot.updateStatus("Realm Down");
+			delay(1000);
+
+			if (!ControlAction.click(6, 33, 572, 128, 35)) {
+				break;
+			}
+
+			updateCount();
+			timeoutDelay("Realm Down", StarterConfig.RealmDownDelay * 6e4);
+			D2Bot.CDKeyRD();
+
+			if (gameInfo.switchKeys) {
+				D2Bot.printToConsole("Realm Down - Changing CD-Key");
+				timeoutDelay("Key switch delay", StarterConfig.SwitchKeyDelay * 1000);
+				D2Bot.restart(true);
+			} else {
+				D2Bot.restart();
+			}
+		}
+		
+		if (HordeOOG.tryCreateCharacter(me.profile))
+		{
+			break;
+		}
 
 		if (!locationTimeout(StarterConfig.ConnectingTimeout * 1e3, location)) {
 			ControlAction.click(6, 33, 572, 128, 35);
@@ -1167,8 +1214,8 @@ MainSwitch:
 				gameStart = DataFile.getStats().ingameTick;
 			}
 
-			if (getTickCount() - gameStart < StarterConfig.MinGameTime * 1e3) {
-				ControlAction.timeoutDelay("Min game time wait", StarterConfig.MinGameTime * 1e3 + gameStart - getTickCount());
+			if (getTickCount() - gameStart < minGameTime * 1e3) {
+				ControlAction.timeoutDelay("Min game time wait", minGameTime * 1e3 + gameStart - getTickCount());
 			}
 		}
 
@@ -1226,8 +1273,8 @@ MainSwitch:
 				gameStart = DataFile.getStats().ingameTick;
 			}
 
-			if (getTickCount() - gameStart < StarterConfig.MinGameTime * 1e3) {
-				ControlAction.timeoutDelay("Min game time wait", StarterConfig.MinGameTime * 1e3 + gameStart - getTickCount());
+			if (getTickCount() - gameStart < minGameTime * 1e3) {
+				ControlAction.timeoutDelay("Min game time wait", minGameTime * 1e3 + gameStart - getTickCount());
 			}
 		}
 
@@ -1450,6 +1497,18 @@ MainSwitch:
 				}
 
 				loginRetry++;
+				
+				if (loginRetry == 2)
+				{
+					var info = {"charName" : Profile(me.profile).character};
+					if (!ControlAction.findCharacter(info)) {
+						if (!HordeOOG.tryCreateCharacter(me.profile))
+						{
+							D2Bot.restart();
+						}
+						break;
+					}
+				}
 			} else {
 				me.blockKeys = false;
 				print(e + " " + getLocation());
@@ -1691,6 +1750,33 @@ MainSwitch:
 					D2Bot.stop();
 				}
 			}
+		}
+		
+		// Can't create character, button greyed out = high likelyhood of realm down
+		if (getLocation() === 42 && getControl(6, 33, 528, 168, 60).disabled === 4) {
+			D2Bot.updateStatus("Realm Down");
+			delay(1000);
+
+			if (!ControlAction.click(6, 33, 572, 128, 35)) {
+				break;
+			}
+
+			updateCount();
+			timeoutDelay("Realm Down", StarterConfig.RealmDownDelay * 6e4);
+			D2Bot.CDKeyRD();
+
+			if (gameInfo.switchKeys) {
+				D2Bot.printToConsole("Realm Down - Changing CD-Key");
+				timeoutDelay("Key switch delay", StarterConfig.SwitchKeyDelay * 1000);
+				D2Bot.restart(true);
+			} else {
+				D2Bot.restart();
+			}
+		}
+		
+		if (HordeOOG.tryCreateCharacter(me.profile))
+		{
+			break;
 		}
 
 		if (!locationTimeout(StarterConfig.ConnectingTimeout * 1e3, location)) {

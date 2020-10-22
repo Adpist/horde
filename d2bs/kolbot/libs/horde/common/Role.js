@@ -6,39 +6,41 @@
 */
 
 var Role = {
+	isLeader: false,
 	teleportingChar: false,
 	boChar: false,
 	otherChar: false,
 	
 	initRole: function () { // Checks Config settings to determine role.
+		var leaderProfile = DataFile.getStats().hordeLeader;
+		
 		if (HordeSystem.teleProfile === me.profile) {
 			this.teleportingChar = true;
 
-			print("I am the Leader");
-
 		} else if (HordeSystem.boProfile === me.profile) {
 			this.boChar = true;
-
-			print("I am the BOer");
 		} else {
 			for (var i = 0 ; i < HordeSystem.followerProfiles.length ; i += 1) {
 				if (HordeSystem.followerProfiles[i] === me.profile) {
 					this.otherChar = true;
-
-					print("I am a Follower");
-
 					break;
 				}
 			}
-
+			
 			if (!this.otherChar) {
-				print("I am not assigned a role in my Config file. Please rectify this omission and restart."); // SiC-666 TODO: Make this red text or throw an error instead.
+				HordeDebug.logUserError("TeamConfig", "I am not assigned a role in my Config file. Please rectify this omission and restart."); // SiC-666 TODO: Make this red text or throw an error instead.
 
 				while(true) {
 					delay(1000);
 				}
 			}
 		}
+		
+		if (leaderProfile !== undefined) {
+			this.isLeader = leaderProfile === me.profile;
+		} else {
+			this.isLeader = this.teleportingChar;
+		} 
 	},
 	
 	getLeaderUnit: function () {

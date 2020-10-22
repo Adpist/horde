@@ -6,7 +6,14 @@
 */
 
 function includeHorde() {
-	var folders = ["common", "settings"];
+	//TEMP : remove full settings folder until team settings are moved
+	var folders = ["common"/*, "settings"*/];
+	
+	if (!isIncluded("horde/settings/Settings.js")){
+		if (!include("horde/settings/Settings.js")){
+			throw new Error("Failed to include horde/settings/Settings.js");
+		}
+	}
 	
 	folders.forEach( (folder) => {
 		var files = dopen("libs/horde/"+folder+"/").getFiles();
@@ -20,4 +27,10 @@ function includeHorde() {
 			}
 		});
 	});
+	
+	if (!isIncluded("horde/OOG.js")){
+		if (!include("horde/OOG.js")){
+			throw new Error("Failed to include horde/OOG.js");
+		}
+	}
 };

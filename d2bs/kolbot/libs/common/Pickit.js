@@ -392,7 +392,7 @@ MainLoop:
 	itemQualityToName: function (quality) {
 		var qualNames = ["", "lowquality", "normal", "superior", "magic", "set", "rare", "unique", "crafted"];
 
-		return qualNames[quality];
+		return quality !== undefined ? qualNames[quality] : "";
 	},
 
 	itemColor: function (unit, type) {

@@ -6,6 +6,12 @@
 */
 
 var HordeSettings = {
+
+	/****************************************************/
+	/* Everything below those lines will be deleted.    */
+	/* please use sequences & teams						*/
+	/****************************************************/
+	
 	// -------- Normal Difficulty -------------
 	caveLvl: 7,
 	tristLvl: 15,

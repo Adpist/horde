@@ -7,10 +7,16 @@
 
 function duriel_requirements(mfRun) {
 	/***** REQUIREMENTS ******/
-	if(!me.getQuest(7, 0) || !me.getQuest(13,0)) {
+	if(!me.getQuest(7, 0)) {
 		if (!mfRun)
 			HordeDebug.logUserError("duriel", "andy isn't dead");
 		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+	}
+	
+	if(!me.getQuest(13,0)) {
+		if (!mfRun)
+			HordeDebug.logUserError("duriel", "summoner isn't dead");
+		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : summoner not completed
 	}
 	
 	if (!mfRun && me.getQuest(14, 0)){

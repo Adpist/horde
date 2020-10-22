@@ -732,6 +732,9 @@ var Item = {
 };
 
 var Misc = {
+	charClass: ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin"],
+	difficultyString: ["Normal", "Nightmare", "Hell"],
+	
 	// Click something
 	click: function (button, shift, x, y) {
 		if (arguments.length < 2) {

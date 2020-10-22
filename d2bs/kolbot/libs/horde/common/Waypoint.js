@@ -112,7 +112,7 @@ var Waypoint = {
 		}
 
 		if (index === 15 && !me.getQuest(13, 0)) { // Canyon Of The Magi requires completion of The Summoner.
-			var cain;
+			var cain = getUnit(1, "deckard cain");
 
 			if (!cain || !cain.openMenu()) {
 				return false;

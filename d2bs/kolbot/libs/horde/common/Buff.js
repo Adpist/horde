@@ -98,14 +98,15 @@ var Buff = {
 			}
 		}
 
-		for (i=0 ; i<3 ; i+=1 ) {
+		Role.goToLeader();
+		Precast.doPrecast(true);
+
+		for (i=0 ; i<2 ; i+=1 ) {
 			if (this.boed === (HordeSystem.teamSize - 1)) {
 				break;
 			}
-			Role.goToLeader();
-			Precast.doPrecast(true);
 			this.Bo();
-			delay(3000);
+			delay(me.ping * 2 + 500);
 		}
 		Communication.sendToList(HordeSystem.allTeamProfiles, "I'm bored -.-");
 
@@ -268,7 +269,7 @@ var Buff = {
 			if (me.getSkill(149))
 				Skill.Cast(149, 0);
 		} else
-			delay(2000);
+			delay(me.ping * 2 + 1000);
 		return true;
 	},
 	
