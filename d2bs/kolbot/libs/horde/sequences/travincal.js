@@ -87,8 +87,8 @@ function travincal(mfRun) {
 		if (!mfRun) {
 			Party.wholeTeamInGame();
 		}
-		//Make starting next to council configurable
-		if((me.diff === 0 && !HordeSettings.normTracincalFromWpOn) ||(me.diff === 1 && !HordeSettings.nmTracincalFromWpOn) ||(me.diff === 2 && !HordeSettings.hellTracincalFromWpOn)){
+		//Make starting next to council configurable for questing
+		if(mfRun || (me.diff === 0 && !HordeSettings.normTracincalFromWpOn) ||(me.diff === 1 && !HordeSettings.nmTracincalFromWpOn) ||(me.diff === 2 && !HordeSettings.hellTracincalFromWpOn)){
 			Pather.moveTo(orgX + 129, orgY - 92, 5, false);	// (<3 kolton)
 		}
 		
