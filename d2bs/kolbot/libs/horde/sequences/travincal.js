@@ -87,9 +87,11 @@ function travincal(mfRun) {
 		if (!mfRun) {
 			Party.wholeTeamInGame();
 		}
-
-		Pather.moveTo(orgX + 129, orgY - 92, 5, false);	// (<3 kolton)
-
+		//Make starting next to council configurable
+		if((me.diff === 0 && !HordeSettings.normTracincalFromWpOn) ||(me.diff === 1 && !HordeSettings.nmTracincalFromWpOn) ||(me.diff === 2 && !HordeSettings.hellTracincalFromWpOn)){
+			Pather.moveTo(orgX + 129, orgY - 92, 5, false);	// (<3 kolton)
+		}
+		
 		Pather.makePortal();
 	} else { // I am not a Sorc, enter the Sorc's Travincal portal.
 		Town.move("portalspot");
@@ -107,10 +109,14 @@ function travincal(mfRun) {
 		}
 	}
 
-	if (me.diff === 0) { // All characters don't teleport during the fight in normal.
+	if (me.diff === 0 || !mfRun) { // All characters don't teleport during the fight in normal. or it's for quest
 		Pather.teleport = false;
+	}		
+	try {
+		Pather.moveToExit(100, true, 0);
+	} catch (error){
+		print("Error in move clear to start trav battle: "+error);
 	}
-
 	Attack.clearList(this.buildList(0)); // Kill the High Council
 
 	Pickit.pickItems();
