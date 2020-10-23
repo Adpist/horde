@@ -44,7 +44,7 @@ var SkillsBuilds = {
 		[117, 20, false] //Max Holy shield
 	],
 	
-	"HammerConvition": [
+	"HammerConviction": [
 		[98, 1, false], //Might
 		[97, 1, false], //Smite
 		[99, 1, false], //Prayer
