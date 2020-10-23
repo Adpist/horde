@@ -145,7 +145,7 @@ function summoner(mfRun) {
 
 
 	if (i === 5) {
-		if(this.questGetter(13, 0)){
+		if(me.getQuest(13, 0)){
 			for (i = 0; i < 5; i += 1) {
 				Town.gotoTown();				
 				delay(1500);
