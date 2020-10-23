@@ -1,3 +1,7 @@
+![Horde](hordebannerlarge.png)
+![Horde](hordebanner.png)
+
+
 # This repo will remain for stable releases new development will continue at https://github.com/blizzhackers/
 
 * This repository will get periodic updates, security fixes, and accept critical pull requests only
