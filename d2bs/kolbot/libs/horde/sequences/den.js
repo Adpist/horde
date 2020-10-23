@@ -23,107 +23,99 @@ function den_requirements(mfRun) {
 function den(mfRun) {
 	var i, akara;
 	
-	if (!me.getQuest(1, 1)) { // Haven't cleared the Den yet.
-		Party.wholeTeamInGame();
-
-		if (me.diff === 0) { // All characters grab Cold Plains Waypoint in Normal. Only the Teleporting Sorc grabs it in Nightmare and Hell.
-			if (!getWaypoint(1))
-			{
-				Travel.safeMoveToExit(2, true, true);
-				Party.wholeTeamInGame();
-				Party.waitForMembers(me.area, 3);
-				Pather.moveToExit(3, true, true);
-				if (!getWaypoint(1))
-					Pather.getWP(3);
-			}
-			else
-			{
-				Pather.useWaypoint(3);
-			}
+	if (me.diff === 0) { // All characters grab Cold Plains Waypoint in Normal. Only the Teleporting Sorc grabs it in Nightmare and Hell.
+		if (!getWaypoint(1))
+		{
+			Travel.safeMoveToExit(2, true, true);
 			Party.wholeTeamInGame();
-			Party.waitForMembers();
-			Buff.Bo();
-			//Precast.doPrecast(true);
-			Pather.moveToExit(2, true, true);
-			Pather.moveToExit(8, true, true);
-			Party.waitForMembers();
-			Buff.Bo();
-			//Precast.doPrecast(true);
-			for (i = 0; i < 3; i += 1) {
-				print("clearing - try number " + i);
+			Party.waitForMembers(me.area, 3);
+			Pather.moveToExit(3, true, true);
+			if (!getWaypoint(1))
+				Pather.getWP(3);
+		}
+		else
+		{
+			Pather.useWaypoint(3);
+		}
+		Party.waitForMembers();
+		Pather.moveToExit(2, true, true);
+		Pather.moveToExit(8, true, true);
+		Party.waitForMembers();
+		Buff.Bo();
+		for (i = 0; i < 3; i += 1) {
+			Party.wholeTeamInGame();
 
-				Party.wholeTeamInGame();
+			Attack.clearLevel();
 
-				Attack.clearLevel();
+			sendPacket(1, 0x40); // Refresh quest status
 
-				sendPacket(1, 0x40); // Refresh quest status
+			delay(me.ping * 2 + 250);
 
-				delay(me.ping * 2 + 250);
-
-				if (me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
-					break;
-				}
+			if (me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
+				break;
 			}
-			while (!me.inTown) {
-				switch (me.area) {
-				case 8:
-					Pather.moveToExit(2, true, true);
+		}
+		
+		while (!me.inTown) {
+			switch (me.area) {
+			case 8:
+				Pather.moveToExit(2, true, true);
 
-					break;
-				case 2:
-					Pather.moveToExit(1, true, true);
-				}
-				Packet.flash(me.gid);
-				delay(me.ping * 2 + 250);
+				break;
+			case 2:
+				Pather.moveToExit(1, true, true);
 			}
-		} else { // diff > 0
-			if (Role.teleportingChar) {
-				if (!getWaypoint(1)) {
-					Travel.clearToExit(1, 2, false); // Move from Rogue Encampment to Blood Moor
-
-					Travel.clearToExit(2, 3, false); // Move from Blood Moor to Cold Plains
-
-					Waypoint.clickWP();
-
-					Pather.useWaypoint(1);
-				}
+			Packet.flash(me.gid);
+			delay(me.ping * 2 + 250);
+		}
+	} else { // diff > 0
+		if (Role.teleportingChar) {
+			if (!getWaypoint(1)) {
 				Travel.clearToExit(1, 2, false); // Move from Rogue Encampment to Blood Moor
 
-				Travel.clearToExit(2, 8, false);
+				Travel.clearToExit(2, 3, false); // Move from Blood Moor to Cold Plains
 
-				Pather.makePortal();
+				Waypoint.clickWP();
 
-				Pather.teleport = false; // not teleporting in Den
-
-				delay(3000);
-			} else {
-				Town.goToTown();
-				Town.move("portalspot");
-				while (!Pather.usePortal(8, null)) {
-					delay(250);
-				}
-				Buff.Bo();
+				Pather.useWaypoint(1);
 			}
-			for (i = 0; i < 3; i += 1) {
-				print("clearing - try number " + i);
+			Travel.clearToExit(1, 2, false); // Move from Rogue Encampment to Blood Moor
 
-				Party.wholeTeamInGame();
+			Travel.clearToExit(2, 8, false);
 
-				Attack.clearLevel();
+			Pather.makePortal();
 
-				sendPacket(1, 0x40); // Refresh quest status
+			Pather.teleport = false; // not teleporting in Den
 
-				delay(me.ping * 2 + 250);
-
-				if (me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
-					break;
-				}
-			}
-			if (Role.teleportingChar)
-				Pather.teleport = true;
+			delay(3000);
+		} else {
 			Town.goToTown();
+			Town.move("portalspot");
+			while (!Pather.usePortal(8, null)) {
+				delay(250);
+			}
+			Buff.Bo();
 		}
+		for (i = 0; i < 3; i += 1) {
+			print("clearing - try number " + i);
+
+			Party.wholeTeamInGame();
+
+			Attack.clearLevel();
+
+			sendPacket(1, 0x40); // Refresh quest status
+
+			delay(me.ping * 2 + 250);
+
+			if (me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
+				break;
+			}
+		}
+		if (Role.teleportingChar)
+			Pather.teleport = true;
+		Town.goToTown();
 	}
+	
 
 	if (me.inTown) {
 		if (!me.getQuest(1, 1)) {

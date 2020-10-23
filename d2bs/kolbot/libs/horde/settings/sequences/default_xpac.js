@@ -128,6 +128,8 @@ const Sequences = {
 	beforeQuests: {
 		0: { //Normal
 			//Act 1
+			"bloodmoor": 	{skipIf: "Party.hasReachedLevel(2)"}, //Levelling
+			"coldplains":	{skipIf: "Party.hasReachedLevel(4)"}, //Levelling
 			"cave": 		{skipIf: "Party.hasReachedLevel(6)"}, //Levelling
 			"trist": 		{skipIf: "Party.hasReachedLevel(11)"}, //Levelling
 			"countess": 	{skipIf: "Party.hasReachedLevel(13)"}, //Levelling
