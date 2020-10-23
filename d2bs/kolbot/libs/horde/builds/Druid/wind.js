@@ -12,5 +12,5 @@ var HordeBuild = {
 	autoBuildTemplate: "Wind",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/druid.wind.xpac.nip, "horde/merc.act2.meditation.xpac.nip"]
+	pickits: ["horde/druid.wind.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };
