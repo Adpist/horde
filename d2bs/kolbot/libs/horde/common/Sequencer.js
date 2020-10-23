@@ -29,6 +29,7 @@ var Sequencer = {
 	none: 0,
 	stop: -1,
 	fail: -2,
+	error: -3,
 	
 	/* Common */
 	setupSequences: function(sequencesProfile){
@@ -55,7 +56,7 @@ var Sequencer = {
 	postSequence: function(sequence, mfRun, sequenceResult) {
 		//Post completed sequence
 		if (sequenceResult === Sequencer.done){
-			if (this.mfRun) {
+			if (this.mfRun && (me.inTown || Role.canCreateTp())) {
 				Town.doChores();
 			}
 		}
@@ -69,15 +70,16 @@ var Sequencer = {
 			
 			case Sequencer.skip:
 			case Sequencer.stop:
+			case Sequencer.error://Error displayed in run sequence
 				break;
 				
 			case Sequencer.fail:
-				HordeDebug.logScriptError("Sequence " + sequence + " failed");
+				HordeDebug.logScriptError("Sequencer", "Sequence " + sequence + " failed");
 				break;
 			
 			case Sequencer.none:
 			default:
-				HordeDebug.logScriptError("Sequence " + sequence + " returned unhandled completion state : " + sequenceResult);
+				HordeDebug.logScriptError("Sequencer", "Sequence " + sequence + " returned unhandled completion state : " + sequenceResult);
 				break;
 		}
 	},
@@ -95,7 +97,7 @@ var Sequencer = {
 		
 		if (Role.isLeader) {
 			if (global[requirementFunction] === undefined) {
-				HordeDebug.logScriptError(sequenceInclude + " doesn't contains a function " + requirementFunction);
+				HordeDebug.logScriptError("Sequencer", sequenceInclude + " doesn't contains a function " + requirementFunction);
 				return this.stop;
 			}
 			
@@ -103,7 +105,8 @@ var Sequencer = {
 			try {
 				sequenceResult = global[sequence+"_requirements"](mfRun);
 			} catch(error) {
-				HordeDebug.logScriptError("Error while validating " + sequence+"_requirements" + " : " + error);
+				HordeDebug.logScriptError("Sequencer", "Error while validating " + sequence+"_requirements" + " : " + error);
+				sequenceResult = this.error;
 			}
 
 			//TODO : if skip, ask others if they need
@@ -122,7 +125,8 @@ var Sequencer = {
 			try {
 				sequenceResult = global[sequence](mfRun);
 			} catch(error) {
-				HordeDebug.logScriptError("Error while running sequence " + sequence + " : " + error);
+				HordeDebug.logScriptError("Sequencer", "Error while running sequence " + sequence + " : " + error);
+				sequenceResult = this.error;
 			}
 			this.postSequence(sequence, mfRun, sequenceResult);
 		}
@@ -189,7 +193,7 @@ var Sequencer = {
 				sequenceResult = Sequencer.checkAfterSequence(sequence, conditions, sequenceResult);
 			}
 			
-			return sequenceResult !== Sequencer.stop;
+			return sequenceResult >= Sequencer.skip;
 		});
 	},
 	

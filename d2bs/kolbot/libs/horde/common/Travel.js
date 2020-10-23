@@ -267,7 +267,7 @@ var Travel = {
 
 						Town.goToTown();
 
-						HordeDebug.logScriptError("Should travel to act4 by mephisto. please report");
+						HordeDebug.logScriptError("Travel", "Should travel to act4 by mephisto. please report");
 						//this.mephisto();
 
 						return true;

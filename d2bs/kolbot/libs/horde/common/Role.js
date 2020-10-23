@@ -35,12 +35,15 @@ var Role = {
 				}
 			}
 		}
-		
-		if (leaderProfile !== undefined) {
-			this.isLeader = leaderProfile === me.profile;
+		if (HordeSystem.teamSize > 1) {
+			if (leaderProfile !== undefined) {
+				this.isLeader = leaderProfile === me.profile;
+			} else {
+				this.isLeader = this.teleportingChar;
+			} 
 		} else {
-			this.isLeader = this.teleportingChar;
-		} 
+			this.isLeader = true;
+		}
 	},
 	
 	getLeaderUnit: function () {
@@ -73,6 +76,22 @@ var Role = {
 				}
 			}
 			return true;
+		}
+		return false;
+	},
+	
+	canCreateTp: function() {
+		return hasTpTome && hasTpScrolls();
+	},
+	
+	getTpTome: function() {
+		return me.findItem("tbk", 0, 3);
+	},
+	
+	hasTpScrolls: function() {
+		var tpTome = getTpTome();
+		if (tpTome) {
+			return tpTome.getStat(70);
 		}
 		return false;
 	},

@@ -50,7 +50,7 @@ function smith(mfRun) {
 			}
 			else if (i === 4)
 			{
-				HordeDebug.logScriptError("failed to go to smith");
+				HordeDebug.logScriptError("smith", "failed to go to smith");
 				return Sequencer.fail;
 			}
 		}
@@ -84,7 +84,7 @@ function smith(mfRun) {
 			}
 			else if (i === 4)
 			{
-				HordeDebug.logScriptError("failed to go to smith");
+				HordeDebug.logScriptError("smith", "failed to go to smith");
 				return Sequencer.fail;
 			}
 		}

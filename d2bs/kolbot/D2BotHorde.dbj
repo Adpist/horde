@@ -952,7 +952,8 @@ JoinLoop2:
 		D2Bot.updateStatus("Disconnected");
 		delay(500);
 		ControlAction.click(6, 351, 337, 96, 32);
-
+	case 15: // Solo char creation
+		HordeOOG.tryCreateCharacter(me.profile, true)
 		break;
 	case 16: // Character Select - Please Wait popup
 		if (!locationTimeout(StarterConfig.PleaseWaitTimeout * 1e3, location)) {
@@ -1648,7 +1649,9 @@ MainSwitch:
 		D2Bot.updateStatus("Disconnected");
 		delay(500);
 		ControlAction.click(6, 351, 337, 96, 32);
-
+		break;
+	case 15: // Solo char creation
+		HordeOOG.tryCreateCharacter(me.profile, true)
 		break;
 	case 16: // Character Select - Please Wait popup
 		if (!locationTimeout(StarterConfig.PleaseWaitTimeout * 1e3, location)) {

@@ -26,7 +26,11 @@ var HordeOOG = {
 		return false;
 	},
 	
-	tryCreateCharacter: function(profile) {
+	tryCreateCharacter: function(profile, soloChar) {
+		if (soloChar === undefined) {
+			soloChar = false;
+		}
+		
 		if (profile)
 		{
 			var charInfo = this.findCharacterInfo(profile);
@@ -37,11 +41,12 @@ var HordeOOG = {
 					return false;
 				}
 
-				if (!ControlAction.makeCharacter(charInfo)) {
+				if ((soloChar && !ControlAction.makeSoloCharacter(charInfo)) || (!soloChar && !ControlAction.makeCharacter(charInfo))) {
 					D2Bot.printToConsole("failed to create character", 9);
 					return false;
 				}
 				
+
 				return true;
 			}
 			else
