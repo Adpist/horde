@@ -1,4 +1,4 @@
-![Horde](hordebanner.png)
+![Horde](hordebannerlarge.png)
 
 
 # This repo will remain for stable releases new development will continue at https://github.com/blizzhackers/
