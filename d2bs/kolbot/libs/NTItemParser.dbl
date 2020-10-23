@@ -653,7 +653,8 @@ NTIP.ParseLineInt = function (input, info) {
 
 				break;
 			case "tier":
-				value = Number(p_section[i].split("==")[1].match(/\d+/g));
+				//value = Number(p_section[i].split("==")[1].match(/\d+/g));
+				value = p_section[i].split("==")[1];
 
 				if (!isNaN(value)) {
 					p_result[2].Tier = value;
