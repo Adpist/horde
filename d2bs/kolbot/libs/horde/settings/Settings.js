@@ -32,8 +32,18 @@ var HordeSettings = {
 	maxWaitTimeMinutes: 3, //Max time to wait in case smurf synchronization fails
 	
 	// -------- Extra quests -------------	
-	normalCountess: true, //for levelling a bit more
 	smithQuest: true,
+	
+	
+	// -------- Normal Difficulty Questing -------------
+	normalCountess: true, //for levelling a bit more
+	normTracincalFromWpOn: true, //Starts council fight from WP, big help in higher difficulty & teams
+		
+	// -------- Nightmare Difficulty Questing ----------
+	nmTracincalFromWpOn: true, //Starts council fight from WP, big help in higher difficulty & teams
+		
+	// ---------- Hell Difficulty Questing --------------
+	hellTracincalFromWpOn: true, //Starts council fight from WP, big help in higher difficulty & teams
 	
 	// -------- Difficulties MF -------------	
 	normalMf: true,
