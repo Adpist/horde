@@ -58,5 +58,33 @@ var SkillsBuilds = {
 		[80, 20, false], //Max Raise Skeletal Mage
 		[95, 20, false], //Max revive
 		[91, 20, false] //Lower resist
-	]		
+	],
+	
+	"CorpseResist": [
+		[66, 1, false], //Amplify Damage
+		[70, 2, false], //Raise Skeleton
+		[68, 1, false], //Bone Armor
+		[75, 1, false], //Clay Golem
+		[67, 1, false],	//Teeth
+		[74, 1, false], //corpse explo lvl 6
+		[74, 3, false], //corpse explo  -11
+		[79, 1, false], //Golem Mastery lvl 12
+		[74, 20, false], //corpse explo  -16
+		[69, 2, false], // skele mastery
+		[72, 1, false], //Weaken lvl 6	-22
+		[77, 1, false], //Terror lvl 12 -23
+		[87, 1, false], //Decrepify lvl 24
+		[89, 1, false],	//Summon Resist lvl 24
+		[70, 6, false], //Raise Skeleton
+		[76, 1, false], //Iron Maiden lvl 12	-28
+		[86, 1, false], //Attract lvl 12	-29
+		[91, 1, false], //Lower Resist lvl 30
+		[91, 20, false], //Lower Resist -50
+		[70, 20, false], //Raise Skeleton
+		[69, 20, false], // skele mastery
+		[80, 1, false], // skele mage
+		[95, 1, false], // revive
+		[80, 20, false], // skele mage
+		[95, 20, false] // revive
+	]
 };
