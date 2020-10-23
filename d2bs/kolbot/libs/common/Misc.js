@@ -647,7 +647,7 @@ var Item = {
 		}
 
 		// Sell/ignore low tier items, keep high tier
-		if (tier > 0 && tier < 100) {
+		if (tier > 0 && tier < 1000) {
 			return false;
 		}
 
@@ -716,7 +716,7 @@ var Item = {
 						print(items[0].name);
 
 						if (this.equip(items[0], bodyLoc[j])) {
-							Misc.logItem("Equipped", me.getItem(-1, -1, gid));
+							Misc.logItem("Equipped", me.getItem(-1, -1, gid),"Tier: "+tier);
 						}
 
 						break;
@@ -2917,7 +2917,7 @@ Item.autoEquipMerc = function () {
 					equippedItem = me.getItem(-1, -1, gid);
 					
                     if (this.equipMerc(items[0], bodyLoc[j])) {
-                        Misc.logItem("Merc Equipped", equippedItem);
+                        Misc.logItem("Merc Equipped", equippedItem,"Merc Tier: "+tier);
                     }
 
                     break;
