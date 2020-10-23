@@ -1,4 +1,5 @@
-/** Hammerdin Paladin Build with convict*/
+/** Druid Oak Sage / Fire skills
+ */
 js_strict(true);
 
 if (!isIncluded("common/Cubing.js")) {
@@ -17,19 +18,18 @@ var AutoBuildTemplate = {
         //SkillPoints: [-1],										// This doesn't matter. We don't have skill points to spend at lvl 1
         //StatPoints: [-1,-1,-1,-1,-1],								// This doesn't matter. We don't have stat points to spend at lvl 1
         Update: function() {
+            Config.Dodge = false;
             Config.TownCheck = false; // Don't go to town for more potions
             Config.StashGold = 200; // Minimum amount of gold to stash.
-
-            Config.AttackSkill = [-1, 0, 0, 0, 0, -1, -1];
-            Config.LowManaSkill = [0, 0];
-            Config.LowManaSkill = [0, 0]; // Hit stuff when out of Mana.
+            Config.AttackSkill = [-1, 0, -1, 0, -1, -1, -1];
+            Config.LowManaSkill = [0, -1];
             Config.ScanShrines = [15, 13, 12, 14, 7, 6, 3, 2, 1];
             Config.BeltColumn = ["hp", "hp", "hp", "hp"]; // Keep tons of health potions!
             Config.MinColumn = [0, 0, 0, 0];
-            Config.OpenChests = true; // Might as well open em.
+            //	Config.OpenChests = false;								// Might as well open em.
             Config.Cubing = false; // Don't cube yet!
             Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
-            Config.MPBuffer = 0; // Number of healing potions to keep in inventory.
+            Config.MPBuffer = 4; // Number of healing potions to keep in inventory.
 			Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
 			Config.UseMerc = true; // Use merc. This is ignored and always false in d2classic.
 			Config.MercWatch = false; // Instant merc revive during battle.
@@ -42,9 +42,10 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
+            Config.AttackSkill = [-1, 225, 0, 225, 0, 0, -1]; //fire storm
+            Config.LowManaSkill = [0, -1];
 
-            Config.AttackSkill = [-1, 0, 98, 0, 98, -1, -1]; // Use Might
-            Config.LowManaSkill = [0, 98]; // Use Might while hitting stuff.
+            Config.BeltColumn = ["hp", "hp", "mp", "mp"];
         }
     },
 
@@ -77,8 +78,7 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
-            Config.AttackSkill = [-1, 0, 104, 0, 104, 101, 104]; // Holy Bolt and Defiance for Secondary Skill/Aura.
-            Config.LowManaSkill = [0, 104]; // Use Defiance Aim while hitting stuff.
+            Config.SummonSpirit = "Oak Sage"; // 0 = disabled, 1 / "Oak Sage", 2 / "Heart of Wolverine", 3 / "Spirit of Barbs"
         }
     },
 
@@ -110,9 +110,6 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
-            Config.StashGold = 1000; // Minimum amount of gold to stash.
-            Config.BeltColumn = ["hp", "hp", "mp", "rv"]; // Start keeping rejuvs
-            Config.MinColumn = [1, 1, 1, 1];
             Config.LowGold = 5000;
         }
     },
@@ -128,14 +125,18 @@ var AutoBuildTemplate = {
     12: {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {}
+        Update: function() {
+            Config.AttackSkill = [-1, 234, 225, 234, 225, 0, -1]; //fissure firestorm
+            Config.HPBuffer = 6; // Number of healing potions to keep in inventory.
+            Config.MPBuffer = 8; // Number of healing potions to keep in inventory.
+        }
     },
 
     13: {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
-            Config.HPBuffer = 6; // Number of healing potions to keep in inventory.
+
         }
     },
 
@@ -151,6 +152,7 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
+            //	Config.CastStatic = 20; 								// Cast static until the target is at designated life percent. 100 = disabled.
             //	Config.OpenChests = false;								// Eyes on the prize!
         }
     },
@@ -175,13 +177,7 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
-            Config.AttackSkill = [-1, 112, 104, 112, 104, 101, 104]; // Blessed Hammer and defiance!
-            Config.LowManaSkill = [0, 104]; // Use defiance while hitting stuff.
-            Config.TownCheck = true; // Do go to town for more potions
-            Config.MinColumn = [3, 3, 3, 3]; // Should have a decent belt by now
-            Config.BeltColumn = ["hp", "mp", "mp", "rv"]; // Start keeping rejuvs
-            Config.Charge = false; // Don't waste mana on charging while walking
-            Config.MPBuffer = 8; // Need lots of mana for Blessed Hammer!
+
         }
     },
 
@@ -229,8 +225,6 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
-            Config.AttackSkill = [-1, 112, 120, 112, 120, 101, 120]; // Holy Bolt and Meditation for Secondary Skill/Aura.
-            Config.LowManaSkill = [0, 120]; // Use Meditation while hitting stuff.
             Config.Cubing = true; // Will have a cube by now.
         }
     },
@@ -279,8 +273,10 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
-            Config.AttackSkill = [-1, 112, 123, 112, 123, 97, 120]; // Holy Bolt and Meditation for Secondary Skill/Aura.
             Config.LowGold = 20000;
+            Config.LowManaSkill = [-1, -1];
+            Config.AttackSkill = [-1, 234, 225, 234, 225, 240, -1]; //fissure firestorm
+
         }
     },
 
@@ -321,7 +317,6 @@ var AutoBuildTemplate = {
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
             Config.LowGold = 30000;
-            Config.LowManaSkill = [-1, -1]; // Stop trying to hit stuff.
         }
     },
 
@@ -338,8 +333,6 @@ var AutoBuildTemplate = {
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
             Config.Dodge = true;
-            Config.DodgeRange = 10; // Distance to keep from monsters.
-            Config.DodgeHP = 80; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
         }
     },
 
@@ -443,12 +436,6 @@ var AutoBuildTemplate = {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
-            Config.StashGold = 100000; // Minimum amount of gold to stash.
-            Config.Charge = true; // Should have enough mana to charge while walking now.
-            Config.MPBuffer = 4; // Nightmare has stronger potions.
-            Config.HPBuffer = 0; // Nightmare has stronger potions.
-            //Config.BeltColumn = ["hp", "hp", "mp", "rv"];			// Regular potion settings
-            Config.MinColumn = [3, 3, 3, 0]; // Regular potion settings
             Config.LowGold = 45000;
         }
     },
@@ -490,6 +477,7 @@ var AutoBuildTemplate = {
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
             Config.LowGold = 50000;
+            Config.AttackSkill = [244, 234, 225, 234, 225, 240, -1]; //fissure firestorm volcano
         }
     },
 
