@@ -21,10 +21,13 @@ var Waypoint = {
 		this.waypointsToReceive = [];
 	},
 	
-	clickWP: function () { // Move to nearest wp and click it.
+	clickWP: function (clearPath) { // Move to nearest wp and click it.
 		var i, j, wp, presetUnit,
 		wpIDs = [119, 145, 156, 157, 237, 238, 288, 323, 324, 398, 402, 429, 494, 496, 511, 539];
 
+		if (clearPath === undefined ) {
+			clearPath = false;
+		}
 		for (i = 0 ; i < wpIDs.length ; i += 1) {
 			presetUnit = getPresetUnit(me.area, 2, wpIDs[i]);
 
@@ -33,7 +36,7 @@ var Waypoint = {
 
 				while (getDistance(me.x, me.y, presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y) > 10) {
 					try {
-						Pather.moveToPreset(me.area, 2, wpIDs[i], 0, 0, false, false);
+						Pather.moveToPreset(me.area, 2, wpIDs[i], 0, 0, false, clearPath);
 					} catch (e) {
 						print("Caught Error.");
 
@@ -65,7 +68,7 @@ var Waypoint = {
 
 						delay(me.ping * 2 + 500);
 
-						Pather.moveToUnit(presetUnit, 0, 0, Config.ClearType, false);
+						Pather.moveToUnit(presetUnit, 0, 0, Config.ClearType, clearPath);
 					}
 				}
 			}

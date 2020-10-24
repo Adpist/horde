@@ -140,11 +140,11 @@ var Travel = {
 	},
 	
 	travel: function (goal) { // 0->9, a custom waypoint getter function
-		var i, homeTown, nextAreaIndex, oldClearType, target, destination, unit,
+		var i, homeTown, startAct, nextAreaIndex, target, destination, unit, clearPath, walkTravel,
 			wpAreas = [],
 			areaIDs = [];
-		
-		oldClearType = Config.ClearType;
+			
+		walkTravel = false;
 
 		switch (goal) { // Don't teleport until after Lost City (Act 2) if in normal difficulty
 		case 0:
@@ -153,6 +153,7 @@ var Travel = {
 		case 3:
 			if (me.diff===0) {
 				Pather.teleport = false;
+				walkTravel = true;
 			} else {
 				Pather.teleport = true;
 			}
@@ -168,72 +169,81 @@ var Travel = {
 			wpAreas = [1, 3, 4, 5];
 			areaIDs = [2, 3, 4, 10, 5];
 			homeTown = 1;
+			startAct = 1;
 			break;
 		case 1:
 			destination = 35; // Catacombs Level 2
 			wpAreas = [1, 3, 4, 5, 6, 27, 29, 32, 35];
 			areaIDs = [2, 3, 4, 10, 5, 6, 7, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
 			homeTown = 1;
+			startAct = 1;
 			break;
 		case 2:
 			destination = 57; // Halls Of The Dead Level 2
 			wpAreas = [42, 57]; // Dry Hills, Halls Of The Dead Level 2
 			areaIDs = [41, 42, 56, 57]; // Rocky Waste, Dry Hills, Halls Of The Dead Level 1, Halls Of The Dead Level 2
 			homeTown = 40;
+			startAct = 2;
 			break;
 		case 3:
 			destination = 44; // Lost City
 			wpAreas = [42, 43, 44]; // Dry Hills, Far Oasis, Lost City
 			areaIDs = [42, 43, 44]; // Dry Hills, Far Oasis, Lost City
 			homeTown = 40;
+			startAct = 2;
 			break;
 		case 4:
 			destination = 74; // Arcane Sanctuary
 			wpAreas = [52, 74];
 			areaIDs = [50, 51, 52, 53, 54, 74];
 			homeTown = 40;
+			startAct = 2;
 			break;
 		case 5: // Canyon Of The Magi
 			destination = 46;
 			wpAreas = [52, 74, 46];
 			areaIDs = [50, 51, 52, 53, 54, 74, 46];
 			homeTown = 40;
+			startAct = 2;
 			break;
 		case 6:
 			destination = 83; // Travincal
 			wpAreas = [75, 76, 77, 78, 79, 80, 81, 83];
 			areaIDs = [76, 77, 78, 79, 80, 81, 82, 83];
 			homeTown = 75;
+			startAct = 3;
 			break;
 		case 7:
 			destination = 101; // Durance Of Hate Level 2
 			wpAreas = [75, 76, 77, 78, 79, 80, 81, 83, 101];
 			areaIDs = [76, 77, 78, 79, 80, 81, 82, 83, 100, 101];
 			homeTown = 75;
+			startAct = 3;
 			break;
 		case 8:
 			destination = 107; // River Of Flame
 			wpAreas = [103, 106, 107];
 			areaIDs = [104, 105, 106, 107];
 			homeTown = 103;
+			startAct = 4;
 			break;
 		case 9:
 			destination = 118; // Ancient's Way
 			wpAreas = [109, 111, 112, 113, 115, 117, 118];
 			areaIDs = [110, 111, 112, 113, 115, 117, 118];
 			homeTown = 109;
+			startAct = 5;
 			break;
 		case 10:
 			destination = 129; // The Worldstone Keep Level 2
 			wpAreas = [109, 111, 112, 113, 115, 117, 118, 129];
 			areaIDs = [110, 111, 112, 113, 115, 117, 118, 120, 128, 129];
 			homeTown = 109;
+			startAct = 5;
 			break;
 		}
 
-		//print("Traveling to " + getArea(destination).name);
-
-		Town.goToTown();
+		Town.goToTown(startAct);
 
 		Town.move("waypoint");
 
@@ -251,17 +261,19 @@ var Travel = {
 
 			for (nextAreaIndex ; nextAreaIndex < areaIDs.length; nextAreaIndex += 1) {
 				print("nextAreaIndex = " + nextAreaIndex);
-				print("Next location name = " + getArea(areaIDs[nextAreaIndex]).name);
+				print("Next location name = " + Pather.getAreaName(areaIDs[nextAreaIndex]));
 
 				if (Pather.teleport === true && me.charlvl >= 18) { // If allowed to teleport (determined by the switch above), skip killing monsters.
-					Config.ClearType = false;
+					clearPath = false;
+				} else {
+					clearPath = true;
 				}
 
 				switch (areaIDs[nextAreaIndex]) { // Special actions for traveling to some areas
 				case 100: // Durance of Hate Level 1
 				case 101: // Durance of Hate Level 2
 					try{
-						Pather.moveToExit(areaIDs[nextAreaIndex], true, Config.ClearType);
+						Pather.moveToExit(areaIDs[nextAreaIndex], true, clearPath);
 					} catch(e) {
 						print(e);
 
@@ -281,7 +293,7 @@ var Travel = {
 				case 128: // The Worldstone Keep Level 1
 				case 129: // The Worldstone Keep Level 2
 					try{
-						Pather.moveToExit(areaIDs[nextAreaIndex], true, Config.ClearType);
+						Pather.moveToExit(areaIDs[nextAreaIndex], true, clearPath);
 					} catch(e) {
 						print(e);
 
@@ -299,15 +311,15 @@ var Travel = {
 
 						this.clickWP();
 
-						Pather.moveToExit([128, 120, 118], true, Config.ClearType);
+						Pather.moveToExit([128, 120, 118], true, clearPath);
 
 						this.clickWP();
 
-						Pather.moveToExit(117, true, Config.ClearType);
+						Pather.moveToExit(117, true, clearPath);
 
 						this.clickWP();
 
-						Pather.moveToExit(115, true, Config.ClearType);
+						Pather.moveToExit(115, true, clearPath);
 
 						this.clickWP();
 
@@ -332,7 +344,7 @@ var Travel = {
 						Pather.useWaypoint(52);
 					}
 
-					Travel.clearToExit(52, 53, Config.ClearType);
+					Travel.clearToExit(52, 53, clearPath);
 
 					break;
 				case 74: // Arcane Sanctuary
@@ -375,7 +387,7 @@ var Travel = {
 						}
 					}
 
-					Pather.moveToExit(areaIDs[nextAreaIndex], true, Config.ClearType);
+					Pather.moveToExit(areaIDs[nextAreaIndex], true, clearPath);
 
 					break;
 				default:
@@ -385,11 +397,11 @@ var Travel = {
 						}
 					}
 
-					Travel.clearToExit(me.area, areaIDs[nextAreaIndex], Config.ClearType);
+					Travel.clearToExit(me.area, areaIDs[nextAreaIndex], clearPath);
 				}
 
 				if (wpAreas.indexOf(areaIDs[nextAreaIndex]) > -1) { // Check if the next area (which we are now in) has a waypoint. If it does, grab it, go to town, wait for party, run chores, take waypoint, and wait for the party.
-					Waypoint.clickWP();
+					Waypoint.clickWP(walkTravel);
 
 					if (me.diff === 0 && (goal === 0 || goal === 1 || goal === 2 || goal === 3) && areaIDs[nextAreaIndex] != destination) { // Don't wait for team if the destination has been reached. (all desinations have a waypoint)
 						print("start this.travel() waypoint wait");
@@ -420,8 +432,6 @@ var Travel = {
 			Pather.useWaypoint(homeTown); // Finishes in town. (all desinations have a waypoint)
 
 			//Pather.teleport = false;
-
-			Config.ClearType = oldClearType;
 		}
 
 		return true;

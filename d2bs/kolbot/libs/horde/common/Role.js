@@ -80,8 +80,20 @@ var Role = {
 		return false;
 	},
 	
+	makeTeamJoinPortal: function() {
+		if (HordeSystem.teamSize > 1) {
+			Pather.makePortal();
+		}
+	},
+	
+	makeTeamTownPortal: function() {
+		if (HordeSystem.teamSize > 1) {
+			Pather.makePortal();
+		}
+	},
+	
 	canCreateTp: function() {
-		return hasTpTome && hasTpScrolls();
+		return this.hasTpScrolls();
 	},
 	
 	getTpTome: function() {
@@ -89,15 +101,27 @@ var Role = {
 	},
 	
 	hasTpScrolls: function() {
-		var tpTome = getTpTome();
+		var tpTome = this.getTpTome();
 		if (tpTome) {
 			return tpTome.getStat(70);
 		}
 		return false;
 	},
 	
+	getGold: function() {
+		return me.getStat(14) + me.getStat(15);
+	},
+	
+	isLowGold: function() {
+		return this.getGold()*2 < Config.LowGold;
+	},
+	
+	isVeryLowGold: function() {
+		return this.getGold()*4 <  Config.LowGold;
+	},
+	
 	mercCheck: function() {
-		if (Party.lowestAct >= 2)
+		if (Party.lowestAct >= 2 || me.act >= 2)
 		{
 			if (me.diff === 0)
 			{
@@ -115,7 +139,7 @@ var Role = {
 					}
 				}
 			}
-			else if (me.diff === 1)
+			else if (me.diff === 1 && HordeSystem.build.mercAct2Nightmare !== undefined && HordeSystem.build.mercAct2Nightmare !== "")
 			{
 				MercTools.hireMerc(2, HordeSystem.build.mercAct2Nightmare, false, 2);
 				

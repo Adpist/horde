@@ -6,6 +6,22 @@
 */
 
 var Sequencer = {
+	//sequence timeline constants
+	before: 1,
+	quest: 2,
+	after: 3,
+	
+	//Sequence / requirements constants
+	done: 3, 
+	ok: 2,
+	skip: 1,
+	stop: -1,
+	fail: -2,
+	error: -3,
+	
+	//common constants
+	none: 0,
+	
 	questSequences: {},
 	beforeSequences: {},
 	afterSequences: {},
@@ -16,20 +32,13 @@ var Sequencer = {
 	firstSequence: false,
 	
 	//Common
-	mfRun: false,
+	currentSequence: this.none,
+	runTimeline: this.none,
 	
 	//Follower data
+	nextTimeline: this.none,
 	nextSequence: "",
 	endGame: false,
-	
-	//Sequence / requirements return values
-	done: 3, 
-	ok: 2,
-	skip: 1,
-	none: 0,
-	stop: -1,
-	fail: -2,
-	error: -3,
 	
 	/* Common */
 	setupSequences: function(sequencesProfile){
@@ -45,18 +54,20 @@ var Sequencer = {
 		this.afterSequences = Sequences.afterQuests;
 	},
 	
-	preSequence: function(sequence, mfRun) {
+	preSequence: function(sequence, timeline) {
 		if (!this.firstSequence){
-			if (this.mfRun) {
+			if (timeline != this.quest) {
 				Farm.mfSync();
 			}
+			
+			Role.mercCheck();
 		}
 	},
 	
-	postSequence: function(sequence, mfRun, sequenceResult) {
+	postSequence: function(sequence, timeline, sequenceResult) {
 		//Post completed sequence
 		if (sequenceResult === Sequencer.done){
-			if (this.mfRun && (me.inTown || Role.canCreateTp())) {
+			if (this.runTimeline != this.quest && (me.inTown || Role.canCreateTp())) {
 				Town.doChores();
 			}
 		}
@@ -84,11 +95,22 @@ var Sequencer = {
 		}
 	},
 	
-	runSequence: function(sequence, mfRun) {		
+	getTimelineName: function(timeline) {
+		var sequenceTimeline;
+		if (timeline == this.before) { sequenceTimeline = "before mf";}
+		else if (timeline == this.quest) { sequenceTimeline = "questing";}
+		else if (timeline == this.after) { sequenceTimeline = "after mf";}
+		else {sequenceTimeline = "Unknown:" + timeline;}
+		return sequenceTimeline;
+	},
+	
+	runSequence: function(sequence, timeline) {		
 		var sequenceResult = Role.isLeader ? this.none : this.ok,
 			sequenceInclude = "horde/sequences/"+sequence+".js",
 			requirementFunction = sequence+"_requirements";
 			
+		this.currentSequence = sequence;
+		
 		if (!isIncluded(sequenceInclude)){
 			if (!include(sequenceInclude)){
 				throw new Error("Couldn't find sequence " + sequence);
@@ -103,7 +125,7 @@ var Sequencer = {
 			
 			//Check requirements
 			try {
-				sequenceResult = global[sequence+"_requirements"](mfRun);
+				sequenceResult = global[requirementFunction](timeline != this.quest);
 			} catch(error) {
 				HordeDebug.logScriptError("Sequencer", "Error while validating " + sequence+"_requirements" + " : " + error);
 				sequenceResult = this.error;
@@ -113,22 +135,23 @@ var Sequencer = {
 		}
 		
 		//If we can do the sequence
-		if (sequenceResult === this.ok) {
-			print("" + (Role.isLeader ? "[Leader]" : "[Follower]") + sequence + (mfRun ? " mf" : " questing"));
+		if (sequenceResult === this.ok) {			
+			print("" + (Role.isLeader ? "[Leader]" : "[Follower]") + this.getTimelineName(timeline) + " " + sequence);
 		
 			if (Role.isLeader) {
-				Communication.sendToList(HordeSystem.allTeamProfiles, "run " + sequence + (mfRun ? " mf" : ""));
+				Communication.sendToList(HordeSystem.allTeamProfiles, "run " + sequence + " " + this.runTimeline);
 			}
+			scriptBroadcast("run " + sequence + " " + this.runTimeline);
 			
 			//run sequence
-			this.preSequence(sequence, mfRun);
+			this.preSequence(sequence, timeline);
 			try {
-				sequenceResult = global[sequence](mfRun);
+				sequenceResult = global[sequence](timeline != this.quest);
 			} catch(error) {
 				HordeDebug.logScriptError("Sequencer", "Error while running sequence " + sequence + " : " + error);
 				sequenceResult = this.error;
 			}
-			this.postSequence(sequence, mfRun, sequenceResult);
+			this.postSequence(sequence, timeline, sequenceResult);
 		}
 		
 		return sequenceResult;
@@ -174,10 +197,10 @@ var Sequencer = {
 		return result;
 	},
 	
-	runSequences: function(sequences, mfRun) {
+	runSequences: function(sequences, timeline) {
 		var sequencesList = Object.keys(sequences);
 		this.currentSequences = sequences;
-		this.mfRun = mfRun;
+		this.runTimeline = timeline;
 		
 		sequencesList.every(function(sequence) {
 			var sequenceResult, 
@@ -186,7 +209,10 @@ var Sequencer = {
 			sequenceResult = Sequencer.checkBeforeSequence(sequence, conditions);			
 			
 			if (sequenceResult === Sequencer.ok) {
-				sequenceResult = Sequencer.runSequence(sequence, Sequencer.mfRun);
+				sequenceResult = Sequencer.runSequence(sequence, timeline);
+				if (sequenceResult === false || sequenceResult === true) {
+					HordeDebug.logScriptError("Sequencer", sequence + " : Use Sequencer.done to complete a sequence or other return values if needed (see Sequencer.js)");
+				}
 			}
 			
 			if (sequenceResult !== Sequencer.stop) {
@@ -198,9 +224,9 @@ var Sequencer = {
 	},
 	
 	runLeader: function() {
-		this.runSequences(this.beforeSequences[me.diff], true);
-		this.runSequences(this.questSequences[me.diff], false);
-		this.runSequences(this.afterSequences[me.diff], true);
+		this.runSequences(this.beforeSequences[me.diff], this.before);
+		this.runSequences(this.questSequences[me.diff], this.quest);
+		this.runSequences(this.afterSequences[me.diff], this.after);
 		
 		Communication.sendToList(HordeSystem.allTeamProfiles, "end");
 	},
@@ -211,15 +237,16 @@ var Sequencer = {
 			if (this.nextSequence !== "") {
 				var sequenceToRun = this.nextSequence, sequenceResult = this.none;
 				this.nextSequence = "";//Be ready to receive next before starting
-				
-				sequenceResult = this.runSequence(sequenceToRun, this.mfRun);
+				this.runTimeline = this.nextTimeline;
+				this.nextTimeline = this.none;
+				sequenceResult = this.runSequence(sequenceToRun, this.runTimeline);
 			}
 		}
 	},
 	
-	receiveSequenceRequest: function(sequence, mfRun) {
+	receiveSequenceRequest: function(sequence, timeline) {
 		this.nextSequence = sequence;
-		this.mfRun = mfRun;
+		this.nextTimeline = timeline;
 	},
 	
 	onReceiveEnd: function() {
@@ -237,5 +264,23 @@ var Sequencer = {
 		} else {
 			this.runFollower();
 		}
+	},
+	
+	shouldSkipCurrentSequence: function() {
+		var currentSequences, conditions;
+		if (this.runTimeline == this.before) {currentSequences = this.beforeSequences;}
+		else if (this.runTimeline == this.quest) {currentSequences = this.questSequences;}
+		else if (this.runTimeline == this.after) {currentSequences = this.afterSequences;}
+		
+		conditions = currentSequences[me.diff][this.currentSequence];
+		if (conditions !== undefined && conditions.skipIf !== undefined) {
+			if (eval(conditions.skipIf)) {
+				return true;
+			}
+		} else {
+			HordeDebug.logScriptError("Sequence", "undefined sequence in shouldSkipCurrentSequence");
+		}
+		
+		return false;
 	}
 };

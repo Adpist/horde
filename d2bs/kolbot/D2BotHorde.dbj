@@ -69,6 +69,7 @@ include("horde/includes.js");
 var i, j, gameInfo, joinInfo, gameStart, ingame, gold, handle,useChat = false,
 	firstLogin, chatActionsDone, lastGameTick, connectFail, pingQuit, minGameTime,
 	gameCount = DataFile.getStats().runs + 1,
+	sequence, timeline,
 	loginRetry = 0,
 	lastGameStatus = "ready",
 	isUp = "no",
@@ -133,6 +134,17 @@ function updateCount () {
 }
 
 function ScriptMsgEvent (msg) {
+	if (msg.indexOf("run ") !== -1) {
+		var	args = msg.split(' ');
+		if (args.length >= 2) {
+			sequence = args[1];
+			timeline = args[2];
+		} else {
+			HordeDebug.logScriptError("Sequencer", "Invalid run command: " + msg);
+		}
+		return;
+	}
+	
 	switch (msg) {
 	case "mule":
 		AutoMule.check = true;
@@ -284,7 +296,7 @@ function main () {
 				}
 
 				gold = me.getStat(14) + me.getStat(15);
-				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]);
+				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]+ " | " + Sequencer.getTimelineName(timeline) + " " + sequence);
 			}
 
 			delay(1000);

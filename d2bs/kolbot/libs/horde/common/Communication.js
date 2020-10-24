@@ -48,12 +48,12 @@ var Communication = {
 		if (id == 55) {
 			//sequencer command
 			if (msg.indexOf("run ") !== -1) {
-				var sequence, mfRun, 
+				var sequence, timeline, 
 					args = msg.split(' ');
 				if (args.length >= 2) {
 					sequence = args[1];
-					mfRun = args[2] !== undefined && args[2] === "mf";
-					Sequencer.receiveSequenceRequest(sequence, mfRun);
+					timeline = args[2];
+					Sequencer.receiveSequenceRequest(sequence, timeline);
 				} else {
 					HordeDebug.logScriptError("Sequencer", "Invalid run command: " + msg);
 				}
