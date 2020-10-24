@@ -7,23 +7,30 @@
 
 function cave_requirements(mfRun) {
 	/***** REQUIREMENTS ******/
-	if (!mfRun) {
-		HordeDebug.logUserError("cave",  "not supported as questing run");
-		return Sequencer.skip;//Skip : not a questing sequence
-	}
-	
+
 	if (!me.getQuest(1,0)) {
 		return Sequencer.skip;//Den is not done
 	}
 	/***** END OF REQUIREMENTS ******/
-	
+
 	return Sequencer.ok;//We can process sequence
 }
 
-function cave(mfRun) {	
+function cave(mfRun) {
 	Town.repair();
 	Town.doChores();
-	Pather.useWaypoint(3);
+
+	if (!getWaypoint(1)) {
+		Travel.safeMoveToExit(2, true, true);
+		Party.wholeTeamInGame();
+		Party.waitForMembers(me.area, 3);
+		Pather.moveToExit(3, true, true);
+		if (!getWaypoint(1)){
+			Pather.getWP(3);
+		}
+	} else {
+		Pather.useWaypoint(3);
+	}
 
 	Party.waitForMembers(me.area, 9);
 
@@ -38,8 +45,20 @@ function cave(mfRun) {
 	Party.waitForMembers();
 
 	Attack.clearLevel(Config.ClearType);
-	
-	Town.goToTown();
 
+	try {
+		if(!Pather.usePortal(null, null)){
+			Town.goToTown();
+		}
+	} catch (error){
+		//no tomes
+		if (!me.inTown) {
+			if(!Pather.usePortal(null, null)){
+				Travel.clearToExit(13, 9, Config.ClearType);
+				Travel.clearToExit(9, 3, Config.ClearType);
+				Pather.useWaypoint(3);
+			}
+		}
+	}
 	return Sequencer.done;
 }
