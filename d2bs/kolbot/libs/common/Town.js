@@ -2163,11 +2163,21 @@ MainLoop:
 
 		if (!me.inTown) {
 			if (!Pather.makePortal()) {
-				throw new Error("Town.goToTown: Failed to make TP");
+				var i;
+				for (i = 0; i < 8; i += 1) {
+					delay(1000);
+					if(Pather.usePortal(null, null)){
+						break;
+					}
+				}
+				if(i>7){
+					throw new Error("Town.goToTown: Failed to make TP");
+				}
 			}
-
-			if (!Pather.usePortal(null, me.name)) {
-				throw new Error("Town.goToTown: Failed to take TP");
+			if (!me.inTown) {
+				if (!Pather.usePortal(null, me.name)) {
+					throw new Error("Town.goToTown: Failed to take TP");
+				}
 			}
 		}
 
