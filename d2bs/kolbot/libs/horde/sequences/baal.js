@@ -293,7 +293,7 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 	Pather.moveTo(15094, me.classid === 3 ? 5029 : 5038, 5, Config.ClearType);
 	Precast.doPrecast(true);
 
-	if (me.classid === 1) {
+	if (me.classid === 1 && me.diff === 0) {
 		Pather.teleport = false;
 	}
 BaalLoop:
