@@ -7,7 +7,10 @@
 
 function pits_requirements(mfRun) {
 	/***** REQUIREMENTS ******/
-
+	if (!mfRun)	{
+		HordeDebug.logUserError("pits", "pits isn't a questing run");
+		return Sequencer.skip;//Skip sequence, not a questing run
+	}
 
 	/***** END OF REQUIREMENTS ******/
 
@@ -15,13 +18,6 @@ function pits_requirements(mfRun) {
 }
 
 function pits(mfRun) { // SiC-666 TODO: Rewrite this.
-
-	if (!mfRun)
-	{
-		Town.goToTown();
-		Party.wholeTeamInGame();
-		return true;
-	}
 
 	if (Role.teleportingChar) {
 		Town.goToTown();
