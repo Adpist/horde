@@ -86,6 +86,9 @@ function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
 		delay(1000);
 		Town.goToTown();
 	}
+	
+	Town.goToTown(5);
+	delay(1000+me.ping);
 	Town.move("qual-kehk");
 	delay(1000+me.ping);
 	qual = getUnit(1, "qual-kehk");
