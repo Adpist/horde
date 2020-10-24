@@ -18,10 +18,12 @@ var SkillsBuilds = {
 		[37, 1, false], //Warmth
 		[42, 1, false], //Static
 		[54, 1, false], //Teleport
+		[45, 8, false], //Level ice blast to keep 2 points at level 18 for tp & glacial spike
+		[55, 1, true], //learn Glacial Spike
 		[55, 3, false], //level Glacial Spike
 		[59, 7, false], //Level blizzard
 		[65, 1, false], //Cold mastery
-		[59, 10, false], //Max Blizzard
+		[59, 10, false], //Level Blizzard
 		[65, 7, false], // Cold Mastery
 		[59, 20, false], //Max Blizzard
 		[55, 10, false], //level Glacial Spike
