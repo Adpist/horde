@@ -213,6 +213,8 @@ function duriel(mfRun) {
 
 		Party.wholeTeamInGame();
 
+		Pather.teleport = true;
+			
 		Attack.clear(35);
 
 		try {
