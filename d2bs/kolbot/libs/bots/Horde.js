@@ -29,6 +29,11 @@ function Horde() {
 		Quest.initCurrentAct();
 		HordeStorage.removeUnwearableItems();
 		Pickit.pickItems();
+
+		//Un-clog WP
+		if (3 === me.act || 4 === me.act) {
+			Town.move("portalspot");
+		}
 		
 		//Wait synchro
 		Party.waitTeamReady();
