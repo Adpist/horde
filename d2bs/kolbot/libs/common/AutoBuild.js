@@ -35,7 +35,9 @@ var AutoBuild = new function AutoBuild () {
 		if (debug) { this.print("Updating Config from level "+configUpdateLevel+" to "+me.charlvl)}
 		while (configUpdateLevel < me.charlvl) {
 			configUpdateLevel += 1;
-			AutoBuildTemplate[configUpdateLevel].Update.apply(Config); // TODO: Make sure this works
+			if (AutoBuildTemplate[configUpdateLevel] !== undefined) {
+				AutoBuildTemplate[configUpdateLevel].Update.apply(Config); // TODO: Make sure this works
+			}
 		}
 	};
 
