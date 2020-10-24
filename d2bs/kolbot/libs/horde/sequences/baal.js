@@ -413,7 +413,8 @@ BaalLoop:
 	}
 	Pather.moveTo(15134, 5923);
 	var baalded = false;
-	while(!baalded){
+	var baalloop = getTickCount() + 3*60*1000;
+	while(!baalded && getTickCount() < baalloop){
 		try{
 			if (Attack.kill(544)) {
 				baalded = true;
