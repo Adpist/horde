@@ -22,6 +22,9 @@ function duriel_requirements(mfRun) {
 	if (!mfRun && me.getQuest(14, 0)){
 		return Sequencer.skip;
 	}
+	if (mfRun &&!me.getQuest(15, 0)) {
+			return Sequencer.skip;//must do duriel quiest before mf style
+	}
 	/***** END OF REQUIREMENTS ******/
 	
 	return Sequencer.ok;//We can process sequence
