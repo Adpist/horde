@@ -529,8 +529,10 @@ var Item = {
 
 		if (item) {
 			do {
-				if (item.bodylocation === bodyLoc) {
+				if (item.bodylocation === bodyLoc && item.location === 1) {
 					return {
+						bodylocation: item.bodylocation,
+						name: item.name,
 						classid: item.classid,
 						tier: NTIP.GetTier(item)
 					};
@@ -540,6 +542,8 @@ var Item = {
 
 		// Don't have anything equipped in there
 		return {
+			bodylocation: -1,
+			name: -1,
 			classid: -1,
 			tier: -1
 		};
@@ -698,7 +702,8 @@ var Item = {
 
 			if (tier > 0 && bodyLoc) {
 				for (j = 0; j < bodyLoc.length; j += 1) {
-					if ([3, 7].indexOf(items[0].location) > -1 && tier > this.getEquippedItem(bodyLoc[j]).tier && this.getEquippedItem(bodyLoc[j]).classid !== 174) { // khalim's will adjustment
+					var equippedItem = this.getEquippedItem(bodyLoc[j]);
+					if ([3, 7].indexOf(items[0].location) > -1 && tier > equippedItem.tier && equippedItem.classid !== 174) { // khalim's will adjustment
 						if (!items[0].getFlag(0x10)) { // unid
 							tome = me.findItem(519, 0, 3);
 
@@ -713,7 +718,7 @@ var Item = {
 
 						gid = items[0].gid;
 
-						print(items[0].name);
+						print("Equip [" + bodyLoc[j] + "] : " + items[0].name + " - tier " + tier + " | Remove " + equippedItem.name + " - tier " + equippedItem.tier);
 
 						if (this.equip(items[0], bodyLoc[j])) {
 							Misc.logItem("Equipped", me.getItem(-1, -1, gid),"Tier: "+tier);
@@ -2771,11 +2776,11 @@ Item.getEquippedItemMerc = function (bodyLoc) {
     if (item) {
         do {
             if (item.bodylocation === bodyLoc && item.location === 1) {
-                //print("Current Merc item tier: " + NTIP.GetMercTier(item) + " (" + item.name + ")");
                 return {
+					bodylocation: item.bodylocation,
+					name: item.name,
                     classid: item.classid,
                     tier: NTIP.GetMercTier(item),
-                    name: item.name,
                     str: item.getStatEx(0),
                     dex: item.getStatEx(2)
                 };
@@ -2898,7 +2903,7 @@ Item.autoEquipMerc = function () {
 
         if (tier > 0 && bodyLoc) {
             for (j = 0; j < bodyLoc.length; j += 1) {
-                if ([3, 7].indexOf(items[0].location) > -1 && tier > this.getEquippedItemMerc(bodyLoc[j]).tier) { // khalim's will adjustment
+                if ([3, 7].indexOf(items[0].location) > -1 && tier > this.getEquippedItemMerc(bodyLoc[j]).tier) {
                     if (!items[0].getFlag(0x10)) { // unid
                         tome = me.findItem(519, 0, 3);
                         scroll = me.findItem(530, 0, 3);
@@ -2915,6 +2920,8 @@ Item.autoEquipMerc = function () {
                     gid = items[0].gid;
                     classid = items[0].classid;
 					equippedItem = me.getItem(-1, -1, gid);
+					
+					print("Merc equip [" + bodyLoc[j] + "] : " + items[0].name + " - tier " + tier + " | Remove " + equippedItem.name + " - tier " + equippedItem.tier);
 					
                     if (this.equipMerc(items[0], bodyLoc[j])) {
                         Misc.logItem("Merc Equipped", equippedItem,"Merc Tier: "+tier);
