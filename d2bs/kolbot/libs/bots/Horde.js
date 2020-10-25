@@ -9,12 +9,13 @@ if (!isIncluded("horde/includes.js")) { include("horde/includes.js"); };
 includeHorde();
 
 function Horde() {
-	var useSequencer = false;
+	var useSequencer = true;
 	
 	this.start = function () {
 		var i;
 
 		print("starting");
+		scriptBroadcast("run prerun");
 		
 		Party.init();
 		Waypoint.init();

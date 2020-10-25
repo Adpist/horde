@@ -61,7 +61,7 @@ var Communication = {
 			} else {
 				switch (msg) {
 				//sequencer command
-				case "end":
+				case "HordeGameEnd":
 					Sequencer.onReceiveEnd();
 					break;
 				

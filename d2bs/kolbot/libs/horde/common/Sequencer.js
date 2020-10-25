@@ -55,6 +55,7 @@ var Sequencer = {
 	},
 	
 	preSequence: function(sequence, timeline) {
+		scriptBroadcast("run pre-" + sequence + " " + timeline);
 		if (!this.firstSequence){
 			if (timeline != this.quest) {
 				Farm.mfSync();
@@ -65,6 +66,8 @@ var Sequencer = {
 	},
 	
 	postSequence: function(sequence, timeline, sequenceResult) {
+		scriptBroadcast("run post-" + sequence + " " + timeline);
+		
 		//Post completed sequence
 		if (sequenceResult === Sequencer.done){
 			if (this.runTimeline != this.quest && (me.inTown || Role.canCreateTp())) {
@@ -141,16 +144,18 @@ var Sequencer = {
 			if (Role.isLeader) {
 				Communication.sendToList(HordeSystem.allTeamProfiles, "run " + sequence + " " + this.runTimeline);
 			}
-			scriptBroadcast("run " + sequence + " " + this.runTimeline);
 			
 			//run sequence
 			this.preSequence(sequence, timeline);
+			
+			scriptBroadcast("run " + sequence + " " + this.runTimeline);
 			try {
 				sequenceResult = global[sequence](timeline != this.quest);
 			} catch(error) {
 				HordeDebug.logScriptError("Sequencer", "Error while running sequence " + sequence + " : " + error);
 				sequenceResult = this.error;
 			}
+			
 			this.postSequence(sequence, timeline, sequenceResult);
 		}
 		
@@ -228,7 +233,8 @@ var Sequencer = {
 		this.runSequences(this.questSequences[me.diff], this.quest);
 		this.runSequences(this.afterSequences[me.diff], this.after);
 		
-		Communication.sendToList(HordeSystem.allTeamProfiles, "end");
+		Communication.sendToList(HordeSystem.allTeamProfiles, "HordeGameEnd");
+		scriptBroadcast("HordeGameEnd");
 	},
 	
 	/* Follower */
@@ -250,6 +256,7 @@ var Sequencer = {
 	},
 	
 	onReceiveEnd: function() {
+		scriptBroadcast("HordeGameEnd");
 		this.endGame = true;
 	},
 	

@@ -64,6 +64,7 @@ include("common/misc.js");
 include("common/pather.js");
 include("common/util.js");
 include("common/config.js");
+include("common/Prototypes.js");
 include("horde/includes.js");
 
 var i, j, gameInfo, joinInfo, gameStart, ingame, gold, handle,useChat = false,
@@ -136,9 +137,12 @@ function updateCount () {
 function ScriptMsgEvent (msg) {
 	if (msg.indexOf("run ") !== -1) {
 		var	args = msg.split(' ');
-		if (args.length >= 2) {
+		if (args.length >= 3) {
 			sequence = args[1];
 			timeline = args[2];
+		} else if (args.length >= 2){
+			sequence = args[1];
+			timeline = undefined;
 		} else {
 			HordeDebug.logScriptError("Sequencer", "Invalid run command: " + msg);
 		}
@@ -146,6 +150,10 @@ function ScriptMsgEvent (msg) {
 	}
 	
 	switch (msg) {
+	case "HordeGameEnd":
+		sequence = undefined;
+		timeline = undefined;
+		break;
 	case "mule":
 		AutoMule.check = true;
 
@@ -238,6 +246,7 @@ function timer (tick) {
 }
 
 function main () {
+	
 	debugLog(me.profile);
 	addEventListener('copydata', ReceiveCopyData);
 	addEventListener('scriptmsg', ScriptMsgEvent);
@@ -246,14 +255,15 @@ function main () {
 		delay(100);
 	}
 	includeHorde();
-
+	
 	DataFile.updateStats("handle", handle);
 	D2Bot.init();
 	HordeSystem.init();
 	Config.init(false, true);
 	minGameTime = Config.MinGameTime;
 	load("tools/heartbeat.js");
-
+	load("libs/horde/tools/overlaythread.js");
+	
 	while (!gameInfo) {
 		D2Bot.requestGameInfo();
 		delay(500);
@@ -279,7 +289,10 @@ function main () {
 
 	//D2Bot.store(JSON.stringify({currScript: "none", area: "out of game"}));
 	DataFile.updateStats("debugInfo", JSON.stringify({currScript: "none", area: "out of game"}));
-
+	var wasInGame = false;
+	
+	Playtime.track(false);
+	
 	while (true) {
 		while (me.ingame) { // returns true before actually in game so we can't only use this check
 			if (me.gameReady) { // returns false when switching acts so we can't use while
@@ -294,14 +307,35 @@ function main () {
 
 					DataFile.updateStats("runs", gameCount);
 				}
+				
+				Playtime.recordPlaytime();
+
+				if (!wasInGame) {
+					Playtime.track(true);
+					wasInGame = true;
+				}
 
 				gold = me.getStat(14) + me.getStat(15);
-				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]+ " | " + Sequencer.getTimelineName(timeline) + " " + sequence);
+				
+				var sequenceStr;
+				if (sequence === undefined && timeline === undefined) {
+					sequenceStr = "none";
+				} else if (timeline === undefined) {
+					sequenceStr = sequence;
+				} else {
+					sequenceStr = Sequencer.getTimelineName(timeline) + " " + sequence;
+				}
+				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]+ " | " + sequenceStr + " | Playtime : " + Playtime.getInGameTime());
 			}
-
+			
 			delay(1000);
 		}
 
+		if (wasInGame) {
+			Playtime.recordPlaytime();
+			Playtime.track(false);
+			wasInGame = false;
+		}
 		delay(2000);
 		leaderElection();
 		delay(1000);
@@ -313,6 +347,8 @@ function main () {
 			locationActionLead(getLocation());
 		}
 		delay(1000);
+		
+		Playtime.recordPlaytime();
 	}
 }
 
@@ -741,8 +777,10 @@ JoinLoop2:
 					if (typeof AdvancedConfig[me.profile] === "object" && typeof AdvancedConfig[me.profile].JoinDelay === "number") {
 						ControlAction.timeoutDelay("Custom Join Delay", AdvancedConfig[me.profile].JoinDelay * 1e3);
 					} else {
-						var hordeJoinDelay = HordeSystem.followerProfiles.indexOf(me.profile)+1;
-						ControlAction.timeoutDelay("Custom Join Delay", rand(hordeJoinDelay*2*1e3, hordeJoinDelay*3*1e3));
+						var offset = HordeSystem.followerProfiles.indexOf(me.profile) + 2;
+						var hordeJoinDelay = offset * 2000 + rand(500, 2000); 
+						HordeDebug.logScriptInfo("CustomJoinDelay", me.profile + " custom delay : " + hordeJoinDelay);
+						ControlAction.timeoutDelay("Custom Join Delay", hordeJoinDelay);
 					}
 
 					me.blockMouse = true;
