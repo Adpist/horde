@@ -47,7 +47,17 @@ function main() {
 			delay(1000);
 		}
 	}
+	if (!!DataFile.getStats().QueueLength) {
+		var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
+		var qProfile = QueueInfo.LeadProfile;
 
+		if (me.profile == qProfile){
+			var qStart = new Date(QueueInfo.QueueStart);
+			var qEnd = new Date();
+			var qWait = parseInt((qEnd - qStart) / 1000);
+			DataFile.updateStats("QueueLength", JSON.stringify({LeadProfile: me.profile, QueueStart: "", QueueWait: qWait}));
+			}
+	}
 	// don't load default for mules
 	if (getScript("D2BotMule.dbj")) {
 		return true;
