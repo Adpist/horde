@@ -115,7 +115,7 @@ function travincal(mfRun) {
 		Pather.teleport = false;
 	}		
 	try {
-		Pather.moveToExit(100, true, 0);
+		Pather.moveToExit(100, false, 0);
 	} catch (error){
 		print("Error in move clear to start trav battle: "+error);
 	}
