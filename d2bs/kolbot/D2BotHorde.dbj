@@ -1266,15 +1266,14 @@ MainSwitch:
 			if (!gameStart) {
 				gameStart = DataFile.getStats().ingameTick;
 			}
-			
+			var ReducedTime = minGameTime;
 			if (!!DataFile.getStats().QueueLength) {
 				var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
 				var qProfile = QueueInfo.LeadProfile;
 				if (me.profile == qProfile){
 					var qWait = QueueInfo.QueueWait;
-					var ReducedTime;
 					if (minGameTime > qWait){ReducedTime = minGameTime - qWait}else{ReducedTime = 0}
-					D2Bot.printToConsole("Queue Identified: " + qWait + "s. minGameTime Reduced From:" + minGameTime + " To:" + ReducedTime);
+					D2Bot.printToConsole("Prior Game Create: " + qWait + "s. minGameTime Reduced From:" + minGameTime + " To:" + ReducedTime);
 				}
 			}
 			
@@ -1337,15 +1336,14 @@ MainSwitch:
 			if (!gameStart) {
 				gameStart = DataFile.getStats().ingameTick;
 			}
-			
+			var ReducedTime = minGameTime;
 			if (!!DataFile.getStats().QueueLength) {
 				var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
 				var qProfile = QueueInfo.LeadProfile;
 				if (me.profile == qProfile){
 					var qWait = QueueInfo.QueueWait;
-					var ReducedTime;
 					if (minGameTime > qWait){ReducedTime = minGameTime - qWait}else{ReducedTime = 0}
-					D2Bot.printToConsole("Queue Identified: " + qWait + "s. minGameTime Reduced From:" + minGameTime + " To:" + ReducedTime);
+					D2Bot.printToConsole("Prior Game Create: " + qWait + "s. minGameTime Reduced From:" + minGameTime + " To:" + ReducedTime);
 				}
 			}
 			if (getTickCount() - gameStart < ReducedTime * 1e3) {
