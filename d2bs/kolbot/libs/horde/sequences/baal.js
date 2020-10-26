@@ -11,13 +11,13 @@ function baal_requirements(mfRun) {
 		HordeDebug.logUserError("baal",  "not supported as classic run");
 		return Sequencer.stop;//Stop : classic
 	}
-	
+
 	if (!me.getQuest(28, 0)) {
 		if (!mfRun)
 			HordeDebug.logUserError("baal",  "diablo is not dead");
 		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : diablo isn't done
 	}
-	
+
 	if (mfRun && !me.getQuest(40, 0)) {
 		return Sequencer.skip;//Skip : Mf and quest isn't completed
 	}
@@ -26,16 +26,16 @@ function baal_requirements(mfRun) {
 		return Sequencer.skip;//skip, quest is done
 	}
 	/***** END OF REQUIREMENTS ******/
-	
+
 	return Sequencer.ok;//We can process sequence
 }
 
 function baal(mfRun) { // SiC-666 TODO: Rewrite this.
-	
+
 	if (Role.teleportingChar && !getWaypoint(38)) {
 		Pather.getWP(129, false);
 	}
-	
+
 //(<3 YGM)
 	Party.wholeTeamInGame();
 	var portal, tick, baalfail, questTry, time, l, merc,
@@ -282,7 +282,10 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 		}
 		Pather.moveTo(15095, 5029, 5, Config.ClearType);
 	}
-
+	var ogFindItem = Config.FindItem;
+	if (me.classid === 4) {
+		Config.FindItem = true;
+	}
 	Pather.teleport = true;
 	Attack.clear(15);
 	this.clearThrone();
@@ -290,6 +293,9 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 	Pather.moveTo(15094, me.classid === 3 ? 5029 : 5038, 5, Config.ClearType);
 	Precast.doPrecast(true);
 
+	if (me.classid === 1 && me.diff === 0) {
+		Pather.teleport = false;
+	}
 BaalLoop:
 	while (true) {
 	//	if (getDistance(me, 15094, me.classid === 3 ? 5029 : 5038) > 3) {
@@ -357,6 +363,12 @@ BaalLoop:
 		delay(10);
 	}
 
+	if (me.classid === 1) {
+		Pather.teleport = true;
+	}
+	if (me.classid === 4) {
+		Config.FindItem = ogFindItem;
+	}
 	sendPacket(1, 0x40);
 	delay(me.ping*2);
 
@@ -400,12 +412,19 @@ BaalLoop:
 		delay(1000);
 	}
 	Pather.moveTo(15134, 5923);
-	try{
-		Attack.kill(544); // Baal
-	}catch(e) {
-		delay(10000);
-		print(e);
+	var baalded = false;
+	var baalloop = getTickCount() + 3*60*1000;
+	while(!baalded && getTickCount() < baalloop){
+		try{
+			if (Attack.kill(544)) {
+				baalded = true;
+			}
+		}catch(e) {
+			delay(10000);
+			print(e);
+		}
 	}
+	delay(me.ping*2);
 	Pickit.pickItems();
 	delay(2000);
 	if (!quest) {
