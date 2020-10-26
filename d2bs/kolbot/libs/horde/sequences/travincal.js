@@ -15,7 +15,7 @@ function travincal_requirements(mfRun) {
 	}
 	
 	if (!mfRun){
-		if (me.getQuest(21, 0)) {
+		if (me.getQuest(21, 0) && (me.getQuest(18, 0) ||me.getQuest(23,0))) {
 			return Sequencer.skip; //quest done
 		}
 
@@ -90,6 +90,8 @@ function travincal(mfRun) {
 		//Make starting next to council configurable for questing
 		if(mfRun || (me.diff === 0 && !HordeSettings.normTracincalFromWpOn) ||(me.diff === 1 && !HordeSettings.nmTracincalFromWpOn) ||(me.diff === 2 && !HordeSettings.hellTracincalFromWpOn)){
 			Pather.moveTo(orgX + 129, orgY - 92, 5, false);	// (<3 kolton)
+		} else {
+			Pather.moveTo(orgX+17, orgY-5, 5, false); // just outside wp room
 		}
 		
 		Pather.makePortal();
