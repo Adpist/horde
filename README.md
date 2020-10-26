@@ -1,4 +1,3 @@
-![Horde](hordebannerlarge.png)
 ![Horde](hordebanner.png)
 
 
