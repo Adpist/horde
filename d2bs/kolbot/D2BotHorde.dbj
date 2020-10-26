@@ -72,6 +72,7 @@ var i, j, gameInfo, joinInfo, gameStart, ingame, gold, handle,useChat = false,
 	gameCount = DataFile.getStats().runs + 1,
 	sequence, timeline,
 	loginRetry = 0,
+	queuecount = 0,
 	lastGameStatus = "ready",
 	isUp = "no",
 	electedLeader="", isLeader = false, levelTeamAvrg = false,
@@ -1265,9 +1266,20 @@ MainSwitch:
 			if (!gameStart) {
 				gameStart = DataFile.getStats().ingameTick;
 			}
-
-			if (getTickCount() - gameStart < minGameTime * 1e3) {
-				ControlAction.timeoutDelay("Min game time wait", minGameTime * 1e3 + gameStart - getTickCount());
+			var ReducedTime = minGameTime;
+			if (!!DataFile.getStats().QueueLength) {
+				var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
+				var qProfile = QueueInfo.LeadProfile;
+				if (me.profile == qProfile){
+					var qWait = QueueInfo.QueueWait;
+					if (minGameTime > qWait){ReducedTime = minGameTime - qWait}else{ReducedTime = 0}
+					D2Bot.printToConsole("Prior Game Create: " + qWait + "s. minGameTime Reduced From:" + minGameTime + " To:" + ReducedTime);
+				}
+			}
+			
+			
+			if (getTickCount() - gameStart < ReducedTime * 1e3) {
+				ControlAction.timeoutDelay("Min game time wait", ReducedTime * 1e3 + gameStart - getTickCount());
 			}
 		}
 
@@ -1324,9 +1336,18 @@ MainSwitch:
 			if (!gameStart) {
 				gameStart = DataFile.getStats().ingameTick;
 			}
-
-			if (getTickCount() - gameStart < minGameTime * 1e3) {
-				ControlAction.timeoutDelay("Min game time wait", minGameTime * 1e3 + gameStart - getTickCount());
+			var ReducedTime = minGameTime;
+			if (!!DataFile.getStats().QueueLength) {
+				var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
+				var qProfile = QueueInfo.LeadProfile;
+				if (me.profile == qProfile){
+					var qWait = QueueInfo.QueueWait;
+					if (minGameTime > qWait){ReducedTime = minGameTime - qWait}else{ReducedTime = 0}
+					D2Bot.printToConsole("Prior Game Create: " + qWait + "s. minGameTime Reduced From:" + minGameTime + " To:" + ReducedTime);
+				}
+			}
+			if (getTickCount() - gameStart < ReducedTime * 1e3) {
+				ControlAction.timeoutDelay("Min game time wait", ReducedTime * 1e3 + gameStart - getTickCount());
 			}
 		}
 
@@ -1491,6 +1512,12 @@ MainSwitch:
 		// Change difficulty by level
 
 		ControlAction.createGame((gameInfo.gameName === "?" ? randomString(null,true) : gameInfo.gameName + gameCount), (gameInfo.gamePass === "?" ? randomString(null,true) : gameInfo.gamePass), difff, StarterConfig.CreateGameDelay * 1000);
+
+		if (queuecount == 0){
+			queuecount = queuecount + 1;
+			var starttime = new Date();
+			DataFile.updateStats("QueueLength", JSON.stringify({LeadProfile: me.profile, QueueStart: starttime}));
+		}
 
 		lastGameStatus = "pending";
 
