@@ -126,14 +126,38 @@ function summoner(mfRun) {
 
 			me.cancel();
 		}
-
+		if(i>1){
+			if(i===2){
+				sendPacket(1, 0x40); // Refresh quest status
+				delay(1000);
+			}
+			if(me.getQuest(13, 0)){
+				i=5;
+				break;
+			}
+		}
 		if (Pather.getPortal(46)) {
 			break;
 		}
 	}
 
+
 	if (i === 5) {
-		throw new Error("summoner failed");
+		if(me.getQuest(13, 0)){
+			for (i = 0; i < 5; i += 1) {
+				Town.gotoTown();				
+				delay(1500);
+				Town.move("portalspot");				
+				delay(1500);
+				if(Pather.getPortal(46)){
+					break;
+				}
+				delay(1500);
+			}
+		}
+		if (i === 5) {
+			throw new Error("summoner failed");
+		}
 	}
 
 	Pather.usePortal(46);
