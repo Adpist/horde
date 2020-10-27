@@ -31,6 +31,8 @@ function brain(mfRun) {
 
 	if (Role.teleportingChar) {
 		Travel.travel(6); // Travel to all waypoints up to and including Travincal if I don't have them.
+	} else {
+		return Sequencer.done;
 	}
 	
 	if (!me.inTown) {
