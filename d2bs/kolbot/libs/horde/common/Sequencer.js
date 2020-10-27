@@ -75,6 +75,10 @@ var Sequencer = {
 			}
 		}
 		
+		if (HordeSettings.logChar) {
+			MuleLogger.logChar();
+		}
+		
 		switch (sequenceResult)
 		{
 			case Sequencer.done:

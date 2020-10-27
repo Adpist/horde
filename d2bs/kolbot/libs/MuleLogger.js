@@ -40,6 +40,15 @@ var MuleLogger = {
 
 		desc = unit.description.split("\n");
 
+		if (!!unit.description)
+		{
+			desc = unit.description.split("\n");
+		}
+		else
+		{
+			return "unknown";
+		}
+		
 		// Lines are normally in reverse. Add color tags if needed and reverse order.
 		for (i = 0; i < desc.length; i += 1) {
 			if (desc[i].indexOf(getLocaleString(3331)) > -1) { // Remove sell value
@@ -336,6 +345,22 @@ var MuleLogger = {
 		}
 
 		function itemSort(a, b) {
+			if (b.mode !== a.mode) {
+				return b.mode > a.mode ? 1 : 0;
+			}
+			
+			if (b.itemType === a.itemType)
+			{
+				var titleA = a.fname.split("\n").reverse().join(" ").replace(/(y|ÿ)c[0-9!"+<:;.*]|\/|\\/g, "").trim(),
+					titleB = b.fname.split("\n").reverse().join(" ").replace(/(y|ÿ)c[0-9!"+<:;.*]|\/|\\/g, "").trim();
+					
+				if (titleA < titleB)
+				{
+					return -1;
+				}
+				
+				return titleA > titleB ? 1 : 0;
+			}
 			return b.itemType - a.itemType;
 		}
 

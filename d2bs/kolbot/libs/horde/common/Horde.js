@@ -250,6 +250,13 @@ var HordeSystem = {
 			Config.QuitList = [];
 		}
 		
+		if (HordeSettings.logChar) {
+			MuleLogger.LogNames = true; // Put account/character name on the picture
+			MuleLogger.LogItemLevel = true; // Add item level to the picture
+			MuleLogger.LogEquipped = true; // include equipped items
+			MuleLogger.LogMerc = true; // include items merc has equipped (if alive)
+		}
+		
 		if (!oog) {
 			this.setupBuild(this.team.profiles[me.profile].build);
 			this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);

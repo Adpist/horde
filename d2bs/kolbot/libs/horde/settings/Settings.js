@@ -6,7 +6,8 @@
 */
 
 var HordeSettings = {
-
+	logChar: true,
+	
 	/****************************************************/
 	/* Everything below those lines will be deleted.    */
 	/* please use sequences & teams						*/

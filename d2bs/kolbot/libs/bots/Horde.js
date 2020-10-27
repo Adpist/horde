@@ -31,6 +31,10 @@ function Horde() {
 		HordeStorage.removeUnwearableItems();
 		Pickit.pickItems();
 
+		if (HordeSettings.logChar) {
+			MuleLogger.logChar();
+		}
+		
 		//Un-clog WP
 		if (3 === me.act || 4 === me.act) {
 			Town.move("portalspot");
