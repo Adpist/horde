@@ -57,7 +57,7 @@ function trist(mfRun) {
 	Precast.doPrecast(true);
 	Buff.Bo();
 	for (coord = 0; coord < xx.length; coord += 1) {
-		Pather.moveTo(xx[coord], yy[coord], 3, Config.ClearType);
+		Pather.moveTo(xx[coord], yy[coord], 3, true);
 
 		Attack.clear(20);
 	}
