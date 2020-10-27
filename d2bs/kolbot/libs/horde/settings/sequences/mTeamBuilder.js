@@ -12,6 +12,7 @@ const Sequences = {
 		0: { //Normal
 			//Act 1
 			"den": 			{},
+			"cave": 		{skipIf: "Party.hasReachedLevel(8)"},
 			"cain": 		{},
 			"countess": 	{},
 			"andy": 		{},
@@ -70,6 +71,7 @@ const Sequences = {
 			"diablo": 		{},
 
 			//Act 5
+			"barbrescue": 	{skipIf: "!Party.hasReachedLevel(65)"},
 			"anya": 		{},
 			"ancients": 	{},
 			"baal": 		{},
@@ -87,7 +89,7 @@ const Sequences = {
 			"amulet": 		{},
 			"summoner": 	{},
 			"staff": 		{},
-			"radament": 	{},
+			"radament": 	{skipIf: "!Party.hasReachedLevel(80)"},
 			"duriel": 		{},
 
 			//Act 3
@@ -98,7 +100,7 @@ const Sequences = {
 			"mephisto": 	{},
 
 			//Act 4
-			"izual": 		{},
+			"izual": 		{skipIf: "!Party.hasReachedLevel(80)"},
 			"diablo": 		{},
 
 			//Act 5
@@ -112,7 +114,6 @@ const Sequences = {
 	beforeQuests: {
 		0: { //Normal
 			//Act 1
-			//"cave": 		{skipIf: "Party.hasReachedLevel(6)"}, //Levelling
 			"trist": 		{skipIf: "Party.hasReachedLevel(11)"}, //Levelling
 			"andy": 		{skipIf: "Party.hasReachedLevel(16)"}, //Levelling
 
@@ -122,7 +123,7 @@ const Sequences = {
 
 			//Act 3
 			//TODO Leveling if<24
-			"travincal": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
+			"travincal": 	{skipIf: "Party.hasReachedLevel(22)"}, //Levelling
 			"mephisto": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 
 			//Act 4
@@ -133,7 +134,6 @@ const Sequences = {
 
 		1: { //Nightmare
 			//Act 1
-			"countess": 	{}, //MF
 			"andy": 		{}, //MF
 
 			//Act 2
@@ -148,11 +148,11 @@ const Sequences = {
 
 		2: { //Hell
 			//Act 1
-			"pits": 	{}, //MF TODO stop when past trav
+			//"pits": 	{}, //MF TODO stop when past trav / start?
 			"andy": 		{}, //MF
 
 			//Act 2
-			"duriel": 		{}, //MF TODO stop when past trav
+			"duriel": 		{}, //MF TODO stop when past trav?
 
 			//Act 3
 			"mephisto": 	{} //MF
@@ -170,15 +170,17 @@ const Sequences = {
 			//Act 1
 
 			//Act 2
-			"tombs": 		{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
-			"duriel": 		{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
+			"tombs": 		{skipIf: "Party.hasReachedLevel(23)"}, //Levelling
+			"duriel": 		{skipIf: "Party.hasReachedLevel(23)"}, //Levelling
 
 			//Act 3
 
 			//Act 4
-			"diablo": 		{skipIf:"Party.hasReachedLevel(35)"} //Levelling
 
 			//Act 5
+			"baal": 		{},
+			"diablo": 		{skipIf:"Party.hasReachedLevel(35)"}//,//Levelling
+			//"worldstone": 		{skipIf:"!Party.hasReachedLevel(35)"} //Levelling
 		},
 
 		1: { //Nightmare
@@ -189,9 +191,12 @@ const Sequences = {
 			//Act 3
 
 			//Act 4
-			"diablo": 		{skipIf:"Party.hasReachedLevel(60)"} //Levelling
 
 			//Act 5
+			"baal": 		{},//,//Levelling
+			"diablo": 		{skipIf:"Party.hasReachedLevel(64)"}, //Levelling
+			"countess": 	{} //MF
+			//"worldstone": 		{skipIf:"!Party.hasReachedLevel(60)"} //Levelling
 			// TODO worldstone sequence for exp/items
 		},
 
@@ -203,9 +208,12 @@ const Sequences = {
 			//Act 3
 
 			//Act 4
-			"diablo": 		{} //Levelling
 
 			//Act 5
+			"baal": 		{},//,//Levelling
+			"diablo": 		{}, //Levelling
+			"countess": 	{} //MF skip if baal Q beat
+			//"worldstone": 		{} //Levelling
 			// TODO worldstone sequence for exp/items
 		}
 	}
