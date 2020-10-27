@@ -50,7 +50,7 @@ function tombs(mfRun) {
 			Pather.useWaypoint(46);
 		}
 
-		Pather.makePortal();
+		Role.makeTeamJoinPortal();
 	} else {
 		if (!getWaypoint(17)) { // Canyon Of The Magi
 			var cain;
@@ -101,7 +101,7 @@ function tombs(mfRun) {
 			while (me.area === 46) {
 				Pather.moveToExit(i, false, Config.ClearType); // Move to tomb, don't go in.
 
-				Pather.makePortal(); // Make a portal outside of the tomb.
+				Role.makeTeamJoinPortal(); // Make a portal outside of the tomb.
 
 				Pather.moveToExit(i, true, Config.ClearType); // Go in the tomb.
 			}
@@ -140,6 +140,8 @@ function tombs(mfRun) {
 				chest = getUnit(2, "chest");
 
 				Misc.openChest(chest);
+				
+				delay(me.ping * 2 + 250);
 
 				Pickit.pickItems();
 
@@ -163,26 +165,13 @@ function tombs(mfRun) {
 			}
 		}
 		
-		if (Party.hasReachedLevel(HordeSettings.tombsLvl)) {
+		if (Sequencer.shouldSkipCurrentSequence()) {
 			break;
 		}
 	}
 
 	if (!Pather.usePortal(null, null)) { // Need to finish in town.
 		Town.goToTown();
-	}
-	
-	
-	if (!Party.hasReachedLevel(HordeSettings.tombsLvl)) {
-		Farm.areasLevelling(HordeSettings.tombsLvlAreas);
-	}
-
-	if (!Party.hasReachedLevel(HordeSettings.tombsLvl)) {
-		print("Not ready to start Duriel.");
-
-		delay(1000);
-
-		quit();
 	}
 	
 	Communication.Questing.tombs = false;
