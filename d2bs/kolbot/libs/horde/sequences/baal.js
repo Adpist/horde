@@ -370,9 +370,9 @@ BaalLoop:
 		Config.FindItem = ogFindItem;
 	}
 	sendPacket(1, 0x40);
-	delay(me.ping*2);
+	delay(me.ping*2 + 250);
 
-	if (!Party.hasReachedLevel(HordeSettings.baalLvl) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.baalLvlnm)) || (me.diff === 2 && !Party.hasReachedLevel(HordeSettings.mfLvlhell))) { // If the team hasn't met the level requirement in Normal or Nightmare, don't kill baal.
+	if(!HordeSystem.shouldKillBaal()) {
 		print("don't kill baal");
 		return Sequencer.done;
 	}

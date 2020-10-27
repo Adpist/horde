@@ -83,6 +83,84 @@ var HordeSystem = {
 		});
 	},
 	
+	trimBaseName: function(name) {
+		var splitted = name.split(' '), result = "";
+		for (var i = 0 ; i < splitted.length ; i += 1) {
+			result += splitted[i].toLowerCase();
+		}
+		return result;
+	},
+	
+	setupRunewordLocation: function(locationName, runewordLocation, merc) {
+		var runewords = Object.keys(runewordLocation), runeword, pickitLine;
+		
+		for(var i = 0 ; i < runewords.length ; i += 1) {
+			runeword = runewordLocation[runewords[i]];
+			if (runeword.skipIf === undefined || runeword.skipIf === "" || !eval(runeword.skipIf)) {
+				print("setup runeword " + runewords[i] + " in " + locationName);
+				
+				Config.KeepRunewords.push("[type] == " + locationName + " # " + runeword.statCondition);
+				
+				for (var j = 0 ; j < runeword.bases.length ; j += 1) {
+					var lowerCaseName = this.trimBaseName(runeword.bases[j]);
+					Config.Runewords.push([runeword.runeword, lowerCaseName]);
+					if (runeword.cubeBase) {
+						if (runeword.recipeType !== undefined) {
+							Config.Recipes.push([runeword.recipeType, runeword.bases[j], runeword.roll]);
+						} else {
+							HordeDebug.logUserError("Runewords", "runeword entry " + runewords[i] + " have cube base but recipeType isn't defined");
+						}
+					}
+					
+					pickitLine = "[name] == " + lowerCaseName;
+					
+					if (runeword.qualityCondition !== undefined) {
+						pickitLine += " && " + runeword.qualityCondition;
+					}
+					
+					if (runeword.roll === Roll.Eth) {
+						pickitLine += " && [flag] == ethereal ";
+					} else if (runeword.roll === Roll.NonEth) {
+						pickitLine += " && [flag] != ethereal ";
+					}
+					
+					pickitLine += " # [sockets] == " + runeword.sockets;
+					pickitLine += " # [maxquantity] == 1";
+					
+					NTIP.PushLine(0, pickitLine, "dynamic/runewords/"+ (merc ? "merc" : "character") +"/" + locationName + "/" + runewords[i]);
+				}
+			}
+			else {
+				print("skip runeword " + runewords[i] + " in " + locationName);
+			}
+		}
+	},
+	
+	setupRunewordCategory: function(category, merc) {
+		var locations = Object.keys(category);
+		
+		for (var i = 0 ; i < locations.length ; i += 1) {
+			this.setupRunewordLocation(locations[i], category[locations[i]], merc);
+		}
+	},
+	
+	setupRunewords: function(runewordProfile) {
+		if (runewordProfile === undefined) {
+			return;
+		}
+		
+		if (!isIncluded("horde/settings/crafting/runewords/" + runewordProfile + ".js")){
+			if (!include("horde/settings/crafting/runewords/" + runewordProfile + ".js")){
+				throw new Error("couldn't find " + runewordProfile + ".js in libs/horde/settings/crafting/runewords");
+			}
+		}
+		
+		Config.MakeRunewords = true;
+		
+		this.setupRunewordCategory(RunewordProfile.character, false);
+		this.setupRunewordCategory(RunewordProfile.merc, true);
+	},
+	
 	setupConfig: function(teamName, oog) {
 		print("setup config " + me.profile + "[" + teamName + "]");
 		
@@ -174,9 +252,45 @@ var HordeSystem = {
 		
 		if (!oog) {
 			this.setupBuild(this.team.profiles[me.profile].build);
+			this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
 			Sequencer.setupSequences(this.team.sequencesProfile);
+			
 		}
 		return true;
+	},
+	
+	shouldKillBaal: function() {
+		if (!!this.team.difficulties) {
+			if (!!this.team.difficulties[me.diff] && !!this.team.difficulties[me.diff].killBaalIf) {
+				return eval(this.team.difficulties[me.diff].killBaalIf);
+			}
+		}
+		return true;
+	},
+	
+	getGameDifficulty: function() {
+		var selectedDifficulty;
+		if (!!this.team.difficulties) {
+			
+			if (!!this.team.difficulties[0] && !!this.team.difficulties[0].stayIf) {
+				if (!eval(this.team.difficulties[0].stayIf)) {//stay in normal not verified
+					if (!!this.team.difficulties[1] && !!this.team.difficulties[1].stayIf) {
+						if (eval(this.team.difficulties[1].stayIf)) {//stay in nightmare verified
+							selectedDifficulty = "Nightmare";
+						} else {
+							selectedDifficulty = "Hell";//hellyeah :)
+						}
+					}
+				} else {
+					selectedDifficulty = "Normal";
+				}
+			}
+		}
+		if (selectedDifficulty === undefined) {
+			HordeDebug.logUserError("Wrong difficulty settings in your team. compare with template file. picking profile one");
+			selectedDifficulty = gameInfo.difficulty;//Failing on profile setting
+		}
+		return selectedDifficulty;
 	},
 	
 	boot: function() {

@@ -25,6 +25,28 @@ var NTIP = {},
 	stringArray = [],
 	NTIP_QuestItems = [87,88,89,90,91,92,173,174,521,524,525,545,546,547,548,549,552,553,554,555];
 
+NTIP.PushLine = function(index, line, filename) {
+	var info, parsedLine, newLine;
+	
+	info = {
+			line: index,
+			file: filename,
+			string: line
+		};
+	
+	newLine = NTIP.ParseLineInt(line, info);
+	
+	if (newLine) {
+		NTIP_CheckList.push(newLine);
+		if (!line.toLowerCase().match("tier")) {
+			NTIP_CheckListNoTier.push(newLine);
+		} else {
+			NTIP_CheckListNoTier.push([false, false]);
+		}
+		stringArray.push(info);
+	}
+};
+
 NTIP.OpenFile = function (filepath, notify) {
 	if (!FileTools.exists(filepath)) {
 		if (notify) {

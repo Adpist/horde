@@ -41,11 +41,17 @@ var HordeOOG = {
 					return false;
 				}
 
-				if ((soloChar && !ControlAction.makeSoloCharacter(charInfo)) || (!soloChar && !ControlAction.makeCharacter(charInfo))) {
-					D2Bot.printToConsole("failed to create character", 9);
-					return false;
-				}
-				
+				if (soloChar) {
+					if (!ControlAction.makeSoloCharacter(charInfo)) {
+						D2Bot.printToConsole("failed to create character", 9);
+						return false;
+					}
+				} else {
+					if (!!ControlAction.makeCharacter(charInfo)) {
+						D2Bot.printToConsole("failed to create character", 9);
+						return false;
+					}
+				}				
 
 				return true;
 			}

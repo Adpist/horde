@@ -23,9 +23,6 @@ var StarterConfig = {
 	WaitInLineTimeout: 60, // Seconds to wait before cancelling the 'Waiting in Line...' screen
 	GameDoesNotExistTimeout: 30, // Seconds to wait before cancelling the 'Game does not exist.' screen
 
-	DifficultyByLevel: true, // Will pick difficulty based on character level
-	LevelNM: 42, // Will use self level unless leader election by team is use then uses team average
-	LevelHell: 72, // Will use self level unless leader election by team is use then uses team average
 	LeaderElectAnyQuest: false, // Will leader priority on any quest not just the ones for act progression, ALL profiles MUST use this profile
 };
 
@@ -115,6 +112,7 @@ function locationTimeout (time, location) {
 
 	while (!me.ingame && getLocation() === location && endtime > getTickCount()) {
 		delay(500);
+		Playtime.recordPlaytime();
 	}
 
 	return (getLocation() !== location);
@@ -203,7 +201,6 @@ function ReceiveCopyData (mode, msg) {
 		break;
 	case 2: // Game info
 		print("Recieved Game Info");
-
 		gameInfo = JSON.parse(msg);
 
 		break;
@@ -779,8 +776,7 @@ JoinLoop2:
 						ControlAction.timeoutDelay("Custom Join Delay", AdvancedConfig[me.profile].JoinDelay * 1e3);
 					} else {
 						var offset = HordeSystem.followerProfiles.indexOf(me.profile) + 2;
-						var hordeJoinDelay = offset * 2000 + rand(500, 2000); 
-						HordeDebug.logScriptInfo("CustomJoinDelay", me.profile + " custom delay : " + hordeJoinDelay);
+						var hordeJoinDelay = offset * 4000 + rand(500, 2000);
 						ControlAction.timeoutDelay("Custom Join Delay", hordeJoinDelay);
 					}
 
@@ -1229,7 +1225,6 @@ JoinLoop2:
 
 function locationActionLead(location) {
 	var i, control, string, text;
-
 MainSwitch:
 	switch (location) {
 	case 0:
@@ -1490,28 +1485,9 @@ MainSwitch:
 		}
 
 
+		var diff = HordeSystem.getGameDifficulty();
 
-		if(StarterConfig.DifficultyByLevel){
-			// Change difficulty by level
-			var difff = gameInfo.difficulty;
-			var mylevel = 0;
-			if(!!levelTeamAvrg){
-				mylevel = levelTeamAvrg;
-			} else if (!!DataFile.getStats().level) {
-				mylevel = DataFile.getStats().level;
-			}
-
-			if( mylevel<StarterConfig.LevelNM){
-				difff = "Normal";
-			} else if(mylevel>=StarterConfig.LevelNM && mylevel<StarterConfig.LevelHell){
-				difff = "Nightmare";
-			} else if (mylevel>=StarterConfig.LevelHell){
-				difff = "Hell";
-			}
-		}
-		// Change difficulty by level
-
-		ControlAction.createGame((gameInfo.gameName === "?" ? randomString(null,true) : gameInfo.gameName + gameCount), (gameInfo.gamePass === "?" ? randomString(null,true) : gameInfo.gamePass), difff, StarterConfig.CreateGameDelay * 1000);
+		ControlAction.createGame((gameInfo.gameName === "?" ? randomString(null,true) : gameInfo.gameName + gameCount), (gameInfo.gamePass === "?" ? randomString(null,true) : gameInfo.gamePass), diff, StarterConfig.CreateGameDelay * 1000);
 
 		if (queuecount == 0){
 			queuecount = queuecount + 1;

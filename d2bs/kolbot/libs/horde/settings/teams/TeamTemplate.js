@@ -19,28 +19,48 @@ const HordeTeam = {
 			character: "mySorc",
 			className: "sorceress",
 			role: "teleport",
-			build: "cold"
+			build: "cold",
+			runewordsProfile: "RunewordsTemplate"
 		},
 		"BarbProfile": {
 			account: "account2",
 			character: "myBarb",
 			className: "barbarian",
 			role: "bo",
-			build: "bo"
+			build: "bo",
+			runewordsProfile: "RunewordsTemplate"
 		},
 		"PalaProfile": {
 			account: "account3",
 			character: "myPala",
 			className: "paladin",
 			role: "follower",
-			build: "hammer"
+			build: "hammer",
+			runewordsProfile: "RunewordsTemplate"
 		},
 		"NecroProfile": {
 			account: "account4",
 			character: "myNecro",
 			className: "necromancer",
 			role: "follower",
-			build: "summoner"
+			build: "summoner",
+			runewordsProfile: "RunewordsTemplate"
+		}
+	},
+	
+	difficulties: {
+		0: { //Normal settings
+			stayIf: "TeamData.getLowestLevel() < 42", 
+			killBaalIf: "true"
+		},
+		
+		1: { //Nightmare settings
+			stayIf: "TeamData.getLowestLevel() < 70", 
+			killBaalIf: "true"
+		},
+		
+		2: {//Hell settings
+			killBaalIf: "TeamData.getAvgLevel() > 80"
 		}
 	},
 	
