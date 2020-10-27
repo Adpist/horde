@@ -147,6 +147,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 		Town.goToTown(5);
 		Town.move("malah");
 		malah = getUnit(1, "malah");
+		var jm = 0;
 		while(true) {
 			malah.interact();
 			malah.openMenu();
@@ -154,6 +155,12 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 			if (me.getItem(646) || me.getQuest(37, 1))
 				break;
 			delay(1000);
+			if (j % 20 == 0) { // Check for Team Members every 5 seconds.
+				Party.wholeTeamInGame();
+				sendPacket(1, 0x40); // Refresh quest status				
+				delay(1000);
+			}
+			j += 1;
 		}
 	}
 	Town.goToTown(5);
