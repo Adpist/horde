@@ -204,6 +204,7 @@ const Sequences = {
 			//Act 4
 			
 			//Act 5
+			"baal": {}
 		},
 		
 		1: { //Nightmare
@@ -216,6 +217,7 @@ const Sequences = {
 			//Act 4
 			
 			//Act 5
+			"baal": {}
 		},
 		
 		2: { //Hell
@@ -228,6 +230,7 @@ const Sequences = {
 			//Act 4
 			
 			//Act 5
+			"baal": {}
 		}
 	}
 };
