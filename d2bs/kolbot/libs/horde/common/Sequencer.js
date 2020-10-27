@@ -247,6 +247,8 @@ var Sequencer = {
 				this.nextTimeline = this.none;
 				sequenceResult = this.runSequence(sequenceToRun, this.runTimeline);
 			}
+			
+			delay(500);
 		}
 	},
 	
