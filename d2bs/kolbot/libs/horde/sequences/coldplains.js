@@ -57,6 +57,8 @@ function coldplains(mfRun) {
 	}
 
 	Attack.clearLevel();
+	Pather.moveToExit(2, true, true);
+	Pather.moveToExit(3, true, true);
 	Pather.useWaypoint(1);
 
 	return Sequencer.done;
