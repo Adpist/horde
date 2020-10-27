@@ -597,6 +597,10 @@ function diablo(mfRun) {
 
 			delay(1000);
 		}
+	} else if(!mfRun){
+		Town.goToTown();
+		delay(2000);
+		Travel.changeAct(5);
 	}
 
 	return Sequencer.done; // Continue to Act 5 in expansion.
