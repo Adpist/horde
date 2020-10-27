@@ -33,7 +33,8 @@
 [name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 13 # [tier] == 10004 //string of ears
 [name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 14 # [tier] == 10005 //string of ears
 [name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 15 # [tier] == 10006 //string of ears
-[name] == spiderwebsash && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 90 # [tier] == 10007 //arach
+[name] == WarBelt && [quality] == unique && [flag] != ethereal # [EnhancedDefense] >= 100 # [tier] == 10007 //thundergods vigor
+[name] == spiderwebsash && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 90 # [tier] == 10010 //arach
 
 //boots
 [type] == boots && [quality] < magic # # [tier] == 1
@@ -66,7 +67,7 @@
 [type] == armor && [quality] < magic # # [tier] == 1
 [type] == armor && [class] == exceptional && [quality] < magic # # [tier] == 2
 [type] == armor && [class] == elite && [quality] < magic # # [tier] == 3
-[type] == armor && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == ( 1 + item.getStatEx(7)*4 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(105)*5) 
+[type] == armor && (([quality] >= magic && [flag] == identified) || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == ( 1 + item.getStatEx(7)*4 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(105)*5) 
 
 [type] == armor && [flag] == runeword # [fireresist] == 50 && [lightresist] == 50 # [tier] == 10001
 [type] == armor && [flag] == runeword # [lightresist] >= 60 # [tier] == 10002
@@ -88,7 +89,7 @@
 
 //weapons
 
-[name] == crystalsword && [flag] == runeword # [maxmana] >= 89 # [tier] == 10000 //spirit weapon
+([name] == broadsword ||[name] == crystalsword )&& [flag] == runeword # [maxmana] >= 89 # [tier] == 10000 //spirit weapon
 [type] == orb && [quality] >= unique # [itemmagicbonus] >= 50 # [tier] == 10001 //occy
 
 //shields
@@ -104,4 +105,9 @@
 // amulets
 
 [type] == amulet && [quality] == unique # [itemallskills] == 2 # [tier] == 10000
+
+
+
+
+
 
