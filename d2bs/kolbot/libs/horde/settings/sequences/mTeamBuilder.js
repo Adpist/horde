@@ -79,7 +79,7 @@ const Sequences = {
 
 		2: { //Hell
 			//Act 1
-			"den": 			{},
+			"den": 			{skipIf:"!Party.hasReachedLevel(77)"},
 			"cain": 		{},
 			"countess": 	{},
 			"andy": 		{},
@@ -96,6 +96,8 @@ const Sequences = {
 			"eye": 			{},
 			"heart": 		{},
 			"brain": 		{},
+			//"travincalhell": 	{},
+			"kurastchests": {}, //MF
 			"travincal": 	{},
 			"mephisto": 	{},
 
@@ -149,10 +151,10 @@ const Sequences = {
 		2: { //Hell
 			//Act 1
 			//"pits": 	{}, //MF TODO stop when past trav / start?
-			"andy": 		{}, //MF
+			//"andy": 		{}, //MF TODO start / stop when past duriel
 
 			//Act 2
-			"duriel": 		{}, //MF TODO stop when past trav?
+			"duriel": 		{}, //MF TODO stop when past trav or duriel?
 
 			//Act 3
 			"mephisto": 	{} //MF
