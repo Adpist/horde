@@ -29,8 +29,6 @@ function amulet_requirements(mfRun) {
 
 function amulet(mfRun) {
 	var i, drognan;
-
-	Communication.sendToList(HordeSystem.allTeamProfiles, "amulet");
 	
 	Town.goToTown(2);
 		
@@ -140,9 +138,6 @@ function amulet(mfRun) {
 	}
 
 	me.cancel();
-
-	//Pather.teleport = false;
-	Communication.Questing.amulet = false;
 
 	return Sequencer.done;
 }

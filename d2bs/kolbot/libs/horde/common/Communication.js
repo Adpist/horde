@@ -7,23 +7,9 @@
 
 var Communication = {
 	Questing: {
-		cube: false,
-		getCube: false,
-		amulet: false,
-		summoner: false,
-		tombs: false,
-		radament: false,
-		killRadament: false,
-		teamFigurine: false,
-		LamEssen: false,
-		clearOrifice: false,
-		duriel: false,
-		travincal: false,
-		figurine: false,
-		mephisto: false,
-		redPortal: false,
-		readyToKillDiablo: 0,
-		waitAncients: 0
+		clearOrifice: false,//duriel sequence
+		readyToKillDiablo: 0, //diablo sequence
+		waitAncients: 0 //ancients sequence
 	},
 	
 	sendToList: function (list, message, mode=55) {
@@ -98,50 +84,8 @@ var Communication = {
 					Buff.readyToDrink += 1;
 					print("readyToDrink = " + Buff.readyToDrink);
 					break;
-				case "cube":
-					this.Questing.cube = true;
-					break;
-				case "need cube":
-					this.Questing.getCube = true;
-					break;
-				case "amulet":
-					this.Questing.amulet = true;
-					break;
-				case "summoner":
-					this.Questing.summoner = true;
-					break;
-				case "tombs":
-					this.Questing.tombs = true;
-					break;
-				case "radament":
-					this.Questing.radament = true;
-					break;
-				case "kill radament":
-					this.Questing.killRadament = true;
-					break;
 				case "clear orifice":
 					this.Questing.clearOrifice = true;
-					break;
-				case "duriel":
-					this.Questing.duriel = true;
-					break;
-				case "travincal":
-					this.Questing.travincal = true;
-					break;
-				case "team figurine":
-					this.Questing.teamFigurine = true;
-					break;
-				case "figurine":
-					this.Questing.figurine = true;
-					break;
-				case "Lam Essen":
-					this.Questing.LamEssen = true;
-					break;
-				case "mephisto":
-					this.Questing.mephisto = true;
-					break;
-				case "red portal":
-					this.Questing.redPortal = true;
 					break;
 				case "ready to kill diablo":
 					this.Questing.readyToKillDiablo += 1;

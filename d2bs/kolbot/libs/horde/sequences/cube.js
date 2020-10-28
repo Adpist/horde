@@ -17,7 +17,7 @@ function cube_requirements(mfRun) {
 		return Sequencer.skip;//MF run but we don't have cube
 	}
 	
-	if (!mfRun && (me.getItem(549) && !Communication.Questing.getCube)) {
+	if (!mfRun && me.getItem(549)) {
 		return Sequencer.skip;//I already have cube and nobody requested quest
 	}
 	/***** END OF REQUIREMENTS ******/
@@ -27,8 +27,6 @@ function cube_requirements(mfRun) {
 
 function cube(mfRun) { // Only called in Normal Difficulty.
 	var i, chest, cube;
-	
-	Communication.sendToList(HordeSystem.allTeamProfiles, "cube");
 	
 	Party.wholeTeamInGame();
 
@@ -86,8 +84,6 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 	if (!Pather.usePortal(null, null)) {
 		Town.goToTown();
 	}
-
-	Communication.Questing.getCube = false;
 	
 	return Sequencer.done;
 }

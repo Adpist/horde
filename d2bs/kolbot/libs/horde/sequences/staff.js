@@ -87,11 +87,6 @@ function staff(mfRun) {
 			Storage.Stash.MoveTo(me.getItem(92));
 		}
 
-		//Pather.teleport = false;
-
-		if (me.getItem(92)) { //teamStaff
-			Communication.sendToList(HordeSystem.allTeamProfiles, "GotStaff");
-		}
 	}
 
 	return Sequencer.done;

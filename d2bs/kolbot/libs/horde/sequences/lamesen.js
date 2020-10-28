@@ -3,6 +3,7 @@
 *	@author		Adpist
 *	@desc		Teleporting Sorc walks over to Alkor and completes the quest for everyone via exploit.
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
+*	@todo		Do the sync for followers
 */
 
 function lamesen_requirements(mfRun) {
@@ -79,6 +80,8 @@ function lamesen(mfRun) {
 		target = getUnit(4, 548);
 		Pickit.pickItem(target);
 		Town.goToTown();
+	} else {
+		delay(20000);//give time to complete quest
 	}
 
 	Town.move("alkor");
@@ -101,13 +104,6 @@ function lamesen(mfRun) {
 	}
 
 	Town.move("stash");
-	
-	if (Role.teleportingChar)
-	{
-		Communication.sendToList(HordeSystem.allTeamProfiles, "Lam Essen");
-	}
-	
-	//Pather.teleport = false;
 
 	return Sequencer.done;
 }

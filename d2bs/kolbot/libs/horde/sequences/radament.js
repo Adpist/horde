@@ -3,7 +3,7 @@
 *	@author		Adpist
 *	@desc		Kill radament, use book and complete quest
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
-*	@todo		Handle run without teleport for normal ?
+*	@todo		Do the sync for followers
 */
 
 function radament_requirements(mfRun) {
@@ -91,7 +91,6 @@ function radament(mfRun) {
 		//radament = getUnit(1, 229); // Radament.
 		//Pather.moveToUnit(radament, 0, 0, false);
 		
-		Communication.sendToList(HordeSystem.allTeamProfiles, "kill radament");
 	} else {
 		Town.move("portalspot");
 		var j = 0;
@@ -101,9 +100,7 @@ function radament(mfRun) {
 				Party.wholeTeamInGame();
 			}
 			j += 1;
-			if (Communication.Questing.killRadament) {
-				Pather.usePortal(49, null);
-			}
+			Pather.usePortal(49, null);
 		}
 	}
 
@@ -125,12 +122,12 @@ function radament(mfRun) {
 	}
 	Town.goToTown();
 	
+	if (!mfRun) {
+		Town.move("atma");
+		atma = getUnit(1, "atma");
+		atma.openMenu();
+		me.cancel();
+	}
 	
-	Town.move("atma");
-	atma = getUnit(1, "atma");
-	atma.openMenu();
-	me.cancel();
-	//Pather.teleport = false;
-	Communication.Questing.radament = false;
 	return Sequencer.done;
 }

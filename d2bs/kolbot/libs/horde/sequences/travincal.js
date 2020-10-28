@@ -35,9 +35,9 @@ function travincal_requirements(mfRun) {
 }
 
 function travincal(mfRun) {
-	Communication.sendToList(HordeSystem.allTeamProfiles, "travincal");
 
-	var cain, orgX, orgY, preArea;
+	var cain, orgX, orgY, preArea,
+		startNearWp = !mfRun && ((me.diff === 0) || (me.diff === 1 && HordeSettings.nmTracincalFromWpOn) || (me.diff === 2 && HordeSettings.hellTracincalFromWpOn));
 	Town.repair();
 	
 	this.buildList = function (checkColl) {
@@ -87,14 +87,16 @@ function travincal(mfRun) {
 		if (!mfRun) {
 			Party.wholeTeamInGame();
 		}
+		
 		//Make starting next to council configurable for questing
-		if(mfRun || (me.diff === 0 && !HordeSettings.normTracincalFromWpOn) ||(me.diff === 1 && !HordeSettings.nmTracincalFromWpOn) ||(me.diff === 2 && !HordeSettings.hellTracincalFromWpOn)){
+		if(!startNearWp){
 			Pather.moveTo(orgX + 129, orgY - 92, 5, false);	// (<3 kolton)
 		} else {
 			Pather.moveTo(orgX+17, orgY-5, 5, false); // just outside wp room
 		}
 		
-		Pather.makePortal();
+		
+		Role.makeTeamJoinPortal();
 	} else { // I am not a Sorc, enter the Sorc's Travincal portal.
 		Town.move("portalspot");
 
@@ -109,16 +111,44 @@ function travincal(mfRun) {
 
 			j += 1;
 		}
+		
+		orgX = me.x;
+		orgY = me.y;
 	}
-
-	if (me.diff === 0 || !mfRun) { // All characters don't teleport during the fight in normal. or it's for quest
+	
+	if (startNearWp) {
+	
+		//try to move progressivelly to council
+		Attack.clear(20);
+		Party.waitForMembers();
 		Pather.teleport = false;
-	}		
-	try {
-		Pather.moveToExit(100, false, 0);
-	} catch (error){
-		print("Error in move clear to start trav battle: "+error);
+		Pather.moveTo(orgX+12, orgY-31, 2, false, true);	// (<3 kolton)
+		Attack.clear(30);
+		Party.waitForMembers();
+		Pather.moveTo(orgX+80, orgY-31, 2, false, true);	// (<3 kolton)
+		Attack.clear(30);
+		Party.waitForMembers();
+		Pather.moveTo(orgX+80, orgY-59, 2, false, true);	// (<3 kolton)
+		Attack.clear(30);
+		Party.waitForMembers();
+		Pather.moveTo(orgX+80, orgY-73, 2, false, true);	// (<3 kolton)
+		Attack.clear(30);
+		Party.waitForMembers();
+		Pather.moveTo(orgX+80, orgY-98, 2, false, true);	// (<3 kolton)
+		Attack.clear(30);
+		Party.waitForMembers();
+		Pather.moveTo(orgX+60, orgY-98, 2, false, true);	// (<3 kolton)
+		Attack.clear(30);
+		Party.waitForMembers();
+		
+	} else {
+		try {
+			Pather.moveToExit(100, false, 0);
+		} catch (error){
+			print("Error in move clear to start trav battle: "+error);
+		}
 	}
+	
 	Attack.clearList(this.buildList(0)); // Kill the High Council
 
 	Pickit.pickItems();
@@ -164,12 +194,6 @@ function travincal(mfRun) {
 		if (unit && Role.teleportingChar) {
 			Quest.getQuestItem(546);
 		}
-	}
-	
-	if (me.findItem(546) || me.findItem(547) || me.getQuest(20, 1)) { // Have A Jade Figurine or The Golden Bird or need to Return to Alkor for Reward (possible if someone's Pickit then Town processes the Quest). Tell the Teleporting Sorc so she gets us to process it.
-		Communication.sendToList(HordeSystem.allTeamProfiles, "team figurine");
-
-		Communication.Questing.teamFigurine = true;
 	}
 
 	if (Role.teleportingChar) {

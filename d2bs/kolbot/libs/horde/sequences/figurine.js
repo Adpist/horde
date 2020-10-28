@@ -17,16 +17,10 @@ function figurine_requirements(mfRun) {
 		return Sequencer.skip;//Skip: Completed the quest
 	}	
 	
-	if (me.getItem(546) || me.getItem(547)) {
-		Communication.sendToList(HordeSystem.allTeamProfiles, "figurine");
-		Communication.Questing.teamFigurine = true;
+	if (!me.getItem(546) && !me.getItem(547)) {
+		return Sequencer.skip;//Skip : i don't have figurine
 	}
 	
-	delay(1000);
-	
-	if (!Communication.Questing.teamFigurine) {
-		return Sequencer.skip;//Skip : nobody have figurine
-	}
 	/***** END OF REQUIREMENTS ******/
 	
 	return Sequencer.ok;//We can process sequence
@@ -136,8 +130,6 @@ function figurine(mfRun) {
 	}
 
 	Town.move(NPC.Cain);
-
-	Communication.Questing.teamFigurine = false;
 
 	return Sequencer.done;
 }

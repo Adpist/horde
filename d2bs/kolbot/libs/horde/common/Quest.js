@@ -85,7 +85,6 @@ var Quest = {
 		delay(750 + me.ping);
 		Cubing.emptyCube();
 		me.cancel();
-		Communication.sendToList(HordeSystem.allTeamProfiles, "GotThePower");
 
 		return true; //(<3 kolton)
 	},

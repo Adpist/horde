@@ -3,8 +3,6 @@
 *	@author		Adpist
 *	@desc		Kill mephisto and take portal
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
-*	@todo		check takeRedPortalOnly
-*				areasLevelling handled in script :/
 */
 
 function mephisto_requirements(mfRun) {
@@ -88,20 +86,18 @@ function mephisto(mfRun) {
 
 	Party.wholeTeamInGame();
 
-	if (!Communication.Questing.redPortal) {
-		try
-		{
-			if (!Attack.kill(242)) {
-				Attack.clear(20);
-			}
-		}
-		catch(e)
-		{
+	try
+	{
+		if (!Attack.kill(242)) {
 			Attack.clear(20);
 		}
-
-		Pickit.pickItems();
 	}
+	catch(e)
+	{
+		Attack.clear(20);
+	}
+
+	Pickit.pickItems();
 	
 	if (mfRun)
 	{
@@ -112,56 +108,30 @@ function mephisto(mfRun) {
 		}
 	}
 
-	if (mfRun ||
-		((me.getQuest(22, 0) || me.getQuest(22, 12)) && 
-			((me.diff === 0 && Party.hasReachedLevel(HordeSettings.mephLvl)) 
-			|| (me.diff === 1 && Party.hasReachedLevel(HordeSettings.mephLvlnm)) 
-			|| (me.diff === 2 && Party.hasReachedLevel(HordeSettings.mephLvlhell))))) { // Completed Meph Quest and the party has reached the difficulty specific HordeSettings.mephLvl requirement.
-		
-		for (i = 0 ; i < 5 ; i += 1) {
-			redPortal = getPresetUnit(102, 2, 342);
+	for (i = 0 ; i < 5 ; i += 1) {
+		redPortal = getPresetUnit(102, 2, 342);
 
-			if (redPortal) {
-				break;
-			}
-
-			delay(me.ping * 2 + 250);
+		if (redPortal) {
+			break;
 		}
 
-		while (getDistance(me.x, me.y, redPortal.roomx * 5 + redPortal.x, redPortal.roomy * 5 + redPortal.y) > 10) {
-			try {
-				Pather.moveToPreset(102, 2, 342, 0, 0, false, false);
-			} catch (e) {
-				print("Caught Error.");
-
-				print(e);
-			}
-		}
-
-		while (me.area === 102) {
-			redPortal = getUnit(2, 342);
-
-			Pather.usePortal(null, null, redPortal); // Go to Act 4.
-		}		
+		delay(me.ping * 2 + 250);
 	}
-	//TODO : move this elsewhere
-	else {
-		Town.goToTown();
 
-		Town.doChores();
-		
-		if (me.diff === 0 && !Party.hasReachedLevel(HordeSettings.mephLvl))
-		{
-			Farm.areasLevelling(HordeSettings.mephLvlAreas, HordeSettings.mephLvl);
-		}			
-		else if (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.mephLvlnm))
-		{
-			Farm.areasLevelling(HordeSettings.mephLvlnmAreas, HordeSettings.mephLvlnm);
-		} 
-		else if (me.diff === 2 && !Party.hasReachedLevel(HordeSettings.mephLvlhell))
-		{
-			Farm.areasLevelling(HordeSettings.mephLvlhellAreas, HordeSettings.mephLvlhell);
+	while (getDistance(me.x, me.y, redPortal.roomx * 5 + redPortal.x, redPortal.roomy * 5 + redPortal.y) > 10) {
+		try {
+			Pather.moveToPreset(102, 2, 342, 0, 0, false, false);
+		} catch (e) {
+			print("Caught Error.");
+
+			print(e);
 		}
+	}
+
+	while (me.area === 102) {
+		redPortal = getUnit(2, 342);
+
+		Pather.usePortal(null, null, redPortal); // Go to Act 4.
 	}
 
 	//Pather.teleport = false;

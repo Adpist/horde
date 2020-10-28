@@ -3,6 +3,7 @@
 *	@author		Adpist
 *	@desc		Move to & Kill summoner
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
+*	@todo		Followers syncro
 */
 
 function summoner_requirements(mfRun) {
@@ -30,11 +31,25 @@ function summoner_requirements(mfRun) {
 function summoner(mfRun) {
 	var i, journal;
 	
+	Town.goToTown(2);
+	
+	if (!mfRun) {
+		var drognan, cain;
+		while (!drognan || !drognan.openMenu()) { // Try more than once to interact with Drognan.
+			Packet.flash(me.gid);
+
+			Town.move("drognan");
+
+			drognan = getUnit(1, "drognan");
+
+			delay(1000);
+		}
+	}
+	
 	if (!mfRun && Role.teleportingChar) {
 		Travel.travel(4);
 	}
 	
-	Communication.sendToList(HordeSystem.allTeamProfiles, "summoner");
 	
 	if (!me.inTown) {
 		Town.goToTown();
@@ -178,8 +193,6 @@ function summoner(mfRun) {
 	if (cain && cain.openMenu()) {
 		me.cancel();
 	}
-	
-	Communication.Questing.summoner = false;
 
 	return Sequencer.done;
 }

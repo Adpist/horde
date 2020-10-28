@@ -6,6 +6,7 @@
 */
 
 var HordeSettings = {
+	maxWaitTimeMinutes: 3, //Max time to wait in case horde synchronization fails
 	logChar: true,
 	
 	/****************************************************/
@@ -13,31 +14,11 @@ var HordeSettings = {
 	/* please use sequences & teams						*/
 	/****************************************************/
 	
-	// -------- Normal Difficulty -------------
-	caveLvl: 7,
-	tristLvl: 15,
-	tombsLvl: 24,
-	mephLvl: 24,
-	diaLvl: 27,
-	baalLvl: 44,
-	// -------- Nightmare Difficulty ----------
-	mephLvlnm: 45,
-	diaLvlnm: 50,
-	mfLvlnm: 58,
-	baalLvlnm: 70,
-	// ---------- Hell Difficulty --------------
-	mephLvlhell: 70,
-	diaLvlhell: 80,
-	mfLvlhell: 86,
 	
-	maxWaitTimeMinutes: 3, //Max time to wait in case smurf synchronization fails
 	
 	// -------- Extra quests -------------	
-	smithQuest: true,
-	
 	
 	// -------- Normal Difficulty Questing -------------
-	normalCountess: true, //for levelling a bit more
 	normTracincalFromWpOn: true, //Starts council fight from WP, big help in higher difficulty & teams
 		
 	// -------- Nightmare Difficulty Questing ----------
@@ -46,37 +27,9 @@ var HordeSettings = {
 	// ---------- Hell Difficulty Questing --------------
 	hellTracincalFromWpOn: true, //Starts council fight from WP, big help in higher difficulty & teams
 	
-	// -------- Difficulties MF -------------	
-	normalMf: true,
-	nmMf: true,
-	hellMf: true,
-		
-	// -------- Normal Difficulty MF -------------
-	normalMfMephistoOn: false,
-	normalMfShenkOn: true,
-	normalMfPindleOn: true,
-		
-	// -------- Nightmare Difficulty MF ----------
-	nmMfCountessOn: true,
-	nmMfAndyOn: true,
-	nmMfSummonerOn: false,
-	nmMfDurielOn: false,
-	nmMfMephistoOn: true,
-	nmMfShenkOn: true,
-	nmMfPindleOn: true,
-		
-	// ---------- Hell Difficulty MF --------------
-	hellMfCountessOn: true,
-	hellMfAndyOn: true,
-	hellMfSummonerOn: true,
-	hellMfDurielOn: true,
-	hellMfMephistoOn: true,
-	hellMfShenkOn: true,
-	hellMfPindleOn: true,
-		
-	// if party level isn't reach, clean some areas until min game time is reached (will leave after cleaning area)	
+	// kept for reference (was used to fill games if nothing else to do and current game time < min game time
 	// -------- Normal Difficulty Area Levelling -------------
-	caveLvlAreas: [],//[2,3,17,18,19,-1],
+	/*caveLvlAreas: [],//[2,3,17,18,19,-1],
 	tristLvlAreas: [11,15,-1,21,22,23,24,25,-1,12,16,-1],
 	tombsLvlAreas: [55,59,-1,65,-1,58,-1],
 	mephLvlAreas: [79,80,81,82,83,100,101,102,-1],
@@ -91,6 +44,6 @@ var HordeSettings = {
 	// ---------- Hell Difficulty Area Levelling --------------
 	mephLvlhellAreas: [79,80,81,-1,35,36,37,-1,21,22,23,24,25,-1,17,19,-1,12,16,-1,65,-1],
 	diaLvlhellAreas: [79,80,81,-1,19,-1,12,16,-1,65,-1,9,13,-1,10,14,-1,11,15,-1,12,16,-1,55,59,-1,65],
-	mfLvlhellAreas: []
+	mfLvlhellAreas: []*/
 
 };

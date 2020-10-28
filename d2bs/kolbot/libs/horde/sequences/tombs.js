@@ -34,8 +34,6 @@ function tombs(mfRun) {
 		Travel.travel(4);
 	}
 	
-	Communication.sendToList(HordeSystem.allTeamProfiles, "tombs");
-	
 	Town.doChores();
 	Pather.teleport = false;
 
@@ -173,8 +171,6 @@ function tombs(mfRun) {
 	if (!Pather.usePortal(null, null)) { // Need to finish in town.
 		Town.goToTown();
 	}
-	
-	Communication.Questing.tombs = false;
 
 	return Sequencer.done;
 }

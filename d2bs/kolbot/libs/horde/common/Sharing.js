@@ -135,31 +135,11 @@ var Sharing = {
 	},
 	
 	announceSharingSequence: function() {
-		if (me.findItem(546) || me.findItem(547) || me.getItem(545) || me.getQuest(20, 1)) { // Have A Jade Figurine, The Golden Bird or the Potion of Life or need to Return to Alkor for Reward. Tell the Teleporting Sorc so she gets us to process it.
-			Communication.sendToList(HordeSystem.allTeamProfiles, "team figurine");
-		}
 		if (Role.boChar && me.charlvl >= 24) { //announce bo
 			Communication.sendToList(HordeSystem.allTeamProfiles, "bo");
 		}
 		if (me.gold < Config.LowGold) { //teamGold - ask
 			Communication.sendToList(HordeSystem.allTeamProfiles, "GimmeGold");
-		}
-		if (me.getItem(524) || me.getItem(525)) {	 //teamscroll
-			Communication.sendToList(HordeSystem.allTeamProfiles, "GotScroll");
-		}
-		if (me.getItem(92)) { //teamStaff
-			Communication.sendToList(HordeSystem.allTeamProfiles, "GotStaff");
-		}
-		if (me.getItem(91)) {	 //teamStaff2
-			Communication.sendToList(HordeSystem.allTeamProfiles, "GotThePower");
-		}
-		if ((me.getItem(553) && me.getItem(554) && me.getItem(555)) || me.getItem(174)) {	 //teamflail
-			Communication.sendToList(HordeSystem.allTeamProfiles, "ReadyForTravincal");
-		}
-		if (!Role.teleportingChar) { // I'm a follower.
-			if (!me.getItem(549) && me.area === 40) { // Don't have cube, am in Act 2.
-				Communication.sendToList(HordeSystem.allTeamProfiles, "need cube");
-			}
 		}
 	}
 };

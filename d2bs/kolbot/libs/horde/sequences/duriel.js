@@ -278,8 +278,6 @@ function duriel(mfRun) {
 	if (!mfRun) {
 		Travel.changeAct(3);
 	}
-	
-	Communication.Questing.duriel = false;
 
 	return Sequencer.done;
 }

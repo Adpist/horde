@@ -449,7 +449,7 @@ function diablo(mfRun) {
 			clearType = true;
 		}
 
-		if ((me.diff === 0 && !Party.hasReachedLevel(HordeSettings.diaLvl)) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.diaLvlnm)) || (me.diff === 2 && !Party.hasReachedLevel(HordeSettings.diaLvlhell))) {
+		if (!mfRun) {
 			Pather.moveTo(7790, 5544, 10, clearType, clearType); // Start at Entrance.
 
 			Pather.makePortal();
@@ -509,9 +509,11 @@ function diablo(mfRun) {
 	Buff.Bo();
 	//Pather.teleport = true;
 	this.infectorSeal();
-
-	if (me.gametype === 0 && (!Party.hasReachedLevel(HordeSettings.diaLvl) || (me.diff === 1 && !Party.hasReachedLevel(HordeSettings.diaLvlnm)) || me.diff === 2)) { // Don't kill Diablo in classic unless the difficulty specific level requirement is met.
-		print("Not ready to kill diablo!!"); // NOTE TO USERS: In classic, never kill Diablo in Hell difficulty with this script. It's better to switch to a CS Taxi script that will run faster and maintain Diablo virgin kills.
+	
+	// Don't kill Diablo in classic hell
+	// NOTE TO USERS: It's better to switch to a CS Taxi script that will run faster and maintain Diablo virgin kills.
+	if (me.gametype === 0 && me.diff === 2) {
+		print("Not killing diablo in classic hell"); 
 
 		Town.goToTown();
 
