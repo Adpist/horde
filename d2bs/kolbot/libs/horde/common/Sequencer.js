@@ -250,6 +250,8 @@ var Sequencer = {
 				this.runTimeline = this.nextTimeline;
 				this.nextTimeline = this.none;
 				sequenceResult = this.runSequence(sequenceToRun, this.runTimeline);
+			} else {
+				Pickit.pickItems();
 			}
 			
 			delay(500);
