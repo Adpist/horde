@@ -101,6 +101,11 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 		delay(1000);
 	}
 
+	if(!Party.allPlayersInArea()){
+		print("everyone isnt at ancients");
+		quit();
+	}
+	
 	if (altar && Role.teleportingChar) {
 		Pather.moveToUnit(altar);
 		Communication.sendToList(HordeSystem.allTeamProfiles, "WaitMe");
