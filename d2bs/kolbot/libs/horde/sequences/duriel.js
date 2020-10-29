@@ -153,6 +153,7 @@ function duriel(mfRun) {
 			}
 			
 			Pather.makePortal();
+			delay(1500);//save the sorc!
 		} else {
 			Town.goToTown(2);
 
