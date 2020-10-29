@@ -562,7 +562,7 @@ function main() {
 			
 			//FOR LEADER ELECTION
 			if(me.gametype === 1 && Config.DoLeaderElectionByQuest && getTickCount()>Config.NextQuestSaveTime && Config.NextQuestSaveTime){ //only coded for LOD
-				Config.NextQuestSaveTime = getTickCount() + 60*1000;//update once per 1 minute
+				Config.NextQuestSaveTime = getTickCount() + 600;//TODO hook into me.getQuest
 				print("ÿc8NextQuestSaveTime: " + Config.NextQuestSaveTime);
 				if(!ranQuest){
 					sendPacket(1, 0x40); // Refresh quest status must do atleast once to get quests
