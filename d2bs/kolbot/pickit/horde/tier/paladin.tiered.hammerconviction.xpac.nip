@@ -15,9 +15,9 @@
 //pala Conviction
 ([type] == paladinitem || [type] == auricshields || [type] == shield) && [quality] >= magic && [flag] == identified # [itemchargedskill] >= 0 && ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,112)*25 + item.getStatEx(107,123)*20 + item.getStatEx(107,108)*20 + item.getStatEx(107,115)*15 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*4 + item.getStatEx(9)*2.5 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
 
-[type] == auricshields && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == 60001 //ancients pledge paladin
+[type] == auricshields && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == (60001) //ancients pledge paladin
 
-[type] == auricshields && [flag] == runeword # [fcr] >= 25 && [fhr] >= 55 # [maxquantity] == 1 && [tier] == 60003 //spirit
+[type] == auricshields && [flag] == runeword # [fcr] >= 25 && [fhr] >= 55 # [maxquantity] == 1 && [tier] == (60003) //spirit
 
 // amulets
 //pala 
