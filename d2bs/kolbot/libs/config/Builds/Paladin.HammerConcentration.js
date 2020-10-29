@@ -226,7 +226,6 @@ AutoBuildTemplate[50] = {
     Update: function() {
         Config.LowGold = 45000;
         Config.StashGold = 25000; // Minimum amount of gold to stash.
-        Config.AttackSkill = [-1, 56, 47, 56, 47, -1, -1]; // Meteor + Fire Ball no more static on immunes
     }
 };
 AutoBuildTemplate[55] = {
