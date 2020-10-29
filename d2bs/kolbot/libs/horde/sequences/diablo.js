@@ -208,7 +208,7 @@ function diablo(mfRun) {
 
 
 		if (!this.getBoss(getLocaleString(2851))) {
-			HordeDebug.logScriptError("diablo", "Failed to kill Vizier");
+			//HordeDebug.logScriptError("diablo", "Failed to kill Vizier");
 		}
 
 		return true;
@@ -273,11 +273,11 @@ function diablo(mfRun) {
 			HordeDebug.logScriptError("diablo", "Failed to kill Infector");
 		}
 
-		if (Role.teleportingChar) {
+		//if (Role.teleportingChar) {
 			if (!this.openSeal(393)) {
-				HordeDebug.logScriptError("diablo", "Failed to open Infector seals");
+				//HordeDebug.logScriptError("diablo", "Failed to open Infector seals");
 			}
-		}
+		//}
 
 		return true;
 	};
