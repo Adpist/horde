@@ -194,11 +194,11 @@ function diablo(mfRun) {
 
 		this.followPath(this.vizLayout === 1 ? this.starToVizA : this.starToVizB);
 
-		if (Role.teleportingChar) {
+		//if (Role.teleportingChar) {
 			if (!this.openSeal(395) || !this.openSeal(396)) {
-				HordeDebug.logScriptError("diablo", "Failed to open Vizier seals.");
+				//HordeDebug.logScriptError("diablo", "Failed to open Vizier seals.");
 			}
-		}
+		//}
 		
 		if (this.vizLayout === 1) {
 			Pather.moveTo(7691, 5292, 3, true);
@@ -219,11 +219,11 @@ function diablo(mfRun) {
 
 		this.followPath(this.seisLayout === 1 ? this.starToSeisA : this.starToSeisB);
 
-		if (Role.teleportingChar) {
+		//if (Role.teleportingChar) {
 			if (!this.openSeal(394)) {
-				HordeDebug.logScriptError("diablo", "Failed to open de Seis seal.");
+				//HordeDebug.logScriptError("diablo", "Failed to open de Seis seal.");
 			}
-		}
+		//}
 
 		if (this.seisLayout === 1) {
 			if (me.classid === 1) {
@@ -253,11 +253,11 @@ function diablo(mfRun) {
 
 		this.followPath(this.infLayout === 1 ? this.starToInfA : this.starToInfB);
 
-		if (Role.teleportingChar) {
+		//if (Role.teleportingChar) {
 			if (!this.openSeal(392)) {
-				HordeDebug.logScriptError("diablo", "Failed to open Infector seal.");
+				//HordeDebug.logScriptError("diablo", "Failed to open Infector seal.");
 			}
-		}
+		//}
 
 		if (this.infLayout === 1) {
 			delay(1);
