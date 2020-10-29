@@ -143,8 +143,6 @@ AutoBuildTemplate[24] = {
     Update: function() {
         Config.Cubing = true; // Will have a cube by now.
         Config.LowGold = 15000;
-            Config.Curse[0] = 87; // Boss curse. Use skill number or set to 0 to disable.
-            Config.Curse[1] = 87; // Other monsters curse. Use skill number or set to 0 to disable.
     }
 };
 
@@ -152,8 +150,6 @@ AutoBuildTemplate[30] = {
     SkillPoints: [-1],
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
-            Config.Curse[0] = 91; // Boss curse. Use skill number or set to 0 to disable.
-            Config.Curse[1] = 91; // Other monsters curse. Use skill number or set to 0 to disable.
         Config.LowGold = 20000;
         Config.MiniShopBot = true;
         Config.CainID.Enable = true; // Identify items at Cain
@@ -161,7 +157,7 @@ AutoBuildTemplate[30] = {
         Config.CainID.MinUnids = 1; // Minimum number of unid items in order to use Cain.
         Config.MPBuffer = 6; // Number of mana potions to keep in inventory.
         Config.HPBuffer = 6; // Number of healing potions to keep in inventory.
-        Config.AttackSkill = [149, 154, 0, 154, 0];
+        Config.AttackSkill = [149, 154, -1, 154, -1];
         Config.BeltColumn = ["hp", "hp", "mp", "mp"];
     }
 };
