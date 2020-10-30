@@ -13,14 +13,6 @@ if (!isIncluded("common/Runewords.js")) {
 };
 
 var AutoBuildTemplate = {};
-var i;
-for (i = 1; i < 100; i++) {
-    AutoBuildTemplate[i] = {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {}
-    };
-}
 
 AutoBuildTemplate[1] = {
     //SkillPoints: [-1],										// This doesn't matter. We don't have skill points to spend at lvl 1
