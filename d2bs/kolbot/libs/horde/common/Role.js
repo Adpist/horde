@@ -123,6 +123,10 @@ var Role = {
 	mercCheck: function() {
 		if (Party.lowestAct >= 2 || me.act >= 2)
 		{
+			var enableMercRebuy = true;
+			if(HordeSystem.team.disableMercRebuy){
+				enableMercRebuy = false;
+			}
 			if (me.diff === 0)
 			{
 				MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, false, 2);
@@ -132,10 +136,10 @@ var Role = {
 					let merc = me.getMerc();
 
 					if (merc && merc.charlvl < 25 && me.charlvl >= 28) {
-						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, true, 25);
+						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, 25);
 					}
 					else if (merc && merc.charlvl < HordeSettings.baalLvl - 5 && me.charlvl >= HordeSettings.baalLvl - 2) {
-						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, true, HordeSettings.baalLvl - 5);
+						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, HordeSettings.baalLvl - 5);
 					}
 				}
 			}
@@ -147,7 +151,7 @@ var Role = {
 					let merc = me.getMerc();
 
 					if (merc && merc.charlvl < HordeSettings.baalLvlnm - 5 && me.charlvl >= HordeSettings.baalLvlnm - 2) {
-						MercTools.hireMerc(2, HordeSystem.build.mercAct2Nightmare, true, HordeSettings.baalLvlnm - 5);
+						MercTools.hireMerc(2, HordeSystem.build.mercAct2Nightmare, enableMercRebuy, HordeSettings.baalLvlnm - 5);
 					}
 				}
 			}
