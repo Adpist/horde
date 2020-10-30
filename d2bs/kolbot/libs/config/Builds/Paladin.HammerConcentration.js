@@ -13,14 +13,6 @@ if (!isIncluded("common/Runewords.js")) {
 };
 
 var AutoBuildTemplate = {};
-var i;
-for (i = 1; i < 100; i++) {
-    AutoBuildTemplate[i] = {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {}
-    };
-}
 
 AutoBuildTemplate[1] = {
     //SkillPoints: [-1],										// This doesn't matter. We don't have skill points to spend at lvl 1
@@ -58,7 +50,7 @@ AutoBuildTemplate[1] = {
         Config.FastPick = false; // Check and pick items between attacks
         Config.Dodge = true; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
         Config.DodgeRange = 10; // Distance to keep from monsters.
-        Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+        Config.DodgeHP = 50; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
         Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
         Config.ClearType = 0; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
         Config.FCR = 0; // 0 - disable, 1 to 255 - set value of faster cast rate
