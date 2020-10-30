@@ -25,7 +25,7 @@
 [type] == belt && [quality] < magic # # [tier] == (1)
 [type] == belt && [class] == exceptional && [quality] < magic # # [tier] == (2)
 [type] == belt && [class] == elite && [quality] < magic # # [tier] == (3)
-[type] == belt && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0  # [tier] == (1 +  item.getStatEx(8) * 4 + item.getStatEx(74) * 7 + item.getStatEx(7) * 4 + item.getStatEx(39) * 2.4 + item.getStatEx(41) * 2.4 + item.getStatEx(43) * 2.4 + item.getStatEx(45) * 0.8 + item.getStatEx(31) * 0.1)
+[type] == belt && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0  # [tier] == (1 +  item.getStatEx(8)*0.5 + item.getStatEx(74) * 7 + item.getStatEx(7)*0.5 + item.getStatEx(39) * 2.4 + item.getStatEx(41) * 2.4 + item.getStatEx(43) * 2.4 + item.getStatEx(45) * 0.8 + item.getStatEx(31) * 0.1)
 
 [name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 10 # [tier] == (10001) //string of ears
 [name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 11 # [tier] == (10002) //string of ears
@@ -40,7 +40,7 @@
 [type] == boots && [quality] < magic # # [tier] == (1)
 [type] == boots && [class] == exceptional && [quality] < magic # # [tier] == (2)
 [type] == boots && [class] == elite && [quality] < magic # # [tier] == (3)
-[type] == boots && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] ==   (1 + item.getStatEx(8)*2 + item.getStatEx(74)*7 + item.getStatEx(7)*2 + item.getStatEx(80)*1.8 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+[type] == boots && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] ==   (1 + item.getStatEx(8)*0.5 + item.getStatEx(74)*7 + item.getStatEx(7)*0.5 + item.getStatEx(80)*1.8 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
 
 [name] == sharkskinboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == (10001)
 [name] == battleboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == (10002)
@@ -49,7 +49,7 @@
 [type] == gloves && [quality] < magic # # [tier] == (1)
 [type] == gloves && [class] == exceptional && [quality] < magic # # [tier] == (2)
 [type] == gloves && [class] == elite && [quality] < magic # # [tier] == (3)
-[type] == gloves && [quality] >= magic  && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] ==   (1 + item.getStatEx(8)*2 + item.getStatEx(74)*7 + item.getStatEx(7)*2 + item.getStatEx(80)*1.8 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+[type] == gloves && [quality] >= magic  && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] ==   (1 + item.getStatEx(8)*0.5 + item.getStatEx(74)*7 + item.getStatEx(7)*0.5 + item.getStatEx(80)*1.8 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
 
 [name] == gauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 10 # [tier] == (10001) // frostburn (increased mana %)
 [name] == lightgauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 20 # [tier] == (10002) // magefist (mana regen)
@@ -67,9 +67,10 @@
 [type] == armor && [quality] < magic # # [tier] == (1)
 [type] == armor && [class] == exceptional && [quality] < magic # # [tier] == (2)
 [type] == armor && [class] == elite && [quality] < magic # # [tier] == (3)
-[type] == armor && (([quality] >= magic && [flag] == identified) || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == ( 1 + item.getStatEx(7)*2 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(105)*5) 
+[type] == armor && (([quality] >= magic && [flag] == identified) || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == ( 1 + item.getStatEx(7)*0.5 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(105)*5) 
 
-[type] == armor && [flag] == runeword # [fireresist] == 50 && [lightresist] == 50 # [tier] == (10001)
+[type] == armor && [flag] == runeword # [fcr] == 25 # [tier] == (400) // stealth
+[type] == armor && [flag] == runeword # [fireresist] == 50 && [lightresist] == 50 # [tier] == (10001) //smoke
 [type] == armor && [flag] == runeword # [lightresist] >= 60 # [tier] == (10002)
 [name] == cuirass && [quality] == unique && [flag] != ethereal # # [tier] == (10003)
 [name] == mageplate && [quality] == unique && [flag] != ethereal # # [tier] == (10004)
@@ -79,7 +80,7 @@
 [name] == russetarmor && [quality] == unique && [flag] == ethereal # # [tier] == (10008)
 
 //rings
-[type] == ring && [quality] >= magic && [flag] == identified # [itemchargedskill] >= 0 # [tier] == (1 +  item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*2 + item.getStatEx(9)*3 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
+[type] == ring && [quality] >= magic && [flag] == identified # [itemchargedskill] >= 0 # [tier] == (1 +  item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*0.5 + item.getStatEx(9)*0.5 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
 
 [type] == ring && [quality] == unique # [magicdamagereduction] >= 12 # [tier] == (10006) //dwarf
 [Type] == Ring && [Quality] == Unique # [Dexterity] >= 10 && [ToHit] >= 100 # [tier] == (10007) 	 //raven
