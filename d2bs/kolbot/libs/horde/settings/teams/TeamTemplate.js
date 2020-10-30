@@ -6,12 +6,13 @@
 */
 
 const HordeTeam = {
-	/* Put one entry per team member. the entry must be named as the D2Bot profile name
+	/* Put one entry in profiles per team member. the entry must be named as the D2Bot profile name
 	*  account: account used for the character
-	*  role: role of the character : "teleport", "bo", "follower" or "summoner". Need at least one "teleport" in the team
+	*  role: role of the character : "teleport", "bo", "follower". Need at least one "teleport" in the team
 	*  className: class of the character ( "sorceress", "amazon", "paladin", "necromancer", "barbarian", "assassin", "druid" )
 	*  character: name of the character
-	*  build: build for the character
+	*  build: build for the character (name of a .js file in kolbot\libs\horde\builds\#ClassName#\)
+	*  runewordsProfile: the runewords the character will be making (name of a .js file in kolbot\libs\horde\settings\crafting\runewords)
 	*/
 	profiles: {
 		"SorcProfile": {
@@ -45,9 +46,19 @@ const HordeTeam = {
 			role: "follower",
 			build: "summoner",
 			runewordsProfile: "RunewordsTemplate"
+		},
+		"DruidProfile": {
+			account: "account5",
+			character: "myDruid",
+			className: "druid",
+			role: "follower",
+			build: "wind",
+			runewordsProfile: "RunewordsTemplate"
 		}
 	},
 	
+	/* This is where you setup when the team should go to next difficulty and when the team should kill baal
+	*/
 	difficulties: {
 		0: { //Normal settings
 			stayIf: "TeamData.getLowestLevel() < 42", 
@@ -64,12 +75,12 @@ const HordeTeam = {
 		}
 	},
 	
+	sequencesProfile: "default_xpac", //The sequence profile to use for this team (a .js file in kolbot\libs\horde\settings\sequences\)
+	minGameTime: 210, //min game time to use for the whole team
+	maxGameTime: 0, //max game time to use for whole team,
 	ladder: true, //Is ladder team
 	hardcore: false, //Is Hardcore team
 	expansion: true, //Is Xpac team
-	sequencesProfile: "default_xpac", //The sequence profile to use for this team
-	minGameTime: 210, //min game time to use for the whole team
-	maxGameTime: 0, //max game time to use for whole team,
 	quitList: true, //quit when any team mate leave the game
 	manualPlay: false, //Use manual teleporter / follower script on others
 	debug: false //debug mode

@@ -17,7 +17,7 @@ var RunewordProfile = {
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[FireResist] == 50 && [LightResist] == 50",
 				tier: 0,
-				skipIf: ""
+				skipIf: "me.charlvl >= 60"
 			}
 		},
 		
