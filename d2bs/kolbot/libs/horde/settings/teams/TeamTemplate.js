@@ -83,5 +83,6 @@ const HordeTeam = {
 	expansion: true, //Is Xpac team
 	quitList: true, //quit when any team mate leave the game
 	manualPlay: false, //Use manual teleporter / follower script on others
+	disableMercRebuy: false, //Never re-buy (ONLY Revive) merc except on Norm -> Nightmare
 	debug: false //debug mode
 };
