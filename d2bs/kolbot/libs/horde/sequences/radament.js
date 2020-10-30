@@ -32,6 +32,7 @@ function radament(mfRun) {
 		pathX = [5106, 5205, 5205, 5214, 5222],
 		pathY = [5125, 5125, 5152, 5153, 5181];
 	
+	Town.goToTown(2);
 	Town.doChores();
 	Party.wholeTeamInGame();
 
