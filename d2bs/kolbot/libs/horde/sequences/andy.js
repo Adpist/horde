@@ -80,8 +80,8 @@ function andy(mfRun) {
 				if (mfRun) {
 					Pather.moveTo(22549, 9520); //Andy spot
 				}
-				
-				Pather.makePortal();
+				Pather.makePortal();				
+				delay(1100);//save the sorc!
 			}
 
 			Party.wholeTeamInGame();

@@ -35,7 +35,7 @@ function kurastchests(mfRun) {
 		var ogCainIDMinUnids = Config.CainID.MinUnids;
 		var ogHealHP = Config.HealHP;
 		var ogHealMP = Config.HealMP;
-		var ConfigChestManiaAct3 = [79, 80, 81, 92];//skip sewers2 93
+		var ConfigChestManiaAct3 = [79, 80, 81];//skip sewers when in questline
 		if (!mfRun){
 			Config.HealHP = 60; // Go to a healer if under designated percent of life.
 			Config.HealMP = 0; // Go to a healer if under designated percent of mana.
