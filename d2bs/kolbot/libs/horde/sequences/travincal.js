@@ -19,7 +19,7 @@ function travincal_requirements(mfRun) {
 			return Sequencer.skip; //quest done
 		}
 
-		if (Role.teleportingChar && !me.getItem(555) && !me.getItem(553) && !me.getItem(554) && !me.getItem(555)) {
+		if (Role.teleportingChar && ((!me.getItem(555) || !me.getItem(553) || !me.getItem(554)) && !me.getItem(174))) {
 			HordeDebug.logUserError("travincal", "can't complete quest, don't have items");
 			return Sequencer.stop; //can't complete quest, don't have items
 		}
@@ -39,6 +39,11 @@ function travincal(mfRun) {
 	var cain, orgX, orgY, preArea,
 		startNearWp = !mfRun && ((me.diff === 0) || (me.diff === 1 && HordeSettings.nmTracincalFromWpOn) || (me.diff === 2 && HordeSettings.hellTracincalFromWpOn));
 	Town.repair();
+	var ogFastPick = Config.FastPick;
+	var ogUseTelekinesis = Config.UseTelekinesis;
+	var ogUseMerc =	Config.UseMerc;
+	var ogMercWatch = Config.MercWatch;
+	var ogHPBuffer = Config.HPBuffer;
 	
 	this.buildList = function (checkColl) {
 		var monsterList = [],
@@ -59,7 +64,14 @@ function travincal(mfRun) {
 
 
 	Town.goToTown(3);
-
+	if (!mfRun) {
+		if(Config.HPBuffer < 8){
+			Config.HPBuffer = 8; // bulk up
+		}
+		Town.buyPotions(); //force load up on pots
+	}
+	delay(3000);
+	Party.allPlayersInArea(); //get team ready for portal
 	if (!mfRun) {
 		while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
 			Packet.flash(me.gid);
@@ -72,6 +84,13 @@ function travincal(mfRun) {
 		}
 
 		me.cancel();
+		if (Role.teleportingChar) {
+			Config.FastPick = true; // get the good items incase we fail
+			Config.UseTelekinesis = true;
+		}
+		Config.UseMerc = false;
+		Config.MercWatch = false;
+		Config.TeleStomp = false;
 	}
 
 	if (Role.teleportingChar) { // I am the Teleporting Sorc, open a portal to Travincal next to the High Council.
@@ -155,7 +174,10 @@ function travincal(mfRun) {
 
 	if (!mfRun) {
 		if (Role.teleportingChar && !me.getQuest(18, 0)) { // I am the Teleporting Sorc and I have not completed Khalim's Will yet. Will smash the orb while the others keep the area clear.
-			Quest.getQuestItem(173); // Pick up Khalim's Flail.
+			if(!me.getItem(174)){
+				print("get flail");
+				Quest.getQuestItem(173); // Pick up Khalim's Flail.
+			}
 
 			preArea = me.area;
 
@@ -163,7 +185,12 @@ function travincal(mfRun) {
 				Town.goToTown();
 			}
 
-			Quest.cubeFlail(); // Make Khalim's Will if I have the ingredients.
+			if(!me.getItem(174)){
+				print("make will");
+				Quest.cubeFlail(); // Make Khalim's Will if I have the ingredients.
+			}
+			Town.goToTown();
+
 
 			Quest.equipFlail() // This function purposely throws an error if Khalim's Will isn't present or is lost in the process.
 
@@ -177,6 +204,12 @@ function travincal(mfRun) {
 
 			Party.wholeTeamInGame();
 			delay(30000); //TODO better logic one day, this is to hope everyone gets ready & is here for a bit	
+			while(!Party.allPlayersInArea()){
+				print("waitin on everyone before orb smash");
+				if(!Party.wholeTeamInGame()){
+					quit();
+				}
+			}
 			Party.wholeTeamInGame();
 			Quest.placeFlail();
 		} else { // I am not the Teleporting Sorc or Khalim's Will has been completed. If it the latter is true the while loop on the next line will be skipped.
@@ -212,5 +245,11 @@ function travincal(mfRun) {
 		Party.waitForMembers(); // Wait for everyone to finish Travincal and come to town so I don't miss someone announcing team figurine.
 	}
 
+	Config.FastPick = ogFastPick;
+	Config.UseTelekinesis = ogUseTelekinesis;
+	Config.UseMerc = ogUseMerc;
+	Config.MercWatch = ogMercWatch;
+	Config.HPBuffer = ogHPBuffer;
+	
 	return Sequencer.done;
 }
