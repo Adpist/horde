@@ -78,6 +78,10 @@ const HordeTeam = {
 	sequencesProfile: "default_xpac", //The sequence profile to use for this team (a .js file in kolbot\libs\horde\settings\sequences\)
 	minGameTime: 210, //min game time to use for the whole team
 	maxGameTime: 0, //max game time to use for whole team,
+	walkChaosSancNorm: true, //Disable tele for clear of Chaos sanc in Normal
+	walkChaosSancNm: true, //Disable tele for clear of Chaos sanc in NM
+	walkChaosSancHell: true, //Disable tele for clear of Chaos sanc in Hell
+	walkThroneRoomNorm: true, //Disable tele for clear of Throne Room in Normal
 	ladder: true, //Is ladder team
 	hardcore: false, //Is Hardcore team
 	expansion: true, //Is Xpac team
