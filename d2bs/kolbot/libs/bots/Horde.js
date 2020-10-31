@@ -55,7 +55,7 @@ function Horde() {
 					say("/msg *ChannelDemon "+(me.ladder > 0? "Ladder" : "Non-Ladder")+" " + iprotation+"|"+realm+" "+(me.ladder > 0? "L" : "NL")+" Q:"+QueueInfo.QueueCount+" W:"+QueueInfo.QueueWait,2);
 
 				} else {
-					say("/w *channeldemon" + ((me.ladder > 0) ? " L " : " nL ") + iprotation, 2);
+					say("/w *channeldemon" + (me.ladder > 0? "Ladder" : "Non-Ladder") + iprotation, 2);
 				}
 
 		}
