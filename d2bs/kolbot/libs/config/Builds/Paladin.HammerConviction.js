@@ -1,4 +1,5 @@
-/** Hammerdin Paladin Build with convict*/
+/** Hammerdin Convic Paladin Build
+ */
 js_strict(true);
 
 if (!isIncluded("common/Cubing.js")) {
@@ -11,838 +12,236 @@ if (!isIncluded("common/Runewords.js")) {
     include("common/Runewords.js");
 };
 
-var AutoBuildTemplate = {
+var AutoBuildTemplate = {};
 
-    1: {
-        //SkillPoints: [-1],										// This doesn't matter. We don't have skill points to spend at lvl 1
-        //StatPoints: [-1,-1,-1,-1,-1],								// This doesn't matter. We don't have stat points to spend at lvl 1
-        Update: function() {
-            Config.TownCheck = false; // Don't go to town for more potions
-            Config.StashGold = 200; // Minimum amount of gold to stash.
+AutoBuildTemplate[1] = {
+    //SkillPoints: [-1],										// This doesn't matter. We don't have skill points to spend at lvl 1
+    //StatPoints: [-1,-1,-1,-1,-1],								// This doesn't matter. We don't have stat points to spend at lvl 1
+    Update: function() {
+        Config.TownCheck = false; // Don't go to town for more potions
+        Config.StashGold = 200; // Minimum amount of gold to stash.
+        Config.AttackSkill = [-1, 0, 0, 0, 0, -1, -1];
+        Config.LowManaSkill = [0, -1]; // Hit stuff when out of Mana.
+        Config.ScanShrines = [15, 13, 12, 14, 7, 6, 3, 2, 1];
+        Config.BeltColumn = ["hp", "hp", "hp", "hp"]; // Keep tons of health potions!
+        Config.MinColumn = [0, 0, 0, 0];
+        Config.OpenChests = false; // Might as well open em.
+        Config.Cubing = false; // Don't cube yet!
+        Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
+        Config.MPBuffer = 4; // Number of healing potions to keep in inventory.
+        Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
+        Config.UseMerc = true; // Use merc. This is ignored and always false in d2classic.
+        Config.MercWatch = false; // Instant merc revive during battle.
+        Config.HealHP = 95; // Go to a healer if under designated percent of life.
+        Config.HealMP = 90; // Go to a healer if under designated percent of mana.
+        Config.LowGold = 1000;
+        Config.UseHP = 75; // Drink a healing potion if life is under designated percent.
+        Config.UseRejuvHP = 50; // Drink a rejuvenation potion if life is under designated percent.
+        Config.UseMP = 35; // Drink a mana potion if mana is under designated percent.
+        Config.UseRejuvMP = 0; // Drink a rejuvenation potion if mana is under designated percent.
+        Config.UseMercHP = 40; // Give a healing potion to your merc if his/her life is under designated percent.
+        Config.UseMercRejuv = 0; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
+        Config.LifeChicken = 10; // Exit game if life is less or equal to designated percent.
+        Config.ManaChicken = 0; // Exit game if mana is less or equal to designated percent.
+        Config.MercChicken = 0; // Exit game if merc's life is less or equal to designated percent.
+        Config.TownHP = 35; // Go to town if life is under designated percent.
+        Config.TownMP = 0; // Go to town if mana is under designated percent.
+        Config.PickRange = 30; // Pick radius
+        Config.FastPick = false; // Check and pick items between attacks
+        Config.Dodge = true; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
+        Config.DodgeRange = 10; // Distance to keep from monsters.
+        Config.DodgeHP = 50; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+        Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
+        Config.ClearType = 0; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
+        Config.FCR = 0; // 0 - disable, 1 to 255 - set value of faster cast rate
+        Config.FHR = 0; // 0 - disable, 1 to 255 - set value of faster hit recovery
+        Config.FBR = 0; // 0 - disable, 1 to 255 - set value of faster block recovery
+        Config.IAS = 0; // 0 - disable, 1 to 255 - set value of increased attack speed
+        Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
+        Config.PacketShopping = false; // Use packets to shop. Improves shopping speed.
+        Config.WaypointMenu = true;
+        Config.PrimarySlot = -1; // Set to use specific weapon slot as primary weapon slot: -1 = disabled, 0 = slot I, 1 = slot II
+        Config.MFSwitchPercent = 0; // Boss life % to switch to non-primary weapon slot. Set to 0 to disable.
+        Config.LogExperience = true; // Print experience statistics in the manager.
+        Config.AutoMap = true; // Set to true to open automap at the beginning of the game.
 
-            Config.AttackSkill = [-1, 0, 0, 0, 0, -1, -1];
-            Config.LowManaSkill = [0, 0];
-            Config.LowManaSkill = [0, 0]; // Hit stuff when out of Mana.
-            Config.ScanShrines = [15, 13, 12, 14, 7, 6, 3, 2, 1];
-            Config.BeltColumn = ["hp", "hp", "hp", "hp"]; // Keep tons of health potions!
-            Config.MinColumn = [0, 0, 0, 0];
-            Config.OpenChests = true; // Might as well open em.
-            Config.Cubing = false; // Don't cube yet!
-            Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
-            Config.MPBuffer = 0; // Number of healing potions to keep in inventory.
-			Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
-			Config.UseMerc = true; // Use merc. This is ignored and always false in d2classic.
-			Config.MercWatch = false; // Instant merc revive during battle.
-			Config.HealHP = 95; // Go to a healer if under designated percent of life.
-			Config.HealMP = 90; // Go to a healer if under designated percent of mana.
-        }
-    },
+        // Gambling config
+        Config.Gamble = false;
+        Config.GambleGoldStart = 3000000;
+        Config.GambleGoldStop = 2900000;
+        // List of item names or classids for gambling. Check libs/NTItemAlias.dbl file for other item classids.
+        Config.GambleItems.push(520); // Amulet
+        Config.GambleItems.push(522); // Ring
+        Config.GambleItems.push(418); // Circlet
+        Config.GambleItems.push(419); // Coronet
 
-    2: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
+        Config.LogLowRunes = true; // Log low runes (El - Dol) on item viewer
+        Config.LogMiddleRunes = true; // Log middle runes (Hel - Mal) on item viewer
+        Config.LogHighRunes = true; // Log high runes (Ist - Zod) on item viewer
+        Config.LogLowGems = false; // Log low gems (chipped, flawed, normal) on item viewer
+        Config.LogHighGems = true; // Log high gems (flawless, perfect) on item viewer
+        Config.SkipLogging = []; // Custom log skip list. Set as three digit item code or classid. Example: ["tes", "ceh", 656, 657] will ignore logging of essences.
 
-            Config.AttackSkill = [-1, 0, 98, 0, 98, -1, -1]; // Use Might
-            Config.LowManaSkill = [0, 98]; // Use Might while hitting stuff.
-        }
-    },
+    }
+};
 
-    3: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
+AutoBuildTemplate[2] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.AttackSkill = [-1, 0, 98, 0, 98, -1, -1]; // Use Might
+        Config.LowManaSkill = [0, 98]; // Use Might while hitting stuff.
+        Config.BeltColumn = ["hp", "hp", "mp", "mp"];
+    }
+};
 
-        }
-    },
-
-    4: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    5: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.ScanShrines = [15, 13, 12];
-            Config.MinColumn = [1, 1, 1, 0];
-        }
-    },
-
-    6: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
+AutoBuildTemplate[6] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.MinColumn = [1, 1, 1, 0];
+        Config.StashGold = 1000; // Minimum amount of gold to stash.
             Config.AttackSkill = [-1, 0, 104, 0, 104, 101, 104]; // Holy Bolt and Defiance for Secondary Skill/Aura.
-            Config.LowManaSkill = [0, 104]; // Use Defiance Aim while hitting stuff.
-        }
-    },
+            Config.LowManaSkill = [0, 104]; // Use Defiance while hitting stuff.
+    }
+};
 
-    7: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            //Config.PickitFiles.splice(Config.PickitFiles.indexOf("belowlevelseven.nip"), 1);	// Will remove index "belowlevel7.nip" from Config.PickitFiles
-        }
-    },
+AutoBuildTemplate[10] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 5000;
+    }
+};
 
-    8: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
+AutoBuildTemplate[16] =
 
-        }
-    },
-
-    9: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    10: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.StashGold = 1000; // Minimum amount of gold to stash.
-            Config.BeltColumn = ["hp", "hp", "mp", "rv"]; // Start keeping rejuvs
-            Config.MinColumn = [1, 1, 1, 1];
-            Config.LowGold = 5000;
-        }
-    },
-
-    11: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    12: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {}
-    },
-
-    13: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.HPBuffer = 6; // Number of healing potions to keep in inventory.
-        }
-    },
-
-    14: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    15: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            //	Config.OpenChests = false;								// Eyes on the prize!
-        }
-    },
-
-    16: {
+    {
         SkillPoints: [-1],
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
             Config.TownCheck = true; // Do go to town for more potions
         }
-    },
-
-    17: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    18: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.AttackSkill = [-1, 112, 104, 112, 104, 101, 104]; // Blessed Hammer and defiance!
-            Config.LowManaSkill = [0, 104]; // Use defiance while hitting stuff.
-            Config.TownCheck = true; // Do go to town for more potions
-            Config.MinColumn = [3, 3, 3, 3]; // Should have a decent belt by now
-            Config.BeltColumn = ["hp", "mp", "mp", "rv"]; // Start keeping rejuvs
-            Config.Charge = false; // Don't waste mana on charging while walking
-            Config.MPBuffer = 8; // Need lots of mana for Blessed Hammer!
-        }
-    },
-
-    19: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    20: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 10000;
-        }
-    },
-
-    21: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    22: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    23: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    24: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.AttackSkill = [-1, 112, 120, 112, 120, 101, 120]; // Holy Bolt and Meditation for Secondary Skill/Aura.
-            Config.LowManaSkill = [0, 120]; // Use Meditation while hitting stuff.
-            Config.Cubing = true; // Will have a cube by now.
-        }
-    },
-
-    25: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 15000;
-        }
-    },
-
-    26: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    27: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    28: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.BeltColumn = ["hp", "mp", "mp", "rv"]; // Start keeping rejuvs
-        }
-    },
-
-    29: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    30: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.AttackSkill = [-1, 112, 123, 112, 123, 97, 120]; // Holy Bolt and Meditation for Secondary Skill/Aura.
-            Config.LowGold = 20000;
-        }
-    },
-
-    31: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    32: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    33: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    34: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    35: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 30000;
-            Config.LowManaSkill = [-1, -1]; // Stop trying to hit stuff.
-        }
-    },
-
-    36: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    37: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.Dodge = true;
-            Config.DodgeRange = 10; // Distance to keep from monsters.
-            Config.DodgeHP = 80; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
-        }
-    },
-
-    38: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    39: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    40: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 35000;
-        }
-    },
-
-    41: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    42: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    43: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    44: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    45: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 40000;
-        }
-    },
-
-    46: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    47: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    48: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    49: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    50: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.StashGold = 100000; // Minimum amount of gold to stash.
-            Config.Charge = true; // Should have enough mana to charge while walking now.
-            Config.MPBuffer = 4; // Nightmare has stronger potions.
-            Config.HPBuffer = 0; // Nightmare has stronger potions.
-            //Config.BeltColumn = ["hp", "hp", "mp", "rv"];			// Regular potion settings
-            Config.MinColumn = [3, 3, 3, 0]; // Regular potion settings
-            Config.LowGold = 45000;
-        }
-    },
-
-    51: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    52: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    53: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    54: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    55: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 50000;
-        }
-    },
-
-    56: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    57: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    58: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    59: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    60: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 55000;
-        }
-    },
-
-    61: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    62: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    63: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    64: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    65: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 60000;
-        }
-    },
-
-    66: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    67: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    68: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    69: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    70: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.LowGold = 100000;
-        }
-    },
-
-    71: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    72: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    73: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    74: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    75: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    76: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    77: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    78: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    79: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    80: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-            Config.Gamble = true; // Time to spend dat ca$h!!
-            //Config.ScanShrines	= [];
-        }
-    },
-
-    81: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    82: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    83: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    84: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    85: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    86: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    87: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    88: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    89: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    90: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    91: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    92: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    93: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    94: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    95: {
-        SkillPoints: [-1], //
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    96: {
-        SkillPoints: [-1], //
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    97: {
-        SkillPoints: [-1], //
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    98: {
-        SkillPoints: [-1], //
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
-    },
-
-    99: {
-        SkillPoints: [-1],
-        StatPoints: [-1, -1, -1, -1, -1],
-        Update: function() {
-
-        }
+    };
+
+AutoBuildTemplate[18] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowManaSkill = [-1, -1];
+        Config.HPBuffer = 6; // Number of healing potions to keep in inventory.
+        Config.MPBuffer = 10; // Number of mana potions to keep in inventory.
+        Config.Charge = false; // Don't waste mana on charging while walking
+        Config.AttackSkill = [-1, 112, 104, 112, 104, 101, 104]; // Blessed Hammer and defiance!
+		Config.Vigor = true; // Swith to Vigor when running
+    }
+};
+AutoBuildTemplate[20] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 10000;
+        Config.StashGold = 5000; // Minimum amount of gold to stash.
+    }
+};
+AutoBuildTemplate[24] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.AttackSkill = [-1, 112, 120, 112, 120, 101, 120]; // Holy Bolt and Meditation for Secondary Skill/Aura.
+        Config.LowManaSkill = [-1, 120]; // Use Meditation while hitting stuff.
+        Config.Cubing = true; // Will have a cube by now.
+        Config.LowGold = 15000;
+    }
+};
+
+AutoBuildTemplate[30] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.AttackSkill = [-1, 112, 123, 112, 123, 97, 123]; // Holy Bolt and Meditation for Secondary Skill/Aura.
+        Config.LowManaSkill = [-1, 123]; // Use meditation when out of mana
+        Config.LowGold = 20000;
+        Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
+        Config.MiniShopBot = true;
+        Config.CainID.Enable = true; // Identify items at Cain
+        Config.CainID.MinGold = 20000; // Minimum gold (stash + character) to have in order to use Cain.
+        Config.CainID.MinUnids = 1; // Minimum number of unid items in order to use Cain.
+        Config.MPBuffer = 6; // Number of mana potions to keep in inventory.
+        Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
+    }
+};
+
+AutoBuildTemplate[35] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 30000;
+        Config.StashGold = 10000; // Minimum amount of gold to stash.
+    }
+};
+AutoBuildTemplate[37] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.Dodge = true;
+        Config.DodgeRange = 10; // Distance to keep from monsters.
+        Config.DodgeHP = 80; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+    }
+};
+AutoBuildTemplate[40] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 35000;
+    }
+};
+AutoBuildTemplate[45] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 40000;
+    }
+};
+AutoBuildTemplate[50] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 45000;
+        Config.StashGold = 25000; // Minimum amount of gold to stash.
+    }
+};
+AutoBuildTemplate[55] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 50000;
+        Config.CainID.MinGold = 50000; // Minimum gold (stash + character) to have in order to use Cain.
+    }
+};
+AutoBuildTemplate[60] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 55000;
+    }
+};
+AutoBuildTemplate[65] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 60000;
+    }
+};
+AutoBuildTemplate[70] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+        Config.LowGold = 100000;
+        Config.UseHP = 90;
+        Config.TownHP = 50;
+        Config.MPBuffer = 4; // Number of mana potions to keep in inventory.
+        Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
+		Config.Vigor = false; // Swith to Vigor when running
     }
 };
