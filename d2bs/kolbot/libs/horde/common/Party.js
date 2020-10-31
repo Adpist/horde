@@ -6,15 +6,10 @@
 */
 
 var Party = {
-	iAmReady: false,
-	readyCount: 0,
-	teamIsReady:false,
 	lowestAct: 0,
 	
 	init: function() {
-		this.iAmReady = false;
-		this.readyCount = 0;
-		this.teamIsReady = false;
+		lowestAct = 0;
 	},
 	
 	wholeTeamInGame: function (stayInGame) { // Counts all the players in game. If the number of players is below TeamSize either return false or quit game depending on input.
@@ -258,40 +253,37 @@ var Party = {
 		}
 	},
 	
-	waitTeamReady: function() {
-		var tick;
+	waitSynchro: function(synchroType, timeout) {
+		var tick = getTickCount();
 		
-		Party.iAmReady = true; // Prevents premature teamIsReady announcment.
-
-		print("I am ready ; act = " + me.act);
-
-		//D2Bot.shoutGlobal(me.realm + " " + me.gamename + " ready", 69);
-
-		Communication.sendToList(HordeSystem.allTeamProfiles, "ready");
-
-		// Dark-f ->
-		if ( Party.iAmReady && HordeSystem.teamSize === 1 ) {
-			Party.teamIsReady = true;
-
-			print("Team is ready! Telling others :)");
-
-			Communication.sendToList(HordeSystem.allTeamProfiles, "team is ready");
+		if (timeout === undefined) {
+			timeout = HordeSettings.maxWaitTimeMinutes * 60 * 1000;
 		}
-		// <- Dark-f
-
-		while (!Party.teamIsReady) {
-			delay(500);
-			
-			if (getTickCount() - tick > HordeSettings.maxWaitTimeMinutes * 60 * 1000) { // Leave the game after x minutes of waiting.
-				print("Team wasn't in game within x minutes.");
-
-				D2Bot.printToConsole("Horde: Team wasn't ready within x minutes.", 9);
-
-				quit();
-			}
+		
+		if (HordeSystem.teamSize == 1) {
+			return true;
+		}
+		print("wait team ready " + synchroType + " timeout : " + (timeout / 1000) + "s");		
+		Communication.Synchro.sayReady(synchroType);
+		
+		while(!Communication.Synchro.isTeamReady(synchroType) && getTickCount() - tick <= timeout) {			
+			delay(me.ping + 50);
+		}
+		
+		Communication.Synchro.flushTeamReady(synchroType);
+		
+		return getTickCount() - tick <= timeout;
+	},
+	
+	initialSynchro: function() {
+		var timeout = HordeSettings.maxWaitTimeMinutes * 60 * 1000;
+		
+		if (!this.waitSynchro("init")) {
+			HordeDebug.logCriticalError("prerun", "Initial synchro failed : Team wasn't ready within " + (timeout/1000) + " seconds");
+			quit();
 		}
 
-		delay(1000);
+		delay(me.ping*2 + 250);
 		
 		while (!this.lowestAct) { // Wait for everyone to get back to their Town, then record the lowest Town.
 			this.lowestAct = Party.getLowestAct();
@@ -299,6 +291,6 @@ var Party = {
 			delay(250);
 		}
 
-		print("wait team ready done. lowestAct: " + this.lowestAct);
+		print("lowestAct: " + this.lowestAct);
 	}
 };

@@ -12,6 +12,41 @@ var Communication = {
 		waitAncients: 0 //ancients sequence
 	},
 	
+	Synchro: {
+		teamMessages: {},
+		
+		addTeamReady: function(profile, synchroType) {
+			if (this.teamMessages[synchroType] === undefined) {
+				this.flushTeamReady(synchroType);
+			}
+			
+			if (this.teamMessages[synchroType].indexOf(profile) === -1) {
+				this.teamMessages[synchroType].push(profile);
+			}
+		},
+		
+		sayReady: function(synchroType) {
+			this.addTeamReady(me.profile, synchroType);
+			Communication.sendToList(HordeSystem.allTeamProfiles, "ready " + synchroType);
+		},
+		
+		isTeamReady: function(synchroType) {
+			if (this.teamMessages[synchroType] === undefined) {
+				return false;
+			}
+			
+			return this.teamMessages[synchroType].length === HordeSystem.teamSize;
+		},
+
+		flushTeamReady: function(synchroType) {
+			if (this.teamMessages[synchroType] === undefined) {
+				this.teamMessages[synchroType] = [];
+			} else {			
+				this.teamMessages[synchroType].splice(0,this.teamMessages[synchroType].length);
+			}
+		}
+	},
+	
 	sendToList: function (list, message, mode=55) {
 		return list.forEach((profileName) => {
 			if (profileName.toLowerCase() != me.profile.toLowerCase()) {
@@ -22,28 +57,26 @@ var Communication = {
 	
 	receiveCopyData: function(id, data) {
 		let { msg, nick } = JSON.parse(data);
-		// Dark-f ->
-		if ( Party.iAmReady && HordeSystem.teamSize === 1 ) {
-			Party.teamIsReady = true;
-
-			print("Team is ready! Telling others :)");
-
-			Communication.sendToList(HordeSystem.allTeamProfiles, "team is ready");
-		}
-		// <- Dark-f
+		
 		if (id == 55) {
 			//sequencer command
 			if (msg.indexOf("run ") !== -1) {
 				var sequence, timeline, 
 					args = msg.split(' ');
-				if (args.length >= 2) {
+				if (args.length >= 3) {
 					sequence = args[1];
 					timeline = args[2];
 					Sequencer.receiveSequenceRequest(sequence, timeline);
 				} else {
 					HordeDebug.logScriptError("Sequencer", "Invalid run command: " + msg);
 				}
-				
+			} 
+			//Synchro command
+			else if (msg.indexOf("ready ") !== -1) {
+				var args = msg.split(' ');
+				if (args.length >= 2) {
+					this.Synchro.addTeamReady(nick, args[1]);
+				}
 			} else {
 				switch (msg) {
 				//sequencer command
@@ -52,28 +85,6 @@ var Communication = {
 					break;
 				
 				//Old stuff
-				case "ready":
-					Party.readyCount += 1;
-
-					print("readyCount = " + Party.readyCount);
-
-					if (Party.iAmReady && Party.readyCount === HordeSystem.teamSize - 1) {  // Doesn't count my ready because my messages are ignored. Subtract one from TeamSize to account for this.
-						if (!Party.teamIsReady) { // Only need to change teamIsReady to true once.
-							Party.teamIsReady = true;
-
-							print("Team is ready! Telling others :)");
-
-							Communication.sendToList(HordeSystem.allTeamProfiles, "team is ready");
-						}
-					}
-					break;
-				case "team is ready":
-					if (!Party.teamIsReady) { // Only need to change teamIsReady to true once.
-						Party.teamIsReady = true;
-
-						print("Received team is ready!");
-					}
-					break;
 				case "at waypoint":
 					Waypoint.playersAtWpCount += 1;
 

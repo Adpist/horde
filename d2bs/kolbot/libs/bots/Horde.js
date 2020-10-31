@@ -12,16 +12,21 @@ function Horde() {
 	this.start = function () {
 		var i;
 
-		print("starting");
 		scriptBroadcast("run prerun");
 		
+		Role.initRole();
 		Party.init();
 		Waypoint.init();
 
 		//Process previous game
+		Pickit.pickItems();
 		Town.doChores();
+		Pickit.pickItems();
 		Quest.checkAndUseConsumable();
 		HordeStorage.stashQuestItems();
+		Pickit.pickItems();
+		
+		Party.waitWholeTeamJoined();
 		Pickit.pickItems();
 		
 		//Setup current game
@@ -40,28 +45,28 @@ function Horde() {
 		
 		//IP rotation data feed
 		if(Role.teleportingChar){
-				var iprotation = Number(me.gameserverip.split(".")[3]);
+			var iprotation = Number(me.gameserverip.split(".")[3]);
 
-				if (!!DataFile.getStats().QueueLength) {
-					var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
+			if (!!DataFile.getStats().QueueLength) {
+				var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
 
-					var realm = me.realm;
-					if(realm === "USEast"){
-						realm = "East";
-					}
-					if(realm === "USWest"){
-						realm = "West";
-					}
-					say("/msg *ChannelDemon "+(me.ladder > 0? "Ladder" : "Non-Ladder")+" " + iprotation+"|"+realm+" "+(me.ladder > 0? "L" : "NL")+" Q:"+QueueInfo.QueueCount+" W:"+QueueInfo.QueueWait,2);
-
-				} else {
-					say("/w *channeldemon" + (me.ladder > 0? "Ladder" : "Non-Ladder") + iprotation, 2);
+				var realm = me.realm;
+				if(realm === "USEast"){
+					realm = "East";
 				}
+				if(realm === "USWest"){
+					realm = "West";
+				}
+				say("/msg *ChannelDemon "+(me.ladder > 0? "Ladder" : "Non-Ladder")+" " + iprotation+"|"+realm+" "+(me.ladder > 0? "L" : "NL")+" Q:"+QueueInfo.QueueCount+" W:"+QueueInfo.QueueWait,2);
+
+			} else {
+				say("/w *channeldemon" + (me.ladder > 0? "Ladder" : "Non-Ladder") + iprotation, 2);
+			}
 
 		}
 		
 		//Wait synchro
-		Party.waitTeamReady();
+		Party.initialSynchro();
 		
 		//Sharing sequence
 		Sharing.announceSharingSequence();
@@ -81,13 +86,10 @@ function Horde() {
 		Communication.receiveCopyData(id, data);
 	});
 	
-	Role.initRole();
-	Party.waitWholeTeamJoined();
-	Pickit.pickItems();
-	
+	print("prepare horde");
 	this.start();
 	
-	print("boot horde");
+	print("start horde");
 	HordeSystem.boot();
 	
 	return true;

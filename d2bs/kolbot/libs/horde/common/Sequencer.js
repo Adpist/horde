@@ -100,6 +100,8 @@ var Sequencer = {
 				HordeDebug.logScriptError("Sequencer", "Sequence " + sequence + " returned unhandled completion state : " + sequenceResult);
 				break;
 		}
+		
+		Party.waitSynchro("post_sequence");
 	},
 	
 	getTimelineName: function(timeline) {

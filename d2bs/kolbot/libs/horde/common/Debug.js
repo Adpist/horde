@@ -6,36 +6,39 @@
 */
 
 var HordeDebug = {
-	logUserError: function(script, error){
+
+	logInternal: function(category, script, error, color) {
 		if (error === undefined){
-			D2Bot.printToConsole("[UserError]:" + script, 6);
-			print("[UserError]:" + script);
+			if (color === undefined) {
+				D2Bot.printToConsole("[" + category + "]:" + script);
+			} else {
+				D2Bot.printToConsole("[" + category + "]:" + script, color);
+			}
+			print("[" + category + "]:" + script);
 		}
 		else{
-			D2Bot.printToConsole("[UserError:" + script + "]:" + error, 6);
-			print("[UserError:" + script + "]:" + error);
+			if (color === undefined) {
+				D2Bot.printToConsole("[" + category + "]:" + script + "]:" + error);
+			} else {
+				D2Bot.printToConsole("[" + category + "]:" + script + "]:" + error, color);
+			}
+			print("[" + category + "]:" + error);
 		}
+	},
+	
+	logUserError: function(script, error){
+		this.logInternal("UserError", script, error, 6);
 	},
 	
 	logScriptError: function(script, error){
-		if (error === undefined){
-			D2Bot.printToConsole("[ScriptError]:" + script, 6);
-			print("[ScriptError]:" + script);
-		}
-		else{
-			D2Bot.printToConsole("[ScriptError:" + script + "]:" + error, 6);
-			print("[ScriptError:" + script + "]:" + error);
-		}
+		this.logInternal("ScriptError", script, error, 6);
 	},
 	
 	logScriptInfo: function(script, msg){
-		if (msg === undefined){
-			D2Bot.printToConsole("[ScriptInfo]:" + script);
-			print("[ScriptInfo]:" + script);
-		}
-		else{
-			D2Bot.printToConsole("[ScriptInfo:" + script + "]:" + msg);
-			print("[ScriptInfo:" + script + "]:" + msg);
-		}
+		this.logInternal("ScriptInfo", script, error);
+	},
+	
+	logCriticalError: function(script, error) {
+		this.logInternal("CriticalError", script, error, 9);
 	}
 };
