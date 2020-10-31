@@ -97,5 +97,6 @@ const HordeTeam = {
     maxGameTime: 0, //max game time to use for whole team,
     quitList: true, //quit when any team mate leave the game
     manualPlay: false, //Use manual teleporter / follower script on others
+	disableMercRebuy: true, //Never re-buy (ONLY Revive) merc except on Norm -> Nightmare
     debug: false //debug mode
 };
