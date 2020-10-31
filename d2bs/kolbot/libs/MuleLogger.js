@@ -38,7 +38,7 @@ var MuleLogger = {
 			logIlvl = this.LogItemLevel;
 		}
 
-		desc = unit.description.split("\n");
+		//desc = unit.description.split("\n");
 
 		if (!!unit.description)
 		{
