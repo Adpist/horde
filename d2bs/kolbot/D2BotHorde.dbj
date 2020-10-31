@@ -392,7 +392,13 @@ function getOtherPlayerData(profileName) {
 }
 
 function leaderElection(){
-	newElection = false;
+	if(!!electedLeader && electedLeader !=newElection){
+		//Desync catch
+		electedLeader=false;
+	}
+	if(!electedLeader){
+		newElection = false;
+	}
 	while(!electedLeader){
 		delay(1000);
 		if(HordeSystem.teleProfile.toLowerCase() === me.profile.toLowerCase()){
@@ -408,11 +414,11 @@ function leaderElection(){
 			JoinSettings[newElection]=["all"];
 			electedLeader = newElection;
 			DataFile.updateStats("hordeLeader", newElection);
-			//Incase someone is ingame
+			//Incase someone is desynced
 			try {
 				HordeSystem.allTeamProfiles.forEach((profileName) => {
 					if (profileName.toLowerCase() != me.profile.toLowerCase()) {
-						sendCopyData(null, profileName, 55, JSON.stringify({ nick: me.profile, msg: "hordequit" }));
+						sendCopyData(null, profileName, 57, JSON.stringify({ nick: me.profile, electedLeader: electedLeader }));
 					}
 				});
 			} catch (error){
