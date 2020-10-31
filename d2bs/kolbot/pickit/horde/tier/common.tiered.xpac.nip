@@ -69,9 +69,11 @@
 [type] == armor && [class] == elite && [quality] < magic # # [tier] == (3)
 [type] == armor && (([quality] >= magic && [flag] == identified) || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == ( 1 + item.getStatEx(7)*0.5 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(105)*5) 
 
-[type] == armor && [flag] == runeword # [fcr] == 25 # [tier] == (400) // stealth
+[type] == armor && [flag] == runeword # [fcr] == 25 # [tier] == (250) // stealth
+[type] == armor && [flag] == runeword && [class] == exceptional # [fcr] == 25 # [tier] == (350) // stealth
+[type] == armor && [flag] == runeword && [class] == elite # [fcr] == 25 # [tier] == (450) // stealth
 [type] == armor && [flag] == runeword # [fireresist] == 50 && [lightresist] == 50 # [tier] == (10001) //smoke
-[type] == armor && [flag] == runeword # [lightresist] >= 60 # [tier] == (10002)
+[type] == armor && [flag] == runeword && [class] == elite # [fireresist] == 50 && [lightresist] == 50 # [tier] == (10002) //smoke
 [name] == cuirass && [quality] == unique && [flag] != ethereal # # [tier] == (10003)
 [name] == mageplate && [quality] == unique && [flag] != ethereal # # [tier] == (10004)
 [name] == serpentskinarmor && [quality] == unique && [flag] != ethereal # # [tier] == (10005)

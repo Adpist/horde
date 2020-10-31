@@ -17,7 +17,8 @@
 
 [type] == auricshields && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == (60001) //ancients pledge paladin
 
-[type] == auricshields && [flag] == runeword # [fcr] >= 25 && [fhr] >= 55 # [maxquantity] == 1 && [tier] == (60003) //spirit
+[type] == auricshields && [flag] == runeword # [fcr] >= 25 # [maxquantity] == 1 && [tier] == (60003) //spirit
+[type] == auricshields && [class] == elite && [flag] == runeword # [fcr] >= 25 # [maxquantity] == 1 && [tier] == (60004) //spirit
 
 // amulets
 //pala 
