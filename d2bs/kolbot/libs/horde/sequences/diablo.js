@@ -474,6 +474,15 @@ function diablo(mfRun) {
 		Buff.selfBo();
 	}
 	Buff.Bo();
+	if(HordeSystem.team.walkChaosSancNorm && me.diff === 0){
+		Pather.teleport = false;
+	}
+	if(HordeSystem.team.walkChaosSancNm && me.diff === 1){
+		Pather.teleport = false;
+	}
+	if(HordeSystem.team.walkChaosSancHell && me.diff === 2){
+		Pather.teleport = false;
+	}
 	Attack.clear(10);
 	if (Role.teleportingChar) {
 		delay(5000);
@@ -591,7 +600,7 @@ function diablo(mfRun) {
 
 	Pickit.pickItems();
 
-	//Pather.teleport = false;
+	Pather.teleport = true;
 
 	if (me.gametype === 0) { // Exit game in classic.
 		while (me.ingame) {
