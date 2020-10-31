@@ -211,7 +211,11 @@ var HordeSystem = {
 		});
 		
 		isTeleportChar = this.teleProfile === me.profile;
-		
+		if(isTeleportChar) { //For non horde hooks
+			Config.Horde.RoleteleportingChar = true;
+		} else {
+			Config.Horde.RoleteleportingChar = false;
+		}
 		if(this.team.manualPlay){
 			Scripts.Horde = false;
 			if (isTeleportChar) {

@@ -456,6 +456,9 @@ function main() {
 
 			break;
 		case 0x11: // "%Param1 Stones of Jordan Sold to Merchants"
+			if(Config.Horde.RoleteleportingChar){
+				say("/w *channeldemon IP " + me.gameserverip.split(".")[3] + " @ "  + param1,2);
+			}
 			if (Config.DCloneQuit === 2) {
 				D2Bot.printToConsole("SoJ sold in game. Leaving.");
 
@@ -471,6 +474,9 @@ function main() {
 
 			break;
 		case 0x12: // "Diablo Walks the Earth"
+			if(Config.Horde.RoleteleportingChar){
+				say("/w *channeldemon IP " + me.gameserverip.split(".")[3] + " Diablo Walks the Earth",2);
+			}
 			if (Config.DCloneQuit > 0) {
 				D2Bot.printToConsole("Diablo walked in game. Leaving.");
 

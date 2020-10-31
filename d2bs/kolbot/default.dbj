@@ -52,11 +52,13 @@ function main() {
 		var qProfile = QueueInfo.LeadProfile;
 
 		if (me.profile == qProfile){
-			var qStart = new Date(QueueInfo.QueueStart);
-			var qEnd = new Date();
-			var qWait = parseInt((qEnd - qStart) / 1000);
-			DataFile.updateStats("QueueLength", JSON.stringify({LeadProfile: me.profile, QueueStart: "", QueueWait: qWait}));
+			if(!!QueueInfo.QueueStart){
+				var qStart = new Date(QueueInfo.QueueStart);
+				var qEnd = new Date();
+				var qWait = parseInt((qEnd - qStart) / 1000);
+				DataFile.updateStats("QueueLength", JSON.stringify({LeadProfile: me.profile, QueueStart: false, QueueWait: qWait, QueueCount :QueueInfo.QueueCount}));
 			}
+		}
 	}
 	// don't load default for mules
 	if (getScript("D2BotMule.dbj")) {
