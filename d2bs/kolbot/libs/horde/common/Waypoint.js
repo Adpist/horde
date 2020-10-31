@@ -284,29 +284,43 @@ var Waypoint = {
 						scroll.interact(); // Use a Scroll of Town Portal.
 					}
 				}
-
+				var wpWaitTime = getTickCount() + 25000;//start max wp wait to account for town portal to wp walk
+				delay(250);
+				if(Pather.usePortal(null, null)){
+					//wait safely intown
+					Town.move("waypoint");
+				}
+				
 				for (var j = 0 ; j <100 ; j += 1) { //Here is some wrong, it is too long time to wait. Dark-f < 720 ; j += 1) { // Wait up to 3 minutes Team Members to grab the Waypoint.
 					if (playerList.length === 0) { //Dark-f: && Misc.getNearbyPlayerCount() <= finishedPlayerCount) {
 						break;
 					}
 
 					delay(250);
-
+					
 					if (j % 20 == 0) { // Check for Team Members every 5 seconds.
 						Party.wholeTeamInGame();
-					}
-				
-
-					player = getUnit(0); // Get nearby player unit.
-
-					do {
-						if (player.name !== me.name) {
-							//print("waypoint sharing : player name is " + player.name);
-							if (playerList.indexOf(player.name) > -1) { // Player's name is on the list of players needing this Waypoint.
-								playerList.splice(playerList.indexOf(player.name), 1); // Remove player's name from the list.
-							}
+						if (!me.inTown) {
+							Attack.clear(2); //incase we got jumped fight back and not in town
 						}
-					} while (player.getNext()); // Loop thru all nearby player units.
+					}
+
+					if(getTickCount() > wpWaitTime){
+						break;
+					}
+
+					//This is broken, disabling
+					//player = getUnit(0); // Get nearby player unit.
+					//do {
+					//	if (player.name !== me.name) {
+					//		//print("waypoint sharing : player name is " + player.name);
+					//		if (playerList.indexOf(player.name) > -1) { // Player's name is on the list of players needing this Waypoint.
+					//			playerList.splice(playerList.indexOf(player.name), 1); // Remove player's name from the list.
+					//		}
+					//	}
+					//} while (player.getNext()); // Loop thru all nearby player units.
+					//This is broken, disabling
+					
 				}
 				
 				
