@@ -412,6 +412,7 @@ function leaderElection(){
 			isLeader = (newElection ===me.profile);
 			JoinSettings = {};
 			JoinSettings[newElection]=["all"];
+			leader = "";
 			electedLeader = newElection;
 			DataFile.updateStats("hordeLeader", newElection);
 			//Incase someone is desynced
