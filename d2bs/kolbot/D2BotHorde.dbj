@@ -72,7 +72,7 @@ var i, j, gameInfo, joinInfo, gameStart, ingame, gold, handle,useChat = false,
 	queuecount = 0,
 	lastGameStatus = "ready",
 	isUp = "no",
-	electedLeader="", isLeader = false, levelTeamAvrg = false,
+	electedLeader=false, newElection=false, isLeader = false, levelTeamAvrg = false,
 	leader = "",
 	lastGame = [],
 	chanInfo = {
@@ -224,6 +224,22 @@ function ReceiveCopyData (mode, msg) {
 		}
 
 		break;
+	case 56:
+		// Leader Profile request
+		if(!!electedLeader){
+			obj = JSON.parse(msg);
+			sendCopyData(null, obj.nick, 57, JSON.stringify({ nick: me.profile, electedLeader: electedLeader }));
+			print("leader election request from "+obj.nick);
+		} else {
+			print("leader election request, no new leader yet");
+		}
+		break;
+	case 57:
+		// Leader Profile reply
+		obj = JSON.parse(msg);
+		newElection = obj.electedLeader;
+		print("leader election reply: "+newElection);
+		break;	
 	}
 }
 
@@ -325,7 +341,7 @@ function main () {
 				}
 				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]+ " | " + sequenceStr + " | Playtime : " + Playtime.getInGameTime());
 			}
-			
+			electedLeader=false;//clear leader to re-pick on NG		
 			delay(1000);
 		}
 
@@ -376,26 +392,39 @@ function getOtherPlayerData(profileName) {
 }
 
 function leaderElection(){
-
-	var newElection = doLeaderElection();
-	if(newElection === electedLeader){
-		return false;
+	if(!!electedLeader && electedLeader !=newElection){
+		//Desync catch
+		electedLeader=false;
 	}
-
-	isLeader = (newElection ===me.profile);
-	JoinSettings = {};
-	JoinSettings[newElection]=["all"];
-	electedLeader = newElection;
-	DataFile.updateStats("hordeLeader", newElection);
-	//Incase someone is ingame
-	try {
-		HordeSystem.allTeamProfiles.forEach((profileName) => {
-			if (profileName.toLowerCase() != me.profile.toLowerCase()) {
-				sendCopyData(null, profileName, 55, JSON.stringify({ nick: me.profile, msg: "hordequit" }));
+	if(!electedLeader){
+		newElection = false;
+	}
+	while(!electedLeader){
+		delay(1000);
+		if(HordeSystem.teleProfile.toLowerCase() === me.profile.toLowerCase()){
+			//I'm the puesdo leader let me determine real leader
+			newElection = doLeaderElection();
+		} else {
+			sendCopyData(null, HordeSystem.teleProfile, 56, JSON.stringify({ nick: me.profile, msg: "leaderrequest" }));
+			//request leader
+		}
+		if(!!newElection){
+			isLeader = (newElection ===me.profile);
+			JoinSettings = {};
+			JoinSettings[newElection]=["all"];
+			electedLeader = newElection;
+			DataFile.updateStats("hordeLeader", newElection);
+			//Incase someone is desynced
+			try {
+				HordeSystem.allTeamProfiles.forEach((profileName) => {
+					if (profileName.toLowerCase() != me.profile.toLowerCase()) {
+						sendCopyData(null, profileName, 57, JSON.stringify({ nick: me.profile, electedLeader: electedLeader }));
+					}
+				});
+			} catch (error){
+				D2Bot.printToConsole("While sending quit kick: "+error);
 			}
-		});
-	} catch (error){
-		D2Bot.printToConsole("While sending quit kick: "+error);
+		}
 	}
 	return true;
 }
