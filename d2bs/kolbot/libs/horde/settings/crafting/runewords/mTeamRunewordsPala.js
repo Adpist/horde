@@ -77,17 +77,6 @@ var RunewordProfile = {
 				tier: 60000,
 				skipIf: ""
 			},
-			"pala_ancients_pledge" : {
-				runeword: Runeword.AncientsPledge,
-				sockets: 3,
-				bases: ["Targe", "Rondache", "Aerin Shield", "Crown Shield","Royal Shield","Heraldic Shield","Aerin Shield", "Akaran Targe", "Akaran Rondache", "Protector Shield", "Gilded Shield", "Royal Shield","Sacred Targe", "Sacred Rondache", "Kurast Shield", "Zakarum Shield","Vortex Shield"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 40 && [LightResist] >= 40",
-				tier: 60001,
-				skipIf: ""
-			},
 			"spirit" : {
 				runeword: Runeword.Spirit,
 				sockets: 4,
@@ -97,6 +86,19 @@ var RunewordProfile = {
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[fcr] >= 25",
 				tier: 60002,
+				skipIf: ""
+			}
+		},
+		"auricshields" : {
+			"pala_ancients_pledge" : {
+				runeword: Runeword.AncientsPledge,
+				sockets: 3,
+				bases: ["Targe", "Rondache", "Aerin Shield", "Crown Shield","Royal Shield","Heraldic Shield","Aerin Shield", "Akaran Targe", "Akaran Rondache", "Protector Shield", "Gilded Shield", "Royal Shield","Sacred Targe", "Sacred Rondache", "Kurast Shield", "Zakarum Shield","Vortex Shield"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[FireResist] >= 40 && [LightResist] >= 40",
+				tier: 60001,
 				skipIf: ""
 			},
 			"pala_spirit" : {
