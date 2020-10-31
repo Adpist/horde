@@ -38,6 +38,28 @@ function Horde() {
 			Town.move("portalspot");
 		}
 		
+		//IP rotation data feed
+		if(Role.teleportingChar){
+				var iprotation = Number(me.gameserverip.split(".")[3]);
+
+				if (!!DataFile.getStats().QueueLength) {
+					var QueueInfo = JSON.parse(DataFile.getStats().QueueLength);
+
+					var realm = me.realm;
+					if(realm === "USEast"){
+						realm = "East";
+					}
+					if(realm === "USWest"){
+						realm = "West";
+					}
+					say("/msg *ChannelDemon "+(me.ladder > 0? "Ladder" : "Non-Ladder")+" " + iprotation+"|"+realm+" "+(me.ladder > 0? "L" : "NL")+" Q:"+QueueInfo.QueueCount+" W:"+QueueInfo.QueueWait,2);
+
+				} else {
+					say("/w *channeldemon" + ((me.ladder > 0) ? " L " : " nL ") + iprotation, 2);
+				}
+
+		}
+		
 		//Wait synchro
 		Party.waitTeamReady();
 		
