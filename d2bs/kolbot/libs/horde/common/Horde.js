@@ -96,9 +96,7 @@ var HordeSystem = {
 		
 		for(var i = 0 ; i < runewords.length ; i += 1) {
 			runeword = runewordLocation[runewords[i]];
-			if (runeword.skipIf === undefined || runeword.skipIf === "" || !eval(runeword.skipIf)) {
-				print("setup runeword " + runewords[i] + " in " + locationName);
-				
+			if (runeword.skipIf === undefined || runeword.skipIf === "" || !eval(runeword.skipIf)) {				
 				Config.KeepRunewords.push("[type] == " + locationName + " # " + runeword.statCondition);
 				
 				for (var j = 0 ; j < runeword.bases.length ; j += 1) {

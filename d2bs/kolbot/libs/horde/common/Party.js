@@ -9,7 +9,7 @@ var Party = {
 	lowestAct: 0,
 	
 	init: function() {
-		lowestAct = 0;
+		this.lowestAct = 0;
 	},
 	
 	wholeTeamInGame: function (stayInGame) { // Counts all the players in game. If the number of players is below TeamSize either return false or quit game depending on input.
