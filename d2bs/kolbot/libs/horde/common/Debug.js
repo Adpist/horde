@@ -18,11 +18,11 @@ var HordeDebug = {
 		}
 		else{
 			if (color === undefined) {
-				D2Bot.printToConsole("[" + category + "]:" + script + "]:" + error);
+				D2Bot.printToConsole("[" + category + ":" + script + "]:" + error);
 			} else {
-				D2Bot.printToConsole("[" + category + "]:" + script + "]:" + error, color);
+				D2Bot.printToConsole("[" + category + ":" + script + "]:" + error, color);
 			}
-			print("[" + category + "]:" + error);
+			print("[" + category + ":" + script + "]:" + error);
 		}
 	},
 	
@@ -35,7 +35,7 @@ var HordeDebug = {
 	},
 	
 	logScriptInfo: function(script, msg){
-		this.logInternal("ScriptInfo", script, error);
+		this.logInternal("ScriptInfo", script, msg);
 	},
 	
 	logCriticalError: function(script, error) {

@@ -71,7 +71,7 @@ const HordeTeam = {
 		},
 		
 		2: {//Hell settings
-			killBaalIf: "TeamData.getAvgLevel() > 80"
+			killBaalIf: "TeamData.getAverageLevel() > 80"
 		}
 	},
 	

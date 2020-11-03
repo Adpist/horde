@@ -9,6 +9,12 @@ var HordeSettings = {
 	maxWaitTimeMinutes: 3, //Max time to wait in case horde synchronization fails
 	logChar: true,
 	
+	Debug: {
+		Verbose: {
+			leaderElection: true,
+			synchro: true
+		}
+	},
 	/****************************************************/
 	/* Everything below those lines will be deleted.    */
 	/* please use sequences & teams						*/
@@ -46,4 +52,5 @@ var HordeSettings = {
 	diaLvlhellAreas: [79,80,81,-1,19,-1,12,16,-1,65,-1,9,13,-1,10,14,-1,11,15,-1,12,16,-1,55,59,-1,65],
 	mfLvlhellAreas: []*/
 
+	
 };

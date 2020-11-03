@@ -40,6 +40,7 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 	Party.wholeTeamInGame();
 	var portal, tick, baalfail, questTry, time, l, merc,
 	quest = false;
+	Town.goToTown(5);
 	Town.doChores();
 	this.preattack = function () {
 		var check;

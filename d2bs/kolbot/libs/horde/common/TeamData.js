@@ -41,7 +41,7 @@ var TeamData = {
 			levelSum += teamLevels[i]; 
 		}
 		
-		return levelTeamAvrg = Math.round(levelSum/levelCount);
+		return Math.round(levelSum/levelCount);
 	},
 	
 	getLowestLevel: function() {

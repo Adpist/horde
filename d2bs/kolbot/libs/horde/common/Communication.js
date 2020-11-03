@@ -6,6 +6,8 @@
 */
 
 var Communication = {
+	ingame: true,
+	
 	Questing: {
 		clearOrifice: false,//duriel sequence
 		readyToKillDiablo: 0, //diablo sequence
@@ -15,48 +17,93 @@ var Communication = {
 	Synchro: {
 		teamMessages: {},
 		
+		onReceiveCommand: function(nick, msg, ingame) {
+			var args = msg.split(' ');
+			if (args.length === 2) {
+				Communication.sendToProfile(nick, "ready " + args[1] + " ack");
+				this.addTeamReady(nick, args[1]);
+			} else if (args.length === 3 ) {
+				if (args[2] === "ack") {
+					this.addTeamReadyAck(nick, args[1]);
+				}
+			}
+		},
+		
 		addTeamReady: function(profile, synchroType) {
 			if (this.teamMessages[synchroType] === undefined) {
 				this.flushTeamReady(synchroType);
 			}
 			
-			if (this.teamMessages[synchroType].indexOf(profile) === -1) {
-				this.teamMessages[synchroType].push(profile);
+			if (this.teamMessages[synchroType].ready.indexOf(profile) === -1) {
+				this.teamMessages[synchroType].ready.push(profile);
+				
+				if (profile !== me.profile && this.teamMessages[synchroType].ready.indexOf(me.profile) !== -1
+					&& this.teamMessages[synchroType].ack.indexOf(profile) === -1 ) {
+					Communication.sendToProfile(profile, "ready " + synchroType);
+				}
+				
+				if (HordeSettings.Debug.Verbose.synchro) {
+					print("" + profile + " is ready for " + synchroType + " - " + this.teamMessages[synchroType].ready.length + "/" + HordeSystem.teamSize);
+ 				}
+			}
+		},
+		
+		addTeamReadyAck: function(profile, synchroType) {
+			if (this.teamMessages[synchroType] === undefined) {
+				this.flushTeamReady(synchroType);
+			}
+			
+			if (this.teamMessages[synchroType].ack.indexOf(profile) === -1) {
+				this.teamMessages[synchroType].ack.push(profile);
 			}
 		},
 		
 		sayReady: function(synchroType) {
+			this.addTeamReadyAck(me.profile, synchroType);
 			this.addTeamReady(me.profile, synchroType);
 			Communication.sendToList(HordeSystem.allTeamProfiles, "ready " + synchroType);
 		},
 		
 		isTeamReady: function(synchroType) {
-			if (this.teamMessages[synchroType] === undefined) {
+			if (this.teamMessages[synchroType].ready === undefined) {
 				return false;
 			}
 			
-			return this.teamMessages[synchroType].length === HordeSystem.teamSize;
+			return this.teamMessages[synchroType].ready.length === HordeSystem.teamSize;
 		},
 
 		flushTeamReady: function(synchroType) {
-			if (this.teamMessages[synchroType] === undefined) {
-				this.teamMessages[synchroType] = [];
-			} else {			
-				this.teamMessages[synchroType].splice(0,this.teamMessages[synchroType].length);
+			if (this.teamMessages[synchroType] === undefined ) {
+				this.teamMessages[synchroType] = {ready: [], ack: []};
 			}
+			else {
+				this.teamMessages[synchroType].ready.splice(0,this.teamMessages[synchroType].ready.length);
+				this.teamMessages[synchroType].ack.splice(0,this.teamMessages[synchroType].ack.length);
+			}
+		}
+	},
+	
+	sendToProfile: function(profile, message, mode=55) {
+		if (profile.toLowerCase() != me.profile.toLowerCase()) {
+			sendCopyData(null, profile, mode, JSON.stringify({ nick: me.profile, msg: message, ingame: this.ingame }));
 		}
 	},
 	
 	sendToList: function (list, message, mode=55) {
 		return list.forEach((profileName) => {
 			if (profileName.toLowerCase() != me.profile.toLowerCase()) {
-				sendCopyData(null, profileName, mode, JSON.stringify({ nick: me.profile, msg: message }));
+				sendCopyData(null, profileName, mode, JSON.stringify({ nick: me.profile, msg: message, ingame: this.ingame }));
 			}
 		});
 	},
 	
+	
 	receiveCopyData: function(id, data) {
-		let { msg, nick } = JSON.parse(data);
+		let { msg, nick, ingame } = JSON.parse(data);
+		
+		if (!ingame) {
+			return;
+		}
 		
 		if (id == 55) {
 			//sequencer command
@@ -73,10 +120,7 @@ var Communication = {
 			} 
 			//Synchro command
 			else if (msg.indexOf("ready ") !== -1) {
-				var args = msg.split(' ');
-				if (args.length >= 2) {
-					this.Synchro.addTeamReady(nick, args[1]);
-				}
+				this.Synchro.onReceiveCommand(nick, msg, ingame);
 			} else {
 				switch (msg) {
 				//sequencer command

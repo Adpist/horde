@@ -28,6 +28,14 @@ var HordeSystem = {
 		this.allTeamCharacters = [];
 	},
 	
+	getTeamIndex: function(profile) {
+		if (profile === undefined) {
+			profile = me.profile;
+		}
+		
+		return this.allTeamProfiles.indexOf(profile);
+	},
+	
 	setupBuild: function(buildName) {
 		var className = ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin"][me.classid];
 		
@@ -127,9 +135,6 @@ var HordeSystem = {
 					
 					NTIP.PushLine(0, pickitLine, "dynamic/runewords/"+ (merc ? "merc" : "character") +"/" + locationName + "/" + runewords[i]);
 				}
-			}
-			else {
-				print("skip runeword " + runewords[i] + " in " + locationName);
 			}
 		}
 	},
@@ -304,6 +309,19 @@ var HordeSystem = {
 	
 	boot: function() {
 		Sequencer.run();
-	}
+	},
 	
+	onToolThreadQuit: function() {
+		var baseDelay = 250, minDelay;
+		//no more leader
+		Role.isLeader = false;
+		
+		if (Role.backToTown()) {
+			baseDelay = 2000;
+			//We're safe in town, just wait to not leave all together
+		}
+		
+		minDelay = baseDelay+(baseDelay* (this.getTeamIndex(me.profile) + 1));
+		delay(minDelay, minDelay + baseDelay/4 );
+	}
 }

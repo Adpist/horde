@@ -689,24 +689,20 @@ function main() {
 
 		if (quitFlag && canQuit && (typeof quitListDelayTime === "undefined" || getTickCount() >= quitListDelayTime)) {
 			print("ÿc8Run duration ÿc2" + ((getTickCount() - me.gamestarttime) / 1000));
-
+			
+			this.togglePause();
+			
 			if (Config.LogExperience) {
 				Experience.log();
 			}
 			
-			//Basic rand delay when exiting
-			try
-			{
-				Town.goToTown();
-				delay(rand(5000,12000));
-			
-			} catch(e) {
-				Misc.errorReport(e, "ToolsThread quit flag");
-				delay(rand(2000,5000));			
-			}
+			HordeSystem.onToolThreadQuit();
 
 			this.checkPing(false); // In case of quitlist triggering first
+			
+			this.togglePause();
 			this.exit();
+			
 
 			break;
 		}

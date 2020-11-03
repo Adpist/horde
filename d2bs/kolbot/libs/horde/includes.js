@@ -6,14 +6,8 @@
 */
 
 function includeHorde() {
-	//TEMP : remove full settings folder until team settings are moved
 	var folders = ["common", "tools", "settings"];
 	
-	if (!isIncluded("horde/settings/Settings.js")){
-		if (!include("horde/settings/Settings.js")){
-			throw new Error("Failed to include horde/settings/Settings.js");
-		}
-	}
 	
 	folders.forEach( (folder) => {
 		var files = dopen("libs/horde/"+folder+"/").getFiles();

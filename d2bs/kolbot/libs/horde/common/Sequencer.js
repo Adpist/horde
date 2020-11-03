@@ -101,6 +101,8 @@ var Sequencer = {
 				break;
 		}
 		
+		Town.move("waypoint");
+		
 		Party.waitSynchro("post_sequence");
 	},
 	

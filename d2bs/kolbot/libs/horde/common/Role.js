@@ -92,6 +92,55 @@ var Role = {
 		}
 	},
 	
+	getTownFromAct: function(act) {
+		var towns = [1, 40, 75, 103, 109];
+		if (act < 1 || act > 5) {
+			throw new Error("Role.getTownFromAct: Invalid act");
+		}
+		
+		return towns[act-1];
+	},
+	
+	backToTown: function() {
+		var waitTime = 1000, scrollsCount = 0, targetTown; //wait up to 1 second
+		
+		targetTown = this.getTownFromAct(me.act);
+		
+		if (!me.inTown) {
+			print("backToTown: not in town. need tp to " + targetTown);
+			if (this.canCreateTp()) {
+				scrollsCount = this.getTpTome().getStat(70);
+				print("backToTown: have " + scrollsCount + " scrolls");
+				if (scrollsCount === 20) {
+					waitTime = HordeSystem.getTeamIndex(me.profile) * 50;// we wait [0;400] depending on our index in the team profiles.
+				} else {
+					waitTime = 400 + 30 * (20-scrollsCount);//we're not full of scrolls, wait [400;1000] depending on how many scrolls we have
+				}
+			}
+			
+			while(!me.inTown && waitTime > 0) {
+				print("backToTown: waiting " + waitTime + " ms");
+				delay(waitTime);
+				
+				if (Pather.getPortal(targetTown, null)) {
+					print("backToTown: try use portal " + waitTime);
+					Pather.usePortal(targetTown, null);
+					waitTime = waitTime - 100;
+				} else {
+					print("backToTown: make portal " + waitTime);
+					Pather.makePortal();
+					Pather.usePortal(targetTown, null);
+				}
+			}
+		}
+		else {
+			delay(waitTime);
+		}
+		
+		print("backToTown: " + (waitTime > 0 ? "succeeded" : "failed"));
+		return waitTime > 0;
+	},
+	
 	canCreateTp: function() {
 		return this.hasTpScrolls();
 	},
@@ -99,7 +148,7 @@ var Role = {
 	getTpTome: function() {
 		return me.findItem("tbk", 0, 3);
 	},
-	
+
 	hasTpScrolls: function() {
 		var tpTome = this.getTpTome();
 		if (tpTome) {

@@ -48,10 +48,7 @@ var Party = {
 			delay(1000);
 
 			if (getTickCount() - tick > HordeSettings.maxWaitTimeMinutes * 60 * 1000) { // Leave the game after x minutes of waiting.
-				print("Team wasn't in game within x minutes.");
-
-				D2Bot.printToConsole("Horde: Team didn't join the game within x minutes.", 9);
-
+				HordeDebug.logCriticalError("Party", "Team didn't join the game within " + HordeSettings.maxWaitTimeMinutes + " minutes.");
 				quit();
 			}
 		}
@@ -254,7 +251,7 @@ var Party = {
 	},
 	
 	waitSynchro: function(synchroType, timeout) {
-		var tick = getTickCount();
+		var tick = getTickCount(), success = false;
 		
 		if (timeout === undefined) {
 			timeout = HordeSettings.maxWaitTimeMinutes * 60 * 1000;
@@ -263,16 +260,34 @@ var Party = {
 		if (HordeSystem.teamSize == 1) {
 			return true;
 		}
-		print("wait team ready " + synchroType + " timeout : " + (timeout / 1000) + "s");		
+		
+		if (HordeSettings.Debug.Verbose.synchro) {
+			print("wait team ready " + synchroType + " timeout : " + (timeout / 1000) + "s");
+		}
+		
 		Communication.Synchro.sayReady(synchroType);
 		
 		while(!Communication.Synchro.isTeamReady(synchroType) && getTickCount() - tick <= timeout) {			
 			delay(me.ping + 50);
 		}
 		
+		success = getTickCount() - tick <= timeout;
+		
+		if (success) {
+			delay(me.ping*2 + 250);
+		}
+		
 		Communication.Synchro.flushTeamReady(synchroType);
 		
-		return getTickCount() - tick <= timeout;
+		if (HordeSettings.Debug.Verbose.synchro) {
+			if (success) {
+				print("team is ready for " + synchroType);
+			} else {
+				HordeDebug.logScriptError("Synchro", "team synchro " + synchroType + " failed");
+			}
+		}
+		
+		return success;
 	},
 	
 	initialSynchro: function() {
