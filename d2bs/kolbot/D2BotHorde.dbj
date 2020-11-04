@@ -20,7 +20,7 @@ var StarterConfig = {
 	CDKeyInUseDelay: 5, // Minutes to wait before connecting again if CD-Key is in use. SwitchKeys overrides this!
 	ConnectingTimeout: 20, // Seconds to wait before cancelling the 'Connecting...' screen
 	PleaseWaitTimeout: 30, // Seconds to wait before cancelling the 'Please Wait...' screen
-	WaitInLineTimeout: 60, // Seconds to wait before cancelling the 'Waiting in Line...' screen
+	WaitInLineTimeout: 3600, // Seconds to wait before cancelling the 'Waiting in Line...' screen
 	GameDoesNotExistTimeout: 30, // Seconds to wait before cancelling the 'Game does not exist.' screen
 
 	LeaderElectAnyQuest: false, // Will leader priority on any quest not just the ones for act progression, ALL profiles MUST use this profile
@@ -517,17 +517,13 @@ MainSwitch:
 
 		break;
 	case 2: // Waiting In Line
-		D2Bot.updateStatus("Waiting In Line...");		
-		print("location action waiting in line");
+		D2Bot.updateStatus("Waiting In Line...");
+		
 		if (Role.isLeader) {
-			print("waiting in line i am leader");
 			let linePosition = ControlAction.getText(4, 427, 234, 300, 100);
 			if (linePosition) {
-				print("waiting in line line position");
 				linePosition = linePosition.join(" ");
-
 				if (linePosition.indexOf(getLocaleString(11026) > -1)) { // Your position in line is:
-					print("waiting in line compute queue length");
 					D2Bot.printToConsole("Queue: " + parseInt(linePosition.replace(/[^0-9]/g, "")));
 					queuecount = parseInt(linePosition.replace(/[^0-9]/g, ""));
 					DataFile.updateStats("QueueLength", JSON.stringify({LeadProfile: me.profile, QueueStart: queuestarttime, QueueCount :queuecount, QueueWait: 0}));

@@ -159,32 +159,6 @@ var Party = {
 		return true;
 	},
 	
-	needToKeepWaiting: function (area, nextArea) { // Wait for party members to be in specified area.
-		var myPartyId,
-			result = false,
-			player = getParty();
-
-		if (arguments.length < 2) {
-			throw new Error("HordeSystem.safeNeedToKeepWaiting: No areas argument supplied.");
-		}
-
-		if (player) {
-			myPartyId = player.partyid;
-
-			while (player.getNext()) {
-				if (player.partyid === myPartyId) {
-					if (player.area !== area && player.area !== nextArea) {
-						result = true; // Someone is still not in specified area. Need to keep waiting.
-					}
-				}
-			}
-		} else {
-			result = true; // getParty() didn't return anything. Need to keep waiting.
-		}
-
-		return result;
-	},
-	
 	waitForMembers: function (area, nextArea) {
 		var tick = getTickCount(),
 			orgx = me.x,
@@ -203,51 +177,94 @@ var Party = {
 			nextArea = area;
 		}
 
-		while (this.needToKeepWaiting(area, nextArea)) {
-			if (!me.inTown) {
-				Attack.clear(15);
-
-				Pather.moveTo(orgx, orgy);
-			}
-
-			delay(1000);
-			
-			if(me.area != area)
-			{
-				Pather.journeyTo(area);
-				delay(500);
-			}
-			
-			if (getTickCount() - tick > HordeSettings.maxWaitTimeMinutes * 60 * 1000) { // Quit after 10 minutes of waiting.
-				quit();
-			}
+		if (!this.secureWaitSynchro("secure_area_" + area, HordeSettings.maxWaitTimeMinutes * 60 * 1000, area)) {
+			quit();
 		}
-		
-		delay(2000);
 	},
 	
 	waitForMembersByWaypoint: function () {
-		var tick = getTickCount(),
-			orgx = me.x,
-			orgy = me.y;
+		var tick = getTickCount();
 	
 		if (HordeSystem.teamSize === 1) {
 			return;
 		}
 		
-		print("Waiting for Party Members by Waypoint.");
+		if (!this.secureWaitSynchro("secure_waypoint")) {
+			quit();
+		}
+	},
+	
+	secureWaitSynchro: function(synchroType, timeout, area) {
+		var tick = getTickCount(), success = false, clearResult = false, sentReady = false,
+				orgx = 0,
+				orgy = 0;
+		
+		if (area === undefined) {
+			area = me.area;
+		}
+		
+		if(me.area != area){
+			Pather.journeyTo(area);
+		}
+		
+		if (HordeSystem.teamSize == 1) {
+			return true;
+		}
+		
+		if (timeout === undefined) {
+			timeout = HordeSettings.maxWaitTimeMinutes * 60 * 1000;
+		}
+		
+		orgx = me.x;
+		orgy = me.y;
+		
+		delay(me.ping*2 + 250);
+		
+		if (HordeSettings.Debug.Verbose.synchro) {
+			print("start secure wait team ready " + synchroType + " (timeout : " + (timeout / 1000) + "s)");
+		}
+		
+		if (me.inTown) {
+			clearResult = true;
+		}
+		
+		while(!Communication.Synchro.isTeamReady(synchroType) && getTickCount() - tick <= timeout) {
+			if (!me.inTown) {
+				clearResult = Attack.clear(15);
 
-		while (Waypoint.playersAtWpCount !== HordeSystem.teamSize - 1) {
-			Attack.clear(15);
-
-			Pather.moveTo(orgx, orgy);
-
-			delay(1000);
-
-			if (getTickCount() - tick > HordeSettings.maxWaitTimeMinutes * 60 * 1000) { // Quit after x minutes of waiting.
-				quit();
+				if(me.area != area){
+					Pather.journeyTo(area);
+				}
+				
+				Pather.moveTo(orgx, orgy, 1, true);
+			}
+			
+			if (clearResult && !sentReady) {
+				Communication.Synchro.sayReady(synchroType);
+				sentReady = true;
+			}
+			
+			Communication.Synchro.askMissingReady(synchroType);
+			delay(me.ping*2 + 250);
+		}
+		
+		success = getTickCount() - tick <= timeout;
+		
+		if (success) {
+			delay(me.ping*2 + 500);
+		}
+		
+		Communication.Synchro.flushTeamReady(synchroType);
+		
+		if (HordeSettings.Debug.Verbose.synchro) {
+			if (success) {
+				print("team secured & is ready for " + synchroType);
+			} else {
+				HordeDebug.logScriptError("Synchro", "team synchro " + synchroType + " failed");
 			}
 		}
+		
+		return success;
 	},
 	
 	waitSynchro: function(synchroType, timeout) {
@@ -267,14 +284,15 @@ var Party = {
 		
 		Communication.Synchro.sayReady(synchroType);
 		
-		while(!Communication.Synchro.isTeamReady(synchroType) && getTickCount() - tick <= timeout) {			
-			delay(me.ping + 50);
+		while(!Communication.Synchro.isTeamReady(synchroType) && getTickCount() - tick <= timeout) {
+			Communication.Synchro.askMissingReady(synchroType);
+			delay(me.ping*2 + 250);
 		}
 		
 		success = getTickCount() - tick <= timeout;
 		
 		if (success) {
-			delay(me.ping*2 + 250);
+			delay(me.ping*2 + 500);
 		}
 		
 		Communication.Synchro.flushTeamReady(synchroType);

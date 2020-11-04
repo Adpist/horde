@@ -6,6 +6,7 @@
 */
 
 var HordeSettings = {
+	leaderElectionTimeoutMinutes: 10, //Max time to wait for leader election
 	maxWaitTimeMinutes: 3, //Max time to wait in case horde synchronization fails
 	logChar: true,
 	

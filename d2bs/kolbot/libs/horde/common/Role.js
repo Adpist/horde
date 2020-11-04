@@ -187,7 +187,7 @@ var Role = {
 					if (merc && merc.charlvl < 25 && me.charlvl >= 28) {
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, 25);
 					}
-					else if (merc && merc.charlvl < HordeSettings.baalLvl - 5 && me.charlvl >= HordeSettings.baalLvl - 2) {
+					else if (merc && merc.charlvl < HordeSettings.baalLvl - 5 && me.charlvl >= HordeSettings.baalLvl - 2 && me.charlvl < 50) {
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, HordeSettings.baalLvl - 5);
 					}
 				}

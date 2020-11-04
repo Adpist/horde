@@ -106,8 +106,10 @@ var LeaderElection = {
 		} else {
 			D2Bot.updateStatus("Waiting ready for election");
 			print("Waiting elected leader");
-			if (!Party.waitSynchro("leader_election")) {
+			if (!Party.waitSynchro("leader_election", HordeSettings.leaderElectionTimeoutMinutes * 60000)) {
 				print("leader synchro timed out");
+				delay(5000);
+				D2Bot.restart();
 				return false;
 			}
 		}
