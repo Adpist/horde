@@ -115,6 +115,10 @@ function main() {
 	
 	includeHorde();
 	HordeSystem.init();
+	
+	if (getScript("d2bothorde.dbj")) {
+		load("libs/horde/tools/overlaythread.js");
+	}
 
 	// Initialize libs - load config variables, build pickit list, attacks, containers and cubing and runeword recipes
 	Config.init(true);

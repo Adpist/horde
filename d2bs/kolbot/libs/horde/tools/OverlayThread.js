@@ -17,26 +17,30 @@ var HordeHooks = {
 				return;
 			}
 			
-			if (!this.getHook("banner")) {
-				this.add("banner");
+			if (HordeSettings.Overlay.banner) {
+				if (!this.getHook("banner")) {
+					this.add("banner");
+				}
 			}
-			
-			if (!this.getHook("oogtime")) {
-				this.add("oogtime");
-			} else {
-				this.getHook("oogtime").hook.text = "OOG : " + Playtime.getOutOfGameTime();
-			}
-			
-			if (!this.getHook("ingametime")) {
-				this.add("ingametime");
-			} else {
-				this.getHook("ingametime").hook.text = "IG : " + Playtime.getInGameTime();
-			}
-			
-			if (!this.getHook("totaltime")) {
-				this.add("totaltime");
-			} else {
-				this.getHook("totaltime").hook.text = "TOTAL : " + Playtime.getTotalTime();
+
+			if (HordeSettings.Overlay.playtime) {
+				if (!this.getHook("oogtime")) {
+					this.add("oogtime");
+				} else {
+					this.getHook("oogtime").hook.text = "OOG : " + Playtime.getOutOfGameTime();
+				}
+				
+				if (!this.getHook("ingametime")) {
+					this.add("ingametime");
+				} else {
+					this.getHook("ingametime").hook.text = "IG : " + Playtime.getInGameTime();
+				}
+				
+				if (!this.getHook("totaltime")) {
+					this.add("totaltime");
+				} else {
+					this.getHook("totaltime").hook.text = "TOTAL : " + Playtime.getTotalTime();
+				}
 			}
 
 		},
@@ -126,6 +130,7 @@ function main() {
 	include("common/misc.js");
 	include("common/Prototypes.js");
 	include("horde/tools/Playtime.js");
+	include("horde/settings/Settings.js");
 	print("load overlay helper");
 	//load("libs/horde/tools/overlayhelper.js");
 	print("Horde Overlay Thread Loaded.");
@@ -146,7 +151,7 @@ function main() {
 		//	HordeHooks.flush();
 		//}
 
-		delay(20);
+		delay(200);
 
 		/*for (i = 0; i < hideFlags.length; i += 1) {
 			if(me.gameReady) {

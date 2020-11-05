@@ -10,6 +10,11 @@ var HordeSettings = {
 	maxWaitTimeMinutes: 3, //Max time to wait in case horde synchronization fails
 	logChar: true,
 	
+	Overlay: {
+		banner: true,
+		playtime: true
+	},
+	
 	Debug: {
 		Verbose: {
 			leaderElection: true,
