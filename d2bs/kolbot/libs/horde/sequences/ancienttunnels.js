@@ -7,6 +7,14 @@
 
 function ancienttunnels_requirements(mfRun) {
 	/***** REQUIREMENTS ******/
+	if (!mfRun)	{
+		HordeDebug.logUserError("ancientstunnels", "ancientstunnels isn't a questing run");
+		return Sequencer.skip;//Skip sequence, not a questing run
+	}
+	
+	if(!me.getQuest(7, 0)) {
+		return Sequencer.skip;//Stop : still Act 1
+	}
 
 
 	/***** END OF REQUIREMENTS ******/
@@ -15,13 +23,6 @@ function ancienttunnels_requirements(mfRun) {
 }
 
 function ancienttunnels(mfRun) { // SiC-666 TODO: Rewrite this.
-
-	if (!mfRun)
-	{
-		Town.goToTown();
-		Party.wholeTeamInGame();
-		return true;
-	}
 
 	if (Role.teleportingChar) {
 		Town.goToTown();
@@ -49,13 +50,16 @@ function ancienttunnels(mfRun) { // SiC-666 TODO: Rewrite this.
 			j += 1;
 		}
 	}
-
-
-	Pather.teleport = false;
+	
+	if (HordeSystem.teamSize > 1) {
+		Pather.teleport = false;
+	}
+	
 	Attack.clearLevel(Config.ClearType);
-
-
-	Pather.teleport = true;
+	
+	if (HordeSystem.teamSize > 1) {
+		Pather.teleport = true;
+	}
 
 	Town.goToTown();
 
