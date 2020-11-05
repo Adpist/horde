@@ -317,8 +317,8 @@ var HordeSystem = {
 		Role.isLeader = false;
 		
 		if (Role.backToTown()) {
-			baseDelay = 2000;
 			//We're safe in town, just wait to not leave all together
+			baseDelay = 2000;
 		}
 		
 		minDelay = baseDelay+(baseDelay* (this.getTeamIndex(me.profile) + 1));

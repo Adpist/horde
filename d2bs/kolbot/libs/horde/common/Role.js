@@ -106,7 +106,7 @@ var Role = {
 		
 		targetTown = this.getTownFromAct(me.act);
 		
-		if (!me.inTown) {
+		if (!me.inTown && !me.dead) {
 			print("backToTown: not in town. need tp to " + targetTown);
 			if (this.canCreateTp()) {
 				scrollsCount = this.getTpTome().getStat(70);
@@ -118,7 +118,7 @@ var Role = {
 				}
 			}
 			
-			while(!me.inTown && waitTime > 0) {
+			while(!me.inTown && !me.dead && waitTime > 0) {
 				print("backToTown: waiting " + waitTime + " ms");
 				delay(waitTime);
 				
