@@ -37,7 +37,7 @@ function travincal_requirements(mfRun) {
 function travincal(mfRun) {
 
 	var cain, orgX, orgY, preArea,
-		startNearWp = !mfRun && ((me.diff === 0) || (me.diff === 1 && HordeSettings.nmTracincalFromWpOn) || (me.diff === 2 && HordeSettings.hellTracincalFromWpOn));
+		startNearWp = !mfRun;//For now we always start near wp when questing for safety reasons. could be added as an option when sequence parameters are a thing.
 	Town.repair();
 	var ogFastPick = Config.FastPick;
 	var ogUseTelekinesis = Config.UseTelekinesis;
@@ -136,7 +136,6 @@ function travincal(mfRun) {
 	}
 	
 	if (startNearWp) {
-	
 		//try to move progressivelly to council
 		Attack.clear(20);
 		Party.waitForMembers();
