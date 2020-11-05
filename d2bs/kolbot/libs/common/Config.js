@@ -72,6 +72,11 @@ var Config = {
 				print("ÿc1Loading default config.");
 			}
 
+			if (oog) {
+				D2Bot.printToConsole("Couldn't load config " + configFilename + " for profile " + me.profile);
+				throw new Error("ÿc1Config not found.");
+			}
+			
 			// Try to find default config
 			if (!FileTools.exists("libs/config/" + classes[me.classid] + ".js")) {
 				D2Bot.printToConsole("Not going well? Read the wiki: https://github.com/kolton/d2bot-with-kolbot/wiki");
