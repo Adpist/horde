@@ -138,26 +138,19 @@ function travincal(mfRun) {
 	if (startNearWp) {
 		//try to move progressivelly to council
 		Attack.clear(20);
-		Party.waitForMembers();
 		Pather.teleport = false;
 		Pather.moveTo(orgX+12, orgY-31, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
-		Party.waitForMembers();
 		Pather.moveTo(orgX+80, orgY-31, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
-		Party.waitForMembers();
 		Pather.moveTo(orgX+80, orgY-59, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
-		Party.waitForMembers();
 		Pather.moveTo(orgX+80, orgY-73, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
-		Party.waitForMembers();
 		Pather.moveTo(orgX+80, orgY-98, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
-		Party.waitForMembers();
 		Pather.moveTo(orgX+60, orgY-98, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
-		Party.waitForMembers();
 		
 	} else {
 		try {
@@ -171,6 +164,8 @@ function travincal(mfRun) {
 
 	Pickit.pickItems();
 
+	Party.waitForMembers();
+	
 	if (!mfRun) {
 		if (Role.teleportingChar && !me.getQuest(18, 0)) { // I am the Teleporting Sorc and I have not completed Khalim's Will yet. Will smash the orb while the others keep the area clear.
 			if(!me.getItem(174)){
