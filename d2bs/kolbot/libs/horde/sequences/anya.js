@@ -143,7 +143,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 		Role.backToTown();
 		Town.move("malah");
 		malah = getUnit(1, "malah");
-		var jm = 0;
+		var j = 0;
 		while(true) {
 			malah.interact();
 			malah.openMenu();
