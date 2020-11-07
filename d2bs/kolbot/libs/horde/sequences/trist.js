@@ -63,6 +63,8 @@ function trist(mfRun) {
 	}
 	
 	Pather.teleport = wasTeleporting;
+	
+	Role.backToTown();
 
 	return Sequencer.done;
 }

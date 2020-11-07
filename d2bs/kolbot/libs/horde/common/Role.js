@@ -101,13 +101,26 @@ var Role = {
 		return towns[act-1];
 	},
 	
-	backToTown: function() {
+	backToTown: function(force) {
 		var waitTime = 1000, scrollsCount = 0, targetTown; //wait up to 1 second
+		
+		if (force === undefined) {
+			force = true;
+		}
 		
 		targetTown = this.getTownFromAct(me.act);
 		
 		if (!me.inTown && !me.dead) {
 			print("backToTown: not in town. need tp to " + targetTown);
+			if (Pather.getPortal(targetTown, null)) {
+				print("backToTown: try use existing portal " + waitTime);
+				Pather.usePortal(targetTown, null);
+				delay(me.ping*2+250);
+				if (me.inTown || me.dead) {
+					return true;
+				}
+			}			
+				
 			if (this.canCreateTp()) {
 				scrollsCount = this.getTpTome().getStat(70);
 				print("backToTown: have " + scrollsCount + " scrolls");
@@ -126,15 +139,22 @@ var Role = {
 					print("backToTown: try use portal " + waitTime);
 					Pather.usePortal(targetTown, null);
 					waitTime = waitTime - 100;
-				} else {
+				} else if (this.canCreateTp()) {
 					print("backToTown: make portal " + waitTime);
 					Pather.makePortal();
 					Pather.usePortal(targetTown, null);
+				} else {
+					waitTime = waitTime - 100;
 				}
 			}
 		}
 		else {
 			delay(waitTime);
+		}
+		
+		if (waitTime > 0 && !me.dead && force) {
+			print("back to town failed, forcing returning to town");
+			return Town.goToTown();
 		}
 		
 		print("backToTown: " + (waitTime > 0 ? "succeeded" : "failed"));

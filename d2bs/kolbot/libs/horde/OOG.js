@@ -47,7 +47,7 @@ var HordeOOG = {
 						return false;
 					}
 				} else {
-					if (!!ControlAction.makeCharacter(charInfo)) {
+					if (!ControlAction.makeCharacter(charInfo)) {
 						D2Bot.printToConsole("failed to create character", 9);
 						return false;
 					}

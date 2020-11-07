@@ -48,7 +48,7 @@ function blood(mfRun) {
 
 		Pickit.pickItems();
 
-		Town.goToTown();
+		Role.backToTown();
 	}
 
 	while (!kashya || !kashya.openMenu()) { // Try more than once to interact with Kashya.

@@ -555,7 +555,7 @@ function diablo(mfRun) {
 			print(e);
 		}
 
-		Town.goToTown();
+		Role.backToTown();
 
 		Town.doChores();
 
@@ -596,22 +596,24 @@ function diablo(mfRun) {
 		}
 	}
 
-	delay(2000); // Seems necessary to delay after Diablo dies for experience and quest to be gained.
-
 	Pickit.pickItems();
 
 	Pather.teleport = true;
 
 	if (me.gametype === 0) { // Exit game in classic.
+		delay(2000); // Seems necessary to delay after Diablo dies for experience and quest to be gained.
 		while (me.ingame) {
 			D2Bot.restart(); // D2Bot# will restart this profile immediately (avoids congrats screen).
 
 			delay(1000);
 		}
-	} else if(!mfRun){
-		Town.goToTown();
-		delay(2000);
-		Travel.changeAct(5);
+	} else {
+		Role.backToTown();
+		
+		if(!mfRun) {
+			delay(me.ping*2 + 500);
+			Travel.changeAct(5);
+		}
 	}
 
 	return Sequencer.done; // Continue to Act 5 in expansion.

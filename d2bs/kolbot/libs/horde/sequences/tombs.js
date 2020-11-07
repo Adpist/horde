@@ -142,17 +142,9 @@ function tombs(mfRun) {
 				delay(me.ping * 2 + 250);
 
 				Pickit.pickItems();
-
-			//	Attack.clear(40);
 			}
 
-			if (Misc.getNearbyPlayerCount() > 1) { // There are other characters nearby.
-				delay(rand(2,10) * 500); // Delay 1-5 seconds to increase the chances of taking someone else's portal.
-			}
-
-			if (!Pather.usePortal(null, null)) {
-				Town.goToTown();
-			}
+			Role.backToTown();
 
 			delay(me.ping * 2 + 250);
 
@@ -167,10 +159,8 @@ function tombs(mfRun) {
 			break;
 		}
 	}
-
-	if (!Pather.usePortal(null, null)) { // Need to finish in town.
-		Town.goToTown();
-	}
+	
+	Role.backToTown();
 
 	return Sequencer.done;
 }

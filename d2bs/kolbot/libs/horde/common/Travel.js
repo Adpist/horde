@@ -414,7 +414,7 @@ var Travel = {
 
 						Pather.useWaypoint(homeTown);
 
-						Party.waitForMembers(me.area, areaIDs[nextAreaIndex]); // Wait for everyone to come to town. If Town.doChores() doesn't do anything it's possible to leave town while everyone is still trying to come to town.
+						Party.waitForMembers(homeTown); // Wait for everyone to come to town. If Town.doChores() doesn't do anything it's possible to leave town while everyone is still trying to come to town.
 
 						Town.doChores();
 

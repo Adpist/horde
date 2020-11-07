@@ -101,7 +101,7 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 		delay(1000);
 	}
 
-	if(!Party.allPlayersInArea()){
+	if (!Party.waitSynchro("ancient_ready", 60000) || !Party.allPlayersInArea()) {
 		print("everyone isnt at ancients");
 		quit();
 	}
@@ -146,6 +146,7 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 		Travel.clearToExit(128, 129, false);
 		Pather.getWP(129, false);
 	}
-	Town.goToTown();
+	
+	Role.backToTown();
 	return Sequencer.done;
 }

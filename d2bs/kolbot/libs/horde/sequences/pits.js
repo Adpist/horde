@@ -28,7 +28,7 @@ function pits(mfRun) { // SiC-666 TODO: Rewrite this.
 		if (!Pather.moveToExit([7, 12], true)) {
 			throw new Error("Failed to move to Pit level 1");
 		}
-		Pather.makePortal();
+		Role.makeTeamJoinPortal();
 		delay(1750);
 	} else {
 		Town.goToTown(1);
@@ -44,15 +44,18 @@ function pits(mfRun) { // SiC-666 TODO: Rewrite this.
 			j += 1;
 		}
 	}
-
-
-	Pather.teleport = false;
+	
+	if (HordeSystem.teamSize > 1) {
+		Pather.teleport = false;
+	}
+	
+	Party.waitForMembers();
 	Attack.clearLevel(Config.ClearType);
-
 
 	if (!Pather.moveToExit(16, true, Config.Pit.ClearPath)) {
 		throw new Error("Failed to move to Pit level 2");
 	}
+	Party.waitForMembers();
 
 	Attack.clearLevel();
 

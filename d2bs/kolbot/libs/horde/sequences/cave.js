@@ -47,9 +47,7 @@ function cave(mfRun) {
 	Attack.clearLevel(Config.ClearType);
 
 	try {
-		if(!Pather.usePortal(null, null)){
-			Town.goToTown();
-		}
+		Role.backToTown();
 	} catch (error){
 		//no tomes
 		if (!me.inTown) {

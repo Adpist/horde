@@ -37,7 +37,7 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 	Travel.travel(3); // Lost City
 
 	if (!me.inTown) {
-		Town.goToTown();
+		Role.backToTown();
 	}
 
 	print("use waypoint to halls of dead 2");
@@ -81,9 +81,7 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 		Quest.getQuestItem(549, 354);
 	}
 
-	if (!Pather.usePortal(null, null)) {
-		Town.goToTown();
-	}
+	Role.backToTown();
 	
 	return Sequencer.done;
 }

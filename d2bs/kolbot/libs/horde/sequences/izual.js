@@ -60,7 +60,8 @@ function izual(mfRun) {
 				Pather.teleport = false;
 			}
 
-			Pather.makePortal();
+			Role.makeTeamJoinPortal();
+			
 		} else {
 			Town.goToTown(4);
 
@@ -89,7 +90,7 @@ function izual(mfRun) {
 			Attack.clear(20);
 		}
 
-		Town.goToTown();
+		Role.backToTown();
 	}
 
 	if (!mfRun) {

@@ -78,7 +78,7 @@ function amulet(mfRun) {
 
 		Pather.moveTo(15044, 14045, 3);
 
-		Pather.makePortal();
+		Role.makeTeamJoinPortal();
 	} else {
 		Town.move("portalspot");
 
@@ -100,31 +100,19 @@ function amulet(mfRun) {
 	if (Role.teleportingChar)
 		Quest.getQuestItem(521, 149);
 
-	delay(500);
-
-	if (!Pather.usePortal(null, null)) {
-		Town.goToTown();
-	}
+	backToTown();
 
 	if (me.getItem(521)) {
 		Town.move("stash");
-		delay(me.ping + 1);
+		delay(me.ping + 50);
 		Town.openStash();
 		Storage.Stash.MoveTo(me.getItem(521));
 	}
 
 	Town.move("drognan");
 
-	for (i = 0 ; i < 200 ; i += 1) {
-		if (i > 60) {
-			quit();
-		}
-
-		if (Party.allPlayersInArea(40)) {
-			break;
-		}
-
-		delay(1000);
+	if (!Party.waitSynchro("complete_amulet", 60000)) {
+		quit();
 	}
 
 	while (!drognan || !drognan.openMenu()) { // Try more than once to interact with Drognan.

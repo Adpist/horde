@@ -87,7 +87,7 @@ function radament(mfRun) {
 			}
 		}
 		
-		Pather.makePortal();
+		Role.makeTeamJoinPortal();
 		
 		//radament = getUnit(1, 229); // Radament.
 		//Pather.moveToUnit(radament, 0, 0, false);
@@ -121,7 +121,7 @@ function radament(mfRun) {
 	if (book) {
 		clickItem(1, book);
 	}
-	Town.goToTown();
+	Role.backToTown();
 	
 	if (!mfRun) {
 		Town.move("atma");

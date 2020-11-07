@@ -79,7 +79,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 						break;
 				}
 			}
-			Pather.makePortal();
+			Role.makeTeamJoinPortal();
 
 		} else {
 			Town.goToTown(5);
@@ -108,7 +108,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 					me.cancel();
 				}
 
-				Town.goToTown(5);
+				Role.backToTown();
 				Town.move("malah");
 				malah = getUnit(1, "malah");
 				while(true) {
@@ -120,13 +120,9 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 						break;
 					delay(500);
 				}
+				Party.secureWaitSynchro("free_anya", 30000);
 			} else {
-				delay(10000);
-				Attack.clear(30);
-				while(!Pather.usePortal(null, null)) { // Wait for TeleportingChar making portal
-					delay(1000);
-					Attack.clear(30);
-				}
+				Party.secureWaitSynchro("free_anya", 30000);
 			}
 			if ( me.getItem(644)) {
 				Town.move("portalspot");
@@ -144,7 +140,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 				}
 			}
 		}
-		Town.goToTown(5);
+		Role.backToTown();
 		Town.move("malah");
 		malah = getUnit(1, "malah");
 		var jm = 0;

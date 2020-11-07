@@ -56,17 +56,19 @@ function den(mfRun) {
 			}
 		}
 		
-		while (!me.inTown) {
-			switch (me.area) {
-			case 8:
-				Pather.moveToExit(2, true, true);
+		if (!Role.backToTown(false)){
+			while (!me.inTown) {
+				switch (me.area) {
+				case 8:
+					Pather.moveToExit(2, true, true);
 
-				break;
-			case 2:
-				Pather.moveToExit(1, true, true);
+					break;
+				case 2:
+					Pather.moveToExit(1, true, true);
+				}
+				Packet.flash(me.gid);
+				delay(me.ping * 2 + 250);
 			}
-			Packet.flash(me.gid);
-			delay(me.ping * 2 + 250);
 		}
 	} else { // diff > 0
 		if (Role.teleportingChar) {
@@ -83,7 +85,7 @@ function den(mfRun) {
 
 			Travel.clearToExit(2, 8, false);
 
-			Pather.makePortal();
+			Role.makeTeamJoinPortal();
 
 			Pather.teleport = false; // not teleporting in Den
 
@@ -113,7 +115,8 @@ function den(mfRun) {
 		}
 		if (Role.teleportingChar)
 			Pather.teleport = true;
-		Town.goToTown();
+			
+		Role.backToTown();
 	}
 	
 

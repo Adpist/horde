@@ -2903,7 +2903,8 @@ Item.autoEquipMerc = function () {
 
         if (tier > 0 && bodyLoc) {
             for (j = 0; j < bodyLoc.length; j += 1) {
-                if ([3, 7].indexOf(items[0].location) > -1 && tier > this.getEquippedItemMerc(bodyLoc[j]).tier) {
+				var equippedTier = this.getEquippedItemMerc(bodyLoc[j]).tier;
+                if ([3, 7].indexOf(items[0].location) > -1 && tier > equippedTier) {
                     if (!items[0].getFlag(0x10)) { // unid
                         tome = me.findItem(519, 0, 3);
                         scroll = me.findItem(530, 0, 3);
@@ -2921,7 +2922,7 @@ Item.autoEquipMerc = function () {
                     classid = items[0].classid;
 					equippedItem = me.getItem(-1, -1, gid);
 					
-					print("Merc equip [" + bodyLoc[j] + "] : " + items[0].name + " - tier " + tier + " | Remove " + equippedItem.name + " - tier " + equippedItem.tier);
+					print("Merc equip [" + bodyLoc[j] + "] : " + items[0].name + " - tier " + tier + " | Remove " + equippedItem.name + " - tier " + equippedTier);
 					
                     if (this.equipMerc(items[0], bodyLoc[j])) {
                         Misc.logItem("Merc Equipped", equippedItem,"Merc Tier: "+tier);

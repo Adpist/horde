@@ -53,7 +53,7 @@ function pindle(mfRun) {
 		
 		Pather.moveTo(10058, 13234);
 		
-		Pather.makePortal();
+		Role.makeTeamJoinPortal();
 	}
 	else
 	{
@@ -71,7 +71,7 @@ function pindle(mfRun) {
 	
 	Pickit.pickItems();
 	
-	Town.goToTown();
+	Role.backToTown();
 	
 	return Sequencer.done;
 }

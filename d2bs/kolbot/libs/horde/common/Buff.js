@@ -309,11 +309,7 @@ var Buff = {
 
 		Town.move("portalspot");
 
-		Communication.sendToList(HordeSystem.allTeamProfiles, "ready to drink");
-
-		while (this.readyToDrink !== HordeSystem.teamSize - 1) {
-			delay(250);
-		}
+		Party.waitSynchro("buff_poison", 30000);
 
 		potions = me.findItems(514, -1, 3);
 

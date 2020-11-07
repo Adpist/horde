@@ -70,7 +70,7 @@ var Sequencer = {
 		
 		//Post completed sequence
 		if (sequenceResult === Sequencer.done){
-			if (this.runTimeline != this.quest && (me.inTown || Role.canCreateTp())) {
+			if (/*this.runTimeline != this.quest && */(me.inTown || Role.canCreateTp())) {
 				Town.doChores();
 			}
 		}

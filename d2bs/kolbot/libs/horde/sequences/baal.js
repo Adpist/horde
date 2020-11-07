@@ -184,7 +184,6 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 		return true;
 	};
 
-	Town.doChores();
 	for(questTry = 0 ; questTry < 10 ; questTry +=1) {
 		if (me.getQuest(40,0)) {
 			quest = true;
@@ -223,7 +222,7 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 
 		}
 		if (!Party.hasReachedLevel(28)) {
-			Pather.makePortal();
+			Role.makeTeamJoinPortal();
 		}
 	}else{
 		Town.goToTown(5);
@@ -437,6 +436,8 @@ BaalLoop:
 	}
 
 	Pather.teleport = true;
+	
+	Role.backToTown();
 
 	return Sequencer.done;
 }

@@ -316,7 +316,7 @@ var HordeSystem = {
 		//no more leader
 		Role.isLeader = false;
 		
-		if (Role.backToTown()) {
+		if (Role.backToTown(false)) {
 			//We're safe in town, just wait to not leave all together
 			baseDelay = 2000;
 		}

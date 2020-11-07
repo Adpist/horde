@@ -80,7 +80,7 @@ function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
 	Pickit.pickItems();
 
 	if (mfRun){
-		Town.goToTown();
+		Role.backToTown();
 	}
 	
 	return Sequencer.done;

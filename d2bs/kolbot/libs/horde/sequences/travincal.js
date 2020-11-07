@@ -202,26 +202,19 @@ function travincal(mfRun) {
 			Config.PacketCasting = 1;
 
 			Party.wholeTeamInGame();
-			delay(30000); //TODO better logic one day, this is to hope everyone gets ready & is here for a bit	
-			while(!Party.allPlayersInArea()){
-				print("waitin on everyone before orb smash");
-				if(!Party.wholeTeamInGame()){
-					quit();
-				}
-			}
+			
+			Party.secureWaitSynchro("before_flail");
 			Party.wholeTeamInGame();
 			Quest.placeFlail();
+			Party.wholeTeamInGame();
+			Party.secureWaitSynchro("after_flail");
 		} else { // I am not the Teleporting Sorc or Khalim's Will has been completed. If it the latter is true the while loop on the next line will be skipped.
-			while (!me.getQuest(18, 0)) { // I am not the Teleporting Sorc and have not completed Khalim's Will yet.
-				sendPacket(1, 0x40); // This is required to refresh the status of me.getQuest(18, 0). Without it, me.getQuest(18, 0) will not == 1 until the Quest Tab is opened on the character.
-
-				Pather.moveToExit(100, false); // Stairs to Durance of Hate Level 1.
-
-				Attack.clear(15);
-
-				delay(1000);
-			}
+			
+			Pather.moveToExit(100, false); // Stairs to Durance of Hate Level 1.
+			Party.secureWaitSynchro("before_flail");
+			Party.secureWaitSynchro("after_flail");
 		}
+		
 		var unit = getUnit(4, 546);
 		if (unit && Role.teleportingChar) {
 			Quest.getQuestItem(546);

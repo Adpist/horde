@@ -184,7 +184,7 @@ function summoner(mfRun) {
 		Waypoint.clickWP();
 	}
 	
-	Town.goToTown();
+	Role.backToTown();
 	
 	Town.move(NPC.Cain);
 	

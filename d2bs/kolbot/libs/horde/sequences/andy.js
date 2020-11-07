@@ -38,7 +38,7 @@ function andy(mfRun) {
 
 	if (mfRun || !me.getQuest(6, 1)) {
 		if (!me.inTown) {
-			Town.goToTown();
+			Role.backToTown();
 		}
 
 		if (Role.teleportingChar || me.diff === 0) {
@@ -158,9 +158,7 @@ function andy(mfRun) {
 
 		Pickit.pickItems();
 
-		if (!Pather.usePortal(null, null)) {
-			Town.goToTown();
-		}
+		Role.backToTown();
 	}
 
 	if (!mfRun)

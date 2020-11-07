@@ -113,22 +113,19 @@ function duriel(mfRun) {
 					Pather.teleport = false;
 				}
 
-				Pather.makePortal();
+				Role.makeTeamJoinPortal();
 
 				delay(me.ping * 2 + 250);
 
 				Communication.sendToList(HordeSystem.allTeamProfiles, "clear orifice");
 
-				Attack.clear(30);
+				for (i = 0 ; i < 3 ; i += 1)
+				{
+					Attack.clear(25);
 
-				Pather.moveToPreset(me.area, 2, 152, 0, 0, false, false);
-
-				Attack.clear(30);
-
-				Pather.moveToPreset(me.area, 2, 152, 0, 0, false, false);
-
-				Attack.clear(30);
-
+					Pather.moveToPreset(me.area, 2, 152, 0, 0, false, true);
+				}
+				
 				if (!me.getQuest(10, 0)) { //horadric staff
 					Quest.placeStaff();
 				}
@@ -143,12 +140,21 @@ function duriel(mfRun) {
 					Attack.clear(20);
 
 					if (hole) {
-						Precast.doPrecast(true);
-
-						Pather.useUnit(2, 100, 73);
-
 						break;
 					}
+				}
+				
+				Party.secureWaitSynchro("orifice_clear");
+				
+				if (hole) {
+					//Wait bo
+					delay(me.ping*2 + 1000);
+					
+					Precast.doPrecast(true);
+
+					delay(me.ping*2 + 1000);
+					
+					Pather.useUnit(2, 100, 73);
 				}
 			}
 			
@@ -193,13 +199,18 @@ function duriel(mfRun) {
 					}
 				}
 
-				Attack.clear(40);
+				for (i = 0 ; i < 2 ; i += 1)
+				{
+					Attack.clear(25);
 
-				Pather.moveToPreset(me.area, 2, 152, 0, 0, false, true);
+					Pather.moveToPreset(me.area, 2, 152, 0, 0, false, true);
+				}
 
-				Attack.clear(40);
-
-				Town.goToTown(2);
+				Party.secureWaitSynchro("orifice_clear");
+				
+				Precast.doPrecast(true);
+				
+				Role.backToTown();
 
 				print("Waiting for Duriel TP.");
 			}
@@ -237,7 +248,7 @@ function duriel(mfRun) {
 		Pickit.pickItems();
 
 		if (mfRun) {
-			Town.goToTown();
+			Role.backToTown();
 
 			Town.move("waypoint");
 		}
@@ -272,7 +283,7 @@ function duriel(mfRun) {
 				}
 			}
 
-			Town.goToTown();
+			Role.backToTown();
 		}
 	}
 

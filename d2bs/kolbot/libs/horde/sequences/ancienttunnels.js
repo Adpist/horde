@@ -22,7 +22,7 @@ function ancienttunnels_requirements(mfRun) {
 	return Sequencer.ok;//We can process sequence
 }
 
-function ancienttunnels(mfRun) { // SiC-666 TODO: Rewrite this.
+function ancienttunnels(mfRun) {
 
 	if (Role.teleportingChar) {
 		Town.goToTown();
@@ -33,7 +33,7 @@ function ancienttunnels(mfRun) { // SiC-666 TODO: Rewrite this.
 		if (!Pather.moveToExit(65, true)) {
 			throw new Error("Failed to move to Ancient Tunnels");
 		}
-		Pather.makePortal();
+		Role.makeTeamJoinPortal();
 		delay(1750);
 	} else {
 		Town.goToTown(2);
@@ -55,14 +55,14 @@ function ancienttunnels(mfRun) { // SiC-666 TODO: Rewrite this.
 		Pather.teleport = false;
 	}
 	
+	Party.waitForMembers();
 	Attack.clearLevel(Config.ClearType);
 	
 	if (HordeSystem.teamSize > 1) {
 		Pather.teleport = true;
 	}
 
-	Town.goToTown();
-
+	Role.backToTown();
 
 	return Sequencer.done;
 }

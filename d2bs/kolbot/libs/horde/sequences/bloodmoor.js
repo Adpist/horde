@@ -34,7 +34,7 @@ function bloodmoor(mfRun) {
 
 	Attack.clearLevel();
 
-	while (!me.inTown) {
+	if (!Role.backToTown(false)){
 		Pather.moveToExit(1, true, true);
 		Packet.flash(me.gid);
 		delay(me.ping * 2 + 250);

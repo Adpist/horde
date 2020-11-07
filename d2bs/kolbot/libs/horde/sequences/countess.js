@@ -102,7 +102,7 @@ function countess(mfRun) {
 	
 	Pickit.pickItems();
 
-	if (!Pather.usePortal(null, null)) {
+	if (!Role.backToTown()) {
 		Town.goToTown();
 	}
 	

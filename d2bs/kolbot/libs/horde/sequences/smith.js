@@ -105,7 +105,7 @@ function smith(mfRun) {
 	}
 	Pickit.pickItems();
 
-	Town.goToTown();
+	Role.backToTown();
 	
 	for (i = 0 ; i < 10 ; i += 1)
 	{

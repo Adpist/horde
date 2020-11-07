@@ -36,7 +36,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 		if (!me.getQuest(4, 4) && !me.getQuest(4, 3) ) {
 			if (!me.getItem(524)) { 	// Scroll of Inifuss
 				if (!me.inTown) {
-					Town.goToTown();
+					Role.backToTown();
 				}
 				if (me.diff === 0 ) {
 					Pather.useWaypoint(5); //dark wood
@@ -69,16 +69,11 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				Attack.clear(40); // treehead
 
 				if (Role.teleportingChar) {
-					Pather.makePortal();
-					delay(5000);
 					Quest.getQuestItem(524, 30);
-					Pather.usePortal(null, null);
-				} else {
-					delay(1000);
-					if (!Pather.usePortal(null, null)) {
-						Town.goToTown();
-					}
-				}
+				} 
+				
+				Role.backToTown();
+				
 			/*	scroll1 = me.getItem(524);
 				if (scroll1) {
 					if ( scroll1.location !== 7 && Storage.Stash.CanFit(scroll1)) {
