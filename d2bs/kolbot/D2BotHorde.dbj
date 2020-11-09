@@ -147,51 +147,56 @@ function updateCount () {
 }
 
 function ScriptMsgEvent (msg) {
-	if (msg.indexOf("run ") !== -1) {
-		var	args = msg.split(' ');
-		if (args.length >= 3) {
-			sequence = args[1];
-			timeline = args[2];
-		} else if (args.length >= 2){
-			sequence = args[1];
+	if (typeof msg === 'string' || msg instanceof String) {
+		print("ScriptMsgEvent : " + msg);
+		if (msg.indexOf("run ") !== -1) {
+			var	args = msg.split(' ');
+			if (args.length >= 3) {
+				sequence = args[1];
+				timeline = args[2];
+			} else if (args.length >= 2){
+				sequence = args[1];
+				timeline = undefined;
+			} else {
+				HordeDebug.logScriptError("Sequencer", "Invalid run command: " + msg);
+			}
+			return;
+		}
+		
+		switch (msg) {
+		case "HordeGameEnd":
+			sequence = undefined;
 			timeline = undefined;
-		} else {
-			HordeDebug.logScriptError("Sequencer", "Invalid run command: " + msg);
+			break;
+		case "mule":
+			AutoMule.check = true;
+
+			break;
+		case "muleTorch":
+			AutoMule.torchCheck = true;
+
+			break;
+		case "torch":
+			TorchSystem.check = true;
+
+			break;
+		case "crafting":
+			CraftingSystem.check = true;
+
+			break;
+		case "getMuleMode":
+			if (AutoMule.torchAnniCheck === 2) {
+				scriptBroadcast("2");
+			} else if (AutoMule.torchAnniCheck === 1) {
+				scriptBroadcast("1");
+			} else if (AutoMule.check) {
+				scriptBroadcast("0");
+			}
+
+			break;
 		}
-		return;
-	}
-	
-	switch (msg) {
-	case "HordeGameEnd":
-		sequence = undefined;
-		timeline = undefined;
-		break;
-	case "mule":
-		AutoMule.check = true;
-
-		break;
-	case "muleTorch":
-		AutoMule.torchCheck = true;
-
-		break;
-	case "torch":
-		TorchSystem.check = true;
-
-		break;
-	case "crafting":
-		CraftingSystem.check = true;
-
-		break;
-	case "getMuleMode":
-		if (AutoMule.torchAnniCheck === 2) {
-			scriptBroadcast("2");
-		} else if (AutoMule.torchAnniCheck === 1) {
-			scriptBroadcast("1");
-		} else if (AutoMule.check) {
-			scriptBroadcast("0");
-		}
-
-		break;
+	} else {
+		print("ScriptMsgEvent - received non string msg : " + msg);
 	}
 }
 
@@ -203,18 +208,6 @@ function ReceiveCopyData (mode, data) {
 		handle = mode;
 
 		break;
-	}
-	
-	if (mode == 55 )
-	{
-		let { msg, nick, ingame } = JSON.parse(data);
-		
-		if (!ingame) {
-			if (msg.indexOf("ready ") !== -1) {
-				Communication.Synchro.onReceiveCommand(nick, msg);
-			}
-		}
-		return;
 	}
 
 	switch (mode) {
@@ -248,6 +241,16 @@ function ReceiveCopyData (mode, data) {
 			sendCopyData(null, me.windowtitle, 4, "pingrep");
 		}
 
+		break;
+		
+	case 55:
+		let { msg, nick, ingame } = JSON.parse(data);
+		
+		if (!ingame) {
+			if (msg.indexOf("ready ") !== -1) {
+				Communication.Synchro.onReceiveCommand(nick, msg);
+			}
+		}
 		break;
 		
 	//Leader election filtering
@@ -697,9 +700,7 @@ MainSwitch:
 		break;
 	case 5: // Join Game
 		if (Role.isLeader) {
-			if (!ControlAction.click(6, 533, 469, 120, 20)) { // Create
-				break;
-			}
+			clickCreate(location);
 		} else {
 			D2Bot.updateStatus("Join Game");
 
@@ -730,7 +731,7 @@ MainSwitch:
 					joinInfo = false;
 
 					D2Bot.requestGame(leader[j]);
-					delay(100);
+					delay(me.ping*2+500);
 
 					if (joinInfo && joinInfo.gameName !== "" && (lastGame.indexOf(joinInfo.gameName) === -1 || lastGameStatus === "pending")) {
 						ControlAction.setText(1, 606, 148, 155, 20, joinInfo.gamePass);
@@ -790,6 +791,8 @@ MainSwitch:
 						locationTimeout(15000, location);
 
 						break JoinLoop2;
+					} else {
+						delay(2000);
 					}
 				}
 			}

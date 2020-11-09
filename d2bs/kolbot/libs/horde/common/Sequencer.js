@@ -101,6 +101,10 @@ var Sequencer = {
 				break;
 		}
 		
+		if (me.act === 5) {
+			Town.move("stash");
+		}
+		
 		Town.move("waypoint");
 		
 		Party.waitSynchro("post_sequence");

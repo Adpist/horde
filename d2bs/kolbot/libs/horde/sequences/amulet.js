@@ -100,7 +100,7 @@ function amulet(mfRun) {
 	if (Role.teleportingChar)
 		Quest.getQuestItem(521, 149);
 
-	backToTown();
+	Role.backToTown();
 
 	if (me.getItem(521)) {
 		Town.move("stash");

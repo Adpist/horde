@@ -128,13 +128,13 @@ var Communication = {
 	
 	
 	receiveCopyData: function(id, data) {
-		let { msg, nick, ingame } = JSON.parse(data);
-		
-		if (!ingame) {
-			return;
-		}
-		
 		if (id == 55) {
+			let { msg, nick, ingame } = JSON.parse(data);
+			
+			if (!ingame) {
+				return;
+			}
+			
 			//sequencer command
 			if (msg.indexOf("run ") !== -1) {
 				var sequence, timeline, 

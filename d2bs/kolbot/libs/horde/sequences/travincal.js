@@ -137,15 +137,18 @@ function travincal(mfRun) {
 	
 	if (startNearWp) {
 		//try to move progressivelly to council
-		Attack.clear(20);
+		Party.secureWaitSynchro("trav_start");
 		Pather.teleport = false;
 		Pather.moveTo(orgX+12, orgY-31, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-31, 2, false, true);	// (<3 kolton)
+		Party.secureWaitSynchro("trav_lake");
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-59, 2, false, true);	// (<3 kolton)
+		Party.secureWaitSynchro("trav_entrance");
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-73, 2, false, true);	// (<3 kolton)
+		Party.secureWaitSynchro("trav_building");
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-98, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);

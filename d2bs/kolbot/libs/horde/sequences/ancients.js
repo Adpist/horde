@@ -82,7 +82,15 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 	Party.wholeTeamInGame();
 	Buff.Bo();
 	
-	//WTF
+	//Backup config
+	var oldLifeChicken = Config.LifeChicken,
+		oldTownHP = Config.TownHP,
+		oldManaChicken = Config.ManaChicken,
+		oldMercChicken = Config.MercChicken,
+		oldTownMP = Config.TownMP,
+		oldTownCheck = Config.TownCheck,
+		oldMercWatch = Config.MercWatch;
+		
 	Config.LifeChicken = 0; // Exit game if life is less or equal to designated percent.
 	Config.TownHP = 0; // Go to town if life is under designated percent.
 	Config.ManaChicken = 0; // Exit game if mana is less or equal to designated percent.
@@ -90,7 +98,6 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 	Config.TownMP = 0; // Go to town if mana is under designated percent.
 	Config.TownCheck = false; // Go to town if out of potions
 	Config.MercWatch = false; // Don't revive merc during battle.
-	//WTF
 
 	Pather.teleport = true;
 	altar = getUnit(2, 546);
@@ -142,6 +149,16 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 		}
 	}
 	Travel.clearToExit(120, 128, true);
+	
+	//Restore config
+	Config.LifeChicken = oldLifeChicken;
+	Config.TownHP = oldTownHP;
+	Config.ManaChicken = oldManaChicken;
+	Config.MercChicken = oldMercChicken;
+	Config.TownMP = oldTownMP;
+	Config.TownCheck = oldTownCheck;
+	Config.MercWatch = oldMercWatch;
+		
 	if (Role.teleportingChar) {
 		Travel.clearToExit(128, 129, false);
 		Pather.getWP(129, false);
