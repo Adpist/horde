@@ -37,7 +37,7 @@ function izual(mfRun) {
 		if (Role.teleportingChar) {
 			Pather.teleport = true;
 
-			Town.goToTown();
+			Town.goToTown(4);
 
 			Precast.doPrecast(true);
 
