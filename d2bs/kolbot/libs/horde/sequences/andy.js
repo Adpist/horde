@@ -131,6 +131,8 @@ function andy(mfRun) {
 
 			Attack.kill(156); // Andariel
 
+			Pickit.pickItems();
+			
 			Config.PickRange = oldPickRange;
 
 			Attack.clear(35);

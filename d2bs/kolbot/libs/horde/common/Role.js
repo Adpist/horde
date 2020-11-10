@@ -192,7 +192,7 @@ var Role = {
 	mercCheck: function() {
 		if (Party.lowestAct >= 2 || me.act >= 2)
 		{
-			var enableMercRebuy = true, hasAct2NightmareMerc = HordeSystem.build.mercAct2Nightmare !== undefined && HordeSystem.build.mercAct2Nightmare !== "";
+			var enableMercRebuy = true, hasAct2NightmareMerc = !!HordeSystem.build.mercAct2Nightmare;
 			if(HordeSystem.team.disableMercRebuy){
 				enableMercRebuy = false;
 			}
@@ -208,6 +208,7 @@ var Role = {
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, 25);
 					}
 					else if (merc && merc.charlvl <= me.charlvl - 10 && (HordeSystem.getGameDifficulty() === "Normal" || !hasAct2NightmareMerc)) {
+					
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, me.charlvl - 5);
 					}
 				}

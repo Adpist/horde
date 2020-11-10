@@ -17,6 +17,10 @@ var Communication = {
 	Synchro: {
 		teamMessages: {},
 		
+		cleanup: function() {
+			this.teamMessages = {};
+		},
+		
 		onReceiveCommand: function(nick, msg, ingame) {
 			var args = msg.split(' ');
 			if (args.length === 2) {

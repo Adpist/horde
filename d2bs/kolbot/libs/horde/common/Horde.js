@@ -285,7 +285,6 @@ var HordeSystem = {
 	getGameDifficulty: function() {
 		var selectedDifficulty;
 		if (!!this.team.difficulties) {
-			
 			if (!!this.team.difficulties[0] && !!this.team.difficulties[0].stayIf) {
 				if (!eval(this.team.difficulties[0].stayIf)) {//stay in normal not verified
 					if (!!this.team.difficulties[1] && !!this.team.difficulties[1].stayIf) {
@@ -309,6 +308,7 @@ var HordeSystem = {
 	
 	boot: function() {
 		Sequencer.run();
+		Communication.Synchro.cleanup();
 	},
 	
 	onToolThreadQuit: function() {
@@ -323,5 +323,7 @@ var HordeSystem = {
 		
 		minDelay = baseDelay+(baseDelay* (this.getTeamIndex(me.profile) + 1));
 		delay(minDelay, minDelay + baseDelay/4 );
+		Communication.Synchro.cleanup();
 	}
+	
 }

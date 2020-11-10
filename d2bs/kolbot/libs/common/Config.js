@@ -109,7 +109,7 @@ var Config = {
 			}
 		}
 		catch(eHorde){
-			print("ÿc8Error in Horde system config setup !");
+			print("ÿc8Error in Horde system config setup : " + eHorde);
 			print(eHorde.toSource());
 		}
 

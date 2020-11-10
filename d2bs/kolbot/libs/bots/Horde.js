@@ -18,6 +18,8 @@ function Horde() {
 		Party.init();
 		Waypoint.init();
 
+		DataFile.updateStats("level", me.charlvl);
+		
 		//Process previous game
 		Pickit.pickItems();
 		Town.doChores();
@@ -44,7 +46,7 @@ function Horde() {
 		}
 		
 		//IP rotation data feed
-		if(Role.teleportingChar){
+		if(Role.teleportingChar && !!me.gameserverip){
 			var iprotation = Number(me.gameserverip.split(".")[3]);
 
 			if (!!DataFile.getStats().QueueLength) {

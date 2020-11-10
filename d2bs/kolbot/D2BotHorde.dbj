@@ -112,7 +112,7 @@ function locationTimeout (time, location) {
 	while (!me.ingame && getLocation() === location && endtime > getTickCount()) {
 		switch (location) {
 			case 2: // Waiting In Line
-				status = "Waiting In Line...";
+				status = "Waiting In Line timeout...";
 				let linePosition = ControlAction.getText(4, 427, 234, 300, 100);
 				if (linePosition) {
 					linePosition = linePosition.join(" ");
@@ -244,12 +244,18 @@ function ReceiveCopyData (mode, data) {
 		break;
 		
 	case 55:
-		let { msg, nick, ingame } = JSON.parse(data);
-		
-		if (!ingame) {
-			if (msg.indexOf("ready ") !== -1) {
-				Communication.Synchro.onReceiveCommand(nick, msg);
+		try {
+			let { msg, nick, ingame } = JSON.parse(data);
+			
+			if (!ingame) {
+				if (msg.indexOf("ready ") !== -1) {
+					Communication.Synchro.onReceiveCommand(nick, msg);
+				}
 			}
+		}
+		catch (e) {
+			D2Bot.printToConsole("error in receive copy data : " + e + " | mode : " + mode + " - data : " + data, 7);
+			print("error in receive copy data : " + e + " | mode : " + mode + " - data : " + data);
 		}
 		break;
 		
@@ -520,7 +526,7 @@ MainSwitch:
 
 		break;
 	case 2: // Waiting In Line
-		D2Bot.updateStatus("Waiting In Line...");
+		D2Bot.updateStatus("Waiting In Line location...");
 		
 		if (Role.isLeader) {
 			let linePosition = ControlAction.getText(4, 427, 234, 300, 100);
@@ -534,9 +540,8 @@ MainSwitch:
 			}
 		}
 		
-		print("waiting in line start location timeout");
 		var changedLocation = locationTimeout(StarterConfig.WaitInLineTimeout * 1e3, location);
-		print("after location timeout, result : " + changedLocation);
+		
 		ControlAction.click(6, 433, 433, 96, 32);
 
 		break;
@@ -691,6 +696,7 @@ MainSwitch:
 			lastGameStatus = "pending";
 
 			setNextGame();
+			
 			locationTimeout(10000, location);
 		}else{
 			if (!ControlAction.click(6, 652, 469, 120, 20)) { // Join
