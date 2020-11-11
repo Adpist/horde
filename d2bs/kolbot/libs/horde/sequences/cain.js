@@ -72,7 +72,16 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 					Quest.getQuestItem(524, 30);
 				} 
 				
-				Role.backToTown();
+				try {
+					Role.backToTown();
+				} catch (error){
+					//no tomes
+					if (!me.inTown) {
+						if(!Pather.usePortal(null, null)){
+							Pather.useWaypoint(4);
+						}
+					}
+				}
 				
 			/*	scroll1 = me.getItem(524);
 				if (scroll1) {
@@ -188,8 +197,16 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				}
 			}
 			Misc.openChest(slave);
-			if (!Pather.usePortal(null, null)) {
-				Town.goToTown();
+			try {
+				Role.backToTown();
+			} catch (error){
+				//no tomes
+				if (!me.inTown) {
+					if(!Pather.usePortal(null, null)){
+						Travel.clearToExit(38, 4, Config.ClearType);
+						Pather.useWaypoint(4);
+					}
+				}
 			}
 			delay(3000);
 		}
