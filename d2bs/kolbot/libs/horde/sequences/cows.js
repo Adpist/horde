@@ -222,9 +222,6 @@ function cows(mfRun) { // SiC-666 TODO: Rewrite this.
 
 
     Town.goToTown(1);
-    if (me.diff < 2) {
-        Pather.teleport = false;
-    }
     if (Role.teleportingChar) {
         var leg, tome;
         leg = this.getLeg();
@@ -243,6 +240,9 @@ function cows(mfRun) { // SiC-666 TODO: Rewrite this.
         delay(1000);
     }
 
+    if (me.diff < 2) {
+        Pather.teleport = false;
+    }
     try {
         Precast.doPrecast(false);
         this.clearCowLevel();
