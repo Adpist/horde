@@ -81,7 +81,7 @@ const Sequences = {
 			//Act 1
 			"den": 			{skipIf:"!Party.hasReachedLevel(77)"},
 			"cain": 		{},
-			"countess": 	{},
+			"countess": 	{skipIf:"!Party.hasReachedLevel(82)"},
 			"andy": 		{},
 
 			//Act 2
@@ -96,13 +96,12 @@ const Sequences = {
 			"eye": 			{},
 			"heart": 		{},
 			"brain": 		{},
-			//"travincalhell": 	{},
 			"kurastchests": {}, //MF
 			"travincal": 	{},
 			"mephisto": 	{},
 
 			//Act 4
-			"izual": 		{skipIf: "!Party.hasReachedLevel(80)"},
+			"izual": 		{skipIf: "!Party.hasReachedLevel(82)"},
 			"diablo": 		{},
 
 			//Act 5
@@ -121,14 +120,14 @@ const Sequences = {
 
 			//Act 2
 			//TODO Leveling if <18
-			"tombs": 		{skipIf: "Party.hasReachedLevel(22)"}, //Levelling
+			"tombs": 		{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 
 			//Act 3
-			//TODO Leveling if<24
-			"travincal": 	{skipIf: "Party.hasReachedLevel(22)"}, //Levelling
+			//TODO Leveling if<24 in kurast
 			"mephisto": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 
 			//Act 4
+			"cows": 		{skipIf: "Party.hasReachedLevel(31)"},
 			"diablo": 		{skipIf: "Party.hasReachedLevel(30)"} //Levelling
 
 			//Act 5
@@ -154,7 +153,7 @@ const Sequences = {
 			//"andy": 		{}, //MF TODO start / stop when past duriel
 
 			//Act 2
-			"duriel": 		{}, //MF TODO stop when past trav or duriel?
+			//"duriel": 		{}, //MF TODO stop when past trav or duriel?
 
 			//Act 3
 			"mephisto": 	{} //MF
@@ -172,8 +171,8 @@ const Sequences = {
 			//Act 1
 
 			//Act 2
-			"tombs": 		{skipIf: "Party.hasReachedLevel(23)"}, //Levelling
-			"duriel": 		{skipIf: "Party.hasReachedLevel(23)"}, //Levelling
+			"tombs": 		{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
+			"duriel": 		{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 
 			//Act 3
 
@@ -181,8 +180,9 @@ const Sequences = {
 
 			//Act 5
 			"baal": 		{},
-			"diablo": 		{skipIf:"Party.hasReachedLevel(35)"}//,//Levelling
-			//"worldstone": 		{skipIf:"!Party.hasReachedLevel(35)"} //Levelling
+			"cows": 		{skipIf: "Party.hasReachedLevel(36)"},
+			"diablo": 		{skipIf:"Party.hasReachedLevel(36)"}//,
+			//"worldstone": {skipIf:"!Party.hasReachedLevel(36)"} //Levelling add this to make game longer
 		},
 
 		1: { //Nightmare
@@ -196,10 +196,10 @@ const Sequences = {
 
 			//Act 5
 			"baal": 		{},//,//Levelling
+			//"cows": 		{skipIf:"Party.hasReachedLevel(72)"},
 			"diablo": 		{skipIf:"Party.hasReachedLevel(64)"}, //Levelling
 			"countess": 	{} //MF
-			//"worldstone": 		{skipIf:"!Party.hasReachedLevel(60)"} //Levelling
-			// TODO worldstone sequence for exp/items
+			//"worldstone": {skipIf:"!Party.hasReachedLevel(70)"} //Levelling add this to make game longer
 		},
 
 		2: { //Hell
@@ -213,9 +213,10 @@ const Sequences = {
 
 			//Act 5
 			"baal": 		{},//,//Levelling
+			"cows": 		{skipIf:"Party.hasReachedLevel(90)"},
 			"diablo": 		{}, //Levelling
-			"countess": 	{} //MF skip if baal Q beat
-			//"worldstone": 		{} //Levelling
+			///"countess": 	{}, //MF skip if baal Q beat
+			"worldstone": 	{skipIf:"!Party.hasReachedLevel(94)"} //Levelling
 			// TODO worldstone sequence for exp/items
 		}
 	}
