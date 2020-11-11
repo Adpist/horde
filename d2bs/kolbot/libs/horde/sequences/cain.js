@@ -78,7 +78,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 					//no tomes
 					if (!me.inTown) {
 						if(!Pather.usePortal(null, null)){
-							Pather.useWaypoint(4);
+							Pather.useWaypoint(5);
 						}
 					}
 				}
