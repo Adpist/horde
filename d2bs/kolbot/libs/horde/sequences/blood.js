@@ -48,7 +48,18 @@ function blood(mfRun) {
 
 		Pickit.pickItems();
 
-		Role.backToTown();
+		try {
+			Role.backToTown();
+		} catch (error){
+			//no tomes
+			if (!me.inTown) {
+				if(!Pather.usePortal(null, null)){
+					Travel.clearToExit(17, 3, Config.ClearType);
+					Pather.useWaypoint(3);
+				}
+			}
+		}
+	}
 	}
 
 	while (!kashya || !kashya.openMenu()) { // Try more than once to interact with Kashya.
