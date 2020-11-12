@@ -216,7 +216,7 @@ const Sequences = {
 			"cows": 		{skipIf:"Party.hasReachedLevel(90)"},
 			"diablo": 		{}, //Levelling
 			///"countess": 	{}, //MF skip if baal Q beat
-			"worldstone": 	{skipIf:"!Party.hasReachedLevel(94)"} //Levelling
+			//"worldstone": 	{skipIf:"!Party.hasReachedLevel(94)"} //Levelling
 			// TODO worldstone sequence for exp/items
 		}
 	}
