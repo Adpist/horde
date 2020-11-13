@@ -63,7 +63,19 @@ function duriel(mfRun) {
 				{
 					return Sequencer.fail;
 				}
-				unit = getUnit(2, 100);
+				try{
+					delay(250);
+					unit = getUnit(2, 100);
+				} catch(error){ //hole didnt appear lets try again
+					delay(1000);
+
+					try{
+						unit = getUnit(2, 100);
+					} catch(eerror){
+						HordeDebug.logUserError("duriel", "hole not found");
+						quit();
+					}
+				}
 
 				if (unit) {
 					for (i = 0; i < 3; i += 1) {
