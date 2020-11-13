@@ -76,6 +76,29 @@ var SkillsBuilds = {
 		[108, 20, false], //Max blessed aim
 		[117, 20, false] //Max Holy shield
 	],
+
+	"HammerSalvation": [
+		[99, 1, false], //Prayer
+		[98, 1, false], //Might
+		[97, 1, false], //Smite
+		[101, 1, false], //Holy Bolt
+		[104, 1, false], //Defiance
+		[107, 1, false], //Charge
+		[109, 1, false], //Cleansing
+		[108, 2, false], //Blessed aim
+		[112, 1, false], //Blessed Hammer
+		[115, 5, false], //Vigor
+		[112, 5, false], //Blessed Hammer
+		[117, 1, false], //Holy shield
+		[112, 10, false], //Blessed Hammer
+		[125, 20, false], //Max Salvation
+		[112, 20, false], //Max blessed Hammer
+		[117, 5, false], //Holy shield
+		[115, 20, false], //Max Vigor
+		[117, 10, false], //Holy shield
+		[108, 20, false], //Max blessed aim
+		[117, 20, false] //Max Holy shield
+	],
 	
 	"UberSmiter": [
 		[97, 1, false], //Smite
