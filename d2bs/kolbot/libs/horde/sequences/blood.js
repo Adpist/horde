@@ -46,9 +46,9 @@ function blood(mfRun) {
 			Attack.clear(30);
 		}
 
-		Pickit.pickItems();
 
-		try {
+		try {			
+			Pickit.pickItems();
 			Role.backToTown();
 		} catch (error){
 			//no tomes
