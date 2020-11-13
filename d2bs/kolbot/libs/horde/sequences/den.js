@@ -70,7 +70,8 @@ function den(mfRun) {
 				delay(me.ping * 2 + 250);
 			}
 		}
-	} else { // diff > 0
+	} else { // diff > 0		
+		Town.goToTown(1);
 		if (Role.teleportingChar) {
 			if (!getWaypoint(1)) {
 				Travel.clearToExit(1, 2, false); // Move from Rogue Encampment to Blood Moor
@@ -91,7 +92,6 @@ function den(mfRun) {
 
 			delay(3000);
 		} else {
-			Town.goToTown();
 			Town.move("portalspot");
 			while (!Pather.usePortal(8, null)) {
 				delay(250);
