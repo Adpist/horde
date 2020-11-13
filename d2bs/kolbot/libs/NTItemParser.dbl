@@ -198,7 +198,7 @@ NTIP.GetTier = function (item) {
 	for (i = 0; i < NTIP_CheckList.length; i += 1) {
 		if (NTIP_CheckList[i].length === 3 && NTIP_CheckList[i][2].hasOwnProperty("Tier") && NTIP_CheckList[i][2].Tier) {
 			isFormula = isNaN(NTIP_CheckList[i][2].Tier);
-			tempTier = isFormula ? eval(NTIP_CheckList[i][2].Tier) : NTIP_CheckList[i][2].Tier;
+			tempTier = isFormula ? eval(NTIP_CheckList[i][2].Tier) : parseInt(NTIP_CheckList[i][2].Tier);
 			if (!isNaN(tempTier) && tempTier > tier)
 			{
 				try {
@@ -253,7 +253,7 @@ NTIP.GetMercTier = function (item) {
 	for (i = 0; i < NTIP_CheckList.length; i += 1) {
 		if (NTIP_CheckList[i].length === 3 && NTIP_CheckList[i][2].hasOwnProperty("MercTier") && NTIP_CheckList[i][2].MercTier) {
 			isFormula = isNaN(NTIP_CheckList[i][2].MercTier);
-			tempTier = isFormula ? eval(NTIP_CheckList[i][2].MercTier) : NTIP_CheckList[i][2].MercTier;
+			tempTier = isFormula ? eval(NTIP_CheckList[i][2].MercTier) : parseInt(NTIP_CheckList[i][2].MercTier);
 			if (!isNaN(tempTier) && tempTier > tier)
 			{
 				try {
