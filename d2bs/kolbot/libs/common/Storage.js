@@ -126,6 +126,8 @@ var Container = function (name, width, height, location) {
 		var nx, ny, bufferValue;
 		var itemIndex = this.itemList.indexOf(item);
 		
+		Storage.Reload();
+		
 		//Loop the item size to make sure we can fit it.
 		for (nx = 0; nx < item.sizex; nx += 1) {
 			for (ny = 0; ny < item.sizey; ny += 1) {
@@ -206,7 +208,7 @@ Loop:
 		}
 
 		//Loop three times to try and place it.
-		for (n = 0; n < 3; n += 1) {
+		for (n = 0; n < 5; n += 1) {
 			if (this.location === 6) { // place item into cube
 				cItem = getUnit(100);
 				cube = me.getItem(549);
@@ -263,8 +265,9 @@ Loop:
 				return false;
 			}
 			
-			return this.moveToInternal(item, nPos.x, nPos.y);
+			return this.MoveToInternal(item, nPos.y, nPos.x);
 		} catch (e) {
+			print("Storage.Container.MoveTo catched error : "  + e + " - " +e.toSource());
 			return false;
 		}
 	};

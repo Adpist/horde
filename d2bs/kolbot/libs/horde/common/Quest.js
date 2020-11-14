@@ -176,10 +176,10 @@ var Quest = {
 			if (!Item.equip(questItem, 4)) {
 				Pickit.pickItems();
 
-				throw new Error("HordeSystem.equipQuestitem: Failed to equip item " + ietmId);
+				throw new Error("HordeSystem.equipQuestitem: Failed to equip item " + itemId);
 			}
 		} else {
-			throw new Error("HordeSystem.equipQuestitem: Lost item " + ietmId);
+			throw new Error("HordeSystem.equipQuestitem: Lost item " + itemId);
 		}
 
 		if (me.itemoncursor) { // Seems like Item.equip() doesn't want to keep whatever the sorc has for a weapon, so lets put it into inventory without checking it against Pickit.

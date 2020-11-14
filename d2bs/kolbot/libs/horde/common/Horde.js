@@ -187,7 +187,6 @@ var HordeSystem = {
 					Config.PickitFiles.push(commonPickit.pickit);
 				}
 			}
-			
 		}
 	},
 	

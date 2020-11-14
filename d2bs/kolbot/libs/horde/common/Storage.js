@@ -8,20 +8,29 @@
 var HordeStorage = {
 
 	organize: function() {
-		var items = [
-						{item: me.getItem(549), x: 0, y: 0}, //cube
-						{item: Role.getTpTome(), x: 0, y: 2} //tp tome
-					];
+		var stash = 	[
+							{item: me.getItem(549), x: 0, y: 0} //cube
+						];
+						
+		var inventory = [
+							{item: Role.getTpTome(), x: 0, y: 0} //tp tome
+						];
+						
+		//keys if any
 		var keys = me.findItems(543, 0, 3);
-		
 		for (var k = 0 ; k < keys.length ; k += 1) {
 			if (k === 0 ) {
-				items.push({item: keys[k], x: 9, y: 3});
+				inventory.push({item: keys[k], x: 0, y: 2});
 			} else { //drop all key stacks after first
 				keys[i].drop();
 			}
 		}
 			
+		this.organizeLocationItems(stash, 7);
+		this.organizeLocationItems(inventory, 3);
+	},
+	
+	organizeLocationItems: function(items, location) {
 		for (var tries = 0 ; tries < 3 ; tries += 1) {
 			var allDone = true;
 			for (var i = 0 ; i < items.length ; i += 1) {
@@ -29,22 +38,30 @@ var HordeStorage = {
 					if (items[i].status === undefined || items[i].status !== "done") {
 						switch (tries) {
 							case 0: //First try : move from inventory to inventory
-								if (!this.tryMoveItemToInventory(items[i].item, items[i].x, items[i].y)) {
-									Storage.Stash.MoveTo(items[i].item);//Failed : moved to stash
-									items[i].status = "stashed";
+								if (!this.tryMoveItem(items[i].item, items[i].x, items[i].y, location)) {
+									if (location === 3) {
+										Storage.Stash.MoveTo(items[i].item);//Failed : moved to stash
+									} else if (location === 7) {
+										Storage.Inventory.MoveTo(items[i].item);
+									}
+									items[i].status = "moved";
 								} else {
 									items[i].status = "done";
 								}
 								break;
 							case 1: //Second try : move from stash to inventory
-								if (!this.tryMoveItemToInventory(items[i].item, items[i].x, items[i].y)) {
+								if (!this.tryMoveItem(items[i].item, items[i].x, items[i].y, location)) {
 									items[i].status = "failed";
 								} else {
 									items[i].status = "done";
 								}
 								break;
 							case 2: //Failed : move anywhere in inventory
-								Storage.Inventory.MoveTo(items[i].item);
+								if (location === 3) {
+									Storage.Inventory.MoveTo(items[i].item);
+								} else if (location === 7) {
+									Storage.Stash.MoveTo(items[i].item);
+								}
 								items[i].status = "done";
 							break;
 						}
@@ -55,21 +72,40 @@ var HordeStorage = {
 				
 				allDone = allDone && items[i].status === "done";
 			}
+			
+			if (allDone) {
+				print("All item are in place");
+				break;
+			}
 		}
 	},
 	
+	tryMoveItem: function(item, x, y, location) {
+		if (location === 3) {
+			return this.tryMoveItemToInventory(item, x, y);
+		} else if (location === 7) {
+			return this.tryMoveItemToStash(item, x, y);
+		}
+		return false;
+	},
+	
 	tryMoveItemToInventory: function(item, x, y) {
-		Storage.Reload();
-		
 		if (item.x !== x || item.y !== y || item.location !== 3) {
-			print("item at wrong position : [" + item.x + "," + item.y +"]");
 			if (!Storage.Inventory.TryMoveToPosition(item, x, y)) {
 				return false;
-			}else {
-				print("Successfully placed item");
 			}
-		} else {
-			print("item at right position : [" + item.x + "," + item.y +"]");
+		}
+		
+		return true;
+	},
+	
+	tryMoveItemToStash: function(item, x, y) {
+		Storage.Reload();
+		
+		if (item.x !== x || item.y !== y || item.location !== 7) {
+			if (!Storage.Stash.TryMoveToPosition(item, x, y)) {
+				return false;
+			}
 		}
 		
 		return true;
@@ -154,8 +190,9 @@ var HordeStorage = {
 		for (var i = 0 ; i < questStuff.length ; i += 1) {
 			item = me.getItem(questStuff[i]);
 
-			if (item && item.location !==7 && item.location !== 6 && Storage.Stash.CanFit(item)) { // Have the item and it's not in Stash or Cube and it can fit in Stash.
-				Storage.Stash.MoveTo(i); // SiC-666 TODO: Improve this by trying to move the item more than once?
+			if (item && item.location !==7 && item.location !== 6) { // Have the item and it's not in Stash or Cube and it can fit in Stash.
+
+				Storage.Stash.MoveTo(item); // SiC-666 TODO: Improve this by trying to move the item more than once?
 
 				delay(me.ping * 2 + 500);
 			}
