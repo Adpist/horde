@@ -25,7 +25,7 @@ function travincal_requirements(mfRun) {
 		}
 	}
 	else {
-		if (!me.getQuest(21, 0)) {
+		if (!(me.getQuest(21, 0) && (me.getQuest(18, 0) || me.getQuest(23,0)))) {
 			return Sequencer.skip;//quest isn't done, skip
 		}
 	}
@@ -114,7 +114,6 @@ function travincal(mfRun) {
 			Pather.moveTo(orgX+17, orgY-5, 5, false); // just outside wp room
 		}
 		
-		
 		Role.makeTeamJoinPortal();
 	} else { // I am not a Sorc, enter the Sorc's Travincal portal.
 		Town.move("portalspot");
@@ -130,10 +129,10 @@ function travincal(mfRun) {
 
 			j += 1;
 		}
-		
-		orgX = me.x;
-		orgY = me.y;
 	}
+	
+	orgX = me.x;
+	orgY = me.y;
 	
 	if (startNearWp) {
 		//try to move progressivelly to council
