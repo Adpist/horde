@@ -45,7 +45,7 @@ var Waypoint = {
 
 				while (getDistance(me.x, me.y, presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y) > 10) {
 					try {
-						Pather.moveToPreset(me.area, 2, wpIDs[i], 0, 0, false, clearPath);
+						Pather.moveToPreset(me.area, 2, wpIDs[i], 0, 0, clearPath, false);
 					} catch (e) {
 						print("Caught Error.");
 

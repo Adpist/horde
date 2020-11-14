@@ -156,11 +156,10 @@ var Party = {
 	
 	getLowestAct: function () { // Cycles thru getParty() and returns the lowest Act (i.e., 1-5) the partied characters are in. Quits if noone is partied. Returns false is someone isn't in a Town.
 		var i, j, player, myPartyID, area,
-			lowestAct = 5;
+			lowestAct = [-1, 1, 40, 75, 103, 109].indexOf(me.area);
 
 		// Dark-f ->
 		if (HordeSystem.teamSize === 1) {
-			lowestAct = [-1, 1, 40, 75, 103, 109].indexOf(me.area);
 			return lowestAct;
 		}
 		// <- Dark-f
@@ -174,11 +173,14 @@ var Party = {
 				if (myPartyID === 65535) { // Noone in my Party. Probably a good idea to quit. . .
 					for (j = 0 ; j < 60 ; j += 1)
 					{
+						player = getParty();
 						myPartyID = player.partyid;
 						if (myPartyID !== 65535)
 						{
 							break;
 						}
+						
+						this.joinHordeParty();
 					}
 					if (j === 60)
 					{
@@ -186,7 +188,7 @@ var Party = {
 						quit();
 					}
 				}
-
+				
 				while (player.getNext()) {
 					if (player.partyid === myPartyID) { // Only check characters in a Party with me.
 						area = [-1, 1, 40, 75, 103, 109].indexOf(player.area);
