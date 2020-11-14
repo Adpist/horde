@@ -1,0 +1,3 @@
+// Weapon
+// amplify > ias > damage
+me.diff == 0 && me.act == 1 && [type] == bow # # [MercTier] == item.getStatEx(93) * 8 + item.getStatEx(60) * 8 + item.getStatEx(24) * 4 + item.getStatEx(31) * 4 + item.getStatEx(39) * 2 + item.getStatEx(41) * 2 + item.getStatEx(43) * 2

@@ -88,6 +88,11 @@ const HordeTeam = {
             killBaalIf: "true"
         }
     },
+	
+	commonPickits: 	[
+						{pickit: "kolton.nip"},
+						{pickit: "horde/merc.act1.normal.xpac.nip", condition:"me.diff == 0 && !me.getQuest(7,0)"}
+					],
 
     ladder: true, //Is ladder team
     hardcore: false, //Is Hardcore team

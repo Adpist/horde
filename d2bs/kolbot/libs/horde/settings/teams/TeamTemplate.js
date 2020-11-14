@@ -75,6 +75,11 @@ const HordeTeam = {
 		}
 	},
 	
+	commonPickits: 	[
+						{pickit: "kolton.nip"},
+						{pickit: "horde/merc.act1.normal.xpac.nip", condition:"me.diff == 0 && !me.getQuest(7,0)"}
+					],
+	
 	sequencesProfile: "default_xpac", //The sequence profile to use for this team (a .js file in kolbot\libs\horde\settings\sequences\)
 	minGameTime: 210, //min game time to use for the whole team
 	maxGameTime: 0, //max game time to use for whole team,

@@ -170,6 +170,27 @@ var HordeSystem = {
 		this.setupRunewordCategory(RunewordProfile.merc, true);
 	},
 	
+	setupPickits: function() {
+		if (!!this.team.commonPickits) {
+			print("setup common pickits");
+			for(var i = 0 ; i < this.team.commonPickits.length ; i += 1) {
+				var conditionResult = true, 
+					commonPickit = this.team.commonPickits[i];
+				
+				if(!!commonPickit.condition && commonPickit.condition !== "") {
+					conditionResult = eval(commonPickit.condition);
+					print("evaluate " + commonPickit.pickit + " result = " + conditionResult);
+				}
+				
+				if(conditionResult) {
+					print("add common pickit " + commonPickit.pickit);
+					Config.PickitFiles.push(commonPickit.pickit);
+				}
+			}
+			
+		}
+	},
+	
 	setupConfig: function(teamName, oog) {
 		print("setup config " + me.profile + "[" + teamName + "]");
 		
@@ -274,6 +295,7 @@ var HordeSystem = {
 		if (!oog) {
 			this.setupBuild(this.team.profiles[me.profile].build);
 			this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
+			this.setupPickits();
 		}
 		
 		Sequencer.setupSequences(this.team.sequencesProfile);
