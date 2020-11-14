@@ -58,8 +58,7 @@ function trist(mfRun) {
 	Buff.Bo();
 	for (coord = 0; coord < xx.length; coord += 1) {
 		Pather.moveTo(xx[coord], yy[coord], 3, true);
-
-		Attack.clear(20);
+		Party.secureWaitSynchro("clear_trist_"+coord);
 	}
 	
 	Pather.teleport = wasTeleporting;

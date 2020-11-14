@@ -167,7 +167,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				}
 				delay(3000);
 			} else { // Dark-f: other team mates goto town.
-				Town.goToTown();
+				Role.backToTown();
 			}
 		} else {
 			// all team
@@ -187,11 +187,21 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 					Pather.moveToUnit(slave);
 				}
 			}
+			Party.secureWaitSynchro("free_cain");
+			
 			Misc.openChest(slave);
-			if (!Pather.usePortal(null, null)) {
-				Town.goToTown();
+			
+			//Clear tristram
+			var xx = [ 25175, 25147, 25149, 25127, 25128, 25150, 25081, 25115],
+				yy = [ 5187,  5201,  5172,  5188,  5144,  5123,  5137, 5070];
+			
+			for (var coord = 0; coord < xx.length; coord += 1) {
+				Pather.moveTo(xx[coord], yy[coord], 3, true);
+				Party.secureWaitSynchro("clear_trist_"+coord);
+				Attack.clear(30);
 			}
-			delay(3000);
+	
+			Role.backToTown();
 		}
 	}
 	Town.move("akara");
