@@ -22,9 +22,14 @@ function pindle_requirements(mfRun) {
 		return Sequencer.skip;//Skip : not supported
 	}
 	
-	if (mfRun && !me.getQuest(37, 1) && !me.getQuest(37,0)){
+	if (!me.getQuest(37, 1) && !me.getQuest(37,0)){
 		return Sequencer.skip;//Skip : anya quest not completed
 	}
+	
+	if (Waypoint.hasWaypoint(123)) {
+		return Sequencer.skip;//Skip : portal is closed
+	}
+	
 	/***** END OF REQUIREMENTS ******/
 	
 	return Sequencer.ok;//We can process sequence
@@ -46,7 +51,7 @@ function pindle(mfRun) {
 		}
 		
 		if (!Pather.usePortal(121)) {
-			throw new Error("Failed to use portal.");
+			return Sequencer.fail;
 		}
 		
 		Precast.doPrecast(true);

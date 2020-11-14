@@ -19,15 +19,16 @@ const Sequences = {
 			"andy": 		{stopAfterIf:"!Party.hasReachedLevel(15)"},
 			
 			//Act 2
+			"radament": 	{}, //optionnal
 			"cube": 		{},
 			"amulet": 		{stopAfterIf:"!Party.hasReachedLevel(18)"},
 			"summoner": 	{},
 			"staff": 		{},
-			"radament": 	{}, //optionnal
 			"duriel": 		{},
 			
 			//Act 3
 			"figurine": 	{}, //optionnal
+			"gidbinn": 		{}, //optionnal
 			"lamesen": 		{}, //optionnal
 			"eye": 			{}, 
 			"heart": 		{}, 
@@ -37,12 +38,14 @@ const Sequences = {
 			
 			//Act 4
 			"izual": 		{}, //optionnal
-			"diablo": 		{stopAfterIf:"!Party.hasReachedLevel(27)"},
+			"hellforge":	{}, //optionnal
+			"diablo": 		{stopAfterIf:"!Party.hasReachedLevel(25)"},
 			
 			//Act 5
 			"shenk": 		{}, //optionnal
 			"barbrescue": 	{}, //optionnal
 			"anya": 		{}, //optionnal
+			"nihlathak":	{}, //optionnal
 			"ancients": 	{},
 			"baal": 		{},
 		},
@@ -66,6 +69,7 @@ const Sequences = {
 			
 			//Act 3
 			"figurine": 	{}, //optionnal
+			"gidbinn": 		{}, //optionnal
 			"lamesen": 		{}, //optionnal
 			"eye": 			{}, 
 			"heart": 		{}, 
@@ -75,12 +79,14 @@ const Sequences = {
 			
 			//Act 4
 			"izual": 		{}, //optionnal
-			"diablo": 		{stopAfterIf:"!Party.hasReachedLevel(50)"},
+			"hellforge":	{}, //optionnal
+			"diablo": 		{stopAfterIf:"!Party.hasReachedLevel(45)"},
 			
 			//Act 5
 			"shenk": 		{}, //optionnal
 			"barbrescue": 	{}, //optionnal
 			"anya": 		{}, //optionnal
+			"nihlathak":	{}, //optionnal
 			"ancients": 	{},
 			"baal": 		{},
 		},
@@ -104,6 +110,7 @@ const Sequences = {
 			
 			//Act 3
 			"figurine": 	{}, //optionnal
+			"gidbinn": 		{}, //optionnal
 			"lamesen": 		{}, //optionnal
 			"eye": 			{}, 
 			"heart": 		{}, 
@@ -113,12 +120,14 @@ const Sequences = {
 			
 			//Act 4
 			"izual": 		{}, //optionnal
+			"hellforge":	{skipIf: "!Party.hasReachedLevel(80)"}, //optionnal
 			"diablo": 		{stopAfterIf:"!Party.hasReachedLevel(80)"},
 			
 			//Act 5
 			"shenk": 		{}, //optionnal
 			"barbrescue": 	{}, //optionnal
 			"anya": 		{}, //optionnal
+			"nihlathak":	{skipIf: "!Party.hasReachedLevel(85)"}, //optionnal
 			"ancients": 	{},
 			"baal": 		{},
 		}
@@ -137,14 +146,14 @@ const Sequences = {
 			
 			//Act 2
 			"cube": 		{skipIf: "Party.hasReachedLevel(18)"}, //Levelling
-			"tombs": 		{skipIf: "Party.hasReachedLevel(22)"}, //Levelling
+			"tombs": 		{skipIf: "Party.hasReachedLevel(20)"}, //Levelling
 			
 			//Act 3
 			"travincal": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 			"mephisto": 	{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 			
 			//Act 4
-			"diablo": 		{skipIf: "Party.hasReachedLevel(27)"}, //Levelling
+			"diablo": 		{skipIf: "Party.hasReachedLevel(26)"}, //Levelling
 			
 			//Act 5
 			"shenk": 		{}, //MF
@@ -172,6 +181,7 @@ const Sequences = {
 		2: { //Hell
 			//Act 1
 			"countess": 	{}, //MF
+			"pits":			{}, //MF
 			"andy": 		{}, //MF
 			
 			//Act 2
@@ -184,6 +194,7 @@ const Sequences = {
 			//Act 5
 			"shenk": 		{}, //MF
 			"pindle": 		{}, //MF
+			"nihlathak":	{}, //MF
 			
 			//Act 4
 			"diablo": 		{} //MF & Levelling
@@ -204,7 +215,8 @@ const Sequences = {
 			//Act 4
 			
 			//Act 5
-			"baal": {}
+			"baal": {},
+			"cows": {skipIf: "!Party.hasReachedLevel(31)"}
 		},
 		
 		1: { //Nightmare
@@ -217,7 +229,8 @@ const Sequences = {
 			//Act 4
 			
 			//Act 5
-			"baal": {}
+			"baal": {},
+			"cows": {skipIf: "!Party.hasReachedLevel(65)"}
 		},
 		
 		2: { //Hell
@@ -230,7 +243,8 @@ const Sequences = {
 			//Act 4
 			
 			//Act 5
-			"baal": {}
+			"baal": {},
+			"cows": {skipIf: "!Party.hasReachedLevel(90)"}
 		}
 	}
 };

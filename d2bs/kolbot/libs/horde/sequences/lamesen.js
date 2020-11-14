@@ -74,32 +74,55 @@ function lamesen(mfRun) {
 
 		target = getUnit(2, 193);
 
-		Misc.openChest(target);
-		delay(300);
+		if (Role.isLeader) {
+			Misc.openChest(target);
+			delay(300);
 
-		target = getUnit(4, 548);
-		Pickit.pickItem(target);
-		Town.goToTown();
+			target = getUnit(4, 548);
+			Pickit.pickItem(target);
+			Town.goToTown();
+		
+		} else {
+			Town.goToTown();
+			delay(10000);
+		}
 	} else {
-		delay(20000);//give time to complete quest
+		if (Role.isLeader) {
+			Town.move("portalspot");
+			while(!Pather.getPortal(94, null) && !Pather.usePortal(94, null)) {
+				delay(me.ping*2+250);
+			}
+			target = getUnit(2, 193);
+			Misc.openChest(target);
+			delay(300);
+
+			target = getUnit(4, 548);
+			Pickit.pickItem(target);
+			Town.goToTown();
+		}
 	}
 
-	Town.move("alkor");
+	Party.waitSynchro("book_picked");
+	
+	if (!me.getQuest(17,0)) {
+		delay(HordeSystem.getTeamIndex()*5000);
+		Town.move("alkor");
 
-	target = getUnit(1, "alkor");
+		target = getUnit(1, "alkor");
 
-	var tries = 0;
-	while(target && target.openMenu()) {
-		me.cancel();
-		sendPacket(1, 0x40); //to refresh the status of me.getQuest(17, 0).
-		if (me.getQuest(17, 0)) { // Have completed Lam Esen's Tome.
-			break;
-		}
-		tries += 1;
-		delay(1000);
-		if (tries > 60)
-		{
-			quit();
+		var tries = 0;
+		while(target && target.openMenu()) {
+			me.cancel();
+			sendPacket(1, 0x40); //to refresh the status of me.getQuest(17, 0).
+			if (me.getQuest(17, 0)) { // Have completed Lam Esen's Tome.
+				break;
+			}
+			tries += 1;
+			delay(1000);
+			if (tries > 3)
+			{
+				break;
+			}
 		}
 	}
 

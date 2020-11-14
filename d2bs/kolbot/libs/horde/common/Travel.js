@@ -393,7 +393,7 @@ var Travel = {
 				default:
 					if (goal <= 3 && me.diff === 0) { // If traveling in a group (all other goals are tele only).
 						if (!me.inTown) {
-							Party.waitForMembers(me.area, areaIDs[nextAreaIndex]);
+							Party.secureWaitSynchro("before_travel_" + me.area, 30000);
 						}
 					}
 

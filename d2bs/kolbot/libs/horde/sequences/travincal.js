@@ -189,7 +189,7 @@ function travincal(mfRun) {
 			Town.goToTown();
 
 
-			Quest.equipFlail() // This function purposely throws an error if Khalim's Will isn't present or is lost in the process.
+			Quest.equipQuestItem(174) // This function purposely throws an error if Khalim's Will isn't present or is lost in the process.
 
 			Town.move("portalspot");
 
@@ -203,7 +203,7 @@ function travincal(mfRun) {
 			
 			Party.secureWaitSynchro("before_flail");
 			Party.wholeTeamInGame();
-			Quest.placeFlail();
+			Quest.smashPresetUnit(404);
 			Party.wholeTeamInGame();
 			Party.secureWaitSynchro("after_flail");
 		} else { // I am not the Teleporting Sorc or Khalim's Will has been completed. If it the latter is true the while loop on the next line will be skipped.

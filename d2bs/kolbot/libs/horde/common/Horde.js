@@ -9,6 +9,7 @@ var HordeSystem = {
 	team: {},
 	build: {},
 	teamSize: 0,
+	leaderProfile: "",
 	teleProfile: "",
 	boProfile: "",
 	followerProfiles: [],
@@ -21,6 +22,7 @@ var HordeSystem = {
 		this.team = {};
 		this.build = {};
 		this.teamSize = 0;
+		this.leaderProfile = "";
 		this.teleProfile = "";
 		this.boProfile = "";
 		this.followerProfiles = [];
@@ -34,6 +36,10 @@ var HordeSystem = {
 		}
 		
 		return this.allTeamProfiles.indexOf(profile);
+	},
+	
+	isTeammate: function(charName) {
+		return this.allTeamCharacters.indexOf(charName) !== -1;
 	},
 	
 	setupBuild: function(buildName) {
@@ -174,6 +180,7 @@ var HordeSystem = {
 		}
 		
 		var isTeleportChar = false;
+		this.leaderProfile = DataFile.getStats().hordeLeader;
 		this.team = HordeTeam;
 		
 		if (this.team === undefined){
@@ -267,9 +274,10 @@ var HordeSystem = {
 		if (!oog) {
 			this.setupBuild(this.team.profiles[me.profile].build);
 			this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
-			Sequencer.setupSequences(this.team.sequencesProfile);
-			
 		}
+		
+		Sequencer.setupSequences(this.team.sequencesProfile);
+		
 		return true;
 	},
 	

@@ -79,6 +79,8 @@ var Sequencer = {
 			MuleLogger.logChar();
 		}
 		
+		TeamData.save();
+		
 		switch (sequenceResult)
 		{
 			case Sequencer.done:
@@ -164,7 +166,7 @@ var Sequencer = {
 			try {
 				sequenceResult = global[sequence](timeline != this.quest);
 			} catch(error) {
-				HordeDebug.logScriptError("Sequencer", "Error while running sequence " + sequence + " : " + error);
+				HordeDebug.logScriptError("Sequencer", "Error while running sequence " + sequence + " : " + error + "\n" + error.toSource());
 				sequenceResult = this.error;
 			}
 			

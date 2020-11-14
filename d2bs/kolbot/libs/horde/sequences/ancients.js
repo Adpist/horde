@@ -165,5 +165,7 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 	}
 	
 	Role.backToTown();
+	Party.wholeTeamInGame();
+	
 	return Sequencer.done;
 }

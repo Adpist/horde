@@ -11,6 +11,6 @@ var HordeBuild = {
 	skillsBuild: "Summon",
 	autoBuildTemplate: "Summon",
 	mercAct2Normal: "Prayer",
-	mercAct2Nightmare: "Holy Freeze",
+	mercAct2Nightmare: "Might",
 	pickits: ["horde/necromancer.summon.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

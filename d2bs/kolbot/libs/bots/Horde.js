@@ -17,8 +17,8 @@ function Horde() {
 		Role.initRole();
 		Party.init();
 		Waypoint.init();
-
-		DataFile.updateStats("level", me.charlvl);
+		
+		TeamData.save();
 		
 		//Process previous game
 		Pickit.pickItems();

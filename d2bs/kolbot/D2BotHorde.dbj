@@ -22,8 +22,6 @@ var StarterConfig = {
 	PleaseWaitTimeout: 30, // Seconds to wait before cancelling the 'Please Wait...' screen
 	WaitInLineTimeout: 3600, // Seconds to wait before cancelling the 'Waiting in Line...' screen
 	GameDoesNotExistTimeout: 30, // Seconds to wait before cancelling the 'Game does not exist.' screen
-
-	LeaderElectAnyQuest: false, // Will leader priority on any quest not just the ones for act progression, ALL profiles MUST use this profile
 };
 
 var JoinSettings = {

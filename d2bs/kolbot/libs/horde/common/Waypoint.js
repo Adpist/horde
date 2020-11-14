@@ -21,6 +21,15 @@ var Waypoint = {
 		this.waypointsToReceive = [];
 	},
 	
+	hasWaypoint: function(targetArea) {
+		var wpIndex = Pather.wpAreas.indexOf(targetArea);
+		if (wpIndex >= 0) {
+			return getWaypoint(wpIndex);
+		}
+		
+		return false;
+	},
+	
 	clickWP: function (clearPath) { // Move to nearest wp and click it.
 		var i, j, wp, presetUnit,
 		wpIDs = [119, 145, 156, 157, 237, 238, 288, 323, 324, 398, 402, 429, 494, 496, 511, 539];

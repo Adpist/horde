@@ -142,195 +142,62 @@ var LeaderElection = {
 		return true;
 	},
 	
+	getElectionEvaluatedQuests: function(diff) {
+		var questsToEvaluate = [];
+		
+		for (var sequence in Sequencer.questSequences[diff]) {
+			if (Quest.sequenceToQuest.hasOwnProperty(sequence)) {
+				for (var i = 0 ; i < Quest.sequenceToQuest[sequence].length ; i += 1){
+					var quest = Quest.sequenceToQuest[sequence][i];
+					if (questsToEvaluate.indexOf(quest) === -1) {
+						questsToEvaluate.push(quest);
+					}
+				}
+			}
+		}
+		
+		return questsToEvaluate;
+	},
+	
 	doLeaderElection: function(){
-		var levelCounter=0;
-		var levelAggergate = 0;
-		var levelLowest = 0;
-		var hii = 0;
-		var uncompletedQuests = {normalQuest:{},nmQuest:{},hellQuest:{}};
-		var filteredUncompletedQuests = {normalQuest:{},nmQuest:{},hellQuest:{}};
+		var teamData = {};
+		var lastQuest = HordeSystem.team.expansion ? 40 : 28; //baal for LOD - Diablo for classic
 		try {
-			for(i=0;i<HordeSystem.allTeamProfiles.length;i++){
-				var profileData = this.getOtherPlayerData(HordeSystem.allTeamProfiles[i]);
-				if(!!profileData){
-					if(!!profileData.level){
-						levelAggergate+=profileData.level;
-						levelCounter++;
-						if(levelLowest < profileData.level){
-							levelLowest = profileData.level;
-						}
-					}
-					if(!!profileData.hordeInfo){
-						var	hordeInfo = JSON.parse(profileData.hordeInfo);
-						//normalQuest
-						if(hordeInfo.hasOwnProperty("normalQuest")){
-							for (hii = 1; hii < 41; hii += 1) {
-								if(hordeInfo.normalQuest.hasOwnProperty(hii)){
-									if(hordeInfo.normalQuest[hii]===0){
-										if(!uncompletedQuests.normalQuest.hasOwnProperty(hii)){
-											uncompletedQuests.normalQuest[hii]={};
-											uncompletedQuests.normalQuest[hii].count=1;
-											uncompletedQuests.normalQuest[hii].firstProfile=HordeSystem.allTeamProfiles[i];
-										} else {
-											uncompletedQuests.normalQuest[hii].count++;
-										}
-									}
+			teamData = TeamData.getTeamQuestData();
+
+			print("Team Lowest Level: " + teamData.lowestLvl);
+			print("Team Average Level: " + teamData.avgLvl);
+
+			for (var diff = 0 ; diff <= 2 ; diff += 1) {
+				if (!!teamData.uncompletedQuests[diff]) {
+					var evaluatedQuests = this.getElectionEvaluatedQuests(diff);
+					print("diff " + diff + " - evaluated quests : " + evaluatedQuests);
+					for (var quest = 1 ; quest <= lastQuest ; quest += 1) {
+						if (evaluatedQuests.indexOf(quest) !== -1) {
+							if (teamData.uncompletedQuests[diff].hasOwnProperty(quest)) {
+								//Leader elected!
+								if (HordeSettings.Debug.Verbose.leaderElection) {
+									HordeDebug.logScriptInfo("LeaderElection", "Leader Elected quest: " + quest + " profile count missing: "+teamData.uncompletedQuests[diff][quest].count+" leader will be: "+teamData.uncompletedQuests[diff][quest].firstProfile);
+								} else {
+									print("Leader Elected quest: " + quest + " profile count missing: "+teamData.uncompletedQuests[diff][quest].count+" leader will be: "+teamData.uncompletedQuests[diff][quest].firstProfile);
 								}
+								return teamData.uncompletedQuests[diff][quest].firstProfile;
 							}
-						}
-
-						//nmQuest
-						if(hordeInfo.hasOwnProperty("nmQuest")){
-							for (hii = 1; hii < 41; hii += 1) {
-								if(hordeInfo.nmQuest.hasOwnProperty(hii)){
-									if(hordeInfo.nmQuest[hii]===0){
-										if(!uncompletedQuests.nmQuest.hasOwnProperty(hii)){
-											uncompletedQuests.nmQuest[hii]={};
-											uncompletedQuests.nmQuest[hii].count=1;
-											uncompletedQuests.nmQuest[hii].firstProfile=HordeSystem.allTeamProfiles[i];
-										} else {
-											uncompletedQuests.nmQuest[hii].count++;
-										}
-									}
-								}
-							}
-						}
-
-
-						//hellQuest
-						if(hordeInfo.hasOwnProperty("hellQuest")){
-							for (hii = 1; hii < 41; hii += 1) {
-								if(hordeInfo.hellQuest.hasOwnProperty(hii)){
-									if(hordeInfo.hellQuest[hii]===0){
-										if(!uncompletedQuests.hellQuest.hasOwnProperty(hii)){
-											uncompletedQuests.hellQuest[hii]={};
-											uncompletedQuests.hellQuest[hii].count=1;
-											uncompletedQuests.hellQuest[hii].firstProfile=HordeSystem.allTeamProfiles[i];
-										} else {
-											uncompletedQuests.hellQuest[hii].count++;
-										}
-									}
-								}
-							}
-						}
-
-
-					} else {
-						throw new Error("Did not get horde profile data, defaulting to teleport profile");
-					}
-				} else {
-					throw new Error("Did not get all profile data, defaulting to teleport profile");
-
-				}
-			}
-
-			print("Team Lowest Level: " + levelLowest);
-			print("Team Average Level: " + Math.round(levelAggergate/levelCounter));
-
-
-
-			//Lets remove the dead weight
-			//	Always filter
-			//	8 = Spoke to Jerhyn
-			//	16 = Spoke to Hratli
-			//	24 = Spoke to Tyrael
-			//	Baal Quest in Hell
-
-
-
-			//normalQuest
-			if(uncompletedQuests.hasOwnProperty("normalQuest")){
-				for (hii = 1; hii < 41; hii += 1) {
-					if(hii===8 || hii===16 || hii===24){
-						continue;
-					}
-					if(uncompletedQuests.normalQuest.hasOwnProperty(hii)){
-						if(uncompletedQuests.normalQuest[hii].count<HordeSystem.allTeamProfiles.length){
-								filteredUncompletedQuests.normalQuest[hii]=uncompletedQuests.normalQuest[hii];
-						}
-					}
-				}
-			}
-
-			//nmQuest
-			if(uncompletedQuests.hasOwnProperty("nmQuest")){
-				for (hii = 1; hii < 41; hii += 1) {
-					if(hii===8 || hii===16 || hii===24){
-						continue;
-					}
-					if(uncompletedQuests.nmQuest.hasOwnProperty(hii)){
-						if(uncompletedQuests.nmQuest[hii].count<HordeSystem.allTeamProfiles.length){
-								filteredUncompletedQuests.nmQuest[hii]=uncompletedQuests.nmQuest[hii];
-						}
-					}
-				}
-			}
-
-
-			//hellQuest
-			if(uncompletedQuests.hasOwnProperty("hellQuest")){
-				for (hii = 1; hii < 40; hii += 1) { // < 40 filter out baal Q for hell
-					if(hii===8 || hii===16 || hii===24){
-						continue;
-					}
-					if(uncompletedQuests.hellQuest.hasOwnProperty(hii)){
-						if(uncompletedQuests.hellQuest[hii].count<HordeSystem.allTeamProfiles.length){
-								filteredUncompletedQuests.hellQuest[hii]=uncompletedQuests.hellQuest[hii];
-						}
-					}
-				}
-			}
-
-			//Search for first Quest that matches
-
-
-
-			//normalQuest
-			if(filteredUncompletedQuests.hasOwnProperty("normalQuest")){
-				for (hii = 1; hii < 41; hii += 1) {
-					if(StarterConfig.LeaderElectAnyQuest || hii===6 || hii===7 || hii===11 || hii===12 || hii===13 || hii===14 || hii===15 || hii===21 || hii===22 || hii===23 || hii===26 || hii===28 || hii===38 || hii===39 || hii===40){
-						if(filteredUncompletedQuests.normalQuest.hasOwnProperty(hii)){
-							//Leader elected!
-							print("Leader Elected quest: " + hii + " profile count missing: "+filteredUncompletedQuests.normalQuest[hii].count+" leader will be: "+filteredUncompletedQuests.normalQuest[hii].firstProfile);
-
-							return filteredUncompletedQuests.normalQuest[hii].firstProfile;
-						}
-					}
-				}
-			}
-
-			//nmQuest
-			if(filteredUncompletedQuests.hasOwnProperty("nmQuest")){
-				for (hii = 1; hii < 41; hii += 1) {
-					if(StarterConfig.LeaderElectAnyQuest || hii===6 || hii===7 || hii===11 || hii===12 || hii===13 || hii===14 || hii===15 || hii===21 || hii===22 || hii===23 || hii===26 || hii===28 || hii===38 || hii===39 || hii===40){
-						if(filteredUncompletedQuests.nmQuest.hasOwnProperty(hii)){
-							//Leader elected!
-							print("Leader Elected quest: " + hii + " profile count missing: "+filteredUncompletedQuests.nmQuest[hii].count+" leader will be: "+filteredUncompletedQuests.nmQuest[hii].firstProfile);
-
-							return filteredUncompletedQuests.nmQuest[hii].firstProfile;
-						}
-					}
-				}
-			}
-
-			//hellQuest
-			if(filteredUncompletedQuests.hasOwnProperty("hellQuest")){
-				for (hii = 1; hii < 40; hii += 1) {
-					if(StarterConfig.LeaderElectAnyQuest || hii===6 || hii===7 || hii===11 || hii===12 || hii===13 || hii===14 || hii===15 || hii===21 || hii===22 || hii===23 || hii===26 || hii===28 || hii===38 || hii===39 || hii===40){
-						if(filteredUncompletedQuests.hellQuest.hasOwnProperty(hii)){
-							//Leader elected!
-							print("Leader Elected quest: " + hii + " profile count missing: "+filteredUncompletedQuests.hellQuest[hii].count+" leader will be: "+filteredUncompletedQuests.hellQuest[hii].firstProfile);
-
-							return filteredUncompletedQuests.hellQuest[hii].firstProfile;
 						}
 					}
 				}
 			}
 
 		} catch (error){
-			print(error);
+			HordeDebug.logCriticalError("LeaderElection", "Error while electing leader : " + error);
 		}
-		print("Default leader elected");
+		
+		if (HordeSettings.Debug.Verbose.leaderElection) {
+			HordeDebug.logScriptInfo("LeaderElection", "Default leader elected");
+		} else {
+			print("Default leader elected");
+		}
+		
 		return HordeSystem.teleProfile;
 	}
 };

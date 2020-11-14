@@ -18,7 +18,8 @@ var HordeSettings = {
 	Debug: {
 		Verbose: {
 			leaderElection: false,
-			synchro: false
+			synchro: false,
+			quests: false
 		}
 	}
 };

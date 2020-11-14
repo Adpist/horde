@@ -168,18 +168,18 @@ var Quest = {
 
 		return true;
 	},
+	
+	equipQuestItem: function(itemId) {
+		var questItem = me.getItem(itemId);
 
-	equipFlail: function () {
-		var finishedFlail = me.getItem(174);
-
-		if (finishedFlail) {
-			if (!Item.equip(finishedFlail, 4)) {
+		if (questItem) {
+			if (!Item.equip(questItem, 4)) {
 				Pickit.pickItems();
 
-				throw new Error("HordeSystem.equipFlail: Failed to equip Khalim's Will.");
+				throw new Error("HordeSystem.equipQuestitem: Failed to equip item " + ietmId);
 			}
 		} else {
-			throw new Error("HordeSystem.equipFlail: Lost Khalim's Will before trying to equip it.");
+			throw new Error("HordeSystem.equipQuestitem: Lost item " + ietmId);
 		}
 
 		if (me.itemoncursor) { // Seems like Item.equip() doesn't want to keep whatever the sorc has for a weapon, so lets put it into inventory without checking it against Pickit.
@@ -205,22 +205,22 @@ var Quest = {
 
 		return true;
 	},
-
-	placeFlail: function () { // SiC-666 TODO: Rename this function to smashOrb, check orb.mode in the loop and stop when it has been smashed.
+	
+	smashPresetUnit: function (presetID) { // SiC-666 TODO: Rename this function to smashOrb, check orb.mode in the loop and stop when it has been smashed.
 		var i,
-			orb = getUnit(2, 404);
+			target = getUnit(2, presetID);
 
-		print("Smashing the Compelling Orb.");
+		print("Smashing quest preset " + presetID);
 
-		if (!orb) {
-			throw new Error("HordeSystem.placeFlail: Couldn't find Compelling Orb.")
+		if (!target) {
+			throw new Error("HordeSystem.smashPresetUnit: Couldn't find target " + presetID);
 		}
 
-		Pather.moveToUnit(orb, 0, 0, Config.ClearType, false);
+		Pather.moveToUnit(target, 0, 0, false, false);
 
 		for (i = 0; i < 5; i += 1) {
-			if (orb) {
-				Skill.cast(0, 0, orb);
+			if (target) {
+				Skill.cast(0, 0, target);
 
 				delay(500);
 			}
@@ -228,7 +228,7 @@ var Quest = {
 
 		return true;
 	},
-	
+
 	checkAndUseConsumable: function(item) {
 		
 		if (item === undefined)
@@ -281,5 +281,35 @@ var Quest = {
 		Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
 		
 		this.initialTownArea = me.area;
-	}
+	},
+	
+	sequenceToQuest: 	{	"den" : 		[1],
+							"blood": 		[2],
+							"cain": 		[4],
+							"countess": 	[5],
+							"smith": 		[3],
+							"andy": 		[6,7],
+							"radament": 	[9],
+							"amulet": 		[11],
+							"summoner": 	[13],
+							"staff": 		[10],
+							"duriel": 		[14,15],
+							//"figurine": 	[20], //skip golden bird for election for now
+							"gidbinn": 		[19],
+							"lamesen": 		[17],
+							"eye": 			[18],
+							"brain": 		[18],
+							"heart": 		[18],
+							"travincal": 	[21],
+							"mephisto": 	[22,23],
+							"izual": 		[25],
+							"hellforge": 	[27],
+							"diablo": 		[26,28],
+							"shenk": 		[35],
+							"barbrescue": 	[36],
+							"anya": 		[37],
+							"nihlathak": 	[38],
+							"ancients": 	[39],
+							"baal": 		[40]
+						}
 };

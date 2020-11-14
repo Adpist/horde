@@ -7,9 +7,83 @@
 
 var Party = {
 	lowestAct: 0,
+	invalidParty: 65535,
 	
 	init: function() {
 		this.lowestAct = 0;
+	},
+
+	leaveParty: function() {
+		var player = getParty();
+		if (player) {
+			var myParty = player.partyid;
+			if (myParty !== this.invalidParty) {
+				clickParty(player, 3);
+				delay(me.ping*2+250);
+			}
+		}
+	},
+	
+	joinHordeParty: function() {
+		var player = getParty();
+		
+		if (player) {
+			var myParty = player.partyid;
+			if (myParty === this.invalidParty) {
+				while (player.getNext()) {
+					if (HordeSystem.isTeammate(player.name)) {
+						if (player.partyflag === 2) {
+							clickParty(player, 2);
+							delay(me.ping*2+250);
+							
+							if (getParty().partyid !== this.invalidParty) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+			
+			if (getParty().partyid !== this.invalidParty) {
+				return true;
+			}
+		}
+		
+		return false;
+	},
+	
+	findPartyMember: function(profile) {
+		var player = getParty();
+		var playerCharName = HordeSystem.team.profiles[profile].character;
+		if (player) {
+			var myParty = player.partyid;
+			if (myParty !== this.invalidParty) {
+				while (player.getNext()) {
+					if (player.name === playerCharName) {
+						return player;
+					}
+				}
+			}
+		}
+		return false;
+	},
+	
+	isInMyParty: function(profile) {
+		var player = getParty();
+		var targetPlayer = this.findPartyMember(profile);
+		if (!!player && !!targetPlayer) {
+			return targetPlayer.partyid === player.partyid;
+		}
+		return false;
+	},
+	
+	inviteTeammate: function(profile) {
+		var targetPlayer = this.findPartyMember(profile);
+		if (!!targetPlayer) {
+			if (targetPlayer.partyflag !== 4) {
+				clickParty(targetPlayer, 2);
+			}
+		}		
 	},
 	
 	wholeTeamInGame: function (stayInGame) { // Counts all the players in game. If the number of players is below TeamSize either return false or quit game depending on input.
@@ -203,12 +277,12 @@ var Party = {
 			area = me.area;
 		}
 		
-		if(me.area != area){
-			Pather.journeyTo(area);
-		}
-		
 		if (HordeSystem.teamSize == 1) {
 			return true;
+		}
+		
+		if(me.area != area){
+			Pather.journeyTo(area);
 		}
 		
 		if (timeout === undefined) {
