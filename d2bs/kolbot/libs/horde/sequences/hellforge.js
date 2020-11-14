@@ -17,7 +17,7 @@ function hellforge_requirements(mfRun) {
 		return Sequencer.skip; //Skip: not supported as mf run
 	}
 	
-	if (!mfRun && me.getQuest(27, 1)) {
+	if (!mfRun && me.getQuest(27, 0)) {
 		return Sequencer.skip;//Skip: quest already complete
 	}
 	/***** END OF REQUIREMENTS ******/
@@ -28,10 +28,6 @@ function hellforge_requirements(mfRun) {
 function hellforge(mfRun) {
 	var leaveParty = false;
 	var cain;
-	
-	for (var i = 0 ; i < 13 ; i += 1) {
-		print("hellforge [27,"+i+"] : " + me.getQuest(27,i));
-	}
 	
 	Town.repair();
 	Town.doChores(); // Need max amount of potions otherwise might prematurely TP in Plains Of Despair.
@@ -106,52 +102,55 @@ function hellforge(mfRun) {
 		Pickit.pickItems();
 		
 		if (Role.isLeader) {
-			if (!me.getItem(90)) {
-				HordeDebug.logScriptError("hellforge", "leader failed to pick hammer");
-				return Sequencer.fail;
-			}
+			if (me.getItem(90)) {
 			
-			Town.goToTown();
-			cain = getUnit(1, "deckard cain");
-			while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
-				Packet.flash(me.gid);
-
-				Town.move(NPC.Cain);
+				Town.goToTown();
 				cain = getUnit(1, "deckard cain");
+				while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
+					Packet.flash(me.gid);
 
-				delay(1000);
+					Town.move(NPC.Cain);
+					cain = getUnit(1, "deckard cain");
+
+					delay(1000);
+				}
+				
+				me.cancel();
+				
+				if (!me.getItem(551)) {
+					HordeDebug.logScriptError("hellforge", "leader failed to get mephisto soulstone");
+					return Sequencer.fail;		
+				}
+				
+				Quest.equipQuestItem(90);
+				
+				Pather.usePortal(107, me.name);
+				
+				Pather.moveToPreset(me.area, 2, 376);
+				
+				var forge = getUnit(2, 376);
+				
+				if (leaveParty) {
+					Party.secureWaitSynchro("hellforge_left_party");
+				}
+				
+				Misc.openChest(forge);
+				
+				Quest.smashPresetUnit(376);
+				
+				delay(me.ping*2 + 5000);
+				
+				for (var i = 0 ; i < 5 ; i += 1) {
+					Pickit.pickItems();
+					delay(1000);
+				}
+			} else {
+				if (leaveParty) {
+					Party.secureWaitSynchro("hellforge_left_party");
+				}
 			}
 			
-			me.cancel();
-			
-			if (!me.getItem(551)) {
-				HordeDebug.logScriptError("hellforge", "leader failed to get mephisto soulstone");
-				return Sequencer.fail;		
-			}
-			
-			Quest.equipQuestItem(90);
-			
-			Pather.usePortal(107, me.name);
-			
-			Pather.moveToPreset(me.area, 2, 376);
-			
-			var forge = getUnit(2, 376);
-			
-			if (leaveParty) {
-				Party.secureWaitSynchro("hellforge_left_party");
-			}
-			
-			Misc.openChest(forge);
-			
-			Quest.smashPresetUnit(376);
-			
-			delay(me.ping*2 + 5000);
-			
-			for (var i = 0 ; i < 10 ; i += 1) {
-				print("hellforge waiting since " + (5 + i) + " secs");
-				Pickit.pickItems();
-				delay(1000);
-			}
+			Pickit.pickItems();
 			
 			if (leaveParty) {
 				for (var i = 0 ; i < 3 ; i += 1) {
@@ -188,39 +187,33 @@ function hellforge(mfRun) {
 	
 	Role.backToTown();
 
-	if (Role.isLeader && !mfRun) {
+	if (Role.isLeader) {
 		Pickit.pickItems();
 			
 		Item.autoEquip(); // For leader to re-equip her weapon.
-		
-		//Complete quest
-		cain = getUnit(1, "deckard cain");
-		while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
-			Packet.flash(me.gid);
-
-			Town.move(NPC.Cain);
+	}
+	
+	if ((Role.isLeader || !leaveParty) && !mfRun) {
+		if(!me.getQuest(27,0)) {
+			//Complete quest
 			cain = getUnit(1, "deckard cain");
+			while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
+				Packet.flash(me.gid);
 
-			delay(1000);
-		}
-		
-		me.cancel();
-		
-		if (!me.getQuest(27,0)){
-			D2Bot.printToConsole(me.profile + " failed to complete hellforge", 7);
-		}
-		else {
-			D2Bot.printToConsole(me.profile + " completed hellforge", 5);
-		}
-		
-		cain = getUnit(1, "deckard cain");
-		while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
-			Packet.flash(me.gid);
+				Town.move(NPC.Cain);
+				cain = getUnit(1, "deckard cain");
 
-			Town.move(NPC.Cain);
-			cain = getUnit(1, "deckard cain");
-
-			delay(1000);
+				delay(1000);
+			}
+			
+			me.cancel();
+			
+			if (!me.getQuest(27,0)){
+				D2Bot.printToConsole(me.profile + " failed to complete hellforge", 7);
+			}
+			else {
+				D2Bot.printToConsole(me.profile + " completed hellforge", 5);
+			}
 		}
 	}
 
