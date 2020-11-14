@@ -26,6 +26,8 @@ function Horde() {
 		Pickit.pickItems();
 		Quest.checkAndUseConsumable();
 		HordeStorage.stashQuestItems();
+		HordeStorage.removeUnwearableItems();
+		HordeStorage.organize();
 		Pickit.pickItems();
 		
 		Party.waitWholeTeamJoined();
@@ -33,7 +35,6 @@ function Horde() {
 		
 		//Setup current game
 		Quest.initCurrentAct();
-		HordeStorage.removeUnwearableItems();
 		Pickit.pickItems();
 
 		if (HordeSettings.logChar) {

@@ -100,6 +100,20 @@ var Container = function (name, width, height, location) {
 		this.itemList = [];
 		return true;
 	};
+	
+	this.printBuffer = function() {
+		for (h = 0; h < this.height; h += 1) {
+			var str = "[";
+			for (w = 0; w < this.width; w += 1) {
+				if (w > 0 ) {
+					str+=",";
+				}
+				str += this.buffer[h][w];
+			}
+			str+="]";
+			print(str);
+		}
+	};
 
 	/* Container.CanFit(item)
 	 *	Checks to see if we can fit the item in the buffer.
@@ -108,6 +122,23 @@ var Container = function (name, width, height, location) {
 		return (!!this.FindSpot(item));
 	};
 
+	this.CanFitPosition = function(item, x, y) {
+		var nx, ny, bufferValue;
+		var itemIndex = this.itemList.indexOf(item);
+		
+		//Loop the item size to make sure we can fit it.
+		for (nx = 0; nx < item.sizex; nx += 1) {
+			for (ny = 0; ny < item.sizey; ny += 1) {
+				bufferValue = this.buffer[y + ny][x + nx];
+				if (bufferValue && (itemIndex === -1 || bufferValue != itemIndex)) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	};
+	
 	/* Container.FindSpot(item)
 	 *	Finds a spot available in the buffer to place the item.
 	 */
@@ -145,7 +176,79 @@ Loop:
 
 		return false;
 	};
+	
+	this.MoveToInternal = function(item, x, y) {
+		var n, nDelay, cItem, cube;
+		
+		//Cube -> Stash, must place item in inventory first
+		if (item.location === 6 && this.location === 7 && !Storage.Inventory.MoveTo(item)) {
+			return false;
+		}
 
+		//Can't deal with items on ground!
+		if (item.mode === 3) {
+			return false;
+		}
+
+		//Item already on the cursor.
+		if (me.itemoncursor && item.mode !== 4) {
+			return false;
+		}
+
+		//Make sure stash is open
+		if (this.location === 7 && !Town.openStash()) {
+			return false;
+		}
+
+		//Pick to cursor if not already.
+		if (!item.toCursor()) {
+			return false;
+		}
+
+		//Loop three times to try and place it.
+		for (n = 0; n < 3; n += 1) {
+			if (this.location === 6) { // place item into cube
+				cItem = getUnit(100);
+				cube = me.getItem(549);
+
+				if (cItem !== null && cube !== null) {
+					sendPacket(1, 0x2a, 4, cItem.gid, 4, cube.gid);
+				}
+			} else {
+				clickItem(0, x, y, this.location);
+			}
+
+			nDelay = getTickCount();
+
+			while ((getTickCount() - nDelay) < Math.max(1000, me.ping * 3 + 500)) {
+				if (!me.itemoncursor) {
+					print("Successfully placed " + item.name + " at X: " + x + " Y: " + y);
+					delay(200);
+
+					return true;
+				}
+
+				delay(10);
+			}
+		}
+
+		return true;
+	};
+
+	this.TryMoveToPosition = function (item, x, y) {
+		try {
+			if (!this.CanFitPosition(item,x,y)) {
+				return false;
+			}
+
+			return this.MoveToInternal(item,x,y);
+		} catch (e) {
+			
+			print("error while placing item : " + e);
+			return false;
+		}
+	};
+	
 	/* Container.MoveTo(item)
 	 *	Takes any item and moves it into given buffer.
 	 */
@@ -159,60 +262,8 @@ Loop:
 			if (!nPos) {
 				return false;
 			}
-
-			//Cube -> Stash, must place item in inventory first
-			if (item.location === 6 && this.location === 7 && !Storage.Inventory.MoveTo(item)) {
-				return false;
-			}
-
-			//Can't deal with items on ground!
-			if (item.mode === 3) {
-				return false;
-			}
-
-			//Item already on the cursor.
-			if (me.itemoncursor && item.mode !== 4) {
-				return false;
-			}
-
-			//Make sure stash is open
-			if (this.location === 7 && !Town.openStash()) {
-				return false;
-			}
-
-			//Pick to cursor if not already.
-			if (!item.toCursor()) {
-				return false;
-			}
-
-			//Loop three times to try and place it.
-			for (n = 0; n < 5; n += 1) {
-				if (this.location === 6) { // place item into cube
-					cItem = getUnit(100);
-					cube = me.getItem(549);
-
-					if (cItem !== null && cube !== null) {
-						sendPacket(1, 0x2a, 4, cItem.gid, 4, cube.gid);
-					}
-				} else {
-					clickItem(0, nPos.y, nPos.x, this.location);
-				}
-
-				nDelay = getTickCount();
-
-				while ((getTickCount() - nDelay) < Math.max(1000, me.ping * 3 + 500)) {
-					if (!me.itemoncursor) {
-						print("Successfully placed " + item.name + " at X: " + nPos.x + " Y: " + nPos.y);
-						delay(200);
-
-						return true;
-					}
-
-					delay(10);
-				}
-			}
-
-			return true;
+			
+			return this.moveToInternal(item, nPos.x, nPos.y);
 		} catch (e) {
 			return false;
 		}

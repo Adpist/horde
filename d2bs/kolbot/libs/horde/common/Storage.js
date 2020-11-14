@@ -7,6 +7,74 @@
 
 var HordeStorage = {
 
+	organize: function() {
+		var items = [
+						{item: me.getItem(549), x: 0, y: 0}, //cube
+						{item: Role.getTpTome(), x: 0, y: 2} //tp tome
+					];
+		var keys = me.findItems(543, 0, 3);
+		
+		for (var k = 0 ; k < keys.length ; k += 1) {
+			if (k === 0 ) {
+				items.push({item: keys[k], x: 9, y: 3});
+			} else { //drop all key stacks after first
+				keys[i].drop();
+			}
+		}
+			
+		for (var tries = 0 ; tries < 3 ; tries += 1) {
+			var allDone = true;
+			for (var i = 0 ; i < items.length ; i += 1) {
+				if (!!items[i].item) {
+					if (items[i].status === undefined || items[i].status !== "done") {
+						switch (tries) {
+							case 0: //First try : move from inventory to inventory
+								if (!this.tryMoveItemToInventory(items[i].item, items[i].x, items[i].y)) {
+									Storage.Stash.MoveTo(items[i].item);//Failed : moved to stash
+									items[i].status = "stashed";
+								} else {
+									items[i].status = "done";
+								}
+								break;
+							case 1: //Second try : move from stash to inventory
+								if (!this.tryMoveItemToInventory(items[i].item, items[i].x, items[i].y)) {
+									items[i].status = "failed";
+								} else {
+									items[i].status = "done";
+								}
+								break;
+							case 2: //Failed : move anywhere in inventory
+								Storage.Inventory.MoveTo(items[i].item);
+								items[i].status = "done";
+							break;
+						}
+					}
+				} else { //We don't have this item yet
+					items[i].status = "done";
+				}
+				
+				allDone = allDone && items[i].status === "done";
+			}
+		}
+	},
+	
+	tryMoveItemToInventory: function(item, x, y) {
+		Storage.Reload();
+		
+		if (item.x !== x || item.y !== y || item.location !== 3) {
+			print("item at wrong position : [" + item.x + "," + item.y +"]");
+			if (!Storage.Inventory.TryMoveToPosition(item, x, y)) {
+				return false;
+			}else {
+				print("Successfully placed item");
+			}
+		} else {
+			print("item at right position : [" + item.x + "," + item.y +"]");
+		}
+		
+		return true;
+	},
+
 	toInventory: function (itemClassId) {
 		print("toInventory");
 
