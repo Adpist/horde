@@ -194,7 +194,7 @@ function diablo(mfRun) {
 
 		this.followPath(this.vizLayout === 1 ? this.starToVizA : this.starToVizB);
 
-		Party.secureWaitSynchro("vizier", 30000);
+		Party.secureWaitSynchro("vizier", 60000);
 		
 		//if (Role.teleportingChar) {
 			if (!this.openSeal(395) || !this.openSeal(396)) {
@@ -221,7 +221,7 @@ function diablo(mfRun) {
 
 		this.followPath(this.seisLayout === 1 ? this.starToSeisA : this.starToSeisB);
 
-		Party.secureWaitSynchro("seis", 30000);
+		Party.secureWaitSynchro("seis", 60000);
 		
 		//if (Role.teleportingChar) {
 			if (!this.openSeal(394)) {
@@ -257,7 +257,7 @@ function diablo(mfRun) {
 
 		this.followPath(this.infLayout === 1 ? this.starToInfA : this.starToInfB);
 
-		Party.secureWaitSynchro("infector", 30000);
+		Party.secureWaitSynchro("infector", 60000);
 		
 		//if (Role.teleportingChar) {
 			if (!this.openSeal(392)) {
@@ -279,7 +279,7 @@ function diablo(mfRun) {
 			HordeDebug.logScriptError("diablo", "Failed to kill Infector");
 		}
 
-		Party.secureWaitSynchro("last_seal", 30000);
+		Party.secureWaitSynchro("last_seal", 60000);
 		
 		//if (Role.teleportingChar) {
 			if (!this.openSeal(393)) {
