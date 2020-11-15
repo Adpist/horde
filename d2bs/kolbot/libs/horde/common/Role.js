@@ -181,12 +181,20 @@ var Role = {
 		return me.getStat(14) + me.getStat(15);
 	},
 	
+	isHighGold: function() {
+		return this.getGold() > Config.LowGold*2 + 100;
+	},
+	
+	isMediumGold: function() {
+		return this.getGold() > Config.LowGold*1.5 + 100;
+	},
+	
 	isLowGold: function() {
-		return this.getGold()*2 < Config.LowGold;
+		return this.getGold() < Config.LowGold + 100;
 	},
 	
 	isVeryLowGold: function() {
-		return this.getGold()*4 <  Config.LowGold;
+		return this.getGold()*2 < Config.LowGold + 100;
 	},
 	
 	mercCheck: function() {

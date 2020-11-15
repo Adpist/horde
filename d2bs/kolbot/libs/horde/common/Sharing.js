@@ -5,14 +5,60 @@
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
-var Sharing = {
-	pickGoldRequest: 0,
-	giveGoldRequest: 0,
+var Sharing = {	
+	goldAnswers: [],
+	
+	onReceiveCommand: function(nick, msg) {
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("" + nick + " sent " + msg);
+		}
+		
+		var args = msg.split(' ');
+		if (args.length === 3 ) {
+			if (args[1] === "gold") {
+				this.onReceiveGoldCommand(nick, args[2]);
+			}
+		}
+	},
+	
+	onReceiveGoldCommand: function(profile, arg) {
+		var found = false;
+		for (var i = 0 ; i < this.goldAnswers.length ; i += 1) {
+			if (this.goldAnswers[i].profile === profile) {
+				this.goldAnswers[i].cmd = arg;
+				found = true;
+			}
+		}
+		if (!found) {
+			this.goldAnswers.push({profile: profile, cmd: arg});
+		}
+		
+		if (profile === me.profile) {
+			Communication.sendToList(HordeSystem.allTeamProfiles, "sharing gold " + arg);
+		}
+	},
+	
+	getProfileCommand: function(profile) {
+		for (var i = 0 ; i < this.goldAnswers.length ; i += 1) {
+			if (this.goldAnswers[i].profile === profile) {
+				return this.goldAnswers[i].cmd;
+			}
+		}
+		return "";
+	},
+	
+	getProfilesForGoldCommand: function(cmd) {
+		var profiles = [];
+		for (var i = 0 ; i < this.goldAnswers.length ; i += 1) {
+			if (this.goldAnswers[i].cmd === cmd) {
+				profiles.push(this.goldAnswers[i].profile);
+			}
+		}
+		return profiles;
+	},	
 	
 	receiveGold: function () {
 		var i, goldPile;
-
-		Town.move("stash");
 
 		if (me.getStat(14)) {
 			Town.openStash();
@@ -24,24 +70,16 @@ var Sharing = {
 			me.cancel();
 		}
 
-		for (i = 0; i < 20; i += 1) { // Wait up to 20 seconds for someone to drop Gold for me to pick up.
-			goldPile = getUnit(4, 523, 3);
+		goldPile = getUnit(4, 523, 3);
 
-			delay(1000);
+		if (goldPile) {
+			Pickit.pickItem(goldPile);
+		}
+		
+		delay(me.ping*2+250);
 
-			if (goldPile) {
-				Pickit.pickItem(goldPile);
-			}
-
-			if (me.getStat(14)) {
-				Town.openStash();
-
-				gold(me.getStat(14), 3); // Stash my Gold.
-
-				delay(me.ping * 2 + 500);
-
-				me.cancel();
-			}
+		if (Role.isMediumGold()) {
+			this.onReceiveGoldCommand(me.profile, "good");
 		}
 	},
 
@@ -49,8 +87,6 @@ var Sharing = {
 		var i, goldPile,
 			dropAmmount = (me.gold - (Config.LowGold * 2)) / 2, // Keep some Gold for myself.
 			maxDropAmmount = me.charlvl * 1e4; // The maximum ammount of Gold that can be dropped at once.
-
-		Town.move("stash");
 
 		Town.openStash();
 
@@ -62,7 +98,7 @@ var Sharing = {
 
 		dropAmmount = dropAmmount + me.getStat(14) > maxDropAmmount ? maxDropAmmount - me.getStat(14) : dropAmmount; // Handle residual Gold in Inventory screen (shouldn't ever be an issue, but let's be cautious).
 
-		print("Dropping " + Math.round(dropAmmount) + " Gold.");
+		
 
 		gold(Math.round(dropAmmount), 4); // Remove Gold from Stash (must be a round number).
 /*
@@ -75,37 +111,80 @@ var Sharing = {
 		}
 */
 		delay(me.ping * 2 + 500);
-
-		while (me.getStat(14)) {
+		
+		while (me.getStat(14) && this.getProfilesForGoldCommand("need").length > 0) {
 			gold(me.getStat(14)); // Drop Gold
 
 			delay(me.ping * 2 + 500);
 		}
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			HordeDebug.logScriptInfo("GoldSharing", me.profile + " dropped " + dropAmmount + " gold");
+		}
 
 		me.cancel();
-
-		for (i = 0 ; i < 20 ; i += 1) { // Wait 20 seconds for someone to pick up the Gold I've dropped.
-			delay(1000);
-
-			goldPile = getUnit(4, 523, 3);
-
-			if (!goldPile) {
-				break;
-			}
-
-			if (i === 19 && goldPile) {
-				Pickit.pickItem(goldPile);
-			}
-		}
+		
+		this.onReceiveGoldCommand(me.profile, "good");
 	},
 	
 	ShareGold: function() {
-		if (this.pickGoldRequest ===1) { //teamGold - pick
-			this.receiveGold();
+		if (HordeSystem.teamSize === 1) {
+			return;
 		}
-		if (this.giveGoldRequest ===1) { //teamGold - give
-			this.giveGold();
+		
+		var need = Role.isLowGold(),
+			offer = Role.isHighGold();
+		
+		this.goldAnswers = [];
+		
+		Party.waitSynchro("begin_gold");
+
+		if (need) {
+			if (HordeSettings.Debug.Verbose.sharing) {
+				HordeDebug.logScriptInfo("GoldSharing", me.profile + " need gold");
+			}
+			this.onReceiveGoldCommand(me.profile, "need");
+		} else if (offer) {
+			this.onReceiveGoldCommand(me.profile, "offer");
+		} else {
+			this.onReceiveGoldCommand(me.profile, "good");
 		}
+		
+		while(this.goldAnswers.length < HordeSystem.teamSize) {
+			delay(me.ping+50);
+		}
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			for (var i = 0 ; i < this.goldAnswers.length ; i += 1) {
+				print("" + this.goldAnswers[i].profile + " " + this.goldAnswers[i].cmd + " gold");
+			}
+		}
+		
+		if (this.getProfilesForGoldCommand("need").length > 0 && this.getProfilesForGoldCommand("offer").length > 0) {
+			Town.goToTown(Party.lowestAct);
+			Town.move("stash");
+			while(this.getProfilesForGoldCommand("need").length > 0 && this.getProfilesForGoldCommand("offer").length > 0) {
+				if (this.getProfileCommand(me.profile) === "need") {
+					this.receiveGold();				
+				} else if (this.getProfileCommand(me.profile) === "offer") {
+					this.giveGold();
+				} else {
+					delay(me.ping+50);
+				}
+			}
+		}
+		
+		var goldPile = getUnit(4, 523, 3);
+		
+		while(goldPile) {
+			Pickit.pickItem(goldPile);
+			delay(me.ping*2+250);
+			goldPile = getUnit(4, 523, 3);
+		}
+		
+		Party.waitSynchro("end_gold");
+		
+		Pickit.pickItems();
 	},
 	
 	giveTP: function (nick) {
@@ -137,9 +216,6 @@ var Sharing = {
 	announceSharingSequence: function() {
 		if (Role.boChar && me.charlvl >= 24) { //announce bo
 			Communication.sendToList(HordeSystem.allTeamProfiles, "bo");
-		}
-		if (me.gold < Config.LowGold) { //teamGold - ask
-			Communication.sendToList(HordeSystem.allTeamProfiles, "GimmeGold");
 		}
 	}
 };

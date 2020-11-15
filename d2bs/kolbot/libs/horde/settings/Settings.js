@@ -19,7 +19,8 @@ var HordeSettings = {
 		Verbose: {
 			leaderElection: false,
 			synchro: false,
-			quests: false
+			quests: false,
+			sharing: false
 		}
 	}
 };

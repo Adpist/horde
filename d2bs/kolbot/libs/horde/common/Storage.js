@@ -74,7 +74,6 @@ var HordeStorage = {
 			}
 			
 			if (allDone) {
-				print("All item are in place");
 				break;
 			}
 		}

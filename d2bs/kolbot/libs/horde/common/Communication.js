@@ -154,7 +154,9 @@ var Communication = {
 			//Synchro command
 			else if (msg.indexOf("ready ") !== -1) {
 				this.Synchro.onReceiveCommand(nick, msg, ingame);
-			} else {
+			} else if (msg.indexOf("sharing ") !== -1) {
+				Sharing.onReceiveCommand(nick, msg);
+			}else {
 				switch (msg) {
 				//sequencer command
 				case "HordeGameEnd":
@@ -201,17 +203,6 @@ var Communication = {
 					break;
 				case "I'm Boed!":
 					Buff.boed += 1;
-					break;
-				case "Ok Bitch":
-					if (me.gold < Config.LowGold) {
-						Sharing.pickGoldRequest = 1;
-					}
-					break;
-				case "GimmeGold":
-					if (me.gold > Config.LowGold * 2 + 100) {
-						Communication.sendToList(HordeSystem.allTeamProfiles, "Ok Bitch");
-						Sharing.giveGoldRequest = 1;
-					}
 					break;
 				case "TP":
 				case "Tp":
