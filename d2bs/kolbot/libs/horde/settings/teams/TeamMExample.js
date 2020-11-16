@@ -23,10 +23,10 @@ const HordeTeam = {
             build: "lighttiered",
             runewordsProfile: "mTeamRunewords"
         },
-        "asin-003": {
+        "asin-001": {
             account: "account",
             role: "follower",
-            className: "sorceress",
+            className: "assassin",
             character: "character",
             build: "Trapsin",
             runewordsProfile: "mTeamRunewordsSin"
