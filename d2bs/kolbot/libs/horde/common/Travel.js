@@ -566,5 +566,55 @@ var Travel = {
 		delay(1000);
 		}
 		return true;
+	},
+
+	walkMeHome: function(clearPath) {
+		if(me.inTown){
+			return true;
+		}
+		try {
+			while(!me.inTown){
+				switch (me.area) {
+					case 2: 	//blood moor
+						Pather.moveToExit(1, true, clearPath);
+						break;
+					case 3: 	//cold plains
+						Pather.getWP(3,clearPath);
+						Pather.useWaypoint(3);
+						break;
+					case 4: 	//Stoney
+						Pather.getWP(4,clearPath);
+						Pather.useWaypoint(4);
+						break;
+					case 5: 	//Dark wood
+						Pather.getWP(5,clearPath);
+						Pather.useWaypoint(5);
+						break;
+					case 6: 	//Black Marsh
+						Pather.getWP(6,clearPath);
+						Pather.useWaypoint(6);
+						break;
+					case 8: 	//den of evil
+						Pather.moveToExit(2, true, clearPath);
+						break;
+					case 9: 	//cave 1
+						Pather.moveToExit(3, true, clearPath);
+						break;
+					case 13: 	//cave 2
+						Pather.moveToExit(9, true, clearPath);
+						break;
+					case 38: 	//Trist
+						Pather.moveToExit(4, true, clearPath);
+						break;
+				}
+
+			}
+			Packet.flash(me.gid);
+			delay(me.ping * 2 + 250);
+		} catch (e) {
+			print("walkMeHome Caught Error.");
+			print(e);
+		}
+		return me.inTown;
 	}
 };
