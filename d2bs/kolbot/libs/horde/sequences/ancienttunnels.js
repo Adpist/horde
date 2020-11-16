@@ -68,7 +68,7 @@ function ancienttunnels(mfRun) {
 				print("Waiting for TP.");
 
 				j = 0;
-				while (!Pather.usePortal(44, null)) { // Canyon Of The Magi
+				while (!Pather.usePortal(44, null)) { 
 					delay(250);
 
 					if (j % 20 == 0) { // Check for Team Members every 5 seconds.
@@ -80,7 +80,7 @@ function ancienttunnels(mfRun) {
 
 				Waypoint.clickWP();
 			} else {
-				Pather.useWaypoint(46);
+				Pather.useWaypoint(44);
 			}
 
 		} else {
