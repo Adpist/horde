@@ -152,10 +152,7 @@ var Role = {
 			delay(waitTime);
 		}
 		
-		if(!Travel.walkMeHome(true)){
-			return false;
-		}
-
+		Travel.walkMeHome(true);
 
 		if (waitTime > 0 && !me.dead && force) {
 			if(!me.inTown){
