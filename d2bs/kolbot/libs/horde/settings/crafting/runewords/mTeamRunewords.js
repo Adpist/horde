@@ -14,7 +14,7 @@ var RunewordProfile = {
 				sockets: 2,
 				bases: ["Breast Plate", "Light Plate"],
 				cubeBase: false,
-				roll: Roll.All,
+				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[fcr] == 25",
 				tier: 250,
@@ -25,7 +25,7 @@ var RunewordProfile = {
 				sockets: 2,
 				bases: ["Ghost Armor", "Serpentskin Armor", "Demonhide Armor", "Cuirass", "Mage Plate"],
 				cubeBase: false,
-				roll: Roll.All,
+				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[fcr] == 25",
 				tier: 350,
@@ -36,7 +36,7 @@ var RunewordProfile = {
 				sockets: 2,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Balrog Skin", "Archon Plate"],
 				cubeBase: false,
-				roll: Roll.All,
+				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[fcr] == 25",
 				tier: 450,
@@ -47,7 +47,7 @@ var RunewordProfile = {
 				sockets: 2,
 				bases: ["Ghost Armor", "Serpentskin Armor", "Demonhide Armor", "Cuirass", "Mage Plate"],
 				cubeBase: false,
-				roll: Roll.All,
+				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[FireResist] == 50 && [LightResist] == 50",
 				tier: 10001,
@@ -58,7 +58,7 @@ var RunewordProfile = {
 				sockets: 2,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Balrog Skin", "Archon Plate"],
 				cubeBase: false,
-				roll: Roll.All,
+				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[FireResist] == 50 && [LightResist] == 50",
 				tier: 10002,
@@ -66,6 +66,17 @@ var RunewordProfile = {
 			}
 		},
 		"shield" : {
+			"normal_rhyme" : {
+				runeword: Runeword.Rhyme,
+				sockets: 2,
+				bases: ["Kite Shield", "Large Shield", "Bone Shield", "Monarch"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[FireResist] >= 25 && [LightResist] >= 25",
+				tier: 250,
+				skipIf: ""
+			},
 			"normal_ancients_pledge" : {
 				runeword: Runeword.AncientsPledge,
 				sockets: 3,
@@ -73,7 +84,7 @@ var RunewordProfile = {
 				cubeBase: false,
 				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 40 && [LightResist] >= 40",
+				statCondition: "[FireResist] >= 25 && [LightResist] >= 25",
 				tier: 60000,
 				skipIf: ""
 			},

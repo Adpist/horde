@@ -99,6 +99,8 @@
 [type] == shield && [class] == exceptional # # [tier] == (2)
 [type] == shield && [class] == elite # # [tier] == (3)
 
+[type] == shield && [flag] == runeword # [fireresist] >= 25 && [lightresist] >= 25 # [maxquantity] == 1 && [tier] == (250) //rhyme
+
 [type] == shield && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == (60000) //ancients pledge
 [name] == roundshield && [quality] == unique && [flag] != ethereal # [sockets] == 2 # [tier] == (60001)
 [type] == shield && [flag] == runeword # [maxmana] >= 89 # [tier] == (60002) //spirit shield
