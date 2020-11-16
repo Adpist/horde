@@ -30,7 +30,7 @@ function ancienttunnels(mfRun) {
 			throw new Error();
 		}
 
-		if(me.diff === 0){
+		if(me.diff != 0){
 
 			Pather.teleport = true;
 			if (!Pather.moveToExit(65, true)) {
