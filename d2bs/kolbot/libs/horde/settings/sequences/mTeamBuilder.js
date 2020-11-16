@@ -12,6 +12,7 @@ const Sequences = {
 		0: { //Normal
 			//Act 1
 			"den": 			{},
+			"blood": 		{},
 			"cave": 		{skipIf: "Party.hasReachedLevel(8)"},
 			"cain": 		{},
 			"countess": 	{},
@@ -19,10 +20,10 @@ const Sequences = {
 
 			//Act 2
 			"cube": 		{},
-			"amulet": 		{stopAfterIf:"!Party.hasReachedLevel(18)"},
+			"amulet": 		{},
+			"radament": 	{stopAfterIf:"!Party.hasReachedLevel(18)"},
 			"summoner": 	{},
 			"staff": 		{},
-			"radament": 	{},
 			"duriel": 		{},
 
 			//Act 3
@@ -96,7 +97,7 @@ const Sequences = {
 			"eye": 			{},
 			"heart": 		{},
 			"brain": 		{},
-			"kurastchests": {}, //MF
+			//"kurastchests": {}, //MF
 			"travincal": 	{},
 			"mephisto": 	{},
 
@@ -150,10 +151,11 @@ const Sequences = {
 		2: { //Hell
 			//Act 1
 			//"pits": 	{}, //MF TODO stop when past trav / start?
-			//"andy": 		{}, //MF TODO start / stop when past duriel
+			//"andy": 		{skipIf:"!Party.hasReachedLevel(88)"}, //MF TODO start / stop when past duriel
+			//"countess": 	{},
 
 			//Act 2
-			//"duriel": 		{}, //MF TODO stop when past trav or duriel?
+			"duriel": 		{skipIf:"Party.hasReachedLevel(80)"}, //MF TODO stop when past trav or duriel?
 
 			//Act 3
 			"mephisto": 	{} //MF
@@ -171,6 +173,7 @@ const Sequences = {
 			//Act 1
 
 			//Act 2
+			"ancienttunnels": 	{skipIf: "Party.hasReachedLevel(18)"}, //Levelling
 			"tombs": 		{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 			"duriel": 		{skipIf: "Party.hasReachedLevel(24)"}, //Levelling
 
@@ -180,8 +183,8 @@ const Sequences = {
 
 			//Act 5
 			"baal": 		{},
-			"cows": 		{skipIf: "Party.hasReachedLevel(36)"},
-			"diablo": 		{skipIf:"Party.hasReachedLevel(36)"}//,
+			"diablo": 		{skipIf:"Party.hasReachedLevel(47)"}
+			//"cows": 		{skipIf: "Party.hasReachedLevel(47)"}
 			//"worldstone": {skipIf:"!Party.hasReachedLevel(36)"} //Levelling add this to make game longer
 		},
 
@@ -197,7 +200,7 @@ const Sequences = {
 			//Act 5
 			"baal": 		{},//,//Levelling
 			//"cows": 		{skipIf:"Party.hasReachedLevel(72)"},
-			"diablo": 		{skipIf:"Party.hasReachedLevel(64)"}, //Levelling
+			"diablo": 		{skipIf:"Party.hasReachedLevel(72)"}, //Levelling
 			"countess": 	{} //MF
 			//"worldstone": {skipIf:"!Party.hasReachedLevel(70)"} //Levelling add this to make game longer
 		},
@@ -213,8 +216,8 @@ const Sequences = {
 
 			//Act 5
 			"baal": 		{},//,//Levelling
-			"cows": 		{skipIf:"Party.hasReachedLevel(90)"},
 			"diablo": 		{}, //Levelling
+			"cows": 		{skipIf:"Party.hasReachedLevel(90)"}
 			///"countess": 	{}, //MF skip if baal Q beat
 			//"worldstone": 	{skipIf:"!Party.hasReachedLevel(94)"} //Levelling
 			// TODO worldstone sequence for exp/items
