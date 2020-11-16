@@ -606,6 +606,8 @@ var Travel = {
 					case 38: 	//Trist
 						Pather.moveToExit(4, true, clearPath);
 						break;
+					default:
+						return false; //unhandled
 				}
 
 			}
