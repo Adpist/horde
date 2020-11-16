@@ -1,6 +1,6 @@
 /**
-*	@filename	battleorders.js
-*	@author		Adpist
+*	@filename	Trapsin.js
+*	@author		cody
 *	@desc		Pure battle orders barb
 *	@credits	Adpist, Mark, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 *
