@@ -34,42 +34,8 @@ var Buff = {
 
 				delay(me.ping * 2 + 250);
 			}
-		} else {
-			if (me.getQuest(25, 0) && !getWaypoint(29)) { // Have completed The Fallen Angel and don't have River Of Flame Waypoint.
-				Town.goToTown(4);
-
-				me.overhead("Smurfing the waypoint");
-
-				Town.move("portalspot");
-
-				while (!Pather.usePortal(107, null)) {
-					Communication.sendToList(HordeSystem.allTeamProfiles, "tp");
-
-					delay(10000);
-				}
-
-				Config.ClearType = false;
-
-				this.clickWP();
-			} else if (!me.getQuest(25, 0) && !getWaypoint(8)) { // Haven't completed The Fallen Angel and don't have Catacombs Level 2.
-				Town.goToTown(1);
-
-				me.overhead("Smurfing the waypoint");
-
-				Town.move("portalspot");
-
-				while (!Pather.usePortal(35, null)) {
-					Communication.sendToList(HordeSystem.allTeamProfiles, "tp");
-
-					delay(10000);
-				}
-
-				Config.ClearType = false;
-
-				this.clickWP();
-			} else {
-				getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);
-			}
+		} else {			
+			getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);			
 		}
 
 		var waypoint;
@@ -143,42 +109,7 @@ var Buff = {
 				delay(me.ping * 2 + 250);
 			}
 		} else {
-			if (me.getQuest(25, 0) && !getWaypoint(29)) { // Have completed The Fallen Angel and don't have River Of Flame Waypoint.
-				Town.goToTown(4);
-
-				me.overhead("Smurfing the waypoint");
-
-				Town.move("portalspot");
-
-				while (!Pather.usePortal(107, null)) {
-					Communication.sendToList(HordeSystem.allTeamProfiles, "tp");
-
-					delay(10000);
-				}
-
-				Config.ClearType = false;
-
-				this.clickWP();
-			} else if (!me.getQuest(25, 0) && !getWaypoint(8)) { // Haven't completed The Fallen Angel and don't have Catacombs Level 2.
-				Town.goToTown(1);
-
-				me.overhead("Smurfing the waypoint");
-
-				Town.move("portalspot");
-
-				while (!Pather.usePortal(35, null)) {
-					Communication.sendToList(HordeSystem.allTeamProfiles, "tp");
-
-					delay(10000);
-				}
-
-				Config.ClearType = false;
-
-				this.clickWP();
-			} else {
-				getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);
-			}
-
+			getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);	
 			
 		}
 		
