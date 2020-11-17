@@ -36,7 +36,9 @@ function hellforge(mfRun) {
 
 	if (Role.teleportingChar) {
 		Pather.teleport = true;
-
+		
+		Travel.travel(8);
+		
 		Pather.useWaypoint(107);
 		
 		Pather.moveToPreset(me.area, 2, 376);
