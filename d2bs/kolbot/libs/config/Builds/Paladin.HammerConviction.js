@@ -169,6 +169,7 @@ AutoBuildTemplate[30] = {
         Config.CainID.MinUnids = 1; // Minimum number of unid items in order to use Cain.
         Config.MPBuffer = 6; // Number of mana potions to keep in inventory.
         Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
+	Config.Vigor = false; // Swith to Vigor when running
     }
 };
 
@@ -242,6 +243,5 @@ AutoBuildTemplate[70] = {
         Config.TownHP = 50;
         Config.MPBuffer = 4; // Number of mana potions to keep in inventory.
         Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
-		Config.Vigor = false; // Swith to Vigor when running
     }
 };

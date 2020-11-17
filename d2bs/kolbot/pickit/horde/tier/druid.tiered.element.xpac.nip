@@ -3,17 +3,122 @@
 //-----------------------------------------------------------------------------------------------------
 
 
+
+[name] == gold # [gold] >= 1
+[name] == minorhealingpotion
+[name] == lighthealingpotion
+[name] == healingpotion
+[name] == greaterhealingpotion
+[name] == superhealingpotion
+ 
+[name] == minormanapotion
+[name] == lightmanapotion
+[name] == manapotion
+[name] == greatermanapotion
+[name] == supermanapotion
+ 
+[name] == rejuvenationpotion
+[name] == fullrejuvenationpotion
+[name] == scrolloftownportal
+[name] == scrollofidentify
+
+
+//belts 
+[type] == belt && [quality] < magic # # [tier] == (1)
+[type] == belt && [class] == exceptional && [quality] < magic # # [tier] == (2)
+[type] == belt && [class] == elite && [quality] < magic # # [tier] == (3)
+[type] == belt && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0  # [tier] == (1 +  item.getStatEx(8)*0.5 + item.getStatEx(74) * 7 + item.getStatEx(7)*0.5 + item.getStatEx(39) * 2.4 + item.getStatEx(41) * 2.4 + item.getStatEx(43) * 2.4 + item.getStatEx(45) * 0.8 + item.getStatEx(31) * 0.1)
+
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 10 # [tier] == (10001) //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 11 # [tier] == (10002) //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 12 # [tier] == (10003) //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 13 # [tier] == (10004) //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 14 # [tier] == (10005) //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 15 # [tier] == (10006) //string of ears
+[name] == WarBelt && [quality] == unique && [flag] != ethereal # [EnhancedDefense] >= 100 # [tier] == (10007) //thundergods vigor
+[name] == spiderwebsash && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 90 # [tier] == (10010) //arach
+
+//boots
+[type] == boots && [quality] < magic # # [tier] == (1)
+[type] == boots && [class] == exceptional && [quality] < magic # # [tier] == (2)
+[type] == boots && [class] == elite && [quality] < magic # # [tier] == (3)
+[type] == boots && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] ==   (1 + item.getStatEx(8)*0.5 + item.getStatEx(74)*7 + item.getStatEx(7)*0.5 + item.getStatEx(80)*1.8 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+
+[name] == sharkskinboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == (10001)
+[name] == battleboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == (10002)
+
+//gloves
+[type] == gloves && [quality] < magic # # [tier] == (1)
+[type] == gloves && [class] == exceptional && [quality] < magic # # [tier] == (2)
+[type] == gloves && [class] == elite && [quality] < magic # # [tier] == (3)
+[type] == gloves && [quality] >= magic  && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] ==   (1 + item.getStatEx(8)*0.5 + item.getStatEx(74)*7 + item.getStatEx(7)*0.5 + item.getStatEx(80)*1.8 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+
+[name] == gauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 10 # [tier] == (10001) // frostburn (increased mana %)
+[name] == lightgauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 20 # [tier] == (10002) // magefist (mana regen)
+
+//helms
+[type] == helm && [quality] < magic # # [tier] == (1)
+[type] == helm && [class] == exceptional && [quality] < magic # # [tier] == (2)
+[type] == helm && [class] == elite && [quality] < magic # # [tier] == (3)
+
+[name] == warhat && [quality] == unique # [enhanceddefense] >= 100 # [tier] == (10000) // peasant crown (1 @ skills/40mana/40life)
+[name] == sallet && [quality] == unique # [enhanceddefense] >= 160 # [tier] == (10001) // rockstopper (10%dr/20-40@res/30life)
+[name] == shako && [quality] == unique # [defense] >= 98 # [tier] == (10002) // shako (duh)
+
+//armors
+[type] == armor && [quality] < magic # # [tier] == (1)
+[type] == armor && [class] == exceptional && [quality] < magic # # [tier] == (2)
+[type] == armor && [class] == elite && [quality] < magic # # [tier] == (3)
+[type] == armor && (([quality] >= magic && [flag] == identified) || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == ( 1 + item.getStatEx(7)*0.5 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(105)*5) 
+
+[type] == armor && [flag] == runeword # [fcr] == 25 # [tier] == (250) // stealth
+[type] == armor && [flag] == runeword && [class] == exceptional # [fcr] == 25 # [tier] == (350) // stealth
+[type] == armor && [flag] == runeword && [class] == elite # [fcr] == 25 # [tier] == (450) // stealth
+[type] == armor && [flag] == runeword # [fireresist] == 50 && [lightresist] == 50 # [tier] == (10001) //smoke
+[type] == armor && [flag] == runeword && [class] == elite # [fireresist] == 50 && [lightresist] == 50 # [tier] == (10002) //smoke
+[name] == cuirass && [quality] == unique && [flag] != ethereal # # [tier] == (10003)
+[name] == mageplate && [quality] == unique && [flag] != ethereal # # [tier] == (10004)
+[name] == serpentskinarmor && [quality] == unique && [flag] != ethereal # # [tier] == (10005)
+[name] == russetarmor && [quality] == unique && [flag] != ethereal # # [tier] == (10006)
+[name] == mesharmor && [quality] == unique && [flag] != ethereal # # [tier] == (10007)
+[name] == russetarmor && [quality] == unique && [flag] == ethereal # # [tier] == (10008)
+
+//rings
+[type] == ring && [quality] >= magic && [flag] == identified # [itemchargedskill] >= 0 # [tier] == (1 +  item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*0.5 + item.getStatEx(9)*0.5 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
+
+[type] == ring && [quality] == unique # [magicdamagereduction] >= 12 # [tier] == (10006) //dwarf
+[Type] == Ring && [Quality] == Unique # [Dexterity] >= 10 && [ToHit] >= 100 # [tier] == (10007) 	 //raven
+[type] == ring && [quality] == unique # [itemabsorblightpercent]+[itemmagicbonus] >= 30 # [tier] == (10008) //wisp
+[name] == ring && [quality] == unique # [lifeleech] >= 3 # [tier] == (10018) //bul kathos
+[name] == ring && [quality] == unique # [itemmaxmanapercent] >= 25 # [tier] == (10019) //stone of jordan
+
+
+
+//shields
+//[type] == shield # # [tier] == (1)
+//[type] == shield && [class] == exceptional # # [tier] == (2)
+//[type] == shield && [class] == elite # # [tier] == (3)
+
+
+
+// amulets
+
+[type] == amulet && [quality] == unique # [itemallskills] == 2 # [tier] == (100000)
+
 //helms
 //druid fire
 ([type] == helm || [type] == pelt || [type] == druiditem || [type] == circlet) && (([quality] >= magic && [flag] == identified) || [flag] == runeword) # [itemchargedskill] >= 0 && ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,226)*35 + item.getStatEx(107,231)*20 + item.getStatEx(107,225)*20 + item.getStatEx(107,244)*15 + item.getStatEx(188,42)*30 + item.getStatEx(83,5)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
 
 //weapons
 //druid fire
-([Name] == HandAxe || [Name] == Axe || [Name] == DoubleAxe || [Name] == MilitaryPick || [Name] == WarAxe || [Name] == Hatchet || [Name] == Cleaver || [Name] == TwinAxe || [Name] == Crowbill || [Name] == Naga || [Name] == Tomahawk || [Name] == SmallCrescent || [Name] == EttinAxe || [Name] == WarSpike || [Name] == BerserkerAxe || [type] == 42 || [type] == 43 || [type] == 44 || [type] == 25 || [type] == 24 || [Name] == Club || [Name] == SpikedClub || [Name] == Mace || [Name] == MorningStar || [Name] == Flail || [Name] == WarHammer || [Name] == Cudgel || [Name] == BarbedClub || [Name] == FlangedMace || [Name] == JaggedStar || [Name] == Knout || [Name] == BattleHammer || [type] == wand || [type] == knife || [type] == sword) && [quality] >= magic && [flag] == identified # [itemchargedskill] >= 0 && ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == ( 1 +  item.getStatEx(107,226)*35 + item.getStatEx(107,231)*20 + item.getStatEx(107,225)*20 + item.getStatEx(107,244)*15*15 + item.getStatEx(188,42)*30 + item.getStatEx(83,5)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
+[type] == staff && [flag] == runeword # [coldresist] == 33 # [tier] == (10000) //leaf weapon
+([type] == staff) && [quality] >= magic && [flag] == identified # [itemchargedskill] >= 0 && ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == ( 1 +  item.getStatEx(107,226)*35 + item.getStatEx(107,231)*20 + item.getStatEx(107,225)*20 + item.getStatEx(107,244)*15*15 + item.getStatEx(188,42)*30 + item.getStatEx(83,5)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
+
+//([Name] == HandAxe || [Name] == Axe || [Name] == DoubleAxe || [Name] == MilitaryPick || [Name] == WarAxe || [Name] == Hatchet || [Name] == Cleaver || [Name] == TwinAxe || [Name] == Crowbill || [Name] == Naga || [Name] == Tomahawk || [Name] == SmallCrescent || [Name] == EttinAxe || [Name] == WarSpike || [Name] == BerserkerAxe || [type] == 42 || [type] == 43 || [type] == 44 || [type] == 25 || [type] == 24 || [Name] == Club || [Name] == SpikedClub || [Name] == Mace || [Name] == MorningStar || [Name] == Flail || [Name] == WarHammer || [Name] == Cudgel || [Name] == BarbedClub || [Name] == FlangedMace || [Name] == JaggedStar || [Name] == Knout || [Name] == BattleHammer || [type] == wand || [type] == knife || [type] == sword) && [quality] >= magic && [flag] == identified # [itemchargedskill] >= 0 && ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == ( 1 +  item.getStatEx(107,226)*35 + item.getStatEx(107,231)*20 + item.getStatEx(107,225)*20 + item.getStatEx(107,244)*15*15 + item.getStatEx(188,42)*30 + item.getStatEx(83,5)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
 
 //shields
 //non pala/necro
-([type] == shield) && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
+//([type] == shield) && [quality] >= magic && [flag] == identified # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) &&  [itemchargedskill] >= 0 # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
 
 // amulets
 //druid

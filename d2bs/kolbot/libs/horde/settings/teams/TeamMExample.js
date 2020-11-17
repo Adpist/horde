@@ -20,16 +20,16 @@ const HordeTeam = {
             role: "follower",
             className: "sorceress",
             character: "character",
-            build: "firetiered",
-            runewordsProfile: "mTeamRunewords"
-        },
-        "sorc-003": {
-            account: "account",
-            role: "follower",
-            className: "sorceress",
-            character: "character",
             build: "lighttiered",
             runewordsProfile: "mTeamRunewords"
+        },
+        "asin-001": {
+            account: "account",
+            role: "follower",
+            className: "assassin",
+            character: "character",
+            build: "Trapsin",
+            runewordsProfile: "mTeamRunewordsSin"
         },
         "barb-001": {
             account: "account",
@@ -44,7 +44,7 @@ const HordeTeam = {
             role: "follower",
             character: "character",
             className: "paladin",
-            build: "hammerconcentrationtiered",
+            build: "hammersalvationtiered",
             runewordsProfile: "mTeamRunewordsPala"
         },
         "pala-002": {
@@ -61,7 +61,7 @@ const HordeTeam = {
             className: "druid",
             character: "character",
             build: "elementaltiered",
-            runewordsProfile: "mTeamRunewords"
+            runewordsProfile: "mTeamRunewordsSin"
         },
         "necr-001": {
             account: "account",
