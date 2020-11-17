@@ -95,9 +95,9 @@
 
 
 //shields
-[type] == shield # # [tier] == (1)
-[type] == shield && [class] == exceptional # # [tier] == (2)
-[type] == shield && [class] == elite # # [tier] == (3)
+//[type] == shield # # [tier] == (1)
+//[type] == shield && [class] == exceptional # # [tier] == (2)
+//[type] == shield && [class] == elite # # [tier] == (3)
 
 
 
