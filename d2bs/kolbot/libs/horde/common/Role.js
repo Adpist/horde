@@ -152,9 +152,13 @@ var Role = {
 			delay(waitTime);
 		}
 		
+		Travel.walkMeHome(true);
+
 		if (waitTime > 0 && !me.dead && force) {
-			print("back to town failed, forcing returning to town");
-			return Town.goToTown();
+			if(!me.inTown){
+				print("back to town failed, forcing returning to town");
+				return Town.goToTown();
+			}
 		}
 		
 		print("backToTown: " + (waitTime > 0 ? "succeeded" : "failed"));
