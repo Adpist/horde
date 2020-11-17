@@ -68,7 +68,7 @@ var Buff = {
 
 				this.clickWP();
 			} else {
-				me.getQuest(25, 0) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);
+				getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);
 			}
 		}
 
@@ -176,7 +176,7 @@ var Buff = {
 
 				this.clickWP();
 			} else {
-				me.getQuest(25, 0) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);
+				getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);
 			}
 
 			
