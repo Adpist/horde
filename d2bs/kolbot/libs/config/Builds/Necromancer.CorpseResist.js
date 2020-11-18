@@ -139,7 +139,7 @@ AutoBuildTemplate[16] =
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
             Config.TownCheck = true; // Do go to town for more potions
-            Config.AttackSkill = [-1, 67, 67, 67, 67, 67, 67]; // Eyes on the prize!
+  	    Config.AttackSkill = [-1, 74, -1, 74, -1, -1, -1]; // Eyes on the prize!
         }
     };
 
