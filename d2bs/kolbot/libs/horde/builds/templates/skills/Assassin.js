@@ -4,7 +4,7 @@
 *	@desc		Druid skill builds :
 *					"Wind" : Wind druid with max oak
 *	@credits	Adpist, Mark, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
-*	
+*
 */
 
 var SkillsBuilds = {
@@ -24,6 +24,6 @@ var SkillsBuilds = {
 		[272, 20, false], //Inferno sentry
 		[273, 1, false], //Mind blast
 		[279, 1, false], //Shadow master
-		[258, 20, false], //Burst of speed +15
+		[258, 20, false] //Burst of speed +15
 	]
 };

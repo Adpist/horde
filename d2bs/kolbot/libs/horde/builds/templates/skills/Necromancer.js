@@ -5,7 +5,7 @@
 *					"Summon" : Pure summoner
 *					"SummonResists" : Summoner with lower resist
 *	@credits	Adpist, Mark, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
-*	
+*
 */
 
 var SkillsBuilds = {
@@ -26,7 +26,7 @@ var SkillsBuilds = {
 		[74, 20, false], //Max Corpse Explosion
 		[95, 20, false] //Max Revive
 	],
-	
+
 	"SummonResists": [
 		[70, 1, false], //Raise Skeleton
 		[66, 1, false], //Amplify Damage
@@ -59,7 +59,7 @@ var SkillsBuilds = {
 		[95, 20, false], //Max revive
 		[91, 20, false] //Lower resist
 	],
-	
+
 	"CorpseResist": [
 		[66, 1, false], //Amplify Damage 2
 		[68, 1, false], //Bone Armor 3
@@ -88,6 +88,6 @@ var SkillsBuilds = {
 		[94, 1, false], //Fire golem 62
 		[69, 10, false], // skele mastery 72
 		[74, 20, false], //corpse explosion 82
-		[70, 20, false], //Raise Skeleton 90
+		[70, 20, false] //Raise Skeleton 90
 	]
 };

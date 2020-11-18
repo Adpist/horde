@@ -55,25 +55,26 @@ var SkillsBuilds = {
 		[145, 20, false] //Max iron Skin
 	],
 	"ShoutingTank" : [
-		[130, 1, false], //Howl
-		[131, 1, false], //Find Potion
-		[138, 5, false], //Shout
-		[142, 1, false], //Find Item
-		[141, 1, false], //Increased Stamina
-		[138, 10, false], //Shout
-		[145, 1, false], //Iron Skin
-		[138, 14, false], //Shout
-		[149, 1, false], //Battle Orders
-		[148, 1, false], //Increased Speed
-		[149, 5, false], //Battle Orders
-		[154, 1, false], //War Cry
-		[155, 1, false], //Battle Command
-		[153, 1, false], //Natural Resistance
-		[149, 20, false], //Max battle orders
-		[138, 20, false], //Max shout
-		[153, 16, false], //Natural Resistance
-		[145, 10, false], //Iron Skin
-		[142, 10, false], //Find Item
-		[145, 20, false] //Max iron Skin
+		[130, 1, false], //Howl 2
+		[131, 1, false], //Find Potion 3
+		[138, 6, false], //Shout 6-12
+		[142, 1, false], //Find Item 6
+		[141, 1, false], //Increased Stamina level 12
+		[138, 11, false], //Shout 17
+		[145, 1, false], //Iron Skin 18
+		[138, 15, false], //Shout 22
+		[149, 1, false], //Battle Orders 24
+		[148, 1, false], //Increased Speed 24
+		[149, 5, false], //Battle Orders 28
+		[154, 1, false], //War Cry 30
+		[155, 1, false], //Battle Command 30
+		[153, 1, false], //Natural Resistance 31
+		[149, 20, false], //Max battle orders 46
+		[138, 20, false], //Max shout 51
+		[153, 11, false], //Natural Resistance 61
+		[148, 5, false], //Increased Speed 65
+		[145, 20, false], //Iron Skin 84
+		[142, 10, false], //Find Item 93
+		[155, 20, false] //Battle Command 99
 	]
 };
