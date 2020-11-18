@@ -83,7 +83,7 @@ var SkillsBuilds = {
 		[90, 1, false], //Iron golem 26
 		[70, 12, false], //Raise Skeleton 29
 		[91, 20, false], //Lower Resist 50
-		[95, 2, false] // revive 52
+		[95, 2, false], // revive 52
 		[74, 10, false], //corpse explosion 61
 		[94, 1, false], //Fire golem 62
 		[69, 10, false], // skele mastery 72
