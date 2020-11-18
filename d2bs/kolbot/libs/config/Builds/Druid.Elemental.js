@@ -160,7 +160,7 @@ AutoBuildTemplate[30] = {
     SkillPoints: [-1],
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
-        Config.AttackSkill = [-1, 234, 225, 234, 225, 240, -1]; //fissure firestorm
+        Config.AttackSkill = [-1, 234, 225, 234, 225, 234, -1]; //fissure firestorm
         Config.LowGold = 20000;
         Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
         Config.MiniShopBot = true;
@@ -217,7 +217,7 @@ AutoBuildTemplate[55] = {
     Update: function() {
         Config.LowGold = 50000;
         Config.CainID.MinGold = 50000; // Minimum gold (stash + character) to have in order to use Cain.
-        Config.AttackSkill = [244, 234, 225, 234, 225, 240, -1]; //fissure firestorm volcano
+        Config.AttackSkill = [244, 234, 225, 234, 225, 234, -1]; //fissure firestorm volcano
     }
 };
 AutoBuildTemplate[60] = {
