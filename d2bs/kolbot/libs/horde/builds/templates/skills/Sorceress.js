@@ -43,7 +43,7 @@ var SkillsBuilds = {
 		[42, 2, false], //Static
 		[38, 4, false], //Charged bolt
 		[42, 3, false], //Static
-		[48, 1, false]  //Nova
+		[48, 1, false],  //Nova
 		[49, 1, false], //Lightning
 		[38, 5, false], //Charged bolt
 		[54, 1, false], //Teleport
