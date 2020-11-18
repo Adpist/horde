@@ -30,7 +30,11 @@ function izual(mfRun) {
 
 	Town.repair();
 	Town.doChores(); // Need max amount of potions otherwise might prematurely TP in Plains Of Despair.
-
+	
+	if (Role.teleportingChar) {
+		Travel.travel(8);
+	}
+	
 	Party.wholeTeamInGame();
 
 	if (mfRun || !me.getQuest(25, 1)) {
