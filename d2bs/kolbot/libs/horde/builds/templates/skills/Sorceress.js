@@ -8,7 +8,7 @@
 *					"TeleChant" : teleport, enchant & static sorc. a bit passive but efficient navigation
 *					"Meteorb" : Fireball / meteor / frozen orb sorc
 *	@credits	Adpist, Mark, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
-*	
+*
 */
 
 var SkillsBuilds = {
@@ -18,7 +18,7 @@ var SkillsBuilds = {
 		[37, 1, false], //Warmth
 		[42, 1, false], //Static
 		[54, 1, false], //Teleport
-		[45, 8, false], //Level ice blast to keep 2 points at level 18 for tp & glacial spike
+		[45, 7, false], //Level ice blast to keep 2 points at level 18 for tp & glacial spike
 		[55, 1, true], //learn Glacial Spike
 		[55, 3, false], //level Glacial Spike
 		[59, 7, false], //Level blizzard
@@ -34,23 +34,29 @@ var SkillsBuilds = {
 		[45, 20, false], //Max ice blast
 		[39, 20, false] //Max ice bolt
 	],
-	
+
 	"Light": [
-		[38, 4, false], //Charged bolt
+		[38, 1, false], //Charged bolt
 		[40, 1, false], //frozen armor
 		[37, 1, false], //Warmth
-		[42, 1, false], //Static
-		[54, 1, false], //Teleport
+		[38, 2, false], //Charged bolt
+		[42, 2, false], //Static
+		[38, 4, false], //Charged bolt
+		[42, 3, false], //Static
+		[48, 1, false]  //Nova
 		[49, 1, false], //Lightning
-		[57, 1, false], //Thunder storm
+		[38, 5, false], //Charged bolt
+		[54, 1, false], //Teleport
+		[53, 10, false], //Chain lightning
 		[63, 1, false], //Lightning mastery
+		[49, 5, false], //lightning
+		[53, 20, false], //Max Chain lightning
 		[49, 20, false], //Max lightning
 		[63, 20, false], //Max lightning mastery
 		[38, 20, false], //Max Charged Bolt
-		[53, 20, false], //Max Chain lightning
 		[48, 20, false]  //Max Nova
 	],
-	
+
 	"Fire": [
 		[36, 1, false], //fire bolt
 		[40, 1, false], //frozen armor
@@ -75,7 +81,7 @@ var SkillsBuilds = {
 		[36, 20, false], //max fire bolt
 		[41, 20, false] //max Inferno
 	],
-	
+
 	"TeleChant": [
 		[40, 1, false], //frozen armor
 		[37, 1, false], //Warmth
@@ -89,10 +95,10 @@ var SkillsBuilds = {
 		[52, 20, true], //Max Enchant
 		[37, 20, true], //Max Warmth
 		[61, 20, true], //Max fire mastery
-		[42, 20, false], //Max Teleport	
+		[42, 20, false], //Max Teleport
 		[42, 20, false] //Max Static
 	],
-	
+
 	"Meteorb":[
 		[36, 4, false], //fire bolt
 		[40, 1, false], //frozen armor
@@ -142,5 +148,5 @@ var SkillsBuilds = {
 		[61, 19, true], //Fire mastery
 		[36, 20, true], //fire bolt
 		[61, 20, true] //Fire mastery
-	]		
+	]
 };
