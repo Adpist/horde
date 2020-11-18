@@ -139,7 +139,7 @@ AutoBuildTemplate[16] =
         StatPoints: [-1, -1, -1, -1, -1],
         Update: function() {
             Config.TownCheck = true; // Do go to town for more potions
-            Config.AttackSkill = [-1, 74, -1, 74, -1, -1, -1]; // Eyes on the prize!
+            Config.AttackSkill = [-1, 67, 67, 67, 67, 67, 67]; // Eyes on the prize!
         }
     };
 
@@ -164,10 +164,10 @@ AutoBuildTemplate[24] = {
     SkillPoints: [-1],
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
+		Config.Curse[0] = 87; // Boss curse.
+		Config.Curse[1] = 87; // Boss curse.
         Config.Cubing = true; // Will have a cube by now.
         Config.LowGold = 15000;
-            Config.Curse[0] = 87; // Boss curse. Use skill number or set to 0 to disable.
-            Config.Curse[1] = 87; // Other monsters curse. Use skill number or set to 0 to disable.
     }
 };
 
