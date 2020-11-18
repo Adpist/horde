@@ -110,46 +110,51 @@ var Role = {
 		
 		targetTown = this.getTownFromAct(me.act);
 		
-		if (!me.inTown && !me.dead) {
-			print("backToTown: not in town. need tp to " + targetTown);
-			if (Pather.getPortal(targetTown, null)) {
-				print("backToTown: try use existing portal " + waitTime);
-				Pather.usePortal(targetTown, null);
-				delay(me.ping*2+250);
-				if (me.inTown || me.dead) {
-					return true;
-				}
-			}			
-				
-			if (this.canCreateTp()) {
-				scrollsCount = this.getTpTome().getStat(70);
-				print("backToTown: have " + scrollsCount + " scrolls");
-				if (scrollsCount === 20) {
-					waitTime = HordeSystem.getTeamIndex(me.profile) * 50;// we wait [0;400] depending on our index in the team profiles.
-				} else {
-					waitTime = 400 + 30 * (20-scrollsCount);//we're not full of scrolls, wait [400;1000] depending on how many scrolls we have
-				}
-			}
-			
-			while(!me.inTown && !me.dead && waitTime > 0) {
-				print("backToTown: waiting " + waitTime + " ms");
-				delay(waitTime);
-				
+			try {
+			if (!me.inTown && !me.dead) {
+				print("backToTown: not in town. need tp to " + targetTown);
 				if (Pather.getPortal(targetTown, null)) {
-					print("backToTown: try use portal " + waitTime);
+					print("backToTown: try use existing portal " + waitTime);
 					Pather.usePortal(targetTown, null);
-					waitTime = waitTime - 100;
-				} else if (this.canCreateTp()) {
-					print("backToTown: make portal " + waitTime);
-					Pather.makePortal();
-					Pather.usePortal(targetTown, null);
-				} else {
-					waitTime = waitTime - 100;
+					delay(me.ping*2+250);
+					if (me.inTown || me.dead) {
+						return true;
+					}
+				}
+
+				if (this.canCreateTp()) {
+					scrollsCount = this.getTpTome().getStat(70);
+					print("backToTown: have " + scrollsCount + " scrolls");
+					if (scrollsCount === 20) {
+						waitTime = HordeSystem.getTeamIndex(me.profile) * 50;// we wait [0;400] depending on our index in the team profiles.
+					} else {
+						waitTime = 400 + 30 * (20-scrollsCount);//we're not full of scrolls, wait [400;1000] depending on how many scrolls we have
+					}
+				}
+
+				while(!me.inTown && !me.dead && waitTime > 0) {
+					print("backToTown: waiting " + waitTime + " ms");
+					delay(waitTime);
+
+					if (Pather.getPortal(targetTown, null)) {
+						print("backToTown: try use portal " + waitTime);
+						Pather.usePortal(targetTown, null);
+						waitTime = waitTime - 100;
+					} else if (this.canCreateTp()) {
+						print("backToTown: make portal " + waitTime);
+						Pather.makePortal();
+						Pather.usePortal(targetTown, null);
+					} else {
+						waitTime = waitTime - 100;
+					}
 				}
 			}
-		}
-		else {
-			delay(waitTime);
+			else {
+				delay(waitTime);
+			}
+		} catch(error){
+				print("failed portal sequence");
+				print(error);
 		}
 		
 		Travel.walkMeHome(true);
