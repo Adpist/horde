@@ -5,7 +5,7 @@
 *					"Summon" : Pure summoner
 *					"SummonResists" : Summoner with lower resist
 *	@credits	Adpist, Mark, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
-*	
+*
 */
 
 var SkillsBuilds = {
@@ -26,7 +26,7 @@ var SkillsBuilds = {
 		[74, 20, false], //Max Corpse Explosion
 		[95, 20, false] //Max Revive
 	],
-	
+
 	"SummonResists": [
 		[70, 1, false], //Raise Skeleton
 		[66, 1, false], //Amplify Damage
@@ -59,32 +59,35 @@ var SkillsBuilds = {
 		[95, 20, false], //Max revive
 		[91, 20, false] //Lower resist
 	],
-	
+
 	"CorpseResist": [
-		[66, 1, false], //Amplify Damage
-		[70, 2, false], //Raise Skeleton
-		[68, 1, false], //Bone Armor
-		[75, 1, false], //Clay Golem
-		[67, 1, false],	//Teeth
-		[74, 1, false], //corpse explo lvl 6
-		[74, 3, false], //corpse explo  -11
-		[79, 1, false], //Golem Mastery lvl 12
-		[74, 20, false], //corpse explo  -16
-		[69, 2, false], // skele mastery
-		[72, 1, false], //Weaken lvl 6	-22
-		[77, 1, false], //Terror lvl 12 -23
-		[87, 1, false], //Decrepify lvl 24
-		[89, 1, false],	//Summon Resist lvl 24
-		[70, 6, false], //Raise Skeleton
-		[76, 1, false], //Iron Maiden lvl 12	-28
-		[86, 1, false], //Attract lvl 12	-29
-		[91, 1, false], //Lower Resist lvl 30
-		[91, 20, false], //Lower Resist -50
-		[70, 20, false], //Raise Skeleton
-		[69, 20, false], // skele mastery
-		[80, 1, false], // skele mage
-		[95, 1, false], // revive
-		[80, 20, false], // skele mage
-		[95, 20, false] // revive
+		[66, 1, false], //Amplify Damage 2
+		[68, 1, false], //Bone Armor 3
+		[67, 1, false],	//Teeth 4
+		[70, 1, false], //Raise Skeleton 5
+		[75, 1, false], //Clay Golem 6
+		[69, 1, false], // skele mastery 7
+		[74, 1, false], //corpse explosion 8
+		[72, 1, false], //Weaken 9
+		[70, 3, false], //Raise Skeleton 11
+		[79, 1, false], //Golem Mastery 12
+		[77, 1, false], //Terror 13
+		[76, 1, false], //Iron Maiden 14
+		[80, 1, false], // skele mage 15
+		[70, 5, false], //Raise Skeleton 17
+		[82, 1, false], //Life tap 18
+		[85, 1, false], //Blood golem 19
+		[70, 9, false], //Raise Skeleton 23
+		[87, 1, false], //Decrepify 24
+		[89, 1, false],	//Summon Resist 25
+		[90, 1, false], //Iron golem 26
+		[70, 12, false], //Raise Skeleton 29
+		[91, 20, false], //Lower Resist 50
+		[95, 2, false], // revive 52
+		[74, 10, false], //corpse explosion 61
+		[94, 1, false], //Fire golem 62
+		[69, 10, false], // skele mastery 72
+		[74, 20, false], //corpse explosion 82
+		[70, 20, false] //Raise Skeleton 90
 	]
 };
