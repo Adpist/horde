@@ -260,9 +260,10 @@ var HordeSystem = {
 			Config.MinGameTime = this.team.minGameTime;
 			Config.MaxGameTime = 0;
 			
-			//NOT HARDCORE FRIENDLY
-			Config.LifeChicken = 0; //Disable chicken in manual
-			Config.TownCheck = 0;
+			if (!me.playertype) {//Don't remove chicken in hardcore
+				Config.LifeChicken = 0;
+				Config.TownCheck = 0;
+			}
 		}
 		else {
 			Scripts.Horde = true;

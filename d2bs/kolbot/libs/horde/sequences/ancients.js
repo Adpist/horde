@@ -90,8 +90,11 @@ function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 		oldTownMP = Config.TownMP,
 		oldTownCheck = Config.TownCheck,
 		oldMercWatch = Config.MercWatch;
-		
-	Config.LifeChicken = 0; // Exit game if life is less or equal to designated percent.
+	
+	if (!me.playertype) {//Don't remove chicken in hardcore
+		Config.LifeChicken = 0; // Exit game if life is less or equal to designated percent.
+	}
+	
 	Config.TownHP = 0; // Go to town if life is under designated percent.
 	Config.ManaChicken = 0; // Exit game if mana is less or equal to designated percent.
 	Config.MercChicken = 0; // Exit game if merc's life is less or equal to designated percent.
