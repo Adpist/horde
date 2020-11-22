@@ -20,31 +20,7 @@ function Horde() {
 		
 		TeamData.save();
 		
-		//Process previous game
-		Pickit.pickItems();
-		Town.doChores();
-		Pickit.pickItems();
-		Quest.checkAndUseConsumable();
-		HordeStorage.stashQuestItems();
-		HordeStorage.removeUnwearableItems();
-		HordeStorage.organize();
-		Pickit.pickItems();
-		
 		Party.waitWholeTeamJoined();
-		Pickit.pickItems();
-		
-		//Setup current game
-		Quest.initCurrentAct();
-		Pickit.pickItems();
-
-		if (HordeSettings.logChar) {
-			MuleLogger.logChar();
-		}
-		
-		//Un-clog WP
-		if (3 === me.act || 4 === me.act) {
-			Town.move("portalspot");
-		}
 		
 		//IP rotation data feed
 		if(Role.teleportingChar && !!me.gameserverip){
@@ -68,17 +44,19 @@ function Horde() {
 
 		}
 		
-		//Wait synchro
-		Party.initialSynchro();
+		//update highest town
+		Quest.goToHighestTown();
+		Party.updateLowestAct();
+		
+		Sharing.shareGold();
+		
+		HordeTown.doChores();
 		
 		//Sharing sequence
 		Sharing.announceSharingSequence();
 		Waypoint.announceWaypoints();
 		Waypoint.waitWaypointsAnnounced();
 		
-		Sharing.ShareGold();
-		Town.doChores();
-		Role.mercCheck();
 		Waypoint.shareWaypoints();
 		Buff.initialBo();
 		

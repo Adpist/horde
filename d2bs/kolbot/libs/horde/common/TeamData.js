@@ -204,5 +204,88 @@ var TeamData = {
 		}
 		
 		return lowestLevel;
+	},
+	
+	profilesGearPickits: {},
+	
+	setupProfilesGearPickits: function() {
+		print("setup profiles gear pickits");
+		for (var i = 0 ; i < HordeSystem.allTeamProfiles.length ; i += 1) {
+			var profile = HordeSystem.allTeamProfiles[i];
+			if (profile !== me.profile) {
+				if (!!HordeSystem.team.profiles[profile]) {
+					print("setup " + profile + " gear pickits");
+					var build = HordeSystem.team.profiles[profile].build;
+					if (!include ("horde/builds/"+HordeSystem.team.profiles[profile].className+"/"+build+".js")){
+						throw new Error("Failed to find build: "+ build + " for class " + HordeSystem.team.profiles[profile].className);
+					}
+					
+					this.profilesGearPickits[profile] = {checkList: [], checkListNoTier: [], stringArray: []};
+					for (var j = 0 ; j < HordeBuild.pickits.length ; j += 1) {
+						this.parseProfilePickit(profile, "pickit/" + HordeBuild.pickits[j], false);
+					}
+				}
+			}
+		}
+	},
+	
+	parseProfilePickit: function(profile, filepath, notify) {
+		if (!FileTools.exists(filepath)) {
+			if (notify) {
+				Misc.errorReport("ÿc1NIP file doesn't exist: ÿc0" + filepath);
+			}
+
+			return false;
+		}
+
+		var i, nipfile, line, lines, info, item,
+			tick = getTickCount(),
+			filename = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.length),
+			entries = 0, entriesNO = 0;
+
+		try {
+			nipfile = File.open(filepath, 0);
+		} catch (fileError) {
+			if (notify) {
+				Misc.errorReport("ÿc1Failed to load NIP: ÿc0" + filename);
+			}
+		}
+
+		if (!nipfile) {
+			return false;
+		}
+
+		lines = nipfile.readAllLines();
+
+		nipfile.close();
+
+		for (i = 0; i < lines.length; i += 1) {
+			info = {
+				line: i + 1,
+				file: filename,
+				string: lines[i]
+			};
+
+			line = NTIP.ParseLineInt(lines[i], info);
+
+			if (line) {
+				entries += 1;
+
+				this.profilesGearPickits[profile].checkList.push(line);
+				if (!lines[i].toLowerCase().match("tier")) {
+					entriesNO += 1;
+					this.profilesGearPickits[profile].checkListNoTier.push(line);
+				} else {
+					this.profilesGearPickits[profile].checkListNoTier.push([false, false]);
+				}
+				this.profilesGearPickits[profile].stringArray.push(info);
+			}
+		}
+
+		if (notify) {
+			print("ÿc4Loaded NIP: ÿc2" + filename + "ÿc4. Lines: ÿc2" + lines.length + "ÿc4. Valid entries: ÿc2" + entries + ". ÿc4Time: ÿc2" + (getTickCount() - tick) + " ms");
+		}
+
+		return true;
 	}
 };

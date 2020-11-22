@@ -27,9 +27,8 @@ function izual_requirements(mfRun) {
 
 function izual(mfRun) {
 	var tyrael;
-
-	Town.repair();
-	Town.doChores(); // Need max amount of potions otherwise might prematurely TP in Plains Of Despair.
+	
+	Town.goToTown(4);
 	
 	if (Role.teleportingChar) {
 		Travel.travel(8);

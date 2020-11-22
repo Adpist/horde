@@ -70,16 +70,8 @@ var Sequencer = {
 		
 		//Post completed sequence
 		if (sequenceResult === Sequencer.done){
-			if (/*this.runTimeline != this.quest && */(me.inTown || Role.canCreateTp())) {
-				Town.doChores();
-			}
+			HordeTown.doChores();
 		}
-		
-		if (HordeSettings.logChar) {
-			MuleLogger.logChar();
-		}
-		
-		TeamData.save();
 		
 		switch (sequenceResult)
 		{
@@ -102,14 +94,6 @@ var Sequencer = {
 				HordeDebug.logScriptError("Sequencer", "Sequence " + sequence + " returned unhandled completion state : " + sequenceResult);
 				break;
 		}
-		
-		if (me.act === 5) {
-			Town.move("stash");
-		}
-		
-		Town.move("waypoint");
-		
-		Party.waitSynchro("post_sequence");
 	},
 	
 	getTimelineName: function(timeline) {

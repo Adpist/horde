@@ -214,6 +214,7 @@ var HordeSystem = {
 			D2Bot.printToConsole(me.profile + " isn't in " + teamName + " team", 6);
 			throw new Error(me.profile + " isn't in " + teamName + " team");
 		}
+		
 		//parse each team member
 		profiles.forEach(function(profile) {
 			var profileData = HordeSystem.team.profiles[profile];
@@ -291,7 +292,9 @@ var HordeSystem = {
 			MuleLogger.LogMerc = true; // include items merc has equipped (if alive)
 		}
 		
+		
 		if (!oog) {
+			TeamData.setupProfilesGearPickits();
 			this.setupBuild(this.team.profiles[me.profile].build);
 			this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
 			this.setupPickits();

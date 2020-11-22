@@ -250,7 +250,7 @@ var Quest = {
 		}
 	},
 	
-	initCurrentAct: function() {
+	goToHighestTown: function() {
 		if (!me.getQuest(7, 0) && (me.getQuest(6, 0) || me.getQuest(6, 1))) {
 			Travel.changeAct(2);
 		}
@@ -281,6 +281,11 @@ var Quest = {
 		Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
 		
 		this.initialTownArea = me.area;
+		
+		//Un-clog WP
+		if (3 === me.act || 4 === me.act) {
+			Town.move("portalspot");
+		}
 	},
 	
 	sequenceToQuest: 	{	"den" : 		[1],

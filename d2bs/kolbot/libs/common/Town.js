@@ -512,11 +512,15 @@ var Town = {
 		return tome.getStat(70);
 	},
 
-	identify: function () {
+	identify: function (keepItems) {
 		var i, item, tome, scroll, npc, list, timer, tpTome, result,
 			tpTomePos = {};
 
-		this.cainID();
+		if (keepItems === undefined) {
+			keepItems = false;
+		}
+		
+		this.cainID(keepItems);
 
 		list = Storage.Inventory.Compare(Config.Inventory);
 
@@ -566,7 +570,6 @@ MainLoop:
 				case 4:
 					Misc.itemLogger("Sold", item);
 					item.sell();
-
 					break;
 				case -1:
 					if (tome) {
@@ -634,13 +637,15 @@ MainLoop:
 
 						break;
 					default:
-						Misc.itemLogger("Sold", item);
-						item.sell();
+						if (!keepItems) {
+							Misc.itemLogger("Sold", item);
+							item.sell();
 
-						timer = getTickCount() - this.sellTimer; // shop speedup test
+							timer = getTickCount() - this.sellTimer; // shop speedup test
 
-						if (timer > 0 && timer < 500) {
-							delay(timer);
+							if (timer > 0 && timer < 500) {
+								delay(timer);
+							}
 						}
 
 						break;
@@ -656,11 +661,15 @@ MainLoop:
 		return true;
 	},
 
-	cainID: function () {
+	cainID: function (keepItems) {
 		if (!Config.CainID.Enable) {
 			return false;
 		}
 
+		if (keepItems === undefined) {
+			keepItems = false;
+		}
+		
 		// Check if we're already in a shop. It would be pointless to go to Cain if so.
 		var i, cain, unids, result,
 			npc = getInteractedNPC();
@@ -713,9 +722,10 @@ MainLoop:
 
 				switch (result.result) {
 				case 0:
-					Misc.itemLogger("Dropped", unids[i], "cainID");
-					unids[i].drop();
-
+					if (!keepItems) {
+						Misc.itemLogger("Dropped", unids[i], "cainID");
+						unids[i].drop();
+					}
 					break;
 				case 1:
 					Misc.itemLogger("Kept", unids[i]);
@@ -1814,10 +1824,13 @@ MainLoop:
 		return true;
 	},
 
-	clearInventory: function () {
+	clearInventory: function (forceSell) {
 		var i, col, result, item, beltSize,
 			items = [];
 
+		if (forceSell === undefined) {
+			forceSell = false;
+		}
 		this.checkQuestItems(); // only golden bird quest for now
 
 		// Return potions to belt
@@ -1923,10 +1936,21 @@ MainLoop:
 					!CraftingSystem.keepItem(items[i]) // Don't throw crafting system ingredients
 					) {
 				result = Pickit.checkItem(items[i]).result;
-
-				/*if (!Item.autoEquipCheck(items[i])) {
-					result = 0;
-				}*/
+				
+				//Drop old gear without dura
+				if (result === 1) {
+					var tier = NTIP.GetTierEx(items[i], "Tier", NTIP_CheckList, false);
+					var mercTier = NTIP.GetTierEx(items[i], "MercTier", NTIP_CheckList, false);
+					
+					if ((tier > 0 && !Item.autoEquipCheck(items[i], tier)) || (mercTier > 0 && !Item.autoEquipCheckMerc(items[i], mercTier))) {
+						var durability = item.getStat(72);
+						var maxDura = item.getStat(73);
+						
+						if (typeof durability === "number" && durability /* * 100 / item.getStat(73) */<= 0) {
+							result = 0;
+						}
+					}
+				}
 
 				switch (result) {
 				case 0: // Drop item
@@ -1934,7 +1958,11 @@ MainLoop:
 						me.cancel();
 						delay(200);
 					}
-
+					
+					if (forceSell) {
+						this.initNPC("Shop", "clearInventory");
+					}
+					
 					if (getUIFlag(0xC) || (Config.PacketShopping && getInteractedNPC() && getInteractedNPC().itemcount > 0)) { // Might as well sell the item if already in shop
 						print("clearInventory sell " + items[i].name);
 						Misc.itemLogger("Sold", items[i]);

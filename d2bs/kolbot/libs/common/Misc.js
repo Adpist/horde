@@ -632,13 +632,40 @@ var Item = {
 		return bodyLoc;
 	},
 
-	autoEquipCheck: function (item) {
+	autoEquipCheckTier: function(item, lvlReq, tier) {
+		if (!Config.AutoEquip) {
+			return false;
+		}
+		
+		var i,
+			bodyLoc = this.getBodyLoc(item);
+			
+		if (lvlReq > me.getStat(12) || item.dexreq > me.getStat(2) || item.strreq > me.getStat(0)) { // Higher requirements
+			return false;
+		}
+		
+		if (tier > 0 && bodyLoc) {
+			for (i = 0; i < bodyLoc.length; i += 1) {
+				// Low tier items shouldn't be kept if they can't be equipped
+				if (tier > this.getEquippedItem(bodyLoc[i]).tier) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	},
+	
+	autoEquipCheck: function (item, tier) {
 		if (!Config.AutoEquip) {
 			return true;
 		}
 
+		if (tier === undefined) {
+			tier = NTIP.GetTier(item);
+		}
+		
 		var i,
-			tier = NTIP.GetTier(item),
 			bodyLoc = this.getBodyLoc(item);
 
 		if (tier > 0 && bodyLoc) {
@@ -2830,7 +2857,43 @@ Item.getBodyLocMerc = function (item) {
     return bodyLoc;
 };
 
-Item.autoEquipCheckMerc = function (item) {
+Item.autoEquipCheckMercTier = function (item, lvlReq, tier) {
+    if (!Config.AutoEquip) {
+        return true;
+    }
+	
+    if (Config.AutoEquip && !me.getMerc()) {
+        return false;
+    }
+
+	let merc = me.getMerc();
+
+    if (!merc) { // dont have merc or he is dead
+        return false;
+    }
+	
+    var i,
+        bodyLoc = this.getBodyLocMerc(item);
+
+    if (tier > 0 && bodyLoc) {
+        for (i = 0; i < bodyLoc.length; i += 1) {
+			
+            // Low tier items shouldn't be kept if they can't be equipped
+			let curr = this.getEquippedItemMerc(bodyLoc[i]);
+            var oldTier = curr.tier;
+
+			if (!(lvlReq > merc.getStat(12) || item.dexreq > merc.getStat(2) - curr.dex || item.strreq > merc.getStat(0) - curr.str)) { // check requirements
+				if (tier > oldTier) {
+					return true;
+				}
+			}
+        }
+    }
+
+    return false;
+};
+
+Item.autoEquipCheckMerc = function (item, tier) {
     if (!Config.AutoEquip) {
         return true;
     }
@@ -2839,15 +2902,18 @@ Item.autoEquipCheckMerc = function (item) {
         return false;
     }
 
+	if (tier === undefined) {
+		tier = NTIP.GetMercTier(item);
+	}
+	
     var i,
-        tier = NTIP.GetMercTier(item),
         bodyLoc = this.getBodyLocMerc(item);
 
     if (tier > 0 && bodyLoc) {
         for (i = 0; i < bodyLoc.length; i += 1) {
             // Low tier items shouldn't be kept if they can't be equipped
             var oldTier = this.getEquippedItemMerc(bodyLoc[i]).tier;
-            if (tier > oldTier && (this.canEquipMerc(item) || !item.getFlag(0x10))) {
+            if (tier > oldTier && (this.canEquipMerc(item, bodyLoc[i]) || !item.getFlag(0x10))) {
                 return true;
             }
         }

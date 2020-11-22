@@ -32,13 +32,15 @@ function shenk_requirements(mfRun) {
 }
 
 function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
+	
+	Town.goToTown(4);
+	
 	if (Role.teleportingChar) {
 		Travel.travel(9);//Get all act wp if needed
 	}
 	
 	if (!mfRun)
 	{
-		Town.doChores();
 		Party.wholeTeamInGame();
 		
 		if (me.getQuest(35, 1)) {

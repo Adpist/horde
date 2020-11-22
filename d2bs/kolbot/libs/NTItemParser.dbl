@@ -186,6 +186,68 @@ NTIP.Clear = function () {
 	stringArray = [];
 };
 
+NTIP.GetTierEx = function (item, tierProperty, checkList, duraCheck) {
+	var i,
+		tier = -1,
+		tempTier = -1,
+		isFormula = false;
+		
+	if (duraCheck === undefined) {
+		duraCheck = true;
+	}
+
+	if (NTIP_QuestItems.indexOf(item.classid) > -1) return 0;
+	
+	// Go through ALL lines that describe the item
+	for (i = 0; i < checkList.length; i += 1) {
+		if (checkList[i].length === 3 && checkList[i][2].hasOwnProperty(tierProperty) && checkList[i][2][tierProperty]) {
+			isFormula = isNaN(checkList[i][2][tierProperty]);
+			tempTier = isFormula ? eval(checkList[i][2][tierProperty]) : parseInt(checkList[i][2][tierProperty]);
+			if (!isNaN(tempTier) && tempTier > tier)
+			{
+				try {
+					if (checkList[i][0].length > 0) {
+						if (eval(checkList[i][0])) {
+							if (checkList[i][1].length > 0) {
+								if (eval(checkList[i][1])) {
+									tier = tempTier;
+								}
+							} else {
+								tier = tempTier;
+							}
+						}
+					} else if (checkList[i][1].length > 0) {
+						if (eval(checkList[i][1])) {
+							tier = tempTier;
+						}
+					}
+				} catch (e) {
+
+				}
+			}
+		}
+	}
+	
+	if (duraCheck) {
+		var durability = item.getStat(72);
+		
+		if (typeof durability === "number" && durability /* * 100 / item.getStat(73) */<= 0) {
+			tier = -1;
+		}
+	}
+	
+	if (tier < -1) {
+		tier = 0;
+	}
+
+	if (isFormula)
+	{
+		return tier+1;
+	}
+	
+	return tier;
+};
+
 NTIP.GetTier = function (item) {
 	var i,
 		tier = -1,

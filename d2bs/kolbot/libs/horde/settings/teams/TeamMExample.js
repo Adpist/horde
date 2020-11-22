@@ -13,7 +13,8 @@ const HordeTeam = {
             className: "sorceress",
             character: "character",
             build: "coldtiered",
-            runewordsProfile: "mTeamRunewords"
+            runewordsProfile: "mTeamRunewords",
+			gearPriority: 1
         },
         "sorc-002": {
             account: "account",
@@ -21,7 +22,8 @@ const HordeTeam = {
             className: "sorceress",
             character: "character",
             build: "lighttiered",
-            runewordsProfile: "mTeamRunewords"
+            runewordsProfile: "mTeamRunewords",
+			gearPriority: 3
         },
         "asin-001": {
             account: "account",
@@ -29,7 +31,8 @@ const HordeTeam = {
             className: "assassin",
             character: "character",
             build: "Trapsin",
-            runewordsProfile: "mTeamRunewordsSin"
+            runewordsProfile: "mTeamRunewordsSin",
+			gearPriority: 4
         },
         "barb-001": {
             account: "account",
@@ -45,7 +48,8 @@ const HordeTeam = {
             character: "character",
             className: "paladin",
             build: "hammersalvationtiered",
-            runewordsProfile: "mTeamRunewordsPala"
+            runewordsProfile: "mTeamRunewordsPala",
+			gearPriority: 2
         },
         "pala-002": {
             account: "account",
@@ -53,7 +57,8 @@ const HordeTeam = {
             className: "paladin",
             character: "character",
             build: "hammerconvictiontiered",
-            runewordsProfile: "mTeamRunewordsPala"
+            runewordsProfile: "mTeamRunewordsPala",
+			gearPriority: 2
         },
         "drui-001": {
             account: "account",
@@ -61,7 +66,8 @@ const HordeTeam = {
             className: "druid",
             character: "character",
             build: "elementaltiered",
-            runewordsProfile: "mTeamRunewordsSin"
+            runewordsProfile: "mTeamRunewordsSin",
+			gearPriority: 5
         },
         "necr-001": {
             account: "account",
@@ -69,7 +75,8 @@ const HordeTeam = {
             className: "necromancer",
             character: "character",
             build: "corpseresisttiered",
-            runewordsProfile: "mTeamRunewords"
+            runewordsProfile: "mTeamRunewords",
+			gearPriority: 6
         }
     },
 
@@ -98,6 +105,7 @@ const HordeTeam = {
     hardcore: false, //Is Hardcore team
     expansion: true, //Is Xpac team
     sequencesProfile: "mTeamBuilder", //The sequence profile to use for this team
+	enableGearSharing: "Party.hasReachedLevel(18)", //Condition to activate gear sharing. put "false" to disable gear sharing
 	walkChaosSancNorm: true, //Disable tele for clear of Chaos sanc in Normal
 	walkChaosSancNm: true, //Disable tele for clear of Chaos sanc in NM
 	walkChaosSancHell: true, //Disable tele for clear of Chaos sanc in Hell

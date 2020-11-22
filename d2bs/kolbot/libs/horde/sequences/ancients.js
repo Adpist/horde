@@ -35,8 +35,8 @@ function ancients_requirements(mfRun) {
 function ancients(mfRun) { // SiC-666 TODO: Rewrite this.
 	var i, j, altar, time;
 	
-	Town.doChores();
 	Party.wholeTeamInGame();
+	Town.goToTown(5);
 	
 	if (Role.teleportingChar) {
 		Travel.travel(9);//Get all act wp if needed

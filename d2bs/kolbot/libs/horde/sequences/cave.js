@@ -17,8 +17,6 @@ function cave_requirements(mfRun) {
 }
 
 function cave(mfRun) {
-	Town.repair();
-	Town.doChores();
 
 	if (!getWaypoint(1)) {
 		Travel.safeMoveToExit(2, true, true);

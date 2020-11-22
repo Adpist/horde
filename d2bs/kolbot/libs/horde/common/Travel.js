@@ -414,17 +414,7 @@ var Travel = {
 
 						Pather.useWaypoint(homeTown);
 
-						Party.waitForMembers(homeTown); // Wait for everyone to come to town. If Town.doChores() doesn't do anything it's possible to leave town while everyone is still trying to come to town.
-
-						Town.doChores();
-
-						Town.move("waypoint");
-
-						Pather.useWaypoint(areaIDs[nextAreaIndex]);
-
-						Party.waitForMembers();
-
-						print("end this.travel() waypoint wait");
+						HordeTown.doChores();
 					}
 				}
 			}
@@ -580,19 +570,19 @@ var Travel = {
 						break;
 					case 3: 	//cold plains
 						Pather.getWP(3,clearPath);
-						Pather.useWaypoint(3);
+						Pather.useWaypoint(1);
 						break;
 					case 4: 	//Stoney
 						Pather.getWP(4,clearPath);
-						Pather.useWaypoint(4);
+						Pather.useWaypoint(1);
 						break;
 					case 5: 	//Dark wood
 						Pather.getWP(5,clearPath);
-						Pather.useWaypoint(5);
+						Pather.useWaypoint(1);
 						break;
 					case 6: 	//Black Marsh
 						Pather.getWP(6,clearPath);
-						Pather.useWaypoint(6);
+						Pather.useWaypoint(1);
 						break;
 					case 8: 	//den of evil
 						Pather.moveToExit(2, true, clearPath);

@@ -21,7 +21,8 @@ const HordeTeam = {
 			className: "sorceress",
 			role: "teleport",
 			build: "cold",
-			runewordsProfile: "RunewordsTemplate"
+			runewordsProfile: "RunewordsTemplate",
+			gearPriority: 1
 		},
 		"BarbProfile": {
 			account: "account2",
@@ -29,7 +30,8 @@ const HordeTeam = {
 			className: "barbarian",
 			role: "bo",
 			build: "bo",
-			runewordsProfile: "RunewordsTemplate"
+			runewordsProfile: "RunewordsTemplate",
+			gearPriority: 5
 		},
 		"PalaProfile": {
 			account: "account3",
@@ -37,7 +39,8 @@ const HordeTeam = {
 			className: "paladin",
 			role: "follower",
 			build: "hammer",
-			runewordsProfile: "RunewordsTemplate"
+			runewordsProfile: "RunewordsTemplate",
+			gearPriority: 2
 		},
 		"NecroProfile": {
 			account: "account4",
@@ -45,7 +48,8 @@ const HordeTeam = {
 			className: "necromancer",
 			role: "follower",
 			build: "summoner",
-			runewordsProfile: "RunewordsTemplate"
+			runewordsProfile: "RunewordsTemplate",
+			gearPriority: 3
 		},
 		"DruidProfile": {
 			account: "account5",
@@ -53,7 +57,8 @@ const HordeTeam = {
 			className: "druid",
 			role: "follower",
 			build: "wind",
-			runewordsProfile: "RunewordsTemplate"
+			runewordsProfile: "RunewordsTemplate",
+			gearPriority: 4
 		}
 	},
 	
@@ -79,8 +84,9 @@ const HordeTeam = {
 						{pickit: "kolton.nip"},
 						{pickit: "horde/merc.act1.normal.xpac.nip", condition:"me.diff == 0 && !me.getQuest(7,0)"}
 					],
-	
+
 	sequencesProfile: "default_xpac", //The sequence profile to use for this team (a .js file in kolbot\libs\horde\settings\sequences\)
+	enableGearSharing: "Party.hasReachedLevel(18)", //Condition to activate gear sharing. put "false" to completely disable gear sharing
 	minGameTime: 210, //min game time to use for the whole team
 	maxGameTime: 0, //max game time to use for whole team,
 	walkChaosSancNorm: true, //Disable tele for clear of Chaos sanc in Normal

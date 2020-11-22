@@ -666,7 +666,12 @@ function main() {
 				Experience.log();
 			}
 			
-			HordeSystem.onToolThreadQuit();
+			try {
+				HordeSystem.onToolThreadQuit();
+			} catch(e) {
+				print("error in horde toolthread quit handler");
+				delay(rand(2000, 5000));
+			}
 
 			this.checkPing(false); // In case of quitlist triggering first
 			

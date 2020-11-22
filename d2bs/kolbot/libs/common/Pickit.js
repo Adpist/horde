@@ -73,6 +73,7 @@ var Pickit = {
 			if (Item.autoEquipCheck(unit)) {
 				return {
 					result: 1,
+					tier: NTIP.GetTier(unit),
 					line: "Equip char tier: " + NTIP.GetTier(unit)
 				};
 			}
@@ -80,6 +81,7 @@ var Pickit = {
 			if (Item.autoEquipCheckMerc(unit)) {
 				return {
 					result: 1,
+					merctier: NTIP.GetMercTier(unit),
 					line: "Equip merc tier: " + NTIP.GetMercTier(unit)
 				};
 			}

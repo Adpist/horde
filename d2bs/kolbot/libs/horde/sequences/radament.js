@@ -33,7 +33,6 @@ function radament(mfRun) {
 		pathY = [5125, 5125, 5152, 5153, 5181];
 	
 	Town.goToTown(2);
-	Town.doChores();
 	Party.wholeTeamInGame();
 
 	clearPath = !Party.hasReachedLevel(18);

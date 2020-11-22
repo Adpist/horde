@@ -34,7 +34,7 @@ function anya_requirements(mfRun) {
 function anya(mfRun) { // Dark-f: Rewrite this.
 	var i, anya, malah, scroll, unit, waitAnya;
 
-	Town.doChores();
+	Town.goToTown(5);
 	Party.wholeTeamInGame();
 	
 	if (Role.teleportingChar) {

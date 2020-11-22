@@ -78,6 +78,22 @@ var MuleLogger = {
 
 		desc = desc.reverse().join("\\n");
 
+		var tier = NTIP.GetTier(unit);
+		var mercTier = NTIP.GetMercTier(unit);
+		
+		if(tier>0) {
+			desc += "\n\n";
+			desc += "\\xffc0Tier : " + tier;
+		}
+		
+		if(mercTier >0) {
+			if (tier <= 0) {
+				desc += "\n";
+			}
+			desc += "\n";
+			desc += "\\xffc0Merc Tier : " + mercTier;
+		}
+		
 		return desc;
 	},
 
@@ -388,7 +404,7 @@ var MuleLogger = {
 				parsedItem.title = parsedItem.title.substr(parsedItem.title.indexOf("_") + 1);
 
 				if (items[i].mode === 1) {
-					parsedItem.title += " (equipped)";
+					parsedItem.title += " (equipped - tier : " + NTIP.GetTier(items[i]) + ")";
 				}
 
 				string = JSON.stringify(parsedItem);
@@ -412,7 +428,7 @@ var MuleLogger = {
 
 				for (i = 0; i < items.length; i += 1) {
 					parsedItem = this.logItem(items[i]);
-					parsedItem.title += " (merc)";
+					parsedItem.title += " (merc - tier : " + NTIP.GetMercTier(items[i]) + ")";
 					string = JSON.stringify(parsedItem);
 					finalString += (string + "\n");
 

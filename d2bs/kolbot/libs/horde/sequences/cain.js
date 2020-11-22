@@ -23,7 +23,6 @@ function cain_requirements(mfRun) {
 function cain(mfRun) { // Dark-f: rewrite rescue cain
 	var i, j, akara, cain, slave, scroll1, scroll2, stoneA, stoneB, stoneC, stoneD, stoneE;
 	
-	Town.doChores();
 	Party.wholeTeamInGame();
 	if (!me.getQuest(4, 1) ) { // Cain isn't rescued yet
 		if (me.diff === 0) {

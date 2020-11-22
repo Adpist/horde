@@ -68,7 +68,6 @@ var Farm = {
 			Town.goToTown();
 		}
 		
-		Town.doChores();
 				
 		for (i = 0; i < areas.length; i += 1)
 		{
@@ -76,48 +75,34 @@ var Farm = {
 			{
 				return true;
 			}
+			HordeTown.doChores();
 			
-			if (areas[i] === -1)
+			//- 30 for almost completed run
+			if (getTickCount() - me.gamestarttime >= (Config.MinGameTime - 30)*1000)
 			{
-				Town.goToTown();
-				
-				delay(2000);
-				
-				Town.doChores();
+				print("quitting at duration" + (getTickCount() - me.gamestarttime));
+				quit();
+				return Party.hasReachedLevel(targetLevel);
 			}
-			else 
-			{
-				//- 30 for almost completed run
-				if (getTickCount() - me.gamestarttime >= (Config.MinGameTime - 30)*1000)
-				{
-					print("quitting at duration" + (getTickCount() - me.gamestarttime));
-					quit();
-					return Party.hasReachedLevel(targetLevel);
-				}
-				
-				while (me.area !== areas[i])
-				{
-					Pather.journeyTo(areas[i]);	
-					delay(500);
-				}
-				
-				Party.waitForMembers();
-				
-				Pather.teleport = false;
-				
-				Precast.doPrecast(true);
 			
-				delay(2000);
-				
-				Attack.clearLevel(0);
-				
-				Pather.teleport = true;
+			while (me.area !== areas[i])
+			{
+				Pather.journeyTo(areas[i]);	
+				delay(500);
 			}
+			
+			Party.waitForMembers();
+			
+			Pather.teleport = false;
+			
+			Precast.doPrecast(true);
+		
+			delay(2000);
+			
+			Attack.clearLevel(0);
+			
+			Pather.teleport = true;
 		}
-		
-		Town.goToTown();
-		
-		Town.doChores();
 		
 		return Party.hasReachedLevel(targetLevel);
 	}

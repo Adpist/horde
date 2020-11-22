@@ -29,12 +29,12 @@ function tombs_requirements(mfRun) {
 
 function tombs(mfRun) {
 	var i, j, chest;
+	var clearAreas = true;
 	
 	if (!mfRun && Role.teleportingChar) {
 		Travel.travel(4);
 	}
 	
-	Town.doChores();
 	Pather.teleport = false;
 
 	if (me.act !== 2) {
@@ -106,7 +106,9 @@ function tombs(mfRun) {
 
 			Party.waitForMembers();
 			Buff.Bo();
-			Attack.clearLevel(0);
+			if (clearAreas) {
+				Attack.clearLevel(0);
+			}
 
 			chest = getPresetUnit(me.area, 2, 397);
 
@@ -145,6 +147,8 @@ function tombs(mfRun) {
 			}
 
 			Role.backToTown();
+			
+			HordeTown.doChores();
 
 			delay(me.ping * 2 + 250);
 

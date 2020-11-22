@@ -310,6 +310,7 @@ var MercTools = {
 		
 		removeEventListener("gamepacket", mercPacket);
 
+		Item.autoEquip();
 		Item.autoEquipMerc();
 
 		let list = [];

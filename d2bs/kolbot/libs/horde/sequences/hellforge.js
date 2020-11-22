@@ -26,12 +26,15 @@ function hellforge_requirements(mfRun) {
 }
 
 function hellforge(mfRun) {
-	var leaveParty = false;
+	var leaveParty = true;
 	var cain;
 	
-	Town.repair();
-	Town.doChores(); // Need max amount of potions otherwise might prematurely TP in Plains Of Despair.
-
+	Town.goToTown(4);
+	
+	if (Role.teleportingChar) {
+		Travel.travel(8);
+	}
+	
 	Party.waitForMembers();
 
 	if (Role.teleportingChar) {
@@ -48,7 +51,6 @@ function hellforge(mfRun) {
 		Party.waitSynchro("hellforge_portal");
 		
 	} else {
-		Town.goToTown(4);
 
 		Town.move("portalspot");
 

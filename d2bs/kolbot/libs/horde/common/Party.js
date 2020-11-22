@@ -384,10 +384,10 @@ var Party = {
 		return success;
 	},
 	
-	initialSynchro: function() {
+	updateLowestAct: function() {
 		var timeout = HordeSettings.maxWaitTimeMinutes * 60 * 1000;
 		
-		if (!this.waitSynchro("init")) {
+		if (!this.waitSynchro("update_lowest_act")) {
 			HordeDebug.logCriticalError("prerun", "Initial synchro failed : Team wasn't ready within " + (timeout/1000) + " seconds");
 			quit();
 		}

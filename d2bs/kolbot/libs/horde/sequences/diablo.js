@@ -26,6 +26,7 @@ function diablo_requirements(mfRun) {
 }
 
 function diablo(mfRun) {
+	Town.goToTown(4);
 	
 	if (Role.teleportingChar) {
 		Travel.travel(8);
@@ -436,7 +437,6 @@ function diablo(mfRun) {
 	this.starToInfB = [7809, 5268, 7834, 5306, 7852, 5280, 7852, 5310, 7869, 5294, 7895, 5274, 7927, 5275, 7932, 5297, 7923, 5313];
 */
 	// start
-	Town.doChores();
 	Party.wholeTeamInGame();
 
 	//if ( Role.teleportingChar && me.classid === 1) {
@@ -563,9 +563,9 @@ function diablo(mfRun) {
 			print(e);
 		}
 
-		Role.backToTown();
+		Town.goToTown();
 
-		Town.doChores();
+		HordeTown.doChores();
 
 		Town.move("portalspot");
 
