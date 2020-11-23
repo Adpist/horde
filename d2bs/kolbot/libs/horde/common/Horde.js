@@ -345,17 +345,20 @@ var HordeSystem = {
 	},
 	
 	onToolThreadQuit: function() {
-		var baseDelay = 250, minDelay;
-		//no more leader
-		Role.isLeader = false;
-		
-		if (Role.backToTown(false)) {
-			//We're safe in town, just wait to not leave all together
-			baseDelay = 2000;
+		if (!this.team.instantQuitList) {
+			var baseDelay = 250, minDelay;
+			//no more leader
+			Role.isLeader = false;
+			
+			if (Role.backToTown(false)) {
+				//We're safe in town, just wait to not leave all together
+				baseDelay = 2000;
+			}
+			
+			minDelay = baseDelay+(baseDelay* (this.getTeamIndex(me.profile) + 1));
+			delay(minDelay, minDelay + baseDelay/4 );
 		}
 		
-		minDelay = baseDelay+(baseDelay* (this.getTeamIndex(me.profile) + 1));
-		delay(minDelay, minDelay + baseDelay/4 );
 		Communication.Synchro.cleanup();
 	}
 	

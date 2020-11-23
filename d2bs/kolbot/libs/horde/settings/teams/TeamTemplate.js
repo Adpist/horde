@@ -97,6 +97,7 @@ const HordeTeam = {
 	hardcore: false, //Is Hardcore team
 	expansion: true, //Is Xpac team
 	quitList: true, //quit when any team mate leave the game
+	instantQuitList: false,//Set this to true if you want all bots to leave instantly when a quit is triggered (ex : quitList on chicken in hardcore)
 	manualPlay: false, //Use manual teleporter / follower script on others
 	disableMercRebuy: false, //Never re-buy (ONLY Revive) merc except on Norm -> Nightmare
 	debug: false //debug mode

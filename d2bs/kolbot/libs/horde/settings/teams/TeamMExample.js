@@ -113,6 +113,7 @@ const HordeTeam = {
     minGameTime: 220, //min game time to use for the whole team
     maxGameTime: 0, //max game time to use for whole team,
     quitList: true, //quit when any team mate leave the game
+	instantQuitList: false,//Set this to true if you want all bots to leave instantly when a quit is triggered (ex : quitList on chicken in hardcore)
     manualPlay: false, //Use manual teleporter / follower script on others
 	disableMercRebuy: true, //Never re-buy (ONLY Revive) merc except on Norm -> Nightmare
     debug: false //debug mode
