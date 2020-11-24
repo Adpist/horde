@@ -105,41 +105,71 @@ var HordeSystem = {
 		return result;
 	},
 	
+	pushedRunewords: [],
 	setupRunewordLocation: function(locationName, runewordLocation, merc) {
 		var runewords = Object.keys(runewordLocation), runeword, pickitLine;
+		var bodyLocMap = {"shield": 5, "armor": 3, "helm": 1};
+		var defaultBodyLoc = 4;
 		
 		for(var i = 0 ; i < runewords.length ; i += 1) {
 			runeword = runewordLocation[runewords[i]];
-			if (runeword.skipIf === undefined || runeword.skipIf === "" || !eval(runeword.skipIf)) {				
-				Config.KeepRunewords.push("[type] == " + locationName + " # " + runeword.statCondition);
+			if (runeword.skipIf === undefined || runeword.skipIf === "" || !eval(runeword.skipIf)) {	
+				var runewordBodyLoc = defaultBodyLoc;
+				if (!!bodyLocMap[locationName]) {
+					runewordBodyLoc = bodyLocMap[locationName];
+				}
+
+				print("checking item in " + runewordBodyLoc + " isMerc : " + merc);
+				var currentItemTier = merc ? Item.getEquippedItemMerc(runewordBodyLoc).tier : Item.getEquippedItem(runewordBodyLoc).tier;
 				
-				for (var j = 0 ; j < runeword.bases.length ; j += 1) {
-					var lowerCaseName = this.trimBaseName(runeword.bases[j]);
-					Config.Runewords.push([runeword.runeword, lowerCaseName]);
-					if (runeword.cubeBase) {
-						if (runeword.recipeType !== undefined) {
-							Config.Recipes.push([runeword.recipeType, runeword.bases[j], runeword.roll]);
-						} else {
-							HordeDebug.logUserError("Runewords", "runeword entry " + runewords[i] + " have cube base but recipeType isn't defined");
+				if (!runeword.tier || !currentItemTier < runeword.tier)
+				{
+					if (HordeSettings.Debug.Verbose.crafting) {
+						print("push runeword " + runewords[i] + " - current item tier : " + currentItemTier + " - runeword tier : " + runeword.tier);
+					}
+					
+					if (this.pushedRunewords.indexOf(runeword.runeword) === -1) {
+						this.pushedRunewords.push(runeword.runeword);
+					}
+					
+					Config.KeepRunewords.push("[type] == " + locationName + " # " + runeword.statCondition);
+					
+					for (var j = 0 ; j < runeword.bases.length ; j += 1) {
+						var lowerCaseName = this.trimBaseName(runeword.bases[j]);
+						Config.Runewords.push([runeword.runeword, lowerCaseName]);
+						if (runeword.cubeBase) {
+							if (runeword.recipeType !== undefined) {
+								Config.Recipes.push([runeword.recipeType, runeword.bases[j], runeword.roll]);
+							} else {
+								HordeDebug.logUserError("Runewords", "runeword entry " + runewords[i] + " have cube base but recipeType isn't defined");
+							}
 						}
+						
+						pickitLine = "[name] == " + lowerCaseName;
+						
+						if (runeword.qualityCondition !== undefined) {
+							pickitLine += " && " + runeword.qualityCondition;
+						}
+						
+						if (runeword.roll === Roll.Eth) {
+							pickitLine += " && [flag] == ethereal ";
+						} else if (runeword.roll === Roll.NonEth) {
+							pickitLine += " && [flag] != ethereal ";
+						}
+						
+						pickitLine += " # [sockets] == " + runeword.sockets;
+						pickitLine += " # [maxquantity] == 1";
+						
+						NTIP.PushLine(0, pickitLine, "dynamic/runewords/"+ (merc ? "merc" : "character") +"/" + locationName + "/" + runewords[i]);
 					}
-					
-					pickitLine = "[name] == " + lowerCaseName;
-					
-					if (runeword.qualityCondition !== undefined) {
-						pickitLine += " && " + runeword.qualityCondition;
+				} else {
+					if (HordeSettings.Debug.Verbose.crafting) {
+						print("skip runeword " + runewords[i] + " (tier condition - runeword : " + runeword.tier + " ; equipped : " + currentItemTier);
 					}
-					
-					if (runeword.roll === Roll.Eth) {
-						pickitLine += " && [flag] == ethereal ";
-					} else if (runeword.roll === Roll.NonEth) {
-						pickitLine += " && [flag] != ethereal ";
-					}
-					
-					pickitLine += " # [sockets] == " + runeword.sockets;
-					pickitLine += " # [maxquantity] == 1";
-					
-					NTIP.PushLine(0, pickitLine, "dynamic/runewords/"+ (merc ? "merc" : "character") +"/" + locationName + "/" + runewords[i]);
+				}
+			} else {
+				if (HordeSettings.Debug.Verbose.crafting) {
+					print("skip runeword " + runewords[i] + " (skip condition)");
 				}
 			}
 		}
@@ -166,8 +196,33 @@ var HordeSystem = {
 		
 		Config.MakeRunewords = true;
 		
+		this.pushedRunewords = [];
 		this.setupRunewordCategory(RunewordProfile.character, false);
 		this.setupRunewordCategory(RunewordProfile.merc, true);
+		
+		if (RunewordProfile.runes.stock) {
+			var requirements = {};
+			for(var i = 0 ; i < this.pushedRunewords.length ; i += 1) {
+				var runeword = this.pushedRunewords[i];
+				for (var j = 0 ; j < runeword.length ; j += 1) {
+					if (!requirements[runeword[j]]) {
+						requirements[runeword[j]] = {rune: runeword[j], quantity: 1};
+					} else {
+						requirements[runeword[j]].quantity += 1;
+					}
+				}
+			}
+			
+			var runes = Object.keys(requirements);
+			for (var i = 0 ; i < runes.length ; i += 1) {
+				var rune = requirements[runes[i]];
+				var runeLine = "[name] == " + rune.rune + " # # [MaxQuantity] == " + (RunewordProfile.runes.stockAllRecipes ? rune.quantity : 1);
+				if (HordeSettings.Debug.Verbose.crafting) {
+					print("push rune " + runeLine);
+				}
+				NTIP.PushLine(0, runeLine, "dynamic/runewords/requirements/rune " + rune.rune);
+			}
+		}
 	},
 	
 	setupPickits: function() {
@@ -297,13 +352,17 @@ var HordeSystem = {
 		if (!oog) {
 			TeamData.setupProfilesGearPickits();
 			this.setupBuild(this.team.profiles[me.profile].build);
-			this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
 			this.setupPickits();
 		}
 		
 		Sequencer.setupSequences(this.team.sequencesProfile);
 		
 		return true;
+	},
+	
+	preRunSetup: function() {
+		Town.reviveMerc();
+		this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
 	},
 	
 	shouldKillBaal: function() {

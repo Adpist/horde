@@ -153,6 +153,7 @@
 [type] == sword && [flag] == runeword # [itemallskills] == 2 && [fcr] >= 25 && [fhr] >= 55 # [tier] == 100 //spirit
 
 // shield
+[type] == shield && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == 100 //ancients pledge
 [type] == auricshields  || [type] == shield && [flag] == runeword # [fcr] >= 25 && [fhr] >= 55 # [maxquantity] == 1 && [tier] == 102 //spirit
 
 

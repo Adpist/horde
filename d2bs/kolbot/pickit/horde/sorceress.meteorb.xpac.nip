@@ -79,7 +79,7 @@ me.charlvl <= 40 && [name] == manapotion
 
 [type] == shield && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == 100 //ancients pledge
 [name] == roundshield && [quality] == unique && [flag] != ethereal # [sockets] == 2 # [tier] == 101
-//[type] == shield && [flag] == runeword # [maxmana] >= 89 # [tier] == 102 //spirit shield
+[type] == shield && [flag] == runeword # [maxmana] >= 89 # [tier] == 102 //spirit shield
 
 
 //belts

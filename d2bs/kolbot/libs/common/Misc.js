@@ -2798,22 +2798,24 @@ Item.equipMerc = function (item, bodyLoc) {
 
 Item.getEquippedItemMerc = function (bodyLoc) {
     var merc = me.getMerc();
-    var item = merc.getItem();
+	if (merc) {
+		var item = merc.getItem();
 
-    if (item) {
-        do {
-            if (item.bodylocation === bodyLoc && item.location === 1) {
-                return {
-					bodylocation: item.bodylocation,
-					name: item.name,
-                    classid: item.classid,
-                    tier: NTIP.GetMercTier(item),
-                    str: item.getStatEx(0),
-                    dex: item.getStatEx(2)
-                };
-            }
-        } while (item.getNext());
-    }
+		if (item) {
+			do {
+				if (item.bodylocation === bodyLoc && item.location === 1) {
+					return {
+						bodylocation: item.bodylocation,
+						name: item.name,
+						classid: item.classid,
+						tier: NTIP.GetMercTier(item),
+						str: item.getStatEx(0),
+						dex: item.getStatEx(2)
+					};
+				}
+			} while (item.getNext());
+		}
+	}
 
     // Don't have anything equipped in there
     return {

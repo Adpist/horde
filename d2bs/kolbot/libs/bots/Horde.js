@@ -18,6 +18,8 @@ function Horde() {
 		Party.init();
 		Waypoint.init();
 		
+		HordeSystem.preRunSetup();
+		
 		TeamData.save();
 		
 		Party.waitWholeTeamJoined();

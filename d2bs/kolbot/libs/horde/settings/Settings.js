@@ -20,7 +20,8 @@ var HordeSettings = {
 			leaderElection: false,
 			synchro: false,
 			quests: false,
-			sharing: false
+			sharing: false,
+			crafting: false
 		}
 	}
 };

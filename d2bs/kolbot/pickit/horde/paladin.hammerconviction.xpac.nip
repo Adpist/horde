@@ -159,6 +159,7 @@
 [type] == shield && [flag] == runeword # [coldresist] >= 35 && [lightresist] >= 35 && [fcr] >= 25 # [tier] == 102 //spirit
 
 // shield0
+[type] == shield && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == 100 //ancients pledge
 [type] == auricshields || [type] == shield && [flag] == runeword # [fcr] >= 25 && [fhr] >= 55 # [maxquantity] == 1 && [tier] == 102 //spirit
 
 

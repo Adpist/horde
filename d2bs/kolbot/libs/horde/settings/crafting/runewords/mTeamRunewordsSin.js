@@ -6,6 +6,11 @@
 */
 
 var RunewordProfile = {
+	runes: {
+		stock: true, //pre stock runes before finding base
+		stockAllRecipes: true //pre stock runes for each runeword recipe
+	},
+	
 	character : { //Character Runewords
 
 		"armor" : {
@@ -105,7 +110,7 @@ var RunewordProfile = {
 				roll: Roll.All,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[Meditationaura] <= 17",
-				tier: 0,
+				tier: 50000000,
 				skipIf: ""
 			},
 
@@ -117,7 +122,7 @@ var RunewordProfile = {
 				roll: Roll.All,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[Meditationaura] <= 17",
-				tier: 0,
+				tier: 100000000,
 				skipIf: ""
 			},
 
@@ -129,7 +134,7 @@ var RunewordProfile = {
 				roll: Roll.All,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[Meditationaura] <= 17",
-				tier: 0,
+				tier: 150000000,
 				skipIf: ""
 			},
 
@@ -142,7 +147,7 @@ var RunewordProfile = {
 				roll: Roll.Eth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[Meditationaura] == 17",
-				tier: 0,
+				tier: 200000000,
 				skipIf: ""
 			}
 		}
