@@ -73,7 +73,7 @@ var Config = {
 			}
 
 			if (oog) {
-				D2Bot.printToConsole("Couldn't load config " + configFilename + " for profile " + me.profile);
+				D2Bot.printToConsole("Couldn't find config classname." + me.profile + ".js");
 				throw new Error("ÿc1Config not found.");
 			}
 			
