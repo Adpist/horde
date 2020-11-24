@@ -245,7 +245,7 @@ var Travel = {
 
 		Town.goToTown(startAct);
 
-		Town.move("waypoint");
+		HordeTown.goToTownWp();
 
 		//Pather.getWP(me.area); // SiC-666 Commented out because we shouldn't have to activate the waypoint in town before moving somewhere.
 

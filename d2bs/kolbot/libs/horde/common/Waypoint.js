@@ -201,7 +201,7 @@ var Waypoint = {
 	},
 	
 	buildWaypointsToShare: function(){
-		if (Party.hasReachedLevel(8))
+		if (Party.hasReachedLevel(6))
 		{
 			for (var i = 0 ; i < this.myWaypoints.length ; i += 1) { 		// Loop thru the Waypoint.myWaypoints list.
 				if (i < 8 || 										// Cold Plains thru Catacombs Level 2 have no additional requirements.
@@ -297,7 +297,7 @@ var Waypoint = {
 				delay(250);
 				if(Pather.usePortal(null, null)){
 					//wait safely intown
-					Town.move("waypoint");
+					HordeTown.goToTownWp();
 				}
 				
 				for (var j = 0 ; j <100 ; j += 1) { //Here is some wrong, it is too long time to wait. Dark-f < 720 ; j += 1) { // Wait up to 3 minutes Team Members to grab the Waypoint.
@@ -363,6 +363,4 @@ var Waypoint = {
 		this.giveWaypoints();
 		this.receiveWaypoints();
 	}
-	
-	
 };

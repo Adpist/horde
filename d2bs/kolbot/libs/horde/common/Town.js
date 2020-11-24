@@ -7,6 +7,16 @@
 
 var HordeTown = {
 
+	goToTownWp: function() {
+		if (!me.inTown) {
+			Role.backToTown();
+		}
+		
+		Town.move("waypoint");
+		
+		Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
+	},
+	
 	doChores: function (repair = false) {
 		if (!me.inTown) {
 			Role.backToTown();
@@ -89,7 +99,7 @@ var HordeTown = {
 			Town.move("stash");
 		}
 		
-		Town.move("waypoint");
+		this.goToTownWp();
 		
 		if (HordeSettings.logChar) {
 			MuleLogger.logChar();

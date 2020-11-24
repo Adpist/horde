@@ -26,7 +26,7 @@ function hellforge_requirements(mfRun) {
 }
 
 function hellforge(mfRun) {
-	var leaveParty = true;
+	var leaveParty = false;
 	var cain;
 	
 	Town.goToTown(4);

@@ -336,9 +336,10 @@ var MercTools = {
 					delay(me.ping * 2 + 500);
 
 					cursorItem = getUnit(100);
-					itemLoc = Item.getBodyLoc(cursorItem)[0];
 
 					if (cursorItem){
+						itemLoc = Item.getBodyLoc(cursorItem)[0];
+						
 						if (Item.canEquipMerc(cursorItem, itemLoc)) {
 							Item.equipMerc(cursorItem, itemLoc);
 						} else {

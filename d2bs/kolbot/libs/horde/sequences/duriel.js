@@ -263,6 +263,8 @@ function duriel(mfRun) {
 			Role.backToTown();
 
 			Town.move("waypoint");
+			
+			Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
 		}
 		else {
 			Pather.teleport = false;
