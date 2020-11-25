@@ -415,6 +415,8 @@ var Travel = {
 						Pather.useWaypoint(homeTown);
 
 						HordeTown.doChores();
+						
+						Pather.useWaypoint(areaIDs[nextAreaIndex]);
 					}
 				}
 			}
