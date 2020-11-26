@@ -108,7 +108,7 @@ var HordeSystem = {
 	pushedRunewords: [],
 	setupRunewordLocation: function(locationName, runewordLocation, merc) {
 		var runewords = Object.keys(runewordLocation), runeword, pickitLine;
-		var bodyLocMap = {"shield": 5, "armor": 3, "helm": 1};
+		var bodyLocMap = {"auricshield": 5, "shield": 5, "armor": 3, "helm": 1};
 		var defaultBodyLoc = 4;
 		
 		for(var i = 0 ; i < runewords.length ; i += 1) {
