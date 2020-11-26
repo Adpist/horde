@@ -861,6 +861,15 @@ MainSwitch:
 						break;
 					}
 				}
+			} else if (getLocation() == 42) {
+				var info = {"charName" : Profile(me.profile).character};
+				if (!ControlAction.findCharacter(info)) {
+					if (!HordeOOG.tryCreateCharacter(me.profile))
+					{
+						D2Bot.restart();
+					}
+					break;
+				}
 			} else {
 				me.blockKeys = false;
 				print(e + " " + getLocation());
