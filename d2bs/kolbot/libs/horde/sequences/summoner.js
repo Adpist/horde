@@ -18,7 +18,7 @@ function summoner_requirements(mfRun) {
 		return Sequencer.skip;//Skip: mf run and summoner is not done
 	}
 	
-	if (!mfRun && me.getQuest(13,0)) {
+	if (!mfRun && me.getQuest(13,0) && getWaypoint(Pather.wpAreas.indexOf(46))) {
 		return Sequencer.skip;//Skip: questing run and summoner is done
 	}
 	/***** END OF REQUIREMENTS ******/

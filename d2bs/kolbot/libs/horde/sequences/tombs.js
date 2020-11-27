@@ -22,6 +22,10 @@ function tombs_requirements(mfRun) {
 		HordeDebug.logUserError("tombs", "skipped in nightmare and hell");
 		return Sequencer.skip;//Skip: Normal only
 	}
+	
+	if (!getWaypoint(Pather.wpAreas.indexOf(46))){
+		return Sequencer.skip;//Skip: No wp
+	}
 	/***** END OF REQUIREMENTS ******/
 	
 	return Sequencer.ok;//We can process sequence
