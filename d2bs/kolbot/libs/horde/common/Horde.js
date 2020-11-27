@@ -136,7 +136,7 @@ var HordeSystem = {
 					
 					for (var j = 0 ; j < runeword.bases.length ; j += 1) {
 						var lowerCaseName = this.trimBaseName(runeword.bases[j]);
-						Config.Runewords.push([runeword.runeword, lowerCaseName]);
+						Config.Runewords.push([runeword.runeword, runeword.bases[j], runeword.roll]);
 						if (runeword.cubeBase) {
 							if (runeword.recipeType !== undefined) {
 								Config.Recipes.push([runeword.recipeType, runeword.bases[j], runeword.roll]);
@@ -363,6 +363,7 @@ var HordeSystem = {
 	preRunSetup: function() {
 		Town.reviveMerc();
 		this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
+		Runewords.init();
 	},
 	
 	shouldKillBaal: function() {
