@@ -183,6 +183,7 @@ var Sharing = {
 		
 		while(this.goldAnswers.length < HordeSystem.teamSize) {
 			delay(me.ping+50);
+			Party.wholeTeamInGame();
 		}
 		
 		if (HordeSettings.Debug.Verbose.sharing) {
@@ -205,6 +206,7 @@ var Sharing = {
 					this.giveGold();
 				} else {
 					delay(me.ping+50);
+					Party.wholeTeamInGame();
 				}
 			}
 		}
@@ -428,6 +430,7 @@ var Sharing = {
 		
 		while(!this.hasReceivedAllGearAnswers(targetProfiles)) {
 			delay(me.ping+50);
+			Party.wholeTeamInGame();
 		}
 		
 		if (HordeSettings.Debug.Verbose.sharing) {
@@ -454,6 +457,7 @@ var Sharing = {
 		
 		while(!this.receivedPickDone){
 			delay(me.ping*2+250);
+			Party.wholeTeamInGame();
 		}
 		
 		this.receivedPickDone = false;
@@ -521,6 +525,7 @@ var Sharing = {
 		//wait all aswers
 		while(!this.hasReceivedAllProfilesGear()) {
 			delay(me.ping+50);
+			Party.wholeTeamInGame();
 		}
 		
 		if (HordeSettings.Debug.Verbose.sharing) {
@@ -587,6 +592,7 @@ var Sharing = {
 					
 					while(this.gearAnswers[sharingProfile].status !== "done") {
 						delay(me.ping + 50);
+						Party.wholeTeamInGame();
 					}
 					
 					sharingProfile = this.getSharingProfile();

@@ -109,6 +109,9 @@ var Party = {
 		}
 
 		if (count < HordeSystem.teamSize) {
+			if (!stayInGame) {
+				HordeDebug.logScriptError("Party", "Teammates are missing from game (" + count + "/" + HordeSystem.teamSize + ") - leaving game");
+			}
 			return stayInGame ? false : quit(); // Return false if stayInGame is true, otherwise leave game.
 		}
 
@@ -283,6 +286,8 @@ var Party = {
 			return true;
 		}
 		
+		Party.wholeTeamInGame();
+		
 		if(me.area != area){
 			Pather.journeyTo(area);
 		}
@@ -322,6 +327,7 @@ var Party = {
 			
 			Communication.Synchro.askMissingReady(synchroType);
 			delay(me.ping*2 + 250);
+			Party.wholeTeamInGame();
 		}
 		
 		success = getTickCount() - tick <= timeout;
@@ -354,6 +360,10 @@ var Party = {
 			return true;
 		}
 		
+		if (me.ingame) {
+			Party.wholeTeamInGame();
+		}
+		
 		if (HordeSettings.Debug.Verbose.synchro) {
 			print("wait team ready " + synchroType + " timeout : " + (timeout / 1000) + "s");
 		}
@@ -363,6 +373,9 @@ var Party = {
 		while(!Communication.Synchro.isTeamReady(synchroType) && getTickCount() - tick <= timeout) {
 			Communication.Synchro.askMissingReady(synchroType);
 			delay(me.ping*2 + 250);
+			if (me.ingame) {
+				Party.wholeTeamInGame();
+			}
 		}
 		
 		success = getTickCount() - tick <= timeout;
@@ -398,6 +411,7 @@ var Party = {
 			this.lowestAct = Party.getLowestAct();
 
 			delay(250);
+			Party.wholeTeamInGame();
 		}
 
 		print("lowestAct: " + this.lowestAct);

@@ -57,11 +57,7 @@ var Sequencer = {
 	preSequence: function(sequence, timeline) {
 		scriptBroadcast("run pre-" + sequence + " " + timeline);
 		if (!this.firstSequence){
-			if (timeline != this.quest) {
-				Farm.mfSync();
-			}
-			
-			Role.mercCheck();
+			Farm.mfSync();
 		}
 	},
 	
