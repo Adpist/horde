@@ -422,6 +422,10 @@ var Sharing = {
 			}
 		}
 		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("waiting all gear answers " + item.name + " gid : " + item.gid);
+		}
+		
 		while(!this.hasReceivedAllGearAnswers(targetProfiles)) {
 			delay(me.ping+50);
 		}
@@ -519,6 +523,10 @@ var Sharing = {
 			delay(me.ping+50);
 		}
 		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("Received all profiles gear offers");
+		}
+		
 		var sharingProfile = this.getSharingProfile();
 		if (sharingProfile) {
 			do {
@@ -563,14 +571,27 @@ var Sharing = {
 					
 					this.sharableGear = this.getGearToShare(fieldSharing);
 					this.onReceiveProfileGearCount(me.profile, this.sharableGear.length);
-				} else {
-					while(this.gearAnswers[sharingProfile].status !== "done") {
 					
+					if (this.sharableGear.length == 0) {
+						if (HordeSettings.Debug.Verbose.sharing) {
+							print("Finished offering gear");
+						}
+						sharingProfile = this.getSharingProfile();
+					} else if (HordeSettings.Debug.Verbose.sharing) {
+						print("Still have " + this.sharableGear.length + " items to offer");
+					}
+				} else {
+					if (HordeSettings.Debug.Verbose.sharing) {
+						print("Waiting for " + sharingProfile + " to offer items");
+					}
+					
+					while(this.gearAnswers[sharingProfile].status !== "done") {
 						delay(me.ping + 50);
 					}
+					
+					sharingProfile = this.getSharingProfile();
 				}
 				
-				sharingProfile = this.getSharingProfile();
 			} while(sharingProfile)
 			
 			if (HordeSettings.Debug.Verbose.sharing) {
@@ -580,6 +601,10 @@ var Sharing = {
 			if (HordeSettings.Debug.Verbose.sharing) {
 				print("No gear to share");
 			}
+		}
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("Waiting all profiles to finish gear sharing");
 		}
 		
 		Party.waitSynchro("end_gear");
