@@ -88,14 +88,17 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 				delay(1000);
 			}
 		}
-		//Buff.Bo();
-		//Party.wholeTeamInGame();
-		//unit = getPresetUnit(me.area, 2, 460);
-		//Pather.moveToUnit(unit, true);
-		Attack.clear(50);
-		delay(me.ping+850);
-
-		anya = getUnit(2, 558);
+		
+		Attack.clear(40);
+		
+		unit = getPresetUnit(me.area, 2, 460);
+		while(true) {
+			Pather.moveToUnit(unit, 5, 5, true);
+			anya = getUnit(2, 558);
+			if ( anya && getDistance(me, anya) < 10)
+				break;
+		}
+		
 		if (anya) {
 			if (Role.teleportingChar) {
 				Pather.moveToUnit(anya);
@@ -124,6 +127,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 			} else {
 				Party.secureWaitSynchro("free_anya", 30000);
 			}
+			
 			if ( me.getItem(644)) {
 				Town.move("portalspot");
 				while(!Pather.usePortal(114, null)) {
@@ -139,7 +143,11 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 					me.cancel();
 				}
 			}
+		} else {
+			HordeDebug.LogScriptError("Anya", "failed to find anya");
+			return Sequencer.fail;
 		}
+		
 		Role.backToTown();
 		Town.move("malah");
 		malah = getUnit(1, "malah");
