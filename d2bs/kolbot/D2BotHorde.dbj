@@ -387,6 +387,7 @@ function joinCheck (leader) {
 	//print(leader + " " + joinInfo.inGame + " " + lastGame.toSource() + " " + joinInfo.gameName);
 
 	if (!joinInfo.inGame || (lastGame.length && lastGame.indexOf(joinInfo.gameName) === -1)) {
+		DataFile.updateStats("gameName", "");
 		D2Bot.printToConsole("Game is finished. Stopping join delay.");
 
 		return true;
