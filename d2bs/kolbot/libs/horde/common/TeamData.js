@@ -209,20 +209,16 @@ var TeamData = {
 	profilesGearPickits: {},
 	
 	setupProfilesGearPickits: function() {
-		print("setup profiles gear pickits");
 		for (var i = 0 ; i < HordeSystem.allTeamProfiles.length ; i += 1) {
 			var profile = HordeSystem.allTeamProfiles[i];
 			if (profile !== me.profile) {
 				if (!!HordeSystem.team.profiles[profile]) {
 					print("setup " + profile + " gear pickits");
-					var build = HordeSystem.team.profiles[profile].build;
-					if (!include ("horde/builds/"+HordeSystem.team.profiles[profile].className+"/"+build+".js")){
-						throw new Error("Failed to find build: "+ build + " for class " + HordeSystem.team.profiles[profile].className);
-					}
+					var build = HordeSystem.getBuild(HordeSystem.team.profiles[profile].build, HordeSystem.team.profiles[profile].className);
 					
 					this.profilesGearPickits[profile] = {checkList: [], checkListNoTier: [], stringArray: []};
-					for (var j = 0 ; j < HordeBuild.pickits.length ; j += 1) {
-						this.parseProfilePickit(profile, "pickit/" + HordeBuild.pickits[j], false);
+					for (var j = 0 ; j < build.pickits.length ; j += 1) {
+						this.parseProfilePickit(profile, "pickit/" + build.pickits[j], false);
 					}
 				}
 			}

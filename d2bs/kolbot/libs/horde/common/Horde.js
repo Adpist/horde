@@ -15,6 +15,7 @@ var HordeSystem = {
 	followerProfiles: [],
 	allTeamProfiles: [],
 	allTeamCharacters: [],
+	loadedBuilds: {},
 	
 	init: function() {
 		print("Init horde");
@@ -42,12 +43,22 @@ var HordeSystem = {
 		return this.allTeamCharacters.indexOf(charName) !== -1;
 	},
 	
-	setupBuild: function(buildName) {
-		var className = ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin"][me.classid];
+	getBuild: function(buildName, className) {
+		if (!!this.loadedBuilds[buildName]) {
+			return this.loadedBuilds[buildName];
+		}
 		
 		if (!include("horde/builds/"+className+"/"+buildName+".js")) {
 			throw new Error("Failed to find build: "+ buildName + " for class " + className);
 		}
+		
+		this.loadedBuilds[buildName] = HordeBuild;
+		
+		return this.loadedBuilds[buildName];
+	},
+	
+	setupBuild: function(buildName) {
+		var className = ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin"][me.classid];
 		
 		if (!include("horde/builds/templates/stats/"+className+".js")){
 			throw new Error("Failed to find stats build templates for class " + className);
@@ -57,7 +68,7 @@ var HordeSystem = {
 			throw new Error("Failed to find skills build templates for class " + className);
 		}
 		
-		this.build = HordeBuild;
+		this.build = this.getBuild(buildName, className);
 		
 		var statBuild = StatsBuilds[this.build.statsBuild],
 			skillsBuild = SkillsBuilds[this.build.skillsBuild];
@@ -108,7 +119,7 @@ var HordeSystem = {
 	pushedRunewords: [],
 	setupRunewordLocation: function(locationName, runewordLocation, merc) {
 		var runewords = Object.keys(runewordLocation), runeword, pickitLine;
-		var bodyLocMap = {"auricshield": 5, "shield": 5, "armor": 3, "helm": 1};
+		var bodyLocMap = {"auricshields": 5, "shield": 5, "armor": 3, "helm": 1};
 		var defaultBodyLoc = 4;
 		
 		for(var i = 0 ; i < runewords.length ; i += 1) {
@@ -122,7 +133,7 @@ var HordeSystem = {
 				print("checking item in " + runewordBodyLoc + " isMerc : " + merc);
 				var currentItemTier = merc ? Item.getEquippedItemMerc(runewordBodyLoc).tier : Item.getEquippedItem(runewordBodyLoc).tier;
 				
-				if (!runeword.tier || !currentItemTier < runeword.tier)
+				if (!runeword.tier || currentItemTier < runeword.tier)
 				{
 					if (HordeSettings.Debug.Verbose.crafting) {
 						print("push runeword " + runewords[i] + " - current item tier : " + currentItemTier + " - runeword tier : " + runeword.tier);
@@ -132,7 +143,12 @@ var HordeSystem = {
 						this.pushedRunewords.push(runeword.runeword);
 					}
 					
-					Config.KeepRunewords.push("[type] == " + locationName + " # " + runeword.statCondition);
+					var itemTypeCondition = runeword.typeCondition;
+					if (!itemTypeCondition) {
+						itemTypeCondition = "[type] == " + locationName;
+					}
+					
+					Config.KeepRunewords.push(itemTypeCondition + " # " + runeword.statCondition);
 					
 					for (var j = 0 ; j < runeword.bases.length ; j += 1) {
 						var lowerCaseName = this.trimBaseName(runeword.bases[j]);
@@ -158,6 +174,9 @@ var HordeSystem = {
 						}
 						
 						pickitLine += " # [sockets] == " + runeword.sockets;
+						if (!!runeword.baseCondition) {
+							pickitLine += " && " + runeword.baseCondition;
+						}
 						pickitLine += " # [maxquantity] == 1";
 						
 						NTIP.PushLine(0, pickitLine, "dynamic/runewords/"+ (merc ? "merc" : "character") +"/" + locationName + "/" + runewords[i]);
