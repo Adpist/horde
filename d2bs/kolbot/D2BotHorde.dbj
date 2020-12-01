@@ -363,7 +363,7 @@ function main () {
 				} else {
 					sequenceStr = Sequencer.getTimelineName(timeline) + " " + sequence;
 				}
-				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]+ " | " + sequenceStr + " | Playtime : " + Playtime.getInGameTime());
+				D2Bot.updateStatus((Role.isLeader? "Leader: " : "Follower: ") + me.gamename + timer(gameStart) + " | lvl: " + me.charlvl + " (" + Experience.progress() + "%) | gold: " + gold + " | " + Pather.getAreaName(me.area) + " | " + Misc.difficultyString[me.diff]+ " | " + sequenceStr + " | Playtime : " + Playtime.getInGameTime());
 			}
 			delay(1000);
 		}
