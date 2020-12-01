@@ -2,6 +2,7 @@
 // 
 //-----------------------------------------------------------------------------------------------------
 
+
 //helms
 //barb
 ([type] == helm || [type] == barbarianitem || [type] == PrimalHelm || [type] == circlet) && (([quality] >= magic) || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,149)*25 + item.getStatEx(107,138)*20 + item.getStatEx(107,145)*20 + item.getStatEx(107,153)*15 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.2)

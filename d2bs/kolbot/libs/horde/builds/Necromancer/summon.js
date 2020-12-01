@@ -1,7 +1,7 @@
 /**
 *	@filename	summon.js
 *	@author		Adpist
-*	@desc		Pure summoner necromancer build
+*	@desc		Fishymancer build (summons + corpse explo)
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 *	
 */
@@ -12,5 +12,5 @@ var HordeBuild = {
 	autoBuildTemplate: "Summon",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Might",
-	pickits: ["horde/necromancer.summon.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/necromancer.summon.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

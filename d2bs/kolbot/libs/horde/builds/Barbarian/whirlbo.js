@@ -10,7 +10,6 @@ var HordeBuild = {
 	statsBuild: "LevellingIK",
 	skillsBuild: "WhirlBOIK",
 	autoBuildTemplate: "WhirlBO",
-	mercAct2Normal: "Prayer",
-	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/barbarian.whirlbo.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	mercAct2Normal: "Defiance",
+	pickits: ["horde/common.physical.xpac.nip","horde/barbarian.whirlbo.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

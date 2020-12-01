@@ -100,6 +100,22 @@ var SkillsBuilds = {
 		[117, 20, false] //Max Holy shield
 	],
 	
+	"Smiter": [
+		[97, 1, false], //Smite
+		[104, 1, false], //Defiance
+		[122, 1, false], //fanatism
+		[117, 1, false], //Holy shield
+		[125, 1, false], //Salvation
+		[124, 1, false], //Redemption
+		[97, 20, true], //max smite
+		[122, 20, true], //max fanatism
+		[117, 20, true], //max Holy shield
+		[125, 20, true], //max Salvation
+		[110, 10, true], //Resist Lightning
+		[100, 10, true], //Resist fire
+		[104, 20, true] //rest Defiance
+	],
+	
 	"UberSmiter": [
 		[97, 1, false], //Smite
 		[104, 1, false], //Defiance

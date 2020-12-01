@@ -11,6 +11,7 @@ var SkillsBuilds = {
 	"Java": [
 		[9, 1, false], //Critical strike
 		[10, 1, false], //jab
+		[14, 1, false], //power strike
 		[15, 1, false], //poison javelin
 		[14, 6, false], //power strike +6
 		[20, 1, false], //lightning bolt

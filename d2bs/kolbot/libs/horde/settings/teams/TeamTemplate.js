@@ -21,7 +21,7 @@ const HordeTeam = {
 			className: "sorceress",
 			role: "teleport",
 			build: "cold",
-			runewordsProfile: "RunewordsTemplate",
+			runewordsProfile: "CasterRunewords",
 			gearPriority: 1
 		},
 		"BarbProfile": {
@@ -29,8 +29,8 @@ const HordeTeam = {
 			character: "myBarb",
 			className: "barbarian",
 			role: "bo",
-			build: "bo",
-			runewordsProfile: "RunewordsTemplate",
+			build: "battleorders",
+			runewordsProfile: "CasterRunewords",
 			gearPriority: 5
 		},
 		"PalaProfile": {
@@ -38,8 +38,8 @@ const HordeTeam = {
 			character: "myPala",
 			className: "paladin",
 			role: "follower",
-			build: "hammer",
-			runewordsProfile: "RunewordsTemplate",
+			build: "hammerconcentration",
+			runewordsProfile: "HammerRunewords",
 			gearPriority: 2
 		},
 		"NecroProfile": {
@@ -48,7 +48,7 @@ const HordeTeam = {
 			className: "necromancer",
 			role: "follower",
 			build: "summoner",
-			runewordsProfile: "RunewordsTemplate",
+			runewordsProfile: "CasterRunewords",
 			gearPriority: 3
 		},
 		"DruidProfile": {
@@ -57,9 +57,27 @@ const HordeTeam = {
 			className: "druid",
 			role: "follower",
 			build: "wind",
-			runewordsProfile: "RunewordsTemplate",
+			runewordsProfile: "CasterRunewords",
 			gearPriority: 4
-		}
+		},
+        "AssassinProfile": {
+            account: "account6",
+            role: "follower",
+            className: "assassin",
+            character: "mySin",
+            build: "leaftrapsin",
+            runewordsProfile: "LeafCasterRunewords",
+			gearPriority: 4
+        },
+        "AmazonProfile": {
+            account: "account7",
+            role: "follower",
+            className: "amazon",
+            character: "myZon",
+            build: "javazon",
+            runewordsProfile: "PhysicalShieldedRunewords",
+			gearPriority: 4
+        },
 	},
 	
 	/* This is where you setup when the team should go to next difficulty and when the team should kill baal
@@ -82,6 +100,8 @@ const HordeTeam = {
 	
 	commonPickits: 	[
 						{pickit: "kolton.nip"},
+						{pickit: "horde/pots.scrolls.nip"},
+						{pickit: "horde/common.earlygame.weapon.nip", condition:"me.charlvl <= 18"},
 						{pickit: "horde/merc.act1.normal.xpac.nip", condition:"me.diff == 0 && !me.getQuest(7,0)"}
 					],
 

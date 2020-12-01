@@ -1,0 +1,20 @@
+//-----------------------------------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------------------------------
+
+//helms
+//necro
+([type] == helm || [type] == circlet) && ([quality] >= magic || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(188,18)*30 + item.getStatEx(83,2)*35 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+
+//weapons
+//necro
+([type] == wand) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(107,91)*25 + item.getStatEx(107,70)*20 + item.getStatEx(107,69)*20 + item.getStatEx(107,74)*15 + item.getStatEx(188,18)*30 + item.getStatEx(83,2)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01) 
+
+//shields
+//necro
+([type] == necromanceritem || [type] == voodooheads || [type] == shield) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(107,91)*25 + item.getStatEx(107,70)*20 + item.getStatEx(107,69)*20 + item.getStatEx(107,74)*15 + item.getStatEx(188,18)*30 + item.getStatEx(83,2)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+
+// amulets
+//necro
+[type] == amulet && [quality] >= magic # # [tier] == (1 + item.getStatEx(188,18)*30 + item.getStatEx(83,2)*55 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+

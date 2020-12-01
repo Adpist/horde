@@ -1,0 +1,56 @@
+//-----------------------------------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------------------------------
+
+//belts 
+[type] == belt && [quality] < magic # # [tier] == 1
+[type] == belt && [class] == exceptional && [quality] < magic # # [tier] == 2
+[type] == belt && [class] == elite && [quality] < magic # # [tier] == 3
+[type] == belt && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  /*maxmana*/item.getStatEx(9)*0.1 + /*hpregen*/item.getStatEx(74) * 7 + /*maxhp*/item.getStatEx(7)*1 + /*fireresist*/item.getStatEx(39) * 2.4 + /*lightresist*/item.getStatEx(41) * 2.4 + /*coldresist*/item.getStatEx(43) * 2.4 + /*poisonresist*/item.getStatEx(45) * 0.8 + /*armorclass*/item.getStatEx(31) * 0.1)
+[type] == belt && [quality] >= magic && [name] != sash && [name] != lightbelt # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (100 +  /*maxmana*/item.getStatEx(9)*0.1 + /*hpregen*/item.getStatEx(74) * 7 + /*maxhp*/item.getStatEx(7)*1 + /*fireresist*/item.getStatEx(39) * 2.4 + /*lightresist*/item.getStatEx(41) * 2.4 + /*coldresist*/item.getStatEx(43) * 2.4 + /*poisonresist*/item.getStatEx(45) * 0.8 + /*armorclass*/item.getStatEx(31) * 0.1)
+[type] == belt && [quality] >= magic && ([class] == exceptional || [class] == elite) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (200 +  /*maxmana*/item.getStatEx(9)*0.1 + /*hpregen*/item.getStatEx(74) * 7 + /*maxhp*/item.getStatEx(7)*1 + /*fireresist*/item.getStatEx(39) * 2.4 + /*lightresist*/item.getStatEx(41) * 2.4 + /*coldresist*/item.getStatEx(43) * 2.4 + /*poisonresist*/item.getStatEx(45) * 0.8 + /*armorclass*/item.getStatEx(31) * 0.1)
+
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 10 # [tier] == 1001 //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 11 # [tier] == 1002 //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 12 # [tier] == 1003 //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 13 # [tier] == 1004 //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 14 # [tier] == 1005 //string of ears
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] == 15 # [tier] == 1006 //string of ears
+
+//boots
+[type] == boots && [quality] < magic # # [tier] == 1
+[type] == boots && [class] == exceptional && [quality] < magic # # [tier] == 2
+[type] == boots && [class] == elite && [quality] < magic # # [tier] == 3
+[type] == boots && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + /*maxmana*/item.getStatEx(9)*0.1 + /*hpregen*/item.getStatEx(74)*7 + /*maxhp*/item.getStatEx(7)*1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.1)
+
+//gloves
+[type] == gloves && [quality] < magic # # [tier] == 1
+[type] == gloves && [class] == exceptional && [quality] < magic # # [tier] == 2
+[type] == gloves && [class] == elite && [quality] < magic # # [tier] == 3
+[type] == gloves && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] ==   (1 + /*maxmana*/item.getStatEx(9)*0.1 + /*hpregen*/item.getStatEx(74)*7 + /*maxhp*/item.getStatEx(7)*1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.1)
+
+//helms
+[type] == helm && [quality] < magic # # [tier] == 1
+[type] == helm && [class] == exceptional && [quality] < magic # # [tier] == 2
+[type] == helm && [class] == elite && [quality] < magic # # [tier] == 3
+
+//armors
+[type] == armor && [quality] < magic # # [tier] == 1
+[type] == armor && [class] == exceptional && [quality] < magic # # [tier] == 2
+[type] == armor && [class] == elite && [quality] < magic # # [tier] == 3
+[type] == armor && ([quality] >= magic || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + /*maxhp*/item.getStatEx(7)*0.5 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.1)
+
+[type] == armor && [flag] == runeword # [fireresist] == 50 && [lightresist] == 50 # [tier] == 1000 //smoke
+[type] == armor && [flag] == runeword && [class] == elite # [fireresist] == 50 && [lightresist] == 50 # [tier] == 2000 //smoke
+
+[name] == cuirass && [quality] == unique && [flag] != ethereal # # [tier] == 3000
+[name] == mageplate && [quality] == unique && [flag] != ethereal # # [tier] == 4000
+[name] == russetarmor && [quality] == unique && [flag] != ethereal # # [tier] == 5000
+[name] == mesharmor && [quality] == unique && [flag] != ethereal # # [tier] == 6000
+[name] == russetarmor && [quality] == unique && [flag] == ethereal # # [tier] == 7000
+
+//rings
+[type] == ring && [quality] >= magic # [itemchargedskill] >= 0 # [tier] == (1 + /*lifeleech*/item.getStatEx(60)*10 + /*manaleech*/item.getStatEx(62)*10 + /*hpregen*/item.getStatEx(74)*7 + /*maxhp*/item.getStatEx(7)*1 + /*maxmana*/item.getStatEx(9)*0.1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8)
+
+[type] == ring && [quality] == unique # [magicdamagereduction] >= 12 # [tier] == (2000) //dwarf
+[Type] == ring && [Quality] == Unique # [Dexterity] >= 10 && [ToHit] >= 100 # [tier] == (5000) //raven

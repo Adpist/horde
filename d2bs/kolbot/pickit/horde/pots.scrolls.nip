@@ -1,0 +1,28 @@
+//-----------------------------------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------------------------------
+
+me.charlvl <= 15 && [name] == gold # [gold] >= 1
+me.charlvl <= 25 && [name] == gold # [gold] >= 100
+[name] == gold # [gold] >= 1000
+
+me.charlvl <= 15 && [name] == minorhealingpotion
+me.charlvl <= 25 && [name] == lighthealingpotion
+me.charlvl <= 40 && [name] == healingpotion
+[name] == greaterhealingpotion
+[name] == superhealingpotion
+ 
+me.charlvl <= 15 &&[name] == minormanapotion
+me.charlvl <= 25 && [name] == lightmanapotion
+me.charlvl <= 40 && [name] == manapotion
+[name] == greatermanapotion
+[name] == supermanapotion
+ 
+[name] == rejuvenationpotion
+[name] == fullrejuvenationpotion
+(me.charlvl <= 25 || me.gold <= 5000) && [name] == scrolloftownportal
+(me.charlvl <= 25 || me.gold <= 5000) && [name] == scrollofidentify
+
+
+
+

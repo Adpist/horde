@@ -1,0 +1,13 @@
+//weapons
+([name] == broadsword ||[name] == crystalsword) && [flag] == runeword # [maxmana] >= 89 # [tier] == 10000 //spirit weapon
+
+//shields
+[type] == shield # # [tier] == 1
+[type] == shield && [class] == exceptional # # [tier] == 2
+[type] == shield && [class] == elite # # [tier] == 3
+
+[name] == grimshield && [quality] == unique # # [tier] == 200 //lidless
+[type] == shield && [flag] == runeword # [fireresist] >= 25 && [lightresist] >= 25 # [maxquantity] == 1 && [tier] == 250 //rhyme
+[type] == shield && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == 5000 //ancients pledge
+[name] == roundshield && [quality] == unique && [flag] != ethereal # [sockets] == 2 # [tier] == 6000 //moser
+[type] == shield && [flag] == runeword # [maxmana] >= 89 # [tier] == 10000 //spirit shield

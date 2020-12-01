@@ -12,5 +12,5 @@ var HordeBuild = {
 	autoBuildTemplate: "ShoutingTank",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/tier/common.tiered.xpac.nip", "horde/tier/barbarian.tiered.shouting.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/barbarian.shouting.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

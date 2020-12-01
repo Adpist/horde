@@ -12,5 +12,5 @@ var HordeBuild = {
 	autoBuildTemplate: "Meteorb",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/sorceress.meteorb.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/sorceress.meteorb.xpac.nip", "horde/sorceress.talset.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

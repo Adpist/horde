@@ -1,0 +1,25 @@
+//-----------------------------------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------------------------------
+
+//helms
+([type] == helm || [type] == circlet) && ([quality] >= magic || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,24)*25 + item.getStatEx(107,35)*20 + item.getStatEx(188,2)*30 + item.getStatEx(83,0)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.2)
+
+//weapons
+([type] == 44 || [type] == 87) && [quality] >= magic # [quantity] >=1 # [tier] == (1 +  item.getStatEx(107,24)*25 + item.getStatEx(107,35)*20 + item.getStatEx(188,2)*30 + item.getStatEx(83,0)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.2 + item.getStatEx(22)* 0.01) 
+([type] == 44 || [type] == 87) && [quality] >= magic # [itemreplenishquantity] > 0 # [tier] == (1000 + item.getStatEx(107,24)*25 + item.getStatEx(107,35)*20 + item.getStatEx(188,2)*30 + item.getStatEx(83,0)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.2 + item.getStatEx(22)* 0.01) 
+																			
+[type] == 44 && [Quality] == Unique  # [EnhancedDamage] >= 10 # [tier] == 2000	//elite uniq javas			
+[Name] == CeremonialJavelin && [Quality] == Unique && [Flag] == Ethereal # [EnhancedDamage] >= 150 # [tier] == 10000 //titans
+
+//shields
+//non pala/necro
+([type] == shield) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
+[name] == roundshield && [quality] == unique # # [tier] == 9000 //moser
+[name] == monarch && [quality] == unique # # [tier] == 10000 //stormshield
+
+// amulets
+[type] == amulet && [quality] >= magic # # [tier] == (1 + item.getStatEx(188,2)*30 + item.getStatEx(83,0)*55 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+
+// gloves
+[type] == gloves && [quality] >= magic  # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] ==   (1 + /*ias*/item.getStatEx(8)*5000 + /*javaskills*/item.getStatEx(188,2)*100 + /*passiveskills*/item.getStatEx(188,1)*30 +/*hpregen*/item.getStatEx(74)*7 + /*hp*/item.getStatEx(7)*0.5 + /*mf*/item.getStatEx(80)*1 + /*fireres*/item.getStatEx(39)*2.4 + /*lightres*/item.getStatEx(41)*2.4 + /*coldres*/item.getStatEx(43)*2.4 + /*psnres*/item.getStatEx(45)*0.8 + /*armor*/item.getStatEx(31)*0.1)

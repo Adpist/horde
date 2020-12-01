@@ -18,3 +18,5 @@
 // skill > ias > res > def
 [type] == armor && [Quality] <= magic && [flag] != runeword # # [MercTier] == /*all+anyclass*/((item.getStatEx(127) + item.getStatEx(83)) * 10000) + /*ias*/((item.getStatEx(93)) * 1000) + /*fr+cr+lr*/((item.getStatEx(39) + item.getStatEx(41) + item.getStatEx(43)) * 100) + /*defense*/((item.getStatEx(31)) * 1)
 [type] == armor && ([Quality] >= set || [flag] == runeword) # # [MercTier] == /*all+anyclass*/((item.getStatEx(127) + item.getStatEx(83)) * 100000) + /*ias*/((item.getStatEx(93)) * 10000) + /*fr+cr+lr*/((item.getStatEx(39) + item.getStatEx(41) + item.getStatEx(43)) * 1000) + /*defense*/((item.getStatEx(31)) * 1)
+[type] == armor && ([flag] == runeword) && [flag] != ethereal # [ias] == 45 # [MercTier] == 50000000 //Treachery non eth 
+[type] == armor && ([flag] == runeword) && [flag] != ethereal # [ias] == 45 # [MercTier] == 100000000 //Treachery eth

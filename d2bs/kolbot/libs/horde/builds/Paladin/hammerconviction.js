@@ -10,7 +10,6 @@ var HordeBuild = {
 	statsBuild: "LevellingMana",
 	skillsBuild: "HammerConviction",
 	autoBuildTemplate: "HammerConviction",
-	mercAct2Normal: "Prayer",
-	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/paladin.hammerconviction.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	mercAct2Normal: "Defiance",
+	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/paladin.hammer.common.xpac.nip", "horde/paladin.hammerconviction.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

@@ -12,8 +12,8 @@ const HordeTeam = {
             role: "teleport",
             className: "sorceress",
             character: "character",
-            build: "coldtiered",
-            runewordsProfile: "mTeamRunewords",
+            build: "cold",
+            runewordsProfile: "CasterRunewords",
 			gearPriority: 1
         },
         "sorc-002": {
@@ -21,8 +21,8 @@ const HordeTeam = {
             role: "follower",
             className: "sorceress",
             character: "character",
-            build: "lighttiered",
-            runewordsProfile: "mTeamRunewords",
+            build: "light",
+            runewordsProfile: "CasterRunewords",
 			gearPriority: 3
         },
         "asin-001": {
@@ -30,8 +30,8 @@ const HordeTeam = {
             role: "follower",
             className: "assassin",
             character: "character",
-            build: "Trapsin",
-            runewordsProfile: "mTeamRunewordsSin",
+            build: "leaftrapsin",
+            runewordsProfile: "LeafCasterRunewords",
 			gearPriority: 4
         },
         "barb-001": {
@@ -40,15 +40,16 @@ const HordeTeam = {
             className: "barbarian",
             character: "character",
             build: "shoutingtank",
-            runewordsProfile: "mTeamRunewords"
+            runewordsProfile: "CasterRunewords",
+			gearPriority: 7
         },
         "pala-001": {
             account: "account",
             role: "follower",
             character: "character",
             className: "paladin",
-            build: "hammersalvationtiered",
-            runewordsProfile: "mTeamRunewordsPala",
+            build: "hammersalvation",
+            runewordsProfile: "HammerRunewords",
 			gearPriority: 2
         },
         "pala-002": {
@@ -56,8 +57,8 @@ const HordeTeam = {
             role: "follower",
             className: "paladin",
             character: "character",
-            build: "hammerconvictiontiered",
-            runewordsProfile: "mTeamRunewordsPala",
+            build: "hammerconviction",
+            runewordsProfile: "HammerRunewords",
 			gearPriority: 2
         },
         "drui-001": {
@@ -65,8 +66,8 @@ const HordeTeam = {
             role: "follower",
             className: "druid",
             character: "character",
-            build: "elementaltiered",
-            runewordsProfile: "mTeamRunewordsSin",
+            build: "leafelemental",
+            runewordsProfile: "LeafCasterRunewords",
 			gearPriority: 5
         },
         "necr-001": {
@@ -74,8 +75,8 @@ const HordeTeam = {
             role: "follower",
             className: "necromancer",
             character: "character",
-            build: "corpseresisttiered",
-            runewordsProfile: "mTeamRunewords",
+            build: "corpseresist",
+            runewordsProfile: "CasterRunewords",
 			gearPriority: 6
         }
     },
@@ -98,6 +99,8 @@ const HordeTeam = {
 	
 	commonPickits: 	[
 						{pickit: "kolton.nip"},
+						{pickit: "horde/pots.scrolls.nip"},
+						{pickit: "horde/common.earlygame.weapon.nip", condition:"me.charlvl <= 18"},
 						{pickit: "horde/merc.act1.normal.xpac.nip", condition:"me.diff == 0 && !me.getQuest(7,0)"}
 					],
 

@@ -9,8 +9,8 @@
 var HordeBuild = {
 	statsBuild: "Levelling",
 	skillsBuild: "Light",
-	autoBuildTemplate: "ChainL",
+	autoBuildTemplate: "Light",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/sorceress.light.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/sorceress.light.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };
