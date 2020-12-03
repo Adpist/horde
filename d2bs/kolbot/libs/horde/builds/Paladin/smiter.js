@@ -7,7 +7,7 @@
 */
 
 var HordeBuild = {
-	statsBuild: "LevellingMana",
+	statsBuild: "LevellingDex",
 	skillsBuild: "Smiter",
 	autoBuildTemplate: "Smiter",
 	mercAct2Normal: "Defiance",

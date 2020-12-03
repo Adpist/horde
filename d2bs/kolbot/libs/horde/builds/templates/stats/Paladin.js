@@ -15,11 +15,31 @@ var StatsBuilds = {
 		["vit", 100],
 		["str", 85],
 		["vit", 150],
+		["dex", 35],//hoto
 		["str", 100],
 		["vit", 180],
 		["str", 125],
 		["vit", 205],
 		["str", 156],
+		["vit", "all"]
+	],
+	
+	"LevellingDex": [
+		["vit", 40],
+		["str", 60],
+		["vit", 100],
+		["dex", 35],//flail
+		["str", 85],
+		["vit", 150],
+		["dex", 50],
+		["str", 100],
+		["vit", 180],
+		["str", 125],
+		["vit", 205],
+		["dex", 100],
+		["str", 156],
+		["vit", 250],
+		["dex", 150],
 		["vit", "all"]
 	],
 	
@@ -35,10 +55,32 @@ var StatsBuilds = {
 		["vit", 100],
 		["str", 85],
 		["vit", 150],
+		["dex", 35],//hoto
 		["str", 110],
 		["vit", 200],
 		["vit", 250],
 		["vit", "all"]	
+	],
+	
+	"LevellingDexMana": [
+		["vit", 40],
+		["str", 60],
+		["enr", 25],
+		["vit", 100],
+		["dex", 35],//flail
+		["str", 85],
+		["enr", 50],
+		["vit", 150],
+		["dex", 50],
+		["str", 100],
+		["vit", 180],
+		["str", 125],
+		["vit", 205],
+		["dex", 100],
+		["str", 156],
+		["vit", 250],
+		["dex", 150],
+		["vit", "all"]
 	],
 
 	"LevellingLowMana": [
@@ -53,6 +95,7 @@ var StatsBuilds = {
 		["vit", 100],
 		["str", 85],
 		["vit", 150],
+		["dex", 35],//hoto
 		["str", 110],
 		["vit", 200],
 		["vit", 250],

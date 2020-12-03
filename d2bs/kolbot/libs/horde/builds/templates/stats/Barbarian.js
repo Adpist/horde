@@ -15,6 +15,7 @@ var StatsBuilds = {
 		["vit", 100],
 		["str", 85],
 		["vit", 150],
+		["dex", 35],//flails
 		["str", 100],
 		["vit", 180],
 		["str", 125],
@@ -31,6 +32,7 @@ var StatsBuilds = {
 		["vit", 75],
 		["enr", 25],//Not sure about those, but mana :(
 		["vit", 125],
+		["dex", 35],//flails
 		["str", 100],
 		["vit", 150],
 		["str", 125],
