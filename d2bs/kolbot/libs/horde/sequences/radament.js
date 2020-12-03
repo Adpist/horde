@@ -68,6 +68,10 @@ function radament(mfRun) {
 				delay(me.ping * 2 + 100);
 			}
 			Waypoint.clickWP(clearPath);
+			
+			if (clearPath) {
+				Party.secureWaitSynchro("radament_wp");
+			}
 		}
 		Travel.clearToExit(48, 49, clearPath);
 		for (i = 0 ; i < 5 ; i += 1) {
@@ -87,10 +91,6 @@ function radament(mfRun) {
 		}
 		
 		Role.makeTeamJoinPortal();
-		
-		//radament = getUnit(1, 229); // Radament.
-		//Pather.moveToUnit(radament, 0, 0, false);
-		
 	} else {
 		Town.move("portalspot");
 		var j = 0;
@@ -107,7 +107,6 @@ function radament(mfRun) {
 	Attack.clear(30);
 	
 	Party.wholeTeamInGame();
-	Buff.Bo();
 	try {
 		Attack.kill(229); // Radament
 	} catch (e) {
@@ -120,6 +119,7 @@ function radament(mfRun) {
 	if (book) {
 		clickItem(1, book);
 	}
+	
 	Role.backToTown();
 	
 	if (!mfRun) {
