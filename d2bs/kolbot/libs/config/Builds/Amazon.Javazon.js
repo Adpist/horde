@@ -183,7 +183,7 @@ AutoBuildTemplate[45] = {
     SkillPoints: [-1],
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
-		Config.AttackSkill = [-1, 24, 35, 24, 35, -1, -1]; //charged strike
+		Config.AttackSkill = [35, 35, 24, 35, 24, 10, -1]; //charged strike
 		Config.LightningFuryDelay = 5; // Lightning fury interval in seconds. LF is treated as timed skill.
         Config.LowGold = 40000;
     }
@@ -227,5 +227,29 @@ AutoBuildTemplate[70] = {
         Config.TownHP = 50;
         Config.MPBuffer = 2; // Number of mana potions to keep in inventory.
         Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
+    }
+};
+
+AutoBuildTemplate[85] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+		Config.LightningFuryDelay = 3.5; // Lightning fury interval in seconds. LF is treated as timed skill.
+    }
+};
+
+AutoBuildTemplate[90] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+		Config.LightningFuryDelay = 2.5; // Lightning fury interval in seconds. LF is treated as timed skill.
+    }
+};
+
+AutoBuildTemplate[95] = {
+    SkillPoints: [-1],
+    StatPoints: [-1, -1, -1, -1, -1],
+    Update: function() {
+		Config.LightningFuryDelay = 1.5; // Lightning fury interval in seconds. LF is treated as timed skill.
     }
 };

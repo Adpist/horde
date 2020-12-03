@@ -2,6 +2,9 @@
 // 
 //-----------------------------------------------------------------------------------------------------
 
+//Belt
+[name] == sharkskinbelt && [quality] == unique && [flag] != ethereal # # [tier] == 15000 //razortail
+
 //helms
 ([type] == helm || [type] == circlet) && ([quality] >= magic || [flag] == runeword) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,24)*25 + item.getStatEx(107,35)*20 + item.getStatEx(188,2)*30 + item.getStatEx(83,0)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.2)
 
