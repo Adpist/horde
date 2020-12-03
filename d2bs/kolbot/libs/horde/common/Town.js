@@ -17,6 +17,20 @@ var HordeTown = {
 		Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
 	},
 	
+	clearStash: function() {
+		var item = me.getItem(-1, 0);
+		
+		do{
+			if (item.location == 7) {
+				var checkResult = NTIP.CheckItem(item, NTIP_CheckListNoTier, true);
+				var result = (checkResult.result > 0 && checkResult.result < 4) || Cubing.keepItem(item) || Runewords.keepItem(item) || CraftingSystem.keepItem(item) || HordeStorage.questItems.indexOf(item.classid) !== -1;
+				
+				print("item check result : " + JSON.stringify(checkResult));
+				print(item.name + " result " + result);
+			}
+		} while(item.getNext());
+	},
+	
 	doChores: function (repair = false) {
 		if (!me.inTown) {
 			Role.backToTown();
@@ -38,7 +52,9 @@ var HordeTown = {
 		Town.reviveMerc();
 		Cubing.doCubing();
 		Runewords.makeRunewords();
+		//this.clearStash();
 		
+		this.goToTownWp();
 		Party.waitSynchro("begin_gearing");
 				
 		//Share gear & try auto equip
@@ -51,6 +67,7 @@ var HordeTown = {
 		Quest.goToHighestTown();
 		Party.updateLowestAct();
 		
+		this.goToTownWp();
 		Party.waitSynchro("begin_selling");
 		
 		//Sell Inventory
@@ -61,6 +78,7 @@ var HordeTown = {
 		//Share gold if needed
 		Sharing.shareGold();
 		
+		this.goToTownWp();
 		Party.waitSynchro("begin_shopping");
 		
 		//Go back to highest town & shop
