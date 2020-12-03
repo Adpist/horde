@@ -48,6 +48,31 @@ var Sharing = {
 						}
 					}
 				}
+			} else if (args[1] === "rune") {
+				if (args.length >= 4) {
+					var json = "";
+					for (var i = 3; i < args.length ; i += 1) {
+						if (i > 3) {
+							json += " ";
+						}
+						json += args[i];
+					}
+					if (args[2] === "need") {
+						this.onReceiveRuneNeedList(nick, JSON.parse(json));
+					} else if (args[2] === "offer") {
+						this.onReceiveRuneOfferList(nick, JSON.parse(json));
+					} else if (args[2] === "drop") {
+						if (args[3] === "done") {
+							this.runeDropDone = true;
+						} else {
+							this.onReceiveRuneDropList(nick, JSON.parse(json));
+						}
+					} else if (args[2] === "pick") {
+						if (args[3] === "done") {
+							this.runePickDone = true;
+						}
+					}
+				}
 			}
 		}
 	},
@@ -627,7 +652,6 @@ var Sharing = {
 	getGearToShare: function(fieldSharing) {
 		var sharableItems = [];
 		var item = me.getItem();
-		var firstItem = item;
 		var locationsToCheck = fieldSharing ? [3] : [3,7];
 		
 		var itemTypesToShare = [
@@ -691,11 +715,11 @@ var Sharing = {
 		do {
 			if (locationsToCheck.indexOf(item.location) !== -1) {
 				if (itemTypesToShare.indexOf(item.itemType) !== -1) {
-					if (!this.isInOfferedGearHistory(item) ) {
+					if (!this.isInOfferedGearHistory(item)) {
 						var pickResult = Pickit.checkItem(item);
 						if (pickResult.result === 0 || pickResult.result === 1) {
 							if (HordeSettings.Debug.Verbose.sharing) {
-								print("Can share " + item.name + " - result : " + pickResult.result + " - line : " + pickResult.line);
+								print("Can share " + item.name + " ; gid : " + item.gid + " - result : " + pickResult.result + " - line : " + pickResult.line);
 							}
 							sharableItems.push(copyUnit(item));
 						}
@@ -707,5 +731,273 @@ var Sharing = {
 		return sharableItems;
 	},
 	
+	runeNeeds: {},
+	runeOffers: {},
+	runeDropDone: false,
+	runePickDone: false,
 	
+	clearRuneSharingData: function() {
+		this.runeNeeds = {};
+		this.runeOffers = {};
+		this.runeDropDone = false;
+		this.runePickDone = false;
+	},
+	
+	onReceiveRuneNeedList: function(profile, runes) {
+		this.runeNeeds[profile] = {runes: runes, status: runes.length > 0 ? "need" : "done"};
+		
+		if(profile === me.profile) {
+			Communication.sendToList(HordeSystem.allTeamProfiles, "sharing rune need " + JSON.stringify(runes));
+		}
+	},
+	
+	onReceiveRuneOfferList: function(profile, runes) {
+		this.runeOffers[profile] = runes;
+	},
+	
+	onReceiveRuneDropList: function(profile, runes) {
+		this.dropRune(profile, runes);
+	},
+	
+	isRuneSharingEnabled: function() {
+		return this.isGearSharingEnabled();//For now binded to gear sharing activation
+	},
+	
+	hasReceivedAllProfilesNeedList: function() {
+		for (var i = 0 ; i < HordeSystem.allTeamProfiles.length ; i += 1) {
+			if (!this.runeNeeds[HordeSystem.allTeamProfiles[i]]) {
+				return false;
+			}
+		}
+		
+		return true;
+	},
+	
+	hasReceivedAllProfilesOfferList: function() {
+		for (var i = 0 ; i < HordeSystem.allTeamProfiles.length ; i += 1) {
+			if (HordeSystem.allTeamProfiles[i] !== me.profile) {
+				if (!this.runeOffers[HordeSystem.allTeamProfiles[i]]) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	},
+	
+	getRuneRequestProfile: function() {
+		var lowestPrioProfile = false;
+		var lowestPrio = 100;
+		for (var i = 0 ; i < HordeSystem.allTeamProfiles.length ; i += 1) {
+			var profile = HordeSystem.allTeamProfiles[i];
+			if (this.runeNeeds[profile].status !== "done") {
+				if (!!HordeSystem.team.profiles[profile].gearPriority) {
+					if (lowestPrio > HordeSystem.team.profiles[profile].gearPriority) {
+						lowestPrio = HordeSystem.team.profiles[profile].gearPriority;
+						lowestPrioProfile = profile;
+					}
+				}
+			}
+		}
+		return lowestPrioProfile;
+	},
+	
+	getOfferList: function(needList) {
+		var item = me.getItem();
+		var offerList = [];
+		
+		do {
+			if ([3,7].indexOf(item.location) !== -1) {
+				var runeListIndex = needList.indexOf(item.classid);
+				
+				if (runeListIndex !== -1) {
+					offerList.push(item.classid);
+				}
+			}
+		} while(item.getNext());
+		
+		return offerList;
+	},
+	
+	processOfferList: function() {
+		for (var i = 0 ; i < HordeSystem.allTeamProfiles.length ; i += 1) {
+			var profile = HordeSystem.allTeamProfiles[i];
+			if (profile != me.profile) {
+				var requestedRunes = [];
+				if (this.runeOffers[profile].length > 0) {
+					for (var j = 0 ; j < this.runeOffers[profile].length ; j += 1) {
+						if (Runewords.needList.indexOf(this.runeOffers[profile][j]) !== -1) {
+							requestedRunes.push(this.runeOffers[profile][j]);
+						}
+					}
+				}
+				
+				if (requestedRunes.length > 0){
+					this.requestDropRune(profile, requestedRunes);
+				}
+			}
+		}
+		this.onReceiveRuneNeedList(me.profile, []);
+	},
+	
+	requestDropRune: function(profile, runeList) {
+		if (HordeSettings.Debug.Verbose.sharing) {
+			HordeDebug.logScriptInfo("RuneSharing", "requesting " + profile + " to drop " + JSON.stringify(runeList));
+		}
+		
+		this.runeDropDone = false;
+		
+		Communication.sendToProfile(profile, "sharing rune drop " + JSON.stringify(runeList));
+		
+		Town.goToTown(Party.lowestAct);
+		Town.move("stash");
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("Waiting " + profile + " to drop " + runeList.length + " runes");
+		}
+		
+		while(!this.runeDropDone){
+			delay(me.ping*2+250);
+			Party.wholeTeamInGame();
+		}
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("picking runes from " + profile);
+		}
+		
+		delay(me.ping+50);
+		Pickit.pickItems();
+		
+		Communication.sendToProfile(profile, "sharing rune pick done");
+	},
+	
+	dropRune: function(profile, runeList) {
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("dropping " + JSON.stringify(runeList) + " for " + profile);
+		}
+		
+		Town.goToTown(Party.lowestAct);
+		Town.move("stash");
+		
+		var item = me.getItem();
+		var itemsToDrop = [];
+		
+		do {
+			if ([3,7].indexOf(item.location) !== -1) {
+				var runeListIndex = runeList.indexOf(item.classid);
+				
+				if (runeListIndex !== -1) {
+					itemsToDrop.push(copyUnit(item));
+					runeList.splice(runeListIndex, 1);
+				}
+			}
+		} while(item.getNext());
+		
+		for (var i = 0 ; i < itemsToDrop.length ; i++) {
+			if (HordeSettings.Debug.Verbose.sharing) {
+				HordeDebug.logScriptInfo("RuneSharing", "dropping " + itemsToDrop[i].name + " for " + profile);
+			}
+			itemsToDrop[i].drop();
+		}
+		
+		delay(me.ping+50);
+		
+		this.runePickDone = false;
+		
+		Communication.sendToProfile(profile, "sharing rune drop done");
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("waiting for " + profile + " to pick " + itemsToDrop.length + " runes");
+		}
+		
+		while(!this.runePickDone){
+			delay(me.ping*2+250);
+			Party.wholeTeamInGame();
+		}
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("runes picked by " + profile);
+		}
+		
+		delay(me.ping+50);
+		Pickit.pickItems();
+	},
+	
+	shareRunes: function() {
+		if (HordeSystem.teamSize === 1 || !this.isRuneSharingEnabled()) {
+			return;
+		}
+		
+		this.clearRuneSharingData();
+		
+		Party.waitSynchro("begin_runes");
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("Begin runes sharing");
+		}
+		
+		this.onReceiveRuneNeedList(me.profile, Runewords.needList);
+		
+		while(!this.hasReceivedAllProfilesNeedList()) {
+			delay(me.ping+50);
+			Party.wholeTeamInGame();
+		}
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("Received all rune need lists");
+		}
+		
+		var requestProfile = this.getRuneRequestProfile();
+		if (requestProfile) {
+			do {
+				if (requestProfile === me.profile) {
+					if (HordeSettings.Debug.Verbose.sharing) {
+						print("waiting offer list");
+					}
+					
+					while(!this.hasReceivedAllProfilesOfferList()) {
+						delay(me.ping+50);
+						Party.wholeTeamInGame();
+					}
+					
+					if (HordeSettings.Debug.Verbose.sharing) {
+						print("processing offer list");
+					}
+					
+					this.processOfferList();
+				} else {
+					if (HordeSettings.Debug.Verbose.sharing) {
+						print("Sending offers to " + requestProfile);
+					}
+					
+					Communication.sendToProfile(requestProfile, "sharing rune offer " + JSON.stringify(this.getOfferList(this.runeNeeds[requestProfile].runes)));
+					
+					if (HordeSettings.Debug.Verbose.sharing) {
+						print("waiting " + requestProfile + " to process needlist");
+					}
+					
+					while(this.runeNeeds[requestProfile].status !== "done") {
+						delay(me.ping + 50);
+						Party.wholeTeamInGame();
+					}
+				}
+					
+				requestProfile = this.getRuneRequestProfile();
+			} while(requestProfile);
+		}
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("Waiting all profiles to finish rune sharing");
+		}
+		
+		Party.waitSynchro("end_rune");
+		
+		if (HordeSettings.Debug.Verbose.sharing) {
+			print("End rune sharing");
+		}
+		
+		this.clearRuneSharingData();
+		
+		Pickit.pickItems();
+	}
 };

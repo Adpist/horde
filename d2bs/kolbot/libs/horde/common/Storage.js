@@ -183,6 +183,8 @@ var HordeStorage = {
 		}
 	},
 	
+	questItems: [91, 92, 173, 174, 521, 524, 525, 553, 554, 555, 549],
+	
 	stashQuestItems: function() {
 		var item, questStuff = [91, 92, 173, 174, 521, 524, 525, 553, 554, 555]; // SiC-666 TODO: Check to make sure this includes all quest items that need to be moved to Stash. (Don't need Horadric Cube in this list?)
 			

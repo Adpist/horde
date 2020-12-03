@@ -148,6 +148,10 @@ var HordeSystem = {
 						itemTypeCondition = "[type] == " + locationName;
 					}
 					
+					if (HordeSettings.Debug.Verbose.crafting) {
+						print("Keep runeword condition : " + itemTypeCondition + " # " + runeword.statCondition);
+					}
+					
 					Config.KeepRunewords.push(itemTypeCondition + " # " + runeword.statCondition);
 					
 					for (var j = 0 ; j < runeword.bases.length ; j += 1) {
@@ -168,9 +172,9 @@ var HordeSystem = {
 						}
 						
 						if (runeword.roll === Roll.Eth) {
-							pickitLine += " && [flag] == ethereal ";
+							pickitLine += " && [flag] == ethereal";
 						} else if (runeword.roll === Roll.NonEth) {
-							pickitLine += " && [flag] != ethereal ";
+							pickitLine += " && [flag] != ethereal";
 						}
 						
 						pickitLine += " # [sockets] == " + runeword.sockets;
@@ -179,7 +183,11 @@ var HordeSystem = {
 						}
 						pickitLine += " # [maxquantity] == 1";
 						
-						NTIP.PushLine(0, pickitLine, "dynamic/runewords/"+ (merc ? "merc" : "character") +"/" + locationName + "/" + runewords[i]);
+						if (HordeSettings.Debug.Verbose.crafting) {
+							print("base pickit : " + pickitLine);
+						}
+						
+						NTIP.PushLine(0, pickitLine, "horde/runewords/bases/"+ (merc ? "merc" : "character") +"/" + locationName + "/" + runewords[i]);
 					}
 				} else {
 					if (HordeSettings.Debug.Verbose.crafting) {
@@ -239,7 +247,7 @@ var HordeSystem = {
 				if (HordeSettings.Debug.Verbose.crafting) {
 					print("push rune " + runeLine);
 				}
-				NTIP.PushLine(0, runeLine, "dynamic/runewords/requirements/rune " + rune.rune);
+				NTIP.PushLine(0, runeLine, "horde/runewords/runes/rune_" + rune.rune);
 			}
 		}
 	},

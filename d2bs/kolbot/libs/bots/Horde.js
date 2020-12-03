@@ -51,6 +51,7 @@ function Horde() {
 		Party.updateLowestAct();
 		
 		Sharing.shareGold();
+		Sharing.shareRunes();
 		
 		HordeTown.doChores();
 		
