@@ -41,25 +41,79 @@ var RunewordProfile = {
 				runeword: Runeword.Spirit,
 				sockets: 4,
 				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
 				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[fcr] >= 25",
 				tier: 10000,
 				skipIf: ""
+			},
+			
+			"spirit" : {
+				runeword: Runeword.Spirit,
+				sockets: 4,
+				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] >= 30",
+				tier: 11000,
+				skipIf: ""
+			},
+			
+			"spirit" : {
+				runeword: Runeword.Spirit,
+				sockets: 4,
+				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] == 35",
+				tier: 12000,
+				skipIf: ""
 			}
 		},
 		
-		"sword" : {
+		"weapon" : {
 			"spirit" : {
 				runeword: Runeword.Spirit,
 				sockets: 4,
 				bases: ["Broad Sword", "Crystal Sword"], //capitals and spaces (ex : "Giant Thresher")
 				cubeBase: false,
 				roll: Roll.NonEth,
+				typeCondition : "[type] == sword",
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[itemallskills] == 2",
 				tier: 10000,
+				skipIf: ""
+			},
+			
+			"hoto": {
+				runeword: Runeword.HeartoftheOak,
+				sockets: 4,
+				bases: ["Flail"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				typeCondition : "[name] == flail",
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[itemallskills] == 3",
+				tier: 13000,
+				skipIf: ""
+			},
+			
+			"hoto_max_res": {
+				runeword: Runeword.HeartoftheOak,
+				sockets: 4,
+				bases: ["Flail"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				typeCondition : "[name] == flail",
+				statCondition: "[itemallskills] == 3 && [fireresist] == 40",
+				tier: 14000,
 				skipIf: ""
 			}
 		},
@@ -142,7 +196,7 @@ var RunewordProfile = {
 				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[LightResist] >= 25",
-				tier: 120,
+				tier: 115,
 				skipIf: ""
 			}
 		}
@@ -203,7 +257,7 @@ var RunewordProfile = {
 		"armor" : {
 			"treachery_noneth" : {
 				runeword: Runeword.Treachery,
-				sockets: 4,
+				sockets: 3,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Archon Plate"], //capitals and spaces (ex : "Giant Thresher")
 				cubeBase: false,
 				roll: Roll.NonEth,
@@ -215,7 +269,7 @@ var RunewordProfile = {
 			
 			"treachery_eth" : {
 				runeword: Runeword.Treachery,
-				sockets: 4,
+				sockets: 3,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Archon Plate"], //capitals and spaces (ex : "Giant Thresher")
 				cubeBase: false,
 				roll: Roll.Eth,

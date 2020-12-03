@@ -57,7 +57,7 @@ var RunewordProfile = {
 				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[LightResist] >= 25",
-				tier: 120,
+				tier: 115,
 				skipIf: ""
 			}
 		}
@@ -118,7 +118,7 @@ var RunewordProfile = {
 		"armor" : {
 			"treachery_noneth" : {
 				runeword: Runeword.Treachery,
-				sockets: 4,
+				sockets: 3,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Archon Plate"], //capitals and spaces (ex : "Giant Thresher")
 				cubeBase: false,
 				roll: Roll.NonEth,
@@ -130,7 +130,7 @@ var RunewordProfile = {
 			
 			"treachery_eth" : {
 				runeword: Runeword.Treachery,
-				sockets: 4,
+				sockets: 3,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Archon Plate"], //capitals and spaces (ex : "Giant Thresher")
 				cubeBase: false,
 				roll: Roll.Eth,

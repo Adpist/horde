@@ -1,5 +1,8 @@
 //weapons
+[name] == boneknife && [quality] == unique # # [tier] == 5000 // wizzy
 ([name] == broadsword ||[name] == crystalsword) && [flag] == runeword # [maxmana] >= 89 # [tier] == 10000 //spirit weapon
+[name] == flail && [flag] == runeword # [fireresist] >= 30 # [tier] == (10000 + /*fireresist*/item.getStatEx(39) * 100)//hoto weapon 13000-14000
+
 
 //shields
 [type] == shield # # [tier] == 1
@@ -10,4 +13,6 @@
 [type] == shield && [flag] == runeword # [fireresist] >= 25 && [lightresist] >= 25 # [maxquantity] == 1 && [tier] == 250 //rhyme
 [type] == shield && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == 5000 //ancients pledge
 [name] == roundshield && [quality] == unique && [flag] != ethereal # [sockets] == 2 # [tier] == 6000 //moser
-[type] == shield && [flag] == runeword # [maxmana] >= 89 # [tier] == 10000 //spirit shield
+[type] == shield && [flag] == runeword # [maxmana] >= 89 && [fcr] >= 25 # [tier] == 10000 //spirit shield
+[type] == shield && [flag] == runeword # [maxmana] >= 89 && [fcr] >= 30 # [tier] == 11000 //spirit shield
+[type] == shield && [flag] == runeword # [maxmana] >= 89 && [fcr] == 35 # [tier] == 12000 //spirit shield

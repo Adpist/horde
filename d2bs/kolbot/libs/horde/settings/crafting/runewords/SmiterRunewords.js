@@ -38,7 +38,7 @@ var RunewordProfile = {
 			}
 		},
 		
-		"flail" : {
+		"weapon" : {
 			"black" : {
 				runeword: Runeword.Black,
 				sockets: 3,
@@ -49,6 +49,19 @@ var RunewordProfile = {
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[ias] == 15",
 				tier: 10000,
+				skipIf: ""
+			},
+			
+			"grief" : {
+				runeword: Runeword.Grief,
+				sockets: 5,
+				bases: ["Phase Blade"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				typeCondition : "[name] == phaseblade",
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[ias] >= 30",
+				tier: 15000,
 				skipIf: ""
 			}
 		},
@@ -99,6 +112,47 @@ var RunewordProfile = {
 				tier: 7000,
 				skipIf: ""
 			},
+			
+			"hell_rhyme" : {
+				runeword: Runeword.Rhyme,
+				sockets: 2,
+				bases: ["Sacred Targe"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				baseCondition: "[fireresist] >= 25",
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[FireResist] >= 50 && [LightResist] >= 50",
+				tier: 8000,
+				skipIf: ""
+			},
+			
+			"good_hell_rhyme" : {
+				runeword: Runeword.Rhyme,
+				sockets: 2,
+				bases: ["Sacred Targe"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
+				roll: Roll.NonEth,
+				baseCondition: "[fireresist] >= 40",
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[FireResist] >= 65 && [LightResist] >= 65",
+				tier: 10000,
+				skipIf: ""
+			},
+			
+			"exile" : {
+				runeword: Runeword.Exile,
+				sockets: 4,
+				bases: ["Sacred Targe"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
+				roll: Roll.Eth,
+				baseCondition: "[fireresist] >= 40",
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[defianceaura] >= 13",
+				tier: 15000,
+				skipIf: ""
+			},
 		},
 
 		"helm" : {
@@ -121,7 +175,7 @@ var RunewordProfile = {
 				roll: Roll.NonEth,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[LightResist] >= 25",
-				tier: 120,
+				tier: 115,
 				skipIf: ""
 			}
 		}
@@ -182,7 +236,7 @@ var RunewordProfile = {
 		"armor" : {
 			"treachery_noneth" : {
 				runeword: Runeword.Treachery,
-				sockets: 4,
+				sockets: 3,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Archon Plate"], //capitals and spaces (ex : "Giant Thresher")
 				cubeBase: false,
 				roll: Roll.NonEth,
@@ -194,7 +248,7 @@ var RunewordProfile = {
 			
 			"treachery_eth" : {
 				runeword: Runeword.Treachery,
-				sockets: 4,
+				sockets: 3,
 				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Archon Plate"], //capitals and spaces (ex : "Giant Thresher")
 				cubeBase: false,
 				roll: Roll.Eth,

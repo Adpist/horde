@@ -9,6 +9,8 @@
 [name] == lightplatedboots && [quality] == unique && [flag] != ethereal # # [tier] == 10000 //goblin toe
 
 // helm
+([type] == helm || [type] == circlet) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+
 [name] == wingedhelm && [quality] == set && [flag] != ethereal # # [tier] == 10000 //Guillaume
 
 // amulet
@@ -27,11 +29,16 @@
 // weapon
 ([Name] == Club || [Name] == SpikedClub || [Name] == Mace || [Name] == MorningStar || [Name] == Flail || [Name] == WarHammer || [Name] == Cudgel || [Name] == BarbedClub || [Name] == FlangedMace || [Name] == JaggedStar || [Name] == Knout || [name] == scepter || [name] == warscepter || [name] == divinescepter || [name] == caduceus) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + /*crushingblow*/item.getStatEx(136)*10 + /*ias*/item.getStatEx(8)*10 + item.getStatEx(107,97)*25 + item.getStatEx(107,122)*20 + item.getStatEx(107,125)*15 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
 [name] == flail && [flag] == runeword # [ias] == 15 # [tier] == 10000 //Black
+[name] == phaseblade && [flag] == runeword # [ias] >= 30 # [tier] == 15000 //Grief
 
 // shield
 ([type] == paladinitem || [type] == auricshields || [type] == shield) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,97)*25 + item.getStatEx(107,122)*20 + item.getStatEx(107,125)*15 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
 
-[type] == auricshields && [flag] == runeword # [fireresist] >= 25 && [lightresist] >= 25 # [maxquantity] == 1 && [tier] == 250 //rhyme
+[type] == auricshields && [flag] == runeword # [fireresist] >= 25 && [lightresist] >= 25 && [itemmagicbonus] == 25 # [maxquantity] == 1 && [tier] == 250 //rhyme
 [type] == auricshields && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [maxquantity] == 1 && [tier] == 5000 //ancients pledge
 [type] == auricshields && [flag] == runeword && [class] == exceptional # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [tier] == 6000 //ancients pledge
 [type] == auricshields && [flag] == runeword && [class] == elite # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [tier] == 7000 //ancients pledge
+[type] == auricshields && [flag] == runeword && [class] == elite # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [tier] == 7000 //ancients pledge
+[type] == auricshields && [flag] == runeword && [class] == elite # [fireresist] >= 50 && [lightresist] >= 50 && [itemmagicbonus] == 25 # [maxquantity] == 1 && [tier] == 8000 //hell rhyme
+[type] == auricshields && [flag] == runeword && [class] == elite # [fireresist] >= 65 && [lightresist] >= 65 && [itemmagicbonus] == 25 # [maxquantity] == 1 && [tier] == 10000 //higher hell rhyme
+[type] == auricshields && [flag] == runeword && [class] == elite # [defianceaura] >= 13 # [maxquantity] == 1 && [tier] == 15000 //exile
