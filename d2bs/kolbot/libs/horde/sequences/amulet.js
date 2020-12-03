@@ -18,9 +18,9 @@ function amulet_requirements(mfRun) {
 		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
 	}
 	
-	if (me.getQuest(15, 0) || me.getQuest(11,0) || me.getQuest(10,0)
-		|| me.getItem(521) || me.getItem(91)) {
-		return Sequencer.skip; //Skip: quests are complete or we have amulet or complete staff
+	if (me.getQuest(15, 0) || me.getQuest(10,0) ||
+		(me.getQuest(11,0) && (me.getItem(521) || me.getItem(91)))) {
+		return Sequencer.skip; //Skip: act 3 available, orifice used, or we have completed altar and have amulet or complete staff
 	}
 	/***** END OF REQUIREMENTS ******/
 	
