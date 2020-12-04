@@ -337,6 +337,11 @@ MainLoop:
 
 			return false;
 		}
+		
+		//Setup horde pickits & runewords
+		HordeSystem.setupConfig(Config.Horde.Team, false);
+		HordeSystem.setupRunewords(HordeSystem.team.profiles[me.profile].runewordsProfile);
+		Runewords.init();
 
 		muleObj = this.getMule();
 		me.maxgametime = 0;
@@ -470,6 +475,7 @@ MainLoop:
 				if (Town.ignoredItemTypes.indexOf(item.itemType) === -1 &&
 						(checkItemResult > 0 || (item.location === 7 && info.muleInfo.hasOwnProperty("muleOrphans") && info.muleInfo.muleOrphans)) &&
 						checkItemResult !== 4 &&
+						item.classid !== 549 && //cube
 						(item.classid !== 603 || item.quality !== 7) && // Don't drop Annihilus
 						(item.classid !== 604 || item.quality !== 7) && // Don't drop Hellfire Torch
 						(item.location === 7 || (item.location === 3 && !Storage.Inventory.IsLocked(item, Config.Inventory))) && // Don't drop items in locked slots

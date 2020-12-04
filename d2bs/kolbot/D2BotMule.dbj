@@ -7,7 +7,7 @@ var StarterConfig = {
 	CDKeyInUseDelay: 5, // Minutes to wait before connecting again if CD-Key is in use.
 	ConnectingTimeout: 20, // Seconds to wait before cancelling the 'Connecting...' screen
 	PleaseWaitTimeout: 10, // Seconds to wait before cancelling the 'Please Wait...' screen
-	WaitInLineTimeout: 60 // Seconds to wait before cancelling the 'Waiting in Line...' screen
+	WaitInLineTimeout: 600 // Seconds to wait before cancelling the 'Waiting in Line...' screen
 };
 
 

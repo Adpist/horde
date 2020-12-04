@@ -414,11 +414,6 @@ function clickJoin(location) {
 
 function followerUpdateRuns() {
 	if (ingame) {
-		//D2Bot.store(JSON.stringify({currScript: "none", area: "out of game"}));
-		if (AutoMule.outOfGameCheck() || TorchSystem.outOfGameCheck() || Gambling.outOfGameCheck() || CraftingSystem.outOfGameCheck()) {
-			return;
-		}
-
 		print("updating runs");
 		D2Bot.updateRuns();
 
@@ -503,6 +498,13 @@ MainSwitch:
 			ControlAction.click(6, 27, 480, 120, 20);
 
 			break;
+		}
+		
+		if (ingame) {
+			//D2Bot.store(JSON.stringify({currScript: "none", area: "out of game"}));
+			if (AutoMule.outOfGameCheck() || TorchSystem.outOfGameCheck() || Gambling.outOfGameCheck() || CraftingSystem.outOfGameCheck()) {
+				break;
+			}
 		}
 
 		//Do leader election
