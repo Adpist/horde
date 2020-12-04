@@ -37,7 +37,7 @@ var RunewordProfile = {
 				skipIf: ""
 			},
 			
-			"spirit" : {
+			"low_spirit_monarch" : {
 				runeword: Runeword.Spirit,
 				sockets: 4,
 				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
@@ -50,7 +50,7 @@ var RunewordProfile = {
 				skipIf: ""
 			},
 			
-			"spirit" : {
+			"medium_spirit_monarch" : {
 				runeword: Runeword.Spirit,
 				sockets: 4,
 				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
@@ -63,7 +63,7 @@ var RunewordProfile = {
 				skipIf: ""
 			},
 			
-			"spirit" : {
+			"high_spirit_monarch" : {
 				runeword: Runeword.Spirit,
 				sockets: 4,
 				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
@@ -78,7 +78,7 @@ var RunewordProfile = {
 		},
 		
 		"weapon" : {
-			"spirit" : {
+			"spirit_sword" : {
 				runeword: Runeword.Spirit,
 				sockets: 4,
 				bases: ["Broad Sword", "Crystal Sword"], //capitals and spaces (ex : "Giant Thresher")

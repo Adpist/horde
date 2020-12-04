@@ -81,17 +81,6 @@ var RunewordProfile = {
 				statCondition: "[FireResist] >= 40 && [LightResist] >= 40",
 				tier: 5000,
 				skipIf: ""
-			},
-			"spirit" : {
-				runeword: Runeword.Spirit,
-				sockets: 4,
-				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[fcr] >= 25",
-				tier: 10000,
-				skipIf: ""
 			}
 		},
 		"auricshields" : {
