@@ -12,6 +12,10 @@ var HordeTown = {
 			Role.backToTown();
 		}
 		
+		if (me.act === 5) {
+			Town.move("stash");
+		}
+		
 		Town.move("waypoint");
 		
 		Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
@@ -112,10 +116,6 @@ var HordeTown = {
 		me.cancel();
 		
 		Town.goToTown(Party.lowestAct);
-		
-		if (me.act === 5) {
-			Town.move("stash");
-		}
 		
 		this.goToTownWp();
 		
