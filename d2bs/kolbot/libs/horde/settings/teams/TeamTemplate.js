@@ -47,7 +47,7 @@ const HordeTeam = {
 			character: "myNecro",
 			className: "necromancer",
 			role: "follower",
-			build: "summoner",
+			build: "summon",
 			runewordsProfile: "CasterRunewords",
 			gearPriority: 3
 		},
