@@ -196,9 +196,9 @@ function main() {
 	// One time maintenance - get corpse, clear leftover items, pick items in case anything important was dropped
 	if (!Scripts.UserAddon && !Scripts.Test) {
 		Town.getCorpse();
-		Town.clearBelt();
-		Town.clearInventory();
-		//Pickit.pickItems();
+		/*Town.clearBelt();
+		Town.clearInventory();*/
+		Pickit.pickItems();
 	}
 
 	me.automap = Config.AutoMap;
