@@ -946,9 +946,11 @@ MainSwitch:
 				break;
 			case getLocaleString(5347):
 				D2Bot.updateStatus("Disconnected");
-				D2Bot.printToConsole("Disconnected");
+				D2Bot.printToConsole("Disconnected - stopping bot");
 				ControlAction.click(6, 335, 412, 128, 35);
-
+				
+				D2Bot.stop();
+				
 				break MainSwitch;
 			default:
 				D2Bot.updateStatus("Login Error");

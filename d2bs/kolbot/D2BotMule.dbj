@@ -755,6 +755,8 @@ MainSwitch:
 				D2Bot.printToConsole("Disconnected");
 				ControlAction.click(6, 335, 412, 128, 35);
 
+				D2Bot.stop();
+				
 				break MainSwitch;
 			default:
 				D2Bot.updateStatus("Login Error");
