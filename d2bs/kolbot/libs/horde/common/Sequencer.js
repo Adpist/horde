@@ -69,7 +69,11 @@ var Sequencer = {
 		
 		//Post completed sequence
 		if (sequenceResult === Sequencer.done && !sequenceParams.skipChores){
-			HordeTown.doChores();
+			if (sequenceParams.skipChores) {
+				HordeTown.lightChores();
+			} else {
+				HordeTown.doChores();
+			}
 		}
 		
 		switch (sequenceResult)

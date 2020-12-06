@@ -40,6 +40,21 @@ var HordeTown = {
 		} while(item.getNext());
 	},
 	
+	lightChores: function () {
+		if (!me.inTown) {
+			Role.backToTown();
+		}
+				
+		Quest.checkAndUseConsumable();
+		HordeStorage.stashQuestItems();
+		Town.heal();
+		Town.reviveMerc();
+		
+		this.goToTownWp();
+		
+		Party.waitSynchro("light_chores_done");
+	},
+	
 	doChores: function (repair = false) {
 		if (!me.inTown) {
 			Role.backToTown();
