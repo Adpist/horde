@@ -21,7 +21,8 @@ var HordeSettings = {
 			synchro: false,
 			quests: false,
 			sharing: false,
-			crafting: false
+			crafting: false,
+			chores: false
 		}
 	}
 };
