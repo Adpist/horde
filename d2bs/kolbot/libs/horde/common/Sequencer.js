@@ -55,17 +55,20 @@ var Sequencer = {
 	},
 	
 	preSequence: function(sequence, timeline) {
+		var sequenceParams = this.getSequenceParams(sequence, timeline);
 		scriptBroadcast("run pre-" + sequence + " " + timeline);
-		if (!this.firstSequence){
+		
+		if (!this.firstSequence && !sequenceParams.skipBO){
 			Farm.mfSync();
 		}
 	},
 	
 	postSequence: function(sequence, timeline, sequenceResult) {
+		var sequenceParams = this.getSequenceParams(sequence, timeline);
 		scriptBroadcast("run post-" + sequence + " " + timeline);
 		
 		//Post completed sequence
-		if (sequenceResult === Sequencer.done){
+		if (sequenceResult === Sequencer.done && !sequenceParams.skipChores){
 			HordeTown.doChores();
 		}
 		
@@ -99,6 +102,20 @@ var Sequencer = {
 		else if (timeline == this.after) { sequenceTimeline = "after mf";}
 		else {sequenceTimeline = "Unknown:" + timeline;}
 		return sequenceTimeline;
+	},
+	
+	getSequenceParams: function(sequence, timeline) {
+		if (timeline == this.before) { 
+			return this.beforeSequences[me.diff][sequence];
+		}
+		else if (timeline == this.quest) { 
+			return this.questSequences[me.diff][sequence];
+		}
+		else if (timeline == this.after) { 
+			return this.afterSequences[me.diff][sequence];
+		}
+		
+		return false;
 	},
 	
 	runSequence: function(sequence, timeline) {		

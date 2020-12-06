@@ -121,7 +121,7 @@ var Sharing = {
 
 			gold(me.getStat(14), 3); // Stash my Gold to make sure I have room to pick more up.
 
-			delay(me.ping * 2 + 250);
+			delay(me.ping + 50);
 
 			me.cancel();
 		}
@@ -132,7 +132,7 @@ var Sharing = {
 			Pickit.pickItem(goldPile);
 		}
 		
-		delay(me.ping*2+250);
+		delay(me.ping*2 + 50);
 
 		if (Role.isMediumGold()) {
 			this.onReceiveGoldCommand(me.profile, "good");
@@ -148,7 +148,7 @@ var Sharing = {
 
 		gold(me.getStat(14), 3); // Stash my Gold.
 
-		delay(me.ping * 2 + 500);
+		delay(me.ping + 50);
 
 		dropAmmount = dropAmmount > maxDropAmmount ? maxDropAmmount : dropAmmount; // If dropAmmount is greater than maxDropAmmount override it.
 
@@ -207,7 +207,7 @@ var Sharing = {
 		}
 		
 		while(this.goldAnswers.length < HordeSystem.teamSize) {
-			delay(me.ping+50);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 		
@@ -230,7 +230,7 @@ var Sharing = {
 				} else if (this.getProfileCommand(me.profile) === "offer") {
 					this.giveGold();
 				} else {
-					delay(me.ping+50);
+					delay(50);
 					Party.wholeTeamInGame();
 				}
 			}
@@ -238,13 +238,11 @@ var Sharing = {
 		
 		var goldPile = getUnit(4, 523, 3);
 		
-		while(goldPile) {
+		while(goldPile && me.gold < Config.LowGold*2) {
 			Pickit.pickItem(goldPile);
-			delay(me.ping*2+250);
+			delay(me.ping+50);
 			goldPile = getUnit(4, 523, 3);
 		}
-		
-		Party.waitSynchro("end_gold");
 		
 		Pickit.pickItems();
 	},
@@ -291,10 +289,10 @@ var Sharing = {
 	receivedPickDone: false,
 	
 	clearGearSharingData: function() {
+		this.gearAnswers = {};
 		this.offeredGearAnswers = {};
 		this.offerSelfResult = {};
 		this.sharableGear = [];
-		this.offeredGearHistory = [];
 		this.fieldSharing = false;
 		this.receivedPickDone = false;
 	},
@@ -454,7 +452,7 @@ var Sharing = {
 		}
 		
 		while(!this.hasReceivedAllGearAnswers(targetProfiles)) {
-			delay(me.ping+50);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 		
@@ -467,12 +465,14 @@ var Sharing = {
 		if (HordeSettings.Debug.Verbose.sharing) {
 			HordeDebug.logScriptInfo("GearSharing", "dropping " + item.name + " for " + profile);
 		}
+		this.receivedPickDone = false;
+		
 		Town.goToTown(Party.lowestAct);
 		Town.move("stash");
 		
 		item.drop();
 		
-		this.receivedPickDone = false;
+		delay(me.ping*2 + 250);
 		
 		Communication.sendToProfile(profile, "sharing gear pick");
 		
@@ -481,7 +481,7 @@ var Sharing = {
 		}
 		
 		while(!this.receivedPickDone){
-			delay(me.ping*2+250);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 		
@@ -499,11 +499,13 @@ var Sharing = {
 		Town.goToTown(Party.lowestAct);
 		Town.move("stash");
 		
+		delay(me.ping*2 + 250);
+		
 		Pickit.pickItems();
-		delay(me.ping+50);
+		delay(me.ping + 50);
 		Item.autoEquip();
 		Item.autoEquipMerc();
-		delay(me.ping+50);
+		delay(me.ping + 50);
 		
 		this.sharableGear = this.getGearToShare(this.fieldSharing);
 		this.onReceiveProfileGearCount(me.profile, this.sharableGear.length);
@@ -549,7 +551,7 @@ var Sharing = {
 		
 		//wait all aswers
 		while(!this.hasReceivedAllProfilesGear()) {
-			delay(me.ping+50);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 		
@@ -594,10 +596,10 @@ var Sharing = {
 						this.offeredGearHistory.push({gid: itemToShare.gid, classid: itemToShare.classid});
 					}
 				
-					delay(me.ping+50);
+					delay(me.ping + 50);
 					Item.autoEquip();
 					Item.autoEquipMerc();
-					delay(me.ping+50);
+					delay(me.ping + 50);
 					
 					this.sharableGear = this.getGearToShare(fieldSharing);
 					this.onReceiveProfileGearCount(me.profile, this.sharableGear.length);
@@ -616,7 +618,7 @@ var Sharing = {
 					}
 					
 					while(this.gearAnswers[sharingProfile].status !== "done") {
-						delay(me.ping + 50);
+						delay(50);
 						Party.wholeTeamInGame();
 					}
 					
@@ -633,13 +635,7 @@ var Sharing = {
 				print("No gear to share");
 			}
 		}
-		
-		if (HordeSettings.Debug.Verbose.sharing) {
-			print("Waiting all profiles to finish gear sharing");
-		}
-		
-		Party.waitSynchro("end_gear");
-		
+
 		if (HordeSettings.Debug.Verbose.sharing) {
 			print("End gear sharing");
 		}
@@ -718,10 +714,14 @@ var Sharing = {
 					if (!this.isInOfferedGearHistory(item)) {
 						var pickResult = Pickit.checkItem(item);
 						if (pickResult.result === 0 || pickResult.result === 1) {
-							if (HordeSettings.Debug.Verbose.sharing) {
-								print("Can share " + item.name + " ; gid : " + item.gid + " - result : " + pickResult.result + " - line : " + pickResult.line);
+							if (!AutoMule.isIngredient(item)) {
+								if (HordeSettings.Debug.Verbose.sharing) {
+									print("Can share " + item.name + " ; gid : " + item.gid + " - result : " + pickResult.result + " - line : " + pickResult.line);
+								}
+								sharableItems.push(copyUnit(item));
+							} else if (HordeSettings.Debug.Verbose.sharing) {
+								print("Skipping ingredient " + item.name + " ; gid : " + item.gid);
 							}
-							sharableItems.push(copyUnit(item));
 						}
 					}
 				}
@@ -857,7 +857,7 @@ var Sharing = {
 		}
 		
 		while(!this.runeDropDone){
-			delay(me.ping*2+250);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 		
@@ -911,7 +911,7 @@ var Sharing = {
 		}
 		
 		while(!this.runePickDone){
-			delay(me.ping*2+250);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 		
@@ -939,7 +939,7 @@ var Sharing = {
 		this.onReceiveRuneNeedList(me.profile, Runewords.needList);
 		
 		while(!this.hasReceivedAllProfilesNeedList()) {
-			delay(me.ping+50);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 		
@@ -956,7 +956,7 @@ var Sharing = {
 					}
 					
 					while(!this.hasReceivedAllProfilesOfferList()) {
-						delay(me.ping+50);
+						delay(50);
 						Party.wholeTeamInGame();
 					}
 					
@@ -977,7 +977,7 @@ var Sharing = {
 					}
 					
 					while(this.runeNeeds[requestProfile].status !== "done") {
-						delay(me.ping + 50);
+						delay(50);
 						Party.wholeTeamInGame();
 					}
 				}

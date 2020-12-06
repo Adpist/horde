@@ -481,7 +481,7 @@ MainLoop:
 						(item.location === 7 || (item.location === 3 && !Storage.Inventory.IsLocked(item, Config.Inventory))) && // Don't drop items in locked slots
 						((!TorchSystem.getFarmers() && !TorchSystem.isFarmer()) || [647, 648, 649].indexOf(item.classid) === -1)) { // Don't drop Keys if part of TorchSystem
 					if (this.matchItem(item, Config.AutoMule.Force.concat(Config.AutoMule.Trigger)) || // Always drop items on Force or Trigger list
-						(!this.matchItem(item, Config.AutoMule.Exclude) && (!this.cubingIngredient(item) && !this.runewordIngredient(item) && !this.utilityIngredient(item)))) { // Don't drop Excluded items or Runeword/Cubing/CraftingSystem ingredients
+						(!this.matchItem(item, Config.AutoMule.Exclude) && (!this.isIngredient(item)))) { // Don't drop Excluded items or Runeword/Cubing/CraftingSystem ingredients
 						items.push(copyUnit(item));
 					}
 				}
@@ -491,6 +491,10 @@ MainLoop:
 		return items;
 	},
 
+	isIngredient: function(item) {
+		return this.cubingIngredient(item) || this.runewordIngredient(item) || this.utilityIngredient(item);
+	},
+	
 	utilityIngredient: function (item) {
 		return CraftingSystem.validGids.indexOf(item.gid) > -1;
 	},

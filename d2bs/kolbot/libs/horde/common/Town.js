@@ -6,19 +6,24 @@
 */
 
 var HordeTown = {
-
+	needUpdateLowestAct: true,
+	lastTownWpPosition: {x:0, y:0},
 	goToTownWp: function() {
 		if (!me.inTown) {
 			Role.backToTown();
 		}
 		
-		if (me.act === 5) {
-			Town.move("stash");
+		if (this.lastTownWpPosition.x !== me.x || this.lastTownWpPosition.y !== me.y) {
+			if (me.act === 5) {
+				Town.move("stash");
+			}
+			
+			Town.move("waypoint");
+			Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
+			delay(me.ping*2+50);
+			this.lastTownWpPosition.x = me.x;
+			this.lastTownWpPosition.y = me.y;
 		}
-		
-		Town.move("waypoint");
-		
-		Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
 	},
 	
 	clearStash: function() {
@@ -41,11 +46,20 @@ var HordeTown = {
 		}
 
 		var i,
-			cancelFlags = [0x01, 0x02, 0x04, 0x08, 0x14, 0x16, 0x0c, 0x0f, 0x19, 0x1a];
+			cancelFlags = [0x01, 0x02, 0x04, 0x08, 0x14, 0x16, 0x0c, 0x0f, 0x19, 0x1a],
+			startTick = getTickCount(), synchroStart;
 
-		TeamData.save();
+		if (HordeSettings.Debug.Verbose.chores) {
+			print("Start Town chores");
+		}
 		
-		Party.waitSynchro("begin_chores");
+		TeamData.save();
+		var prepareTick = getTickCount();
+		
+		if (HordeSettings.Debug.Verbose.chores) {
+			print("Town chores prepare for sharing");
+		}
+		
 		Attack.weaponSwitch(Attack.getPrimarySlot());
 
 		//Restaure status, id items & craft
@@ -59,31 +73,76 @@ var HordeTown = {
 		//this.clearStash();
 		
 		this.goToTownWp();
+		
+		if (HordeSettings.Debug.Verbose.chores) {
+			print("Town chores wait all prepared");
+		}
+		
 		Party.waitSynchro("begin_gearing");
 				
+		if (HordeSettings.Debug.Verbose.chores) {
+			
+			if (Role.isLeader) {
+				print("TownChores : prepare sharing time : " + (getTickCount() - prepareTick) + " ms");
+			}
+			
+			print("Town chores gear sharing");
+		}
+		
 		//Share gear & try auto equip
+		var gearTick = getTickCount();
 		Sharing.shareGear();
 		Pickit.pickItems();
 		Item.autoEquip();
 		Item.autoEquipMerc();
 		
-		//update highest town
-		Quest.goToHighestTown();
-		Party.updateLowestAct();
+		if (HordeSettings.Debug.Verbose.chores && Role.isLeader) {
+			HordeDebug.logScriptInfo("TownChores", "gear sharing time : " + (getTickCount() - gearTick) + " ms");
+		}
 		
-		this.goToTownWp();
-		Party.waitSynchro("begin_selling");
+		//update highest town
+		if (this.needUpdateLowestAct) {
+			if (HordeSettings.Debug.Verbose.chores) {
+				print("Town chores update lowest act");
+			}
+			var lowestActTick = getTickCount();
+			
+			Quest.goToHighestTown();
+			Party.updateLowestAct();
+			
+			if (HordeSettings.Debug.Verbose.chores) {
+				if (Role.isLeader) {
+					print("TownChores : update lowest act : " + (getTickCount() - lowestActTick) + " ms");
+				}
+				print("Town chores wait all ready selling");
+			}
+			
+			this.goToTownWp();
+			
+			this.needUpdateLowestAct = false;
+		}
+		
+		if (HordeSettings.Debug.Verbose.chores) {
+			print("Town chores start selling");
+		}
 		
 		//Sell Inventory
 		Town.clearInventory(true);
 		HordeStorage.removeUnwearableItems();
 		HordeStorage.organize();
 		
+		if (HordeSettings.Debug.Verbose.chores) {
+			print("Town chores share gold");
+		}
+		
 		//Share gold if needed
 		Sharing.shareGold();
 		
 		this.goToTownWp();
-		Party.waitSynchro("begin_shopping");
+		
+		if (HordeSettings.Debug.Verbose.chores) {
+			print("Town chores Process shopping");
+		}
 		
 		//Go back to highest town & shop
 		Quest.goToHighestTown();
@@ -123,7 +182,19 @@ var HordeTown = {
 			MuleLogger.logChar();
 		}
 		
+		if (HordeSettings.Debug.Verbose.chores) {
+			print("Town chores wait all done");
+		}
+		
 		Party.waitSynchro("chores_done");
+		
+		if (HordeSettings.Debug.Verbose.chores) {
+			if (Role.isLeader) {
+				HordeDebug.logScriptInfo("TownChores", "town chores total time : " + (getTickCount() - startTick) + " ms");
+			}
+			
+			print("Town chores done");
+		}
 		
 		return true;
 	},

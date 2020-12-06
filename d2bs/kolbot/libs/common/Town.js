@@ -1938,19 +1938,19 @@ MainLoop:
 				result = Pickit.checkItem(items[i]).result;
 				
 				//Drop old gear without dura
-				if (result === 1) {
-					var tier = NTIP.GetTierEx(items[i], "Tier", NTIP_CheckList, false);
-					var mercTier = NTIP.GetTierEx(items[i], "MercTier", NTIP_CheckList, false);
-					
-					if ((tier > 0 && !Item.autoEquipCheck(items[i], tier)) || (mercTier > 0 && !Item.autoEquipCheckMerc(items[i], mercTier))) {
-						var durability = item.getStat(72);
-						var maxDura = item.getStat(73);
-						
-						if (typeof durability === "number" && durability /* * 100 / item.getStat(73) */<= 0) {
-							result = 0;
-						}
-					}
-				}
+				//if (result === 1) {
+				//	var tier = NTIP.GetTierEx(items[i], "Tier", NTIP_CheckList, false);
+				//	var mercTier = NTIP.GetTierEx(items[i], "MercTier", NTIP_CheckList, false);
+				//	
+				//	if ((tier > 0 && !Item.autoEquipCheck(items[i], tier)) || (mercTier > 0 && !Item.autoEquipCheckMerc(items[i], mercTier))) {
+				//		var durability = item.getStat(72);
+				//		var maxDura = item.getStat(73);
+				//		
+				//		if (typeof durability === "number" && durability /* * 100 / item.getStat(73) */<= 0) {
+				//			result = 0;
+				//		}
+				//	}
+				//}
 
 				switch (result) {
 				case 0: // Drop item

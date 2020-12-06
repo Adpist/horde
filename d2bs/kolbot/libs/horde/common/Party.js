@@ -111,6 +111,7 @@ var Party = {
 		if (count < HordeSystem.teamSize) {
 			if (!stayInGame) {
 				HordeDebug.logScriptError("Party", "Teammates are missing from game (" + count + "/" + HordeSystem.teamSize + ") - leaving game");
+				HordeSystem.onToolThreadQuit();
 			}
 			return stayInGame ? false : quit(); // Return false if stayInGame is true, otherwise leave game.
 		}
@@ -333,7 +334,7 @@ var Party = {
 		success = getTickCount() - tick <= timeout;
 		
 		if (success) {
-			delay(me.ping*2 + 500);
+			delay(me.ping + 50);
 		}
 		
 		Communication.Synchro.flushTeamReady(synchroType);
@@ -381,7 +382,7 @@ var Party = {
 		success = getTickCount() - tick <= timeout;
 		
 		if (success) {
-			delay(me.ping*2 + 500);
+			delay(me.ping + 50);
 		}
 		
 		Communication.Synchro.flushTeamReady(synchroType);
@@ -410,7 +411,7 @@ var Party = {
 		while (!this.lowestAct) { // Wait for everyone to get back to their Town, then record the lowest Town.
 			this.lowestAct = Party.getLowestAct();
 
-			delay(250);
+			delay(50);
 			Party.wholeTeamInGame();
 		}
 
