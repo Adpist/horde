@@ -150,11 +150,18 @@ var Pickit = {
 				status = this.checkItem(pickList[0]);
 
 				if (status.result && this.canPick(pickList[0]) /*&& Item.autoEquipCheck(pickList[0])*/) {
+					if (pickList[0].gid === undefined) { // make sure it's not gone already
+						// Skip the undefined items (likely picked by another [quicker] bot)
+						D2Bot.printToConsole("Pickit.js>pickItems WARNING: Detected undefined ground item classid: " + pickList[0].classid, 6);
+						D2Bot.printToConsole(item.toSource());
+					} else {
 					// Override canFit for scrolls, potions and gold
 					canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
 
 					// Try to make room with FieldID
-					if (!canFit && Config.FieldID && Town.fieldID()) {
+						if (!canFit && Config.FieldID && Town.fieldID()
+							&& copyUnit(pickList[0]).gid !== undefined) { // make sure it didn't disappear (happens with potions with 2+ bots)
+							// delay(me.ping > 0 ? me.ping * 2 : 50); // TODO: determine if this resolves undefined errors coming back from FindSpot and avoids extra muling
 						canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
 					}
 
@@ -186,8 +193,12 @@ var Pickit = {
 					}
 
 					// Item can fit - pick it up
-					if (canFit) {
+						if (canFit && copyUnit(pickList[0]).gid !== undefined) {
 						this.pickItem(pickList[0], status.result, status.line);
+						} else {
+							D2Bot.printToConsole("Pickit.js>pickItems WARNING: Detected undefined CanFit item classid: " + pickList[0].classid, 6);
+							D2Bot.printToConsole(pickList[0].toSource());
+						}
 					}
 				}
 			}

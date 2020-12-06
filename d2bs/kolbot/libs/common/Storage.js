@@ -122,6 +122,90 @@ var Container = function (name, width, height, location) {
 		return (!!this.FindSpot(item));
 	};
 
+	this.SortItems = function (itemIdsLeft, itemIdsRight) {
+		print("Sorting " + this.name + " ... ");
+
+		var tick = getTickCount(),
+			cube = me.findItem(549);
+
+		Storage.Reload();
+
+		var x, y, item, nPos;
+
+		for ( y = this.width - 1 ; y >= 0 ; y-- ) {
+			for ( x = this.height - 1 ; x >= 0 ; x-- ) {
+
+				delay(1);
+
+				if ( this.buffer[x][y] === 0 ) {
+					continue; // nothing on this spot
+				}
+
+				item = this.itemList[this.buffer[x][y] - 1];
+
+				if ( item.classid === 549 ) {
+					continue; // dont touch the cube
+				}
+
+				if ( this.location !== item.location ) {
+					D2Bot.printToConsole("Storage.js>SortItems WARNING: Detected a non-storage item in the list: " + item.name + " at "+ ix + "," + iy, 6);
+					continue; // dont try to touch non-storage items | TODO: prevent non-storage items from getting this far
+				}
+
+				if ( this.location === 3 && this.IsLocked(item, Config.Inventory)) {
+					continue; // locked spot / item
+				}
+
+				var ix = item.y, iy = item.x; // x and y are backwards!
+
+				if ( ix < x || iy < y ) {
+					continue; // not top left part of item
+				}
+
+				if ( item.type !== 4 ) {
+					D2Bot.printToConsole("Storage.js>SortItems WARNING: Detected a non-item in the list: " + item.name + " at "+ ix + "," + iy, 6);
+					continue; // dont try to touch non-items | TODO: prevent non-items from getting this far
+				}
+
+				if ( item.mode === 3 ) {
+					D2Bot.printToConsole("Storage.js>SortItems WARNING: Detected a ground item in the list: " + item.name + " at "+ ix + "," + iy, 6);
+					continue; // dont try to touch ground items | TODO: prevent ground items from getting this far
+				}
+
+				// Find new position left-to-right or right-to-left
+				if ( itemIdsLeft.indexOf(item.classid) > -1 || itemIdsRight.indexOf(item.classid) === -1) { // sort from left by default or if specified
+					nPos = this.FindSpot(item, false);
+				} else if ( itemIdsLeft.indexOf(item.classid) === -1 && itemIdsRight.indexOf(item.classid) > -1) { // sort from right only if specified
+					nPos = this.FindSpot(item, true);
+				}
+
+				if ( !nPos || (nPos.x === ix && nPos.y === iy)) {
+					continue; // skip if no better spot found
+				}
+
+				// print("Move " + item.name + " from " + ix + "," + iy + " to " + nPos.y + "," + nPos.x);
+
+				if (getTickCount() - tick > 25e3) {
+					continue; // sort is taking too long | TODO: remove this debugging
+				}
+
+				// if (!this.MoveToInternal(getUnit(-1, -1, -1, item.gid), nPos.y, nPos.x)) { // this could send invalid item objects
+				if (!this.MoveToInternal(item, nPos.y, nPos.x)) {
+					continue; // we couldnt move the item
+				}
+
+				// We moved an item so reload & restart
+				Storage.Reload();
+				y = this.width - 0;
+				break; // Loop again from begin
+
+			}
+		}
+
+		print("Sorting " + this.name + " done ");
+		//me.cancel();
+	};
+
 	this.CanFitPosition = function(item, x, y) {
 		var nx, ny, bufferValue;
 		var itemIndex = this.itemList.indexOf(item);
@@ -144,32 +228,63 @@ var Container = function (name, width, height, location) {
 	/* Container.FindSpot(item)
 	 *	Finds a spot available in the buffer to place the item.
 	 */
-	this.FindSpot = function (item) {
-		var x, y, nx, ny;
+	this.FindSpot = function (item, reverseX, reverseY) {
+		var x, y, nx, ny,
+			startX, startY, endX, endY, xDir = 1, yDir = 1;
 
 		//Make sure it's a valid item
 		if (!item) {
 			return false;
 		}
 
+		startX = 0;
+		startY = 0;
+		endX = this.width - (item.sizex - 1);
+		endY = this.height - (item.sizey - 1);
+
 		Storage.Reload();
 
+		if (reverseX){ //right-to-left
+			startX = endX - 1;
+			endX = -1;
+			xDir = -1
+		}
+		if (reverseY){ // bottom-to-top
+			startY = endY - 1;
+			endY = -1;
+			yDir = -1
+		}
 		//Loop buffer looking for spot to place item.
-		for (y = 0; y < this.width - (item.sizex - 1); y += 1) {
+		for (y = startX; y != endX; y += xDir) {
 Loop:
-			for (x = 0; x < this.height - (item.sizey - 1); x += 1) {
+			for (x = startY; x != endY; x += yDir) {
 				//Check if there is something in this spot.
 				if (this.buffer[x][y] > 0) {
+					if (item.gid === undefined) {
+						if (item.mode === 3) {
+							D2Bot.printToConsole("Storage.js>FindSpot WARNING: Detected undefined ground item: " + item.name, 6);
+						} else {
+							D2Bot.printToConsole("Storage.js>FindSpot WARNING: Detected undefined item: " + item.name, 6);
+						}
+						D2Bot.printToConsole(item.toSource());
+						return false;
+						break Loop; // this item disappeared? perhaps picked by another bot
+					}
+
+					if (item.gid !== this.itemList[this.buffer[x][y] - 1].gid ) { // ignore same gid
 					continue;
+				}
 				}
 
 				//Loop the item size to make sure we can fit it.
 				for (nx = 0; nx < item.sizey; nx += 1) {
 					for (ny = 0; ny < item.sizex; ny += 1) {
 						if (this.buffer[x + nx][y + ny]) {
+							if (item.gid !== this.itemList[this.buffer[x + nx][y + ny] - 1].gid ) { // ignore same gid
 							continue Loop;
 						}
 					}
+				}
 				}
 
 				return ({x: x, y: y});

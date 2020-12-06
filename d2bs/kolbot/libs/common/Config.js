@@ -174,6 +174,13 @@ var Config = {
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	],
+	SortInventory: true,
+	ItemsSortedFromLeft: [], // default: everything not in Config.ItemsSortedFromRight
+	ItemsSortedFromRight: [
+		// (NOTE: default pickit is fastest if the left side is open)
+		603, 604, 605, // sort charms from the right
+		515, 516, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596  // sort all inventory potions from the right
+	],
 	LocalChat: {
 		Enabled: false,
 		Toggle: false,

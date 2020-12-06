@@ -1120,7 +1120,7 @@ CursorLoop:
 	},
 
 	checkKeys: function () {
-		if (!Config.OpenChests || me.classid === 6 || me.gold < 540 || (!me.getItem("key") && !Storage.Inventory.CanFit({sizex: 1, sizey: 1}))) {
+		if (!Config.OpenChests || me.classid === 6 || me.gold < 540 || (!me.getItem("key") && !Storage.Inventory.CanFit({sizex: 1, sizey: 1, gid: 13378008}))) {
 			return 12;
 		}
 
@@ -1989,6 +1989,14 @@ MainLoop:
 		}
 
 		return true;
+	},
+
+	sortInventory: function() {
+		if (Config.SortInventory) {
+			Storage.Inventory.SortItems(Config.ItemsSortedFromLeft, Config.ItemsSortedFromRight);
+		} else {
+			return false;
+		}
 	},
 
 	act : [{}, {}, {}, {}, {}],
