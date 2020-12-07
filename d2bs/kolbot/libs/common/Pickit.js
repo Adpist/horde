@@ -153,7 +153,7 @@ var Pickit = {
 					if (pickList[0].gid === undefined) { // make sure it's not gone already
 						// Skip the undefined items (likely picked by another [quicker] bot)
 						D2Bot.printToConsole("Pickit.js>pickItems WARNING: Detected undefined ground item classid: " + pickList[0].classid, 6);
-						D2Bot.printToConsole(item.toSource());
+						D2Bot.printToConsole(pickList[0].toSource());
 					} else {
 					// Override canFit for scrolls, potions and gold
 					canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
