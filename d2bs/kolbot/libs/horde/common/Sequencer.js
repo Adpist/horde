@@ -68,7 +68,7 @@ var Sequencer = {
 		scriptBroadcast("run post-" + sequence + " " + timeline);
 		
 		//Post completed sequence
-		if (sequenceResult === Sequencer.done && !sequenceParams.skipChores){
+		if (sequenceResult === Sequencer.done){
 			if (sequenceParams.skipChores) {
 				HordeTown.lightChores();
 			} else {
