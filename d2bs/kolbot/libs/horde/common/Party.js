@@ -317,6 +317,9 @@ var Party = {
 			clearResult = true;
 		}
 		
+		Precast.doPrecast(true);
+		var lastPrecast = getTickCount();
+		
 		while(!Communication.Synchro.isTeamReady(synchroType) && getTickCount() - tick <= timeout) {
 			if (!me.inTown) {
 				clearResult = Attack.clear(15);
@@ -331,6 +334,11 @@ var Party = {
 			if (clearResult && !sentReady) {
 				Communication.Synchro.sayReady(synchroType);
 				sentReady = true;
+			}
+			
+			if (getTickCount() - lastPrecast > 10000) {
+				Precast.doPrecast(true);
+				lastPrecast = getTickCount();
 			}
 			
 			Communication.Synchro.askMissingReady(synchroType);
