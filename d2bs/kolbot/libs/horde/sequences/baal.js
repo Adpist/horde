@@ -38,9 +38,30 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 
 //(<3 YGM)
 	Party.wholeTeamInGame();
-	var portal, tick, baalfail, questTry, time, l, merc,
-	quest = false;
+	var portal, tick, baalfail, questTry, time, l, merc,		
+		quest = false;
 	Town.goToTown(5);
+	
+	this.monsterChickenCheck = function(){
+		var quitOnDolls = me.diff === 2 && me.playertype, 
+			quitOnSouls = me.diff === 2 && me.playerType;
+			
+		if (quitOnDolls && getUnit(1, 691)) {
+			HordeDebug.logScriptInfo("Baal", "Dolls found, leaving");
+
+			quit();
+			return true;
+		}
+
+		if (quitOnSouls && getUnit(1, 641)) {
+			HordeDebug.logScriptInfo("Baal", "Souls found, leaving");
+
+			quit();
+			return true;
+		}
+		
+		return false;
+	};
 	
 	this.preattack = function () {
 		var check;
@@ -242,8 +263,17 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 	if (Role.teleportingChar && Party.hasReachedLevel(28)) {
 		Pather.moveToExit([130, 131], true);
 		//Pather.moveTo(15121, 5237);
+		if(this.monsterChickenCheck()){
+			return Sequencer.skip;
+		}
 		Pather.moveTo(15095, 5029);
+		if(this.monsterChickenCheck()){
+			return Sequencer.skip;
+		}
 		Pather.moveTo(15118, 5002);
+		if(this.monsterChickenCheck()){
+			return Sequencer.skip;
+		}
 		Pather.makePortal();
 	}
 
@@ -290,12 +320,13 @@ function baal(mfRun) { // SiC-666 TODO: Rewrite this.
 	Attack.clear(15);
 	this.clearThrone();
 	tick = getTickCount();
-	Pather.moveTo(15094, me.classid === 3 ? 5029 : 5038, 5, Config.ClearType);
-	Precast.doPrecast(true);
 
 	if(HordeSystem.team.walkThroneRoomNorm && me.diff === 0) {
 		Pather.teleport = false;
 	}
+	
+	Precast.doPrecast(true);
+	
 BaalLoop:
 	while (true) {
 	//	if (getDistance(me, 15094, me.classid === 3 ? 5029 : 5038) > 3) {
@@ -304,9 +335,10 @@ BaalLoop:
 		if (me.classid === 3 || me.classid === 4) {
 			Pather.moveTo(15094, 5029);
 			Buff.Bo();
-		} else if (me.classid === 1) {
+		} else {
 			Pather.moveTo(15094, 5038);
 		}
+		
 
 		if (!getUnit(1, 543)) {
 			break BaalLoop;
@@ -378,66 +410,89 @@ BaalLoop:
 	}
 
 	Party.wholeTeamInGame();
-	for(questTry = 0 ; questTry < 10 ; questTry +=1) {
-		if (me.getQuest(40,0)) {
-			quest = true;
-			break;
-		}
-		delay(100);
-	}
-
-	if (!quest) {
-		Config.QuitList = [];
-	}
-	Pather.moveTo(15090, 5008); //, 5, Config.ClearType);
-	delay(5000);
-	Precast.doPrecast(true);
-	Buff.Bo();
-	while (getUnit(1, 543)) {
-		delay(500);
-	}
-	portal = getUnit(2, 563);
-	if (portal) {
-		Pather.usePortal(null, null, portal);
-	} else {
-		throw new Error("Baal: Couldn't find portal.");
-	}
-	for(time=0; time<200 ; time+=1) {
-		if (time>30) {
-			quit();
-		}
-		if (Party.allPlayersInArea()) {
-			break;
-		}
-		delay(1000);
-	}
-	Pather.moveTo(15134, 5923);
-	var baalded = false;
-	var baalloop = getTickCount() + 3*60*1000;
-	while(!baalded && getTickCount() < baalloop){
-		try{
-			if (Attack.kill(544)) {
-				baalded = true;
-			}
-		}catch(e) {
-			delay(10000);
-			print(e);
-		}
-	}
-	delay(me.ping*2);
-	Pickit.pickItems();
-	delay(2000);
-	if (!quest) {
-		Communication.sendToList(HordeSystem.allTeamProfiles, "avoiding congrats screen");
-
-		delay(20 * me.ping); // Wait 2-4 seconds for others to pause ToolsThread.js before leaving.
-		delay(rand(2000,10000));
-		D2Bot.restart(); // Avoid congrats screen.
-	}
-
-	Pather.teleport = true;
 	
-	Role.backToTown();
+	var hasQuestDropProfile = me.diff === 2 && HordeSystem.questDropProfile !== "";
+	if (!Role.questDropChar || !hasQuestDropProfile) {
+		for(questTry = 0 ; questTry < 10 ; questTry +=1) {
+			if (me.getQuest(40,0)) {
+				quest = true;
+				break;
+			}
+			delay(100);
+		}
+
+		if (!quest) {
+			Config.QuitList = [];
+		}
+		Pather.moveTo(15090, 5008); //, 5, Config.ClearType);
+		delay(5000);
+		Precast.doPrecast(true);
+		Buff.Bo();
+		while (getUnit(1, 543)) {
+			delay(500);
+		}
+		portal = getUnit(2, 563);
+		if (portal) {
+			Pather.usePortal(null, null, portal);
+		} else {
+			throw new Error("Baal: Couldn't find portal.");
+		}
+		
+		for(time=0; time<200 ; time+=1) {
+			if (time>30) {
+				quit();
+			}
+			if (Party.allPlayersInArea(me.area, hasQuestDropProfile ? HordeSystem.teamSize - 1 : HordeSystem.teamSize)) {
+				break;
+			}
+			delay(1000);
+		}
+		Pather.moveTo(15134, 5923);
+		var baalded = false;
+		var baalloop = getTickCount() + 3*60*1000;
+		while(!baalded && getTickCount() < baalloop){
+			try{
+				if (Attack.kill(544)) {
+					baalded = true;
+				}
+			}catch(e) {
+				delay(10000);
+				print(e);
+			}
+		}
+		delay(me.ping*2);
+		Pickit.pickItems();
+		delay(2000);
+		if (!quest) {
+			Communication.sendToList(HordeSystem.allTeamProfiles, "avoiding congrats screen");
+
+			delay(20 * me.ping); // Wait 2-4 seconds for others to pause ToolsThread.js before leaving.
+			delay(rand(2000,10000));
+			D2Bot.restart(); // Avoid congrats screen.
+		}
+
+		Pather.teleport = true;
+		
+		Role.backToTown();
+		
+		if (HordeSystem.questDropProfile !== "") {
+			Party.inviteTeammate(HordeSystem.questDropProfile);
+			Party.waitSynchro("baal_quest_drop");
+		}
+		
+	} else { //Quest drop char
+		Party.leaveParty();
+		Town.goToTown();
+		Party.waitSynchro("baal_quest_drop");
+		for (var i = 0 ; i < 3 ; i += 1) {
+			if (Party.joinHordeParty()) {
+				break;
+			}
+			if (i === 2) {
+				throw new Error("Failed to rejoin party after hellforge");
+			}
+		}
+	}
 
 	return Sequencer.done;
 }
