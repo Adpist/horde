@@ -27,14 +27,51 @@ var AutoBuildTemplate = {
 			//SkillPoints: [-1],								// This doesn't matter. We don't have skill points to spend at lvl 1
 			//StatPoints: [-1,-1,-1,-1,-1],						// This doesn't matter. We don't have stat points to spend at lvl 1
 			Update: function () {
-				Config.LowGold			= 500;
 				Config.StashGold 		= 200;							// Minimum amount of gold to stash.
 				Config.TownCheck		= false;						// Don't go to town for more potions
 				Config.AttackSkill		= [-1, 36, -1, 36, -1, 0, 0];	// At level 1 we start with a +1 Fire Bolt staff
 				Config.LowManaSkill		= [0, 0];						// Hit stuff when out of Mana.
 				Config.BeltColumn		= ["hp", "hp", "hp", "hp"];		// Keep tons of health potions!
 				Config.MinColumn 		= [0, 0, 0, 0];
-				Config.Cubing = false;									// Don't cube yet!
+				Config.ScanShrines = [15, 13, 12, 14, 7, 6, 3, 2, 1];
+				Config.OpenChests = false; // Might as well open em.
+				Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
+				Config.MPBuffer = 4; // Number of healing potions to keep in inventory.
+				Config.RejuvBuffer = 2; // Number of rejuvenation potions to keep in inventory.
+				Config.UseMerc = true; // Use merc. This is ignored and always false in d2classic.
+				Config.MercWatch = false; // Instant merc revive during battle.
+				Config.HealHP = 95; // Go to a healer if under designated percent of life.
+				Config.HealMP = 90; // Go to a healer if under designated percent of mana.
+				Config.LowGold = 1000;
+				Config.UseHP = 75; // Drink a healing potion if life is under designated percent.
+				Config.UseRejuvHP = 50; // Drink a rejuvenation potion if life is under designated percent.
+				Config.UseMP = 35; // Drink a mana potion if mana is under designated percent.
+				Config.UseRejuvMP = 0; // Drink a rejuvenation potion if mana is under designated percent.
+				Config.UseMercHP = 40; // Give a healing potion to your merc if his/her life is under designated percent.
+				Config.UseMercRejuv = 0; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
+				Config.LifeChicken = 10; // Exit game if life is less or equal to designated percent.
+				Config.ManaChicken = 0; // Exit game if mana is less or equal to designated percent.
+				Config.MercChicken = 0; // Exit game if merc's life is less or equal to designated percent.
+				Config.TownHP = 35; // Go to town if life is under designated percent.
+				Config.TownMP = 0; // Go to town if mana is under designated percent.
+				Config.PickRange = 30; // Pick radius
+				Config.FastPick = false; // Check and pick items between attacks
+				Config.Dodge = true; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
+				Config.DodgeRange = 10; // Distance to keep from monsters.
+				Config.DodgeHP = 50; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+				Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
+				Config.ClearType = 0; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
+				Config.FCR = 0; // 0 - disable, 1 to 255 - set value of faster cast rate
+				Config.FHR = 0; // 0 - disable, 1 to 255 - set value of faster hit recovery
+				Config.FBR = 0; // 0 - disable, 1 to 255 - set value of faster block recovery
+				Config.IAS = 0; // 0 - disable, 1 to 255 - set value of increased attack speed
+				Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
+				Config.PacketShopping = false; // Use packets to shop. Improves shopping speed.
+				Config.WaypointMenu = true;
+				Config.PrimarySlot = -1; // Set to use specific weapon slot as primary weapon slot: -1 = disabled, 0 = slot I, 1 = slot II
+				Config.MFSwitchPercent = 0; // Boss life % to switch to non-primary weapon slot. Set to 0 to disable.
+				Config.LogExperience = true; // Print experience statistics in the manager.
+				Config.AutoMap = true; // Set to true to open automap at the beginning of the game.
 			}
 		},
 
@@ -165,6 +202,8 @@ var AutoBuildTemplate = {
 			SkillPoints: [-1],
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
+				
+				Config.MPBuffer = 8;									// Need lots of mana for Teleport!
 			}
 		},
 
@@ -210,7 +249,6 @@ var AutoBuildTemplate = {
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
 				Config.BeltColumn = ["hp", "mp", "mp", "rv"];
-				Config.Cubing = true;									// Will have a cube by now.
 				Config.AttackSkill = [56, 47, -1, 47, -1, 0, 0];		// Meteor + fireball
 				Config.MinColumn = [2, 2, 2, 0];						// Should have a decent belt by now
 			}
@@ -256,6 +294,7 @@ var AutoBuildTemplate = {
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
 				Config.AttackSkill = [56, 64, 47, 64, 47, 56, 47];		// Final setup
+				Config.MPBuffer = 4;									// Need lots of mana for Teleport!
 				Config.LowGold = 40000;
 				Config.StashGold = 5000;							// Minimum amount of gold to stash.
 			}
@@ -479,7 +518,6 @@ var AutoBuildTemplate = {
 			Update: function () {
 				Config.LowGold = 150000;
 				Config.StashGold = 15000;							// Minimum amount of gold to stash.
-				Config.MPBuffer = 0;
 			}
 		},
 
@@ -550,6 +588,7 @@ var AutoBuildTemplate = {
 			SkillPoints: [-1],
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
+				Config.MPBuffer = 2;									// Need lots of mana for Teleport!
 				Config.LowGold = 200000;
 				Config.StashGold = 20000;							// Minimum amount of gold to stash.
 			}
@@ -696,6 +735,8 @@ var AutoBuildTemplate = {
 			SkillPoints: [-1],
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
+				Config.HPBuffer = 0;									// Need lots of mana for Teleport!
+				Config.MPBuffer = 0;									// Need lots of mana for Teleport!
 			}
 		},
 

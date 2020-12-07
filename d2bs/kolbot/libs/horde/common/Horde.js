@@ -291,6 +291,17 @@ var HordeSystem = {
 		Config.GambleGoldStop = Config.Gamble ? 1000000 : 2900000;
 	},
 	
+	setupOptions: function() {
+		Config.LogExperience = HordeSettings.Log.Experience; // Print experience statistics in the manager.
+		Config.LogKeys = HordeSettings.Log.Keys; // Log keys on item viewer
+		Config.LogOrgans = HordeSettings.Log.Organs; // Log organs on item viewer
+		Config.LogLowRunes = HordeSettings.Log.LowRunes; // Log low runes (El - Dol) on item viewer
+		Config.LogMiddleRunes = HordeSettings.Log.MiddleRunes; // Log middle runes (Hel - Mal) on item viewer
+		Config.LogHighRunes = HordeSettings.Log.HighRunes; // Log high runes (Ist - Zod) on item viewer
+		Config.LogLowGems = HordeSettings.Log.LogLowGems; // Log low gems (chipped, flawed, normal) on item viewer
+		Config.LogHighGems = HordeSettings.Log.LogHighGems; // Log high gems (flawless, perfect) on item viewer
+	},
+	
 	setupConfig: function(teamName, oog) {
 		print("setup config " + me.profile + "[" + teamName + "]");
 		
@@ -403,6 +414,7 @@ var HordeSystem = {
 			this.setupPickits();
 			this.setupGambling();
 			this.setupTownConfig();
+			this.setupOptions();
 		}
 		
 		Sequencer.setupSequences(this.team.sequencesProfile);

@@ -39,7 +39,6 @@ var AutoBuildTemplate = {
 				Config.Revives = "max"; // Number of revives to raise. Set to "max" to auto detect, set to 0 to disable.
 				Config.ActiveSummon = true; // Raise dead between each attack. If false, it will raise after clearing a spot.
 				Config.ReviveUnstackable = true; // Revive monsters that can move freely after you teleport.
-				Config.Cubing = false;
 				Config.Dodge = false;									// Don't cube yet!
 			}
 		},

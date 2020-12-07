@@ -15,6 +15,17 @@ var HordeSettings = {
 		playtime: true //Display the playtime
 	},
 	
+	Log: {
+		Experience: false, // Print experience statistics in the manager.
+		Keys: false, // Log keys on item viewer
+		Organs: true, // Log organs on item viewer
+		LowRunes: false, // Log low runes (El - Dol) on item viewer
+		MiddleRunes: false, // Log middle runes (Hel - Mal) on item viewer
+		HighRunes: true, // Log high runes (Ist - Zod) on item viewer
+		LowGems: false, // Log low gems (chipped, flawed, normal) on item viewer
+		HighGems: false // Log high gems (flawless, perfect) on item viewer
+	},
+	
 	Debug: {
 		Verbose: {
 			leaderElection: false,

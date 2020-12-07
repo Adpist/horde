@@ -25,8 +25,6 @@ AutoBuildTemplate[1] = {
         Config.ScanShrines = [15, 13, 12, 14, 7, 6, 3, 2, 1];
         Config.BeltColumn = ["hp", "hp", "hp", "hp"]; // Keep tons of health potions!
         Config.MinColumn = [0, 0, 0, 0];
-        Config.OpenChests = false; // Might as well open em.
-        Config.Cubing = false; // Don't cube yet!
         Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
         Config.MPBuffer = 4; // Number of healing potions to keep in inventory.
         Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
@@ -62,26 +60,7 @@ AutoBuildTemplate[1] = {
         Config.WaypointMenu = true;
         Config.PrimarySlot = -1; // Set to use specific weapon slot as primary weapon slot: -1 = disabled, 0 = slot I, 1 = slot II
         Config.MFSwitchPercent = 0; // Boss life % to switch to non-primary weapon slot. Set to 0 to disable.
-        Config.LogExperience = true; // Print experience statistics in the manager.
         Config.AutoMap = true; // Set to true to open automap at the beginning of the game.
-
-        // Gambling config
-        Config.Gamble = false;
-        Config.GambleGoldStart = 3000000;
-        Config.GambleGoldStop = 2900000;
-        // List of item names or classids for gambling. Check libs/NTItemAlias.dbl file for other item classids.
-        Config.GambleItems.push(520); // Amulet
-        Config.GambleItems.push(522); // Ring
-        Config.GambleItems.push(418); // Circlet
-        Config.GambleItems.push(419); // Coronet
-
-        Config.LogLowRunes = true; // Log low runes (El - Dol) on item viewer
-        Config.LogMiddleRunes = true; // Log middle runes (Hel - Mal) on item viewer
-        Config.LogHighRunes = true; // Log high runes (Ist - Zod) on item viewer
-        Config.LogLowGems = false; // Log low gems (chipped, flawed, normal) on item viewer
-        Config.LogHighGems = true; // Log high gems (flawless, perfect) on item viewer
-        Config.SkipLogging = []; // Custom log skip list. Set as three digit item code or classid. Example: ["tes", "ceh", 656, 657] will ignore logging of essences.
-
     }
 };
 
@@ -149,7 +128,6 @@ AutoBuildTemplate[24] = {
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
         Config.LowManaSkill = [-1, 115]; // no more hitting stuff
-        Config.Cubing = true; // Will have a cube by now.
         Config.LowGold = 15000;
     }
 };
@@ -162,10 +140,6 @@ AutoBuildTemplate[30] = {
         Config.LowManaSkill = [-1, 125]; // Use meditation when out of mana
         Config.LowGold = 20000;
         Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
-        Config.MiniShopBot = true;
-        Config.CainID.Enable = true; // Identify items at Cain
-        Config.CainID.MinGold = 20000; // Minimum gold (stash + character) to have in order to use Cain.
-        Config.CainID.MinUnids = 1; // Minimum number of unid items in order to use Cain.
         Config.MPBuffer = 6; // Number of mana potions to keep in inventory.
         Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
 		Config.Vigor = false; // Swith to Vigor when running

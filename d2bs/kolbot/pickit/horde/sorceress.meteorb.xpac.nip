@@ -5,7 +5,7 @@
 //weapons
 ([type] == sorceressitem || [type] == orb  || [type] == wand) && (([quality] >= magic) || [quality] < magic ) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,64)*30 + item.getStatEx(107,47)*25 + item.getStatEx(107,56)*20 + item.getStatEx(188,8)*30 + item.getStatEx(188,10)*30 + item.getStatEx(83,1)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
 
-[type] == orb && [quality] >= unique # [itemmagicbonus] >= 50 # [tier] == 10001 //occy
+[type] == orb && [quality] >= unique # [itemmagicbonus] >= 50 # [tier] == 14500 //occy
 
 //shields
 ([type] == shield) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 

@@ -33,7 +33,6 @@ var AutoBuildTemplate = {
 				Config.LowManaSkill		= [0, 0];						// Hit stuff when out of Mana.
 				Config.BeltColumn		= ["hp", "hp", "hp", "hp"];		// Keep tons of health potions!
 				Config.MinColumn 		= [0, 0, 0, 0];
-				Config.Cubing = false;									// Don't cube yet!
 			}
 		},
 
@@ -208,7 +207,7 @@ var AutoBuildTemplate = {
 			SkillPoints: [-1],
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
-				Config.Cubing = true;									// Will have a cube by now.
+			
 			}
 		},
 

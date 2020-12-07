@@ -84,7 +84,6 @@ var AutoBuildTemplate = {
 				Config.BeltColumn		= ["hp", "hp", "hp", "hp"];		// Keep tons of health potions!
 				Config.MinColumn 		= [0, 0, 0, 0];
 				Config.OpenChests = false;								// Might as well open em.
-				Config.Cubing = false;									// Don't cube yet!
 			}
 		},
 
@@ -274,7 +273,7 @@ var AutoBuildTemplate = {
 					SkillPoints: [-1],
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
-				Config.Cubing = true;									// Will have a cube by now.
+			
 			}
 		},
 
@@ -722,7 +721,6 @@ var AutoBuildTemplate = {
 					SkillPoints: [-1],
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
-				Config.Gamble = true;									// Time to spend dat ca$h!!
 				//Config.ScanShrines	= [];
 			}
 		},

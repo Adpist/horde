@@ -44,6 +44,8 @@ var StatsBuilds = {
 		["enr", 75],
 		["vit", 175],
 		["str", 115],
+		["vit", 205],
+		["str", 156],
 		["vit", "all"]	
 	]
 	

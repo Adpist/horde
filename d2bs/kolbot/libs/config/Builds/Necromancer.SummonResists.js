@@ -19,13 +19,11 @@ var AutoBuildTemplate = {
 				Config.BeltColumn		= ["hp", "hp", "hp", "hp"];		// Keep tons of health potions!
 				Config.MinColumn 		= [0, 0, 0, 0];
 				Config.OpenChests = false;								// Might as well open em.
-				Config.Cubing = false;									// Don't cube yet!
-								Config.Skeletons = "max"; // Number of skeletons to raise. Set to "max" to auto detect, set to 0 to disable.
-								Config.SkeletonMages = "max"; // Number of skeleton mages to raise. Set to "max" to auto detect, set to 0 to disable.
-								Config.Revives = "max"; // Number of revives to raise. Set to "max" to auto detect, set to 0 to disable.
-								Config.ActiveSummon = true; // Raise dead between each attack. If false, it will raise after clearing a spot.
-								Config.ReviveUnstackable = true; // Revive monsters that can move freely after you teleport.
-
+				Config.Skeletons = "max"; // Number of skeletons to raise. Set to "max" to auto detect, set to 0 to disable.
+				Config.SkeletonMages = "max"; // Number of skeleton mages to raise. Set to "max" to auto detect, set to 0 to disable.
+				Config.Revives = "max"; // Number of revives to raise. Set to "max" to auto detect, set to 0 to disable.
+				Config.ActiveSummon = true; // Raise dead between each attack. If false, it will raise after clearing a spot.
+				Config.ReviveUnstackable = true; // Revive monsters that can move freely after you teleport.
 			}
 		},
 
@@ -224,9 +222,8 @@ var AutoBuildTemplate = {
 					SkillPoints: [-1],
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
-				Config.Cubing = true;									// Will have a cube by now.
-			Config.Curse[0] = 87; // Boss curse. Use skill number or set to 0 to disable.
-			Config.Curse[1] = 87; // Other monsters curse. Use skill number or set to 0 to disable.
+				Config.Curse[0] = 87; // Boss curse. Use skill number or set to 0 to disable.
+				Config.Curse[1] = 87; // Other monsters curse. Use skill number or set to 0 to disable.
 			}
 		},
 
@@ -676,7 +673,6 @@ var AutoBuildTemplate = {
 					SkillPoints: [-1],
 			StatPoints: [-1, -1, -1, -1, -1],
 			Update: function () {
-				Config.Gamble = true;									// Time to spend dat ca$h!!
 				//Config.ScanShrines	= [];
 			}
 		},

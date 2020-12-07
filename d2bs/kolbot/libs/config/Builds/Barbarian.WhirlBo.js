@@ -35,7 +35,6 @@ var AutoBuildTemplate = {
 				Config.BeltColumn		= ["hp", "hp", "hp", "hp"];		// Keep tons of health potions!
 				Config.MinColumn 		= [0, 0, 0, 0];
 				Config.OpenChests = true;								// Might as well open em.
-				Config.Cubing = false;									// Don't cube yet!
 			}
 		},
 
@@ -206,7 +205,6 @@ var AutoBuildTemplate = {
 			SkillPoints: [-1],
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
-				Config.Cubing = true;									// Will have a cube by now.
 				Config.BeltColumn = ["hp", "hp", "mp", "rv"];			// Regular potion settings
 				Config.MinColumn = [2, 2, 2, 0];						// Regular potion settings
 			}
