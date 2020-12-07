@@ -10,6 +10,7 @@ var Role = {
 	teleportingChar: false,
 	boChar: false,
 	otherChar: false,
+	questDropChar: false,
 	
 	initRole: function () { // Checks Config settings to determine role.
 		var leaderProfile = DataFile.getStats().hordeLeader;
@@ -19,6 +20,8 @@ var Role = {
 
 		} else if (HordeSystem.boProfile === me.profile) {
 			this.boChar = true;
+		} else if (HordeSystem.questDropProfile === me.profile) {
+			this.questDropChar = true;
 		} else {
 			for (var i = 0 ; i < HordeSystem.followerProfiles.length ; i += 1) {
 				if (HordeSystem.followerProfiles[i] === me.profile) {

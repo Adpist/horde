@@ -48,6 +48,14 @@ var HordeTown = {
 		Quest.checkAndUseConsumable();
 		HordeStorage.stashQuestItems();
 		Town.heal();
+		Town.fillTome(518);
+
+		if (Config.FieldID) {
+			Town.fillTome(519);
+		}
+
+		Town.buyPotions();
+		Town.buyKeys();
 		Town.reviveMerc();
 		
 		this.goToTownWp();

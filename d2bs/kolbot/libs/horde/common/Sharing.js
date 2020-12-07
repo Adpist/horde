@@ -714,14 +714,14 @@ var Sharing = {
 					if (!this.isInOfferedGearHistory(item)) {
 						var pickResult = Pickit.checkItem(item);
 						if (pickResult.result === 0 || pickResult.result === 1) {
-							if (!AutoMule.isIngredient(item)) {
+							//if (!AutoMule.isIngredient(item)) {
 								if (HordeSettings.Debug.Verbose.sharing) {
 									print("Can share " + item.name + " ; gid : " + item.gid + " - result : " + pickResult.result + " - line : " + pickResult.line);
 								}
 								sharableItems.push(copyUnit(item));
-							} else if (HordeSettings.Debug.Verbose.sharing) {
+							/*} else if (HordeSettings.Debug.Verbose.sharing) {
 								print("Skipping ingredient " + item.name + " ; gid : " + item.gid);
-							}
+							}*/
 						}
 					}
 				}

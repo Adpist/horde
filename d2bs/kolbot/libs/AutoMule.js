@@ -23,7 +23,7 @@ var AutoMule = {
 
 			// Trigger muling at the end of a game if used space in stash and inventory is equal to or more than given percent.
 			usedStashTrigger: 80,
-			usedInventoryTrigger: 80,
+			usedInventoryTrigger: 80, //Horde doesn't use inventory space for now
 
 			// Mule items that have been stashed at some point but are no longer in pickit.
 			muleOrphans: true
@@ -109,7 +109,7 @@ var AutoMule = {
 			items = this.getMuleItems();
 
 			if (info.muleInfo.hasOwnProperty("usedStashTrigger") && info.muleInfo.hasOwnProperty("usedInventoryTrigger") &&
-					Storage.Inventory.UsedSpacePercent() >= info.muleInfo.usedInventoryTrigger && Storage.Stash.UsedSpacePercent() >= info.muleInfo.usedStashTrigger &&
+					/*Storage.Inventory.UsedSpacePercent() >= info.muleInfo.usedInventoryTrigger &&*/ Storage.Stash.UsedSpacePercent() >= info.muleInfo.usedStashTrigger &&
 						items.length > 0) {
 				D2Bot.printToConsole("MuleCheck triggered!", 7);
 
@@ -342,6 +342,7 @@ MainLoop:
 		HordeSystem.setupConfig(Config.Horde.Team, false);
 		HordeSystem.setupRunewords(HordeSystem.team.profiles[me.profile].runewordsProfile);
 		Runewords.init();
+		Cubing.init();
 
 		muleObj = this.getMule();
 		me.maxgametime = 0;

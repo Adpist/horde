@@ -14,6 +14,8 @@ var Party = {
 	},
 
 	leaveParty: function() {
+		getScript("tools/Party.js").pause(); // Pausing Party thread
+		
 		var player = getParty();
 		if (player) {
 			var myParty = player.partyid;
@@ -25,6 +27,7 @@ var Party = {
 	},
 	
 	joinHordeParty: function() {
+		getScript("tools/Party.js").resume(); // Resume Party thread
 		var player = getParty();
 		
 		if (player) {
@@ -216,11 +219,15 @@ var Party = {
 		return lowestAct;
 	},
 	
-	allPlayersInArea: function (area) {
+	allPlayersInArea: function (area, expectedPlayers) {
 		if (!area) {
 			area = me.area;
 		}
 
+		if (expectedPlayers === undefined) {
+			expectedPlayers = HordeSystem.teamSize;
+		}
+		
 		var count = 1,
 			party = getParty(); //this is actually counting in game players(you included), not in party
 
@@ -232,7 +239,7 @@ var Party = {
 			} while (party.getNext());
 		}
 
-		if (count < HordeSystem.teamSize) {
+		if (count < expectedPlayers) {
 			return false;
 		}
 

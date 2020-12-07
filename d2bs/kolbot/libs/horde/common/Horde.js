@@ -12,6 +12,7 @@ var HordeSystem = {
 	leaderProfile: "",
 	teleProfile: "",
 	boProfile: "",
+	questDropProfile: "",
 	followerProfiles: [],
 	allTeamProfiles: [],
 	allTeamCharacters: [],
@@ -26,6 +27,7 @@ var HordeSystem = {
 		this.leaderProfile = "";
 		this.teleProfile = "";
 		this.boProfile = "";
+		this.questDropProfile = "";
 		this.followerProfiles = [];
 		this.allTeamProfiles = [];
 		this.allTeamCharacters = [];
@@ -130,7 +132,6 @@ var HordeSystem = {
 					runewordBodyLoc = bodyLocMap[locationName];
 				}
 
-				print("checking item in " + runewordBodyLoc + " isMerc : " + merc);
 				var currentItemTier = merc ? Item.getEquippedItemMerc(runewordBodyLoc).tier : Item.getEquippedItem(runewordBodyLoc).tier;
 				
 				if (!runeword.tier || currentItemTier < runeword.tier)
@@ -272,6 +273,24 @@ var HordeSystem = {
 		}
 	},
 	
+	setupTownConfig: function() {
+		Config.Cubing = me.charlvl > 24;
+		if (me.charlvl > 30)
+		{
+			Config.MiniShopBot = true;
+			Config.CainID.Enable = false; // Identify items at Cain
+			Config.CainID.MinGold = 20000; // Minimum gold (stash + character) to have in order to use Cain.
+			Config.CainID.MinUnids = 1; // Minimum number of unid items in order to use Cain.
+		}
+	},
+	
+	setupGambling: function() {
+		// Gambling config
+		Config.Gamble = me.charlvl > 80;
+		Config.GambleGoldStart = Config.Gamble ? 1500000 : 3000000;
+		Config.GambleGoldStop = Config.Gamble ? 1000000 : 2900000;
+	},
+	
 	setupConfig: function(teamName, oog) {
 		print("setup config " + me.profile + "[" + teamName + "]");
 		
@@ -309,10 +328,12 @@ var HordeSystem = {
 					HordeSystem.boProfile = profile;
 					break;
 					
+				case "questdrop":
+					HordeSystem.questDropProfile = profile;
 				case "follower":
 					HordeSystem.followerProfiles.push(profile);
 					break;
-					
+				
 				default:
 					D2Bot.printToConsole("unhandled role : " + profileData.role + " => using follower");
 					HordeSystem.followerProfiles.push(profile);
@@ -380,6 +401,8 @@ var HordeSystem = {
 			TeamData.setupProfilesGearPickits();
 			this.setupBuild(this.team.profiles[me.profile].build);
 			this.setupPickits();
+			this.setupGambling();
+			this.setupTownConfig();
 		}
 		
 		Sequencer.setupSequences(this.team.sequencesProfile);
@@ -391,6 +414,7 @@ var HordeSystem = {
 		Town.reviveMerc();
 		this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
 		Runewords.init();
+		Cubing.init();
 	},
 	
 	shouldKillBaal: function() {
@@ -432,21 +456,28 @@ var HordeSystem = {
 	},
 	
 	onToolThreadQuit: function() {
+		//no more leader
+		Role.isLeader = false;
+		Communication.Synchro.cleanup();
+		
 		if (!this.team.instantQuitList) {
 			var baseDelay = 250, minDelay;
-			//no more leader
-			Role.isLeader = false;
-			
-			if (Role.backToTown(false)) {
-				//We're safe in town, just wait to not leave all together
-				baseDelay = 2000;
+			var midChicken = (Config.LifeChicken + 100) / 2;
+			if (Config.LifeChicken > 0 && me.hp <= Math.floor(me.hpmax * Config.LifeChicken / 100)) {
+				return;
+			} else if (Config.LifeChicken > 0 && me.hp <= Math.floor(me.hpmax * midChicken / 100)) {
+				Town.goToTown();
+			} else {
+				
+				if (Role.backToTown(false)) {
+					//We're safe in town, just wait to not leave all together
+					baseDelay = 2000;
+				}
 			}
-			
+				
 			minDelay = baseDelay+(baseDelay* (this.getTeamIndex(me.profile) + 1));
 			delay(minDelay, minDelay + baseDelay/4 );
 		}
-		
-		Communication.Synchro.cleanup();
 	}
 	
 }
