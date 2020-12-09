@@ -6,7 +6,7 @@
 */
 
 var HordeTown = {
-	needUpdateLowestAct: true,
+	needUpdateLowestAct: false,
 	lastTownWpPosition: {x:0, y:0},
 	goToTownWp: function() {
 		if (!me.inTown) {
