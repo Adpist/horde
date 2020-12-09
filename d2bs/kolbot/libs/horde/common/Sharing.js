@@ -8,6 +8,16 @@
 var Sharing = {	
 	goldAnswers: [],
 	
+	hasGearPriority: function(profile) {
+		var myPrio = HordeSystem.team.profiles[me.profile].gearPriority;
+		var otherPrio = HordeSystem.team.profiles[profile].gearPriority;
+		
+		if (!myPrio && !!otherPrio) {return false;}
+		else if (!!myPrio && !!otherPrio && otherPrio < myPrio) { return false;}
+		
+		return true;
+	},
+	
 	onReceiveCommand: function(nick, msg) {
 		/*if (HordeSettings.Debug.Verbose.sharing) {
 			print("" + nick + " sent " + msg);
@@ -802,19 +812,21 @@ var Sharing = {
 		return lowestPrioProfile;
 	},
 	
-	getOfferList: function(needList) {
+	getOfferList: function(requestProfile, needList) {
 		var item = me.getItem();
 		var offerList = [];
 		
-		do {
-			if ([3,7].indexOf(item.location) !== -1) {
-				var runeListIndex = needList.indexOf(item.classid);
-				
-				if (runeListIndex !== -1) {
-					offerList.push(item.classid);
+		if (!!item) {
+			do {
+				if ([3,7].indexOf(item.location) !== -1 && (!AutoMule.isIngredient(item) || !this.hasGearPriority(requestProfile))) {
+					var runeListIndex = needList.indexOf(item.classid);
+					
+					if (runeListIndex !== -1) {
+						offerList.push(item.classid);
+					}
 				}
-			}
-		} while(item.getNext());
+			} while(item.getNext());
+		}
 		
 		return offerList;
 	},
@@ -923,6 +935,22 @@ var Sharing = {
 		Pickit.pickItems();
 	},
 	
+	getCraftingNeedList: function() {
+		var needList = [];
+		for (var i = 0 ; i < Runewords.needList.length ; i += 1) {
+			if (needList.indexOf(Runewords.needList[i]) === -1) {
+				needList.push(Runewords.needList[i]);
+			}
+		}
+		for (var i = 0 ; i < Cubing.neededIngredients.length ; i += 1) {
+			
+			if (needList.indexOf(Cubing.neededIngredients[i]) === -1) {
+				needList.push(Cubing.neededIngredients[i]);
+			}
+		}
+		return needList;
+	},
+	
 	shareRunes: function() {
 		if (HordeSystem.teamSize === 1 || !this.isRuneSharingEnabled()) {
 			return;
@@ -936,7 +964,7 @@ var Sharing = {
 			print("Begin runes sharing");
 		}
 		
-		this.onReceiveRuneNeedList(me.profile, Runewords.needList);
+		this.onReceiveRuneNeedList(me.profile, this.getCraftingNeedList());
 		
 		while(!this.hasReceivedAllProfilesNeedList()) {
 			delay(50);
@@ -970,7 +998,7 @@ var Sharing = {
 						print("Sending offers to " + requestProfile);
 					}
 					
-					Communication.sendToProfile(requestProfile, "sharing rune offer " + JSON.stringify(this.getOfferList(this.runeNeeds[requestProfile].runes)));
+					Communication.sendToProfile(requestProfile, "sharing rune offer " + JSON.stringify(this.getOfferList(requestProfile, this.runeNeeds[requestProfile].runes)));
 					
 					if (HordeSettings.Debug.Verbose.sharing) {
 						print("waiting " + requestProfile + " to process needlist");
