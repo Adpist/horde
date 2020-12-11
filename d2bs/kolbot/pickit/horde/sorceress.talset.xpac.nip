@@ -11,10 +11,10 @@
 [name] == meshbelt && [quality] == set # [itemmagicbonus] >= 10 # [tier] == (5000 + /*mf*/item.getStatEx(80)*1000) //tal belt
 
 //helms
-[name] == deathmask && [quality] == set # [maxhp] >= 60 # [tier] == (10000 + /*armorclass*/item.getStatEx(31)) //tal mask
+[name] == deathmask && [quality] == set # [maxhp] >= 60 # [tier] == (10000 + /*armorclass*/item.getStatEx(31) + /*mf*/item.getStatEx(80)*100) //tal mask
 
 //armors
-[name] == lacqueredplate && [quality] == set # [coldresist] >= 40 # [tier] == (20000 + /*armorclass*/item.getStatEx(31)) //tal armor
+[name] == lacqueredplate && [quality] == set # [coldresist] >= 40 # [tier] == (20000 + /*armorclass*/item.getStatEx(31) + /*mf*/item.getStatEx(80)*100) //tal armor
 
 // amulets
 [type] == amulet && [quality] == set # [sorceressskills] == 2 # [tier] == 20000

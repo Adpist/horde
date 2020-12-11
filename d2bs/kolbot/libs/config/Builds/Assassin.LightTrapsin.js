@@ -78,6 +78,7 @@ AutoBuildTemplate[6] = {
     SkillPoints: [-1],
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
+		Config.AttackSkill = [-1, 256, 251, 256, 251, 0, -1]; //shock web + fireblast
         Config.MinColumn = [1, 1, 1, 0];
         Config.StashGold = 1000; // Minimum amount of gold to stash.
 		Config.UseBoS = true;
@@ -97,9 +98,9 @@ AutoBuildTemplate[12] = {
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
 				Config.UseTraps = true; // Set to true to use traps
-				Config.AttackSkill = [-1, 262, 0, 262, 0, 0, -1]; //fire blast
-				Config.Traps = [262, 262, 262, -1, -1]; // Skill IDs for traps to be cast on all mosters except act bosses.
-				Config.BossTraps = [262, 262, 262, 262, 262]; // Skill IDs for traps to be cast on act bosses.
+				Config.AttackSkill = [-1, 256, 251, 256, 251, 0, -1]; //shock web + fireblast
+				Config.Traps = [261, 261, 261, -1, -1]; 
+				Config.BossTraps = [261, 261, 261, 261, 261];
     }
 };
 
@@ -132,10 +133,10 @@ AutoBuildTemplate[24] = {
     SkillPoints: [-1],
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function () {
-				Config.AttackSkill = [-1, 262, 0, 262, 0, 0, -1]; //fire blast
-				Config.LowManaSkill = [-1,-1];
-				Config.Traps = [262, 262, 262, 262, 262]; 
-				Config.BossTraps = [262, 262, 262, 262, 262];
+			Config.AttackSkill = [-1, 256, 251, 256, 251, 251, -1]; //shock web + fireblast - wake of fire + fireblast for light immunes
+			Config.LowManaSkill = [-1,-1];
+			Config.Traps = [261, 261, 261, 261, 276]; 
+			Config.BossTraps = [261, 261, 261, 261, 261];
     }
 };
 
@@ -144,8 +145,8 @@ AutoBuildTemplate[30] = {
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function () {
 		Config.SummonShadow = "Master";
-		Config.Traps = [262, 262, 262, 262, 262]; 
-		Config.BossTraps = [262, 262, 262, 262, 262];
+		Config.Traps = [271, 271, 271, 271, 276];
+		Config.BossTraps = [271, 271, 271, 271, 271];
     }
 };
 
@@ -194,7 +195,6 @@ AutoBuildTemplate[55] = {
     Update: function() {
         Config.LowGold = 50000;
         Config.CainID.MinGold = 50000; // Minimum gold (stash + character) to have in order to use Cain.
-        Config.AttackSkill = [-1, 262, 0, 262, 0, 0, -1]; //fire blast
     }
 };
 AutoBuildTemplate[60] = {
@@ -220,6 +220,7 @@ AutoBuildTemplate[70] = {
         Config.TownHP = 50;
         Config.MPBuffer = 4; // Number of mana potions to keep in inventory.
         Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
+        Config.DodgeHP = 80; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
     }
 };
 

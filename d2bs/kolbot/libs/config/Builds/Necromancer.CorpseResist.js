@@ -185,7 +185,6 @@ AutoBuildTemplate[40] = {
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
         Config.LowGold = 35000;
-        Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
     }
 };
 AutoBuildTemplate[45] = {

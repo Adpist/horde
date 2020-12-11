@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------------------------------
 
 //Belt
+[name] == WarBelt && [quality] == unique && [flag] != ethereal # [EnhancedDefense] >= 100 # [tier] == (12000) //thundergods vigor
 [name] == sharkskinbelt && [quality] == unique && [flag] != ethereal # # [tier] == 15000 //razortail
 
 //helms

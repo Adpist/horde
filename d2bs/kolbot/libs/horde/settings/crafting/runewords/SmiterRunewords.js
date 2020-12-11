@@ -33,7 +33,7 @@ var RunewordProfile = {
 				roll: Roll.All,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[FireResist] == 50 && [LightResist] == 50",
-				tier: 2000,
+				tier: 9000,
 				skipIf: ""
 			}
 		},

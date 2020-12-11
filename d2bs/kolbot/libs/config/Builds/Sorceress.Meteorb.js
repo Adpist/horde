@@ -369,7 +369,7 @@ var AutoBuildTemplate = {
 			Update: function () {
 				Config.LowGold = 70000;
 				Config.StashGold = 7500;							// Minimum amount of gold to stash.
-				Config.DodgeHP = 100;
+				Config.DodgeHP = 80;
 			}
 		},
 

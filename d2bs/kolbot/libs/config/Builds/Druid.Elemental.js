@@ -218,6 +218,5 @@ AutoBuildTemplate[70] = {
         Config.TownHP = 50;
         Config.MPBuffer = 4; // Number of mana potions to keep in inventory.
         Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
-        Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
     }
 };

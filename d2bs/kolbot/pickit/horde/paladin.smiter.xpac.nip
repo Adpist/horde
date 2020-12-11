@@ -41,4 +41,7 @@
 [type] == auricshields && [flag] == runeword && [class] == elite # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [tier] == 7000 //ancients pledge
 [type] == auricshields && [flag] == runeword && [class] == elite # [fireresist] >= 50 && [lightresist] >= 50 && [itemmagicbonus] == 25 # [maxquantity] == 1 && [tier] == 8000 //hell rhyme
 [type] == auricshields && [flag] == runeword && [class] == elite # [fireresist] >= 65 && [lightresist] >= 65 && [itemmagicbonus] == 25 # [maxquantity] == 1 && [tier] == 10000 //higher hell rhyme
+
+[type] == auricshields && [class] == elite # [fireresist] >= 100 && [lightresist] >= 100 # [maxquantity] == 1 && [tier] == 11000 //highres elite pala shield (4xpdia 30res min base)
+
 [type] == auricshields && [flag] == runeword && [class] == elite # [defianceaura] >= 13 # [maxquantity] == 1 && [tier] == 15000 //exile

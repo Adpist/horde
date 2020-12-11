@@ -215,6 +215,5 @@ AutoBuildTemplate[70] = {
         Config.UseHP = 90;
         Config.TownHP = 50;
         Config.DodgeRange = 10; // Distance to keep from monsters.
-        Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
     }
 };

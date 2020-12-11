@@ -322,7 +322,7 @@ var AutoBuildTemplate = {
 			StatPoints: [-1,-1,-1,-1,-1],
 			Update: function () {
 				Config.LowGold = 35000;
-				Config.DodgeHP = 100;
+				Config.DodgeHP = 80;
 			}
 		},
 
