@@ -318,8 +318,7 @@ Loop:
 	 *  WARNING: this is still in testing and can move items around. use it carefully!
 	 */
 	this.MakeSpot = function (item, location, force) {
-		var itemsToMove = [], /* itemsMoved = [], */ x, y, endx, endy, tmpLocation,
-			success = true; // successful until proven otherwise
+		var itemsToMove = [], /* itemsMoved = [], */ x, y, endx, endy, tmpLocation;
 		// TODO: test the scenario where all possible items have been moved, but this item still can't be placed
 		//		 e.g. if there are many LCs in an inventory and the spot for a GC can't be freed up without
 		//			  moving other items that ARE NOT part of the position desired
@@ -405,12 +404,8 @@ Loop:
 		// 	}
 		// }
 
-		if (success) {
 			// D2Bot.printToConsole("MakeSpot success! " + item.name + " can now be placed at " + location.y + "," + location.x, 6);
 			return ({x: location.x, y: location.y}); // return the location object used by FindSpot when trying to place an item
-		}
-
-		return false;
 	};
 	
 	this.MoveToInternal = function(item, x, y) {
