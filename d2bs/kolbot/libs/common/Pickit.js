@@ -150,19 +150,15 @@ var Pickit = {
 				status = this.checkItem(pickList[0]);
 
 				if (status.result && this.canPick(pickList[0]) /*&& Item.autoEquipCheck(pickList[0])*/) {
-					if (pickList[0].gid === undefined) { // make sure it's not gone already
-						// Skip the undefined items (likely picked by another [quicker] bot)
-						D2Bot.printToConsole("Pickit.js>pickItems WARNING: Detected undefined ground item classid: " + pickList[0].classid, 6);
-						D2Bot.printToConsole(pickList[0].toSource());
-					} else {
+					if (pickList[0].gid !== undefined) { // make sure it still exists (not disappeared or picked by another player)
 					// Override canFit for scrolls, potions and gold
-					canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
+						canFit = pickList[0].gid !== undefined && (Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1);
 
 					// Try to make room with FieldID
 						if (!canFit && Config.FieldID && Town.fieldID()
 							&& copyUnit(pickList[0]).gid !== undefined) { // make sure it didn't disappear (happens with potions with 2+ bots)
 							// delay(me.ping > 0 ? me.ping * 2 : 50); // TODO: determine if this resolves undefined errors coming back from FindSpot and avoids extra muling
-						canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
+							canFit = pickList[0].gid !== undefined && (Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1);
 					}
 
 					// Try to make room by selling items in town
@@ -195,9 +191,10 @@ var Pickit = {
 					// Item can fit - pick it up
 						if (canFit && copyUnit(pickList[0]).gid !== undefined) {
 						this.pickItem(pickList[0], status.result, status.line);
-						} else {
-							D2Bot.printToConsole("Pickit.js>pickItems WARNING: Detected undefined CanFit item classid: " + pickList[0].classid, 6);
-							D2Bot.printToConsole(pickList[0].toSource());
+						} else if (!canFit && copyUnit(pickList[0]).gid !== undefined) {
+							// inventory is full
+						} else { // the item is undefined (disappeared or picked by another player)
+							print("ÿc7Item was gone when we went to pick. ClassID: " + this.itemColor(pickList[0]) + pickList[0].classid);
 						}
 					}
 				}

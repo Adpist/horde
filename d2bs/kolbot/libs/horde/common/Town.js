@@ -97,6 +97,7 @@ var HordeTown = {
 		
 		Town.stash(true);
 		Town.clearScrolls();
+		if (Config.SortInventory)
 		Town.sortInventory();
 		
 		Role.mercCheck();

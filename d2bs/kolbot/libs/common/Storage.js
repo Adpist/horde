@@ -98,6 +98,7 @@ var Container = function (name, width, height, location) {
 		}
 
 		this.itemList = [];
+		this.openPositions = this.height * this.width;
 		return true;
 	};
 	
@@ -122,6 +123,10 @@ var Container = function (name, width, height, location) {
 		return (!!this.FindSpot(item));
 	};
 
+	/* Container.SortItems(Ids, Ids)
+	 *	sorts items to the left [and right], side decided by item.classid
+	 *  default: all items go left
+	 */
 	this.SortItems = function (itemIdsLeft, itemIdsRight) {
 		print("Sorting " + this.name + " ... ");
 
@@ -173,10 +178,10 @@ var Container = function (name, width, height, location) {
 				}
 
 				// Find new position left-to-right or right-to-left
-				if ( itemIdsLeft.indexOf(item.classid) > -1 || itemIdsRight.indexOf(item.classid) === -1) { // sort from left by default or if specified
-					nPos = this.FindSpot(item, false);
+				if ( (!itemIdsLeft && !itemIdsRight) || !itemIdsRight || itemIdsLeft.indexOf(item.classid) > -1 || itemIdsRight.indexOf(item.classid) === -1) { // sort from left by default or if specified
+					nPos = this.FindSpot(item, false, false, Config.ItemsSortedFromLeftPriority);
 				} else if ( itemIdsLeft.indexOf(item.classid) === -1 && itemIdsRight.indexOf(item.classid) > -1) { // sort from right only if specified
-					nPos = this.FindSpot(item, true);
+					nPos = this.FindSpot(item, true, false, Config.ItemsSortedFromRightPriority);
 				}
 
 				if ( !nPos || (nPos.x === ix && nPos.y === iy)) {
@@ -185,9 +190,6 @@ var Container = function (name, width, height, location) {
 
 				// print("Move " + item.name + " from " + ix + "," + iy + " to " + nPos.y + "," + nPos.x);
 
-				if (getTickCount() - tick > 25e3) {
-					continue; // sort is taking too long | TODO: remove this debugging
-				}
 
 				// if (!this.MoveToInternal(getUnit(-1, -1, -1, item.gid), nPos.y, nPos.x)) { // this could send invalid item objects
 				if (!this.MoveToInternal(item, nPos.y, nPos.x)) {
@@ -204,6 +206,8 @@ var Container = function (name, width, height, location) {
 
 		print("Sorting " + this.name + " done ");
 		//me.cancel();
+
+		return true;
 	};
 
 	this.CanFitPosition = function(item, x, y) {
@@ -225,10 +229,13 @@ var Container = function (name, width, height, location) {
 		return true;
 	};
 	
-	/* Container.FindSpot(item)
+	/* Container.FindSpot(item, reverseX, reverseY, priorityClassIds)
 	 *	Finds a spot available in the buffer to place the item.
+	 *  reverseX - find a spot from right-to-left instead of left-to-right
+	 *  reverseY - find a spot from bottom-to-top instead of top-to-bottom
+	 *  priorityClassIds - uses MakeSpot to shift items around to 
 	 */
-	this.FindSpot = function (item, reverseX, reverseY) {
+	this.FindSpot = function (item, reverseX, reverseY, priorityClassIds) {
 		var x, y, nx, ny,
 			startX, startY, endX, endY, xDir = 1, yDir = 1;
 
@@ -244,14 +251,14 @@ var Container = function (name, width, height, location) {
 
 		Storage.Reload();
 
-		if (reverseX){ //right-to-left
+		if (reverseX){ // right-to-left
 			startX = endX - 1;
-			endX = -1;
+			endX = -1; // stops at 0
 			xDir = -1
 		}
 		if (reverseY){ // bottom-to-top
 			startY = endY - 1;
-			endY = -1;
+			endY = -1; // stops at 0
 			yDir = -1
 		}
 		//Loop buffer looking for spot to place item.
@@ -260,15 +267,25 @@ Loop:
 			for (x = startY; x != endY; x += yDir) {
 				//Check if there is something in this spot.
 				if (this.buffer[x][y] > 0) {
-					if (item.gid === undefined) {
-						if (item.mode === 3) {
-							D2Bot.printToConsole("Storage.js>FindSpot WARNING: Detected undefined ground item: " + item.name, 6);
-						} else {
-							D2Bot.printToConsole("Storage.js>FindSpot WARNING: Detected undefined item: " + item.name, 6);
+
+					// TODO: make sure priorityClassIds are only used when sorting in town, where it's safe!
+					// TODO: possibly collapse this down to just a MakeSpot(item, location) call, and have MakeSpot do the priority checks right at the top
+					var bufferItemClass = this.itemList[this.buffer[x][y] - 1].classid
+					if (Config.PrioritySorting && priorityClassIds && priorityClassIds.indexOf(item.classid) > -1
+						&& (priorityClassIds.indexOf(bufferItemClass) === -1
+						|| priorityClassIds.indexOf(item.classid) < priorityClassIds.indexOf(bufferItemClass))) { // item in this spot needs to move!
+						D2Bot.printToConsole("Storage.js>FindSpot Trying to make spot for: " + item.name + " at " + y + "," + x, 6);
+						var makeSpot = this.MakeSpot(item, {x: x, y: y}); // NOTE: passing these in buffer order [h/x][w/y]
+						if (makeSpot) {
+							if (makeSpot === -1)
+								return false // this item cannot be moved
+
+							return makeSpot;
 						}
-						D2Bot.printToConsole(item.toSource());
+					}
+
+					if (item.gid === undefined) { // item disappeared or was picked already (can happen during Pickit.pickItems())
 						return false;
-						break Loop; // this item disappeared? perhaps picked by another bot
 					}
 
 					if (item.gid !== this.itemList[this.buffer[x][y] - 1].gid ) { // ignore same gid
@@ -289,6 +306,108 @@ Loop:
 
 				return ({x: x, y: y});
 			}
+		}
+
+		return false;
+	};
+	
+	/* Container.MakeSpot(item, location)
+	 *	Makes a spot available in the buffer to place the item.
+	 *  NOTE: [x][y] is used in this function to match the the buffer [h][w]
+	 * 		  as being iterated in FindSpot, and sizex and sizey are reversed
+	 *  WARNING: this is still in testing and can move items around. use it carefully!
+	 */
+	this.MakeSpot = function (item, location, force) {
+		var itemsToMove = [], /* itemsMoved = [], */ x, y, endx, endy, tmpLocation,
+			success = true; // successful until proven otherwise
+		// TODO: test the scenario where all possible items have been moved, but this item still can't be placed
+		//		 e.g. if there are many LCs in an inventory and the spot for a GC can't be freed up without
+		//			  moving other items that ARE NOT part of the position desired
+		//       (this may be resolved by just having it fail after attempting to move from each position)
+
+		// Make sure it's a valid item and item is in a priority sorting list
+		if (!item || !item.classid
+			|| (Config.ItemsSortedFromRightPriority.indexOf(item.classid) === -1
+			&& Config.ItemsSortedFromLeftPriority.indexOf(item.classid) === -1
+			&& !force)) {
+			return false; // only continue if the item is in the priority sort list
+		}
+
+		// Make sure the item could even fit at the desired location
+		if (!location //|| !(location.x >= 0) || !(location.y >= 0)
+			|| ((location.y + (item.sizex - 1)) > (this.width  - 1))
+			|| ((location.x + (item.sizey - 1)) > (this.height - 1))) {
+			// print(item.name + " could never fit at " + location.y + "," + location.x, 6);
+
+			return false; // location invalid or item could not ever fit in the location
+		}
+
+		Storage.Reload();
+
+		// Do not continue if the container doesn't have enough openPositions.
+		// TODO: esd1 - this could be entended to use Stash for moving things if inventory is too tightly packed
+		if (item.sizex * item.sizey > this.openPositions) {
+			// print(item.name + " is too big to fit/move in container: " + this.name + " (openPositions: " + this.openPositions + ")", 6);
+			return -1; // return a non-false answer to FindSpot so it doesn't keep looking
+		}
+
+		endy = location.y + (item.sizex - 1);
+		endx = location.x + (item.sizey - 1);
+
+		// Collect a list of all the items in the way of using this position
+		for (x = location.x; x <= endx; x += 1) { // item height
+			for (y = location.y; y <= endy; y += 1) { // item width
+				if ( this.buffer[x][y] === 0 ) {
+					continue; // nothing to move from this spot
+				} else if (item.gid === this.itemList[this.buffer[x][y] - 1].gid) {
+					continue; // ignore same gid
+				} else {
+					// print(this.itemList[this.buffer[x][y] - 1].name + " needs to move from " + y + "," + x, 6);
+					itemsToMove.push(copyUnit(this.itemList[this.buffer[x][y] - 1])); // track items that need to move
+				}
+			}
+		}
+		// TODO: this needs to loop back through a second time 
+		//		 after moving items, and fail if it wasn't able
+		//		 to free up spots for some reason!
+
+		// Move any item(s) out of the way
+		if (itemsToMove) {
+			var i;
+			for (i = 0; i < itemsToMove.length; i++){
+				var reverseX = !(Config.ItemsSortedFromRight.indexOf(item.classid) > -1)
+				// if (Config.ItemsSortedFromRight.indexOf(item.classid) > -1) { // this item is trying to be placed on the right, move everything left
+				tmpLocation = this.FindSpot(itemsToMove[i], reverseX, false);
+				// D2Bot.printToConsole(itemsToMove[i].name + " moving from " + itemsToMove[i].x + "," + itemsToMove[i].y + " to "  + tmpLocation.y + "," + tmpLocation.x, 6);
+				if (this.MoveToInternal(itemsToMove[i], tmpLocation.y, tmpLocation.x)){
+					// D2Bot.printToConsole(itemsToMove[i].name + " moved to " + tmpLocation.y + "," + tmpLocation.x, 6);
+					// itemsMoved.push(copyUnit(itemsToMove[i])) // TODO: use this later to track 
+					Storage.Reload(); // success on this item, reload!
+					delay(1); // give reload a moment of time
+					// TODO: make sure this delay actually prevents moving an item twice
+				} else {
+					// D2Bot.printToConsole(itemsToMove[i].name + " failed to move to " + tmpLocation.y + "," + tmpLocation.x, 6);
+					return false;
+				}
+			}
+		}
+
+		// Check all the positions one more time to make absolutely sure we freed up space
+		// delay(me.ping); // give reload a moment of time after the moves
+		// for (x = location.x; x <= endx; x += 1) { // item height
+		// 	for (y = location.y; y <= endy; y += 1) { // item width
+		// 		if ( this.buffer[x][y] === 0 ) {
+		// 			continue; // nothing to move from this spot
+		// 		} else {
+		// 			D2Bot.printToConsole(this.itemList[this.buffer[x][y] - 1].name + " failed to move from " + y + "," + x, 6);
+		// 			return false;
+		// 		}
+		// 	}
+		// }
+
+		if (success) {
+			// D2Bot.printToConsole("MakeSpot success! " + item.name + " can now be placed at " + location.y + "," + location.x, 6);
+			return ({x: location.x, y: location.y}); // return the location object used by FindSpot when trying to place an item
 		}
 
 		return false;
