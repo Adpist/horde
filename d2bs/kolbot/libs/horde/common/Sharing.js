@@ -580,7 +580,7 @@ var Sharing = {
 					for (var i = 0 ; i < this.sharableGear.length ; i += 1) {
 						var itemToShare = this.sharableGear[i];
 						var checkResult = Pickit.checkItem(itemToShare);
-						var targetProfiles = checkResult.result === 1 ? this.getHigherPriorityProfiles() : HordeSystem.allTeamProfiles;
+						var targetProfiles = checkResult.result === 1 && (!!checkResult.tier || !!checkResult.mercTier) ? this.getHigherPriorityProfiles() : HordeSystem.allTeamProfiles;
 						
 						this.offeredGearAnswers = {};
 						
