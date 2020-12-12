@@ -99,6 +99,9 @@ var Town = {
 		Item.autoEquip();
 		Item.autoEquipMerc();
 		this.stash(true);
+		if (Config.SortInventory) {
+			this.sortInventory();
+		}
 		this.clearScrolls();
 
 		for (i = 0; i < cancelFlags.length; i += 1) {
@@ -1120,7 +1123,7 @@ CursorLoop:
 	},
 
 	checkKeys: function () {
-		if (!Config.OpenChests || me.classid === 6 || me.gold < 540 || (!me.getItem("key") && !Storage.Inventory.CanFit({sizex: 1, sizey: 1}))) {
+		if (!Config.OpenChests || me.classid === 6 || me.gold < 540 || (!me.getItem("key") && !Storage.Inventory.CanFit({sizex: 1, sizey: 1, gid: 13378008}))) {
 			return 12;
 		}
 
@@ -1557,6 +1560,10 @@ MainLoop:
 			items = Storage.Inventory.Compare(Config.Inventory);
 
 		if (items) {
+			if (Config.SortStash) {
+				this.sortStash(); // sort existing items before trying to stash new items
+			}
+
 			for (i = 0; i < items.length; i += 1) {
 				if (this.canStash(items[i])) {
 					result = (NTIP.CheckItem(items[i], NTIP_CheckListNoTier, true).result > 0 && NTIP.CheckItem(items[i], NTIP_CheckListNoTier, true).result < 4) || Cubing.keepItem(items[i]) || Runewords.keepItem(items[i]) || CraftingSystem.keepItem(items[i]);
@@ -1987,6 +1994,18 @@ MainLoop:
 				}
 			}
 		}
+
+		return true;
+	},
+
+	sortInventory: function() {
+			Storage.Inventory.SortItems(Config.ItemsSortedFromLeft, Config.ItemsSortedFromRight);
+
+		return true;
+	},
+
+	sortStash: function () {
+		Storage.Stash.SortItems();
 
 		return true;
 	},

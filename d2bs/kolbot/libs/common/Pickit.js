@@ -150,12 +150,15 @@ var Pickit = {
 				status = this.checkItem(pickList[0]);
 
 				if (status.result && this.canPick(pickList[0]) /*&& Item.autoEquipCheck(pickList[0])*/) {
+					if (pickList[0].gid !== undefined) { // make sure it still exists (not disappeared or picked by another player)
 					// Override canFit for scrolls, potions and gold
-					canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
+						canFit = pickList[0].gid !== undefined && (Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1);
 
 					// Try to make room with FieldID
-					if (!canFit && Config.FieldID && Town.fieldID()) {
-						canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
+						if (!canFit && Config.FieldID && Town.fieldID()
+							&& copyUnit(pickList[0]).gid !== undefined) { // make sure it didn't disappear (happens with potions with 2+ bots)
+							// delay(me.ping > 0 ? me.ping * 2 : 50); // TODO: determine if this resolves undefined errors coming back from FindSpot and avoids extra muling
+							canFit = pickList[0].gid !== undefined && (Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1);
 					}
 
 					// Try to make room by selling items in town
@@ -186,8 +189,13 @@ var Pickit = {
 					}
 
 					// Item can fit - pick it up
-					if (canFit) {
+						if (canFit && copyUnit(pickList[0]).gid !== undefined) {
 						this.pickItem(pickList[0], status.result, status.line);
+						} else if (!canFit && copyUnit(pickList[0]).gid !== undefined) {
+							// inventory is full
+						} else { // the item is undefined (disappeared or picked by another player)
+							print("ÿc7Item was gone when we went to pick. ClassID: " + this.itemColor(pickList[0]) + pickList[0].classid);
+						}
 					}
 				}
 			}
