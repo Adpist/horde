@@ -24,6 +24,7 @@ include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
 include("common/Merc.js");
+include("MuleDispatcher.js");
 include("horde/includes.js");
 
 function main() {
@@ -69,6 +70,12 @@ function main() {
 	if (MuleLogger.inGameCheck()) {
 		return true;
 	}
+	
+	// MuleDispatcher handler
+	if (MuleDispatcher.inGameCheck()) {
+		return true;
+	}
+	
 	var i, sojPause, stats, anni,
 		sojCounter = 0,
 		startTime = getTickCount();
