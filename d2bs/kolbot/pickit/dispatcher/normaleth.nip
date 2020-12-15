@@ -1,0 +1,1 @@
+([quality] == normal || [quality] == superior) && [flag] == ethereal

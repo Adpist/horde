@@ -1,5 +1,5 @@
 var StarterConfig = {
-	MinGameTime: 30, // Minimum game length in seconds.
+	MinGameTime: 210, // Minimum game length in seconds.
 
 	SwitchKeyDelay: 0, // Seconds to wait before switching a used/banned key or after realm down
 	RealmDownDelay: 3, // Minutes to wait after getting Realm Down message
@@ -7,7 +7,7 @@ var StarterConfig = {
 	CDKeyInUseDelay: 5, // Minutes to wait before connecting again if CD-Key is in use.
 	ConnectingTimeout: 20, // Seconds to wait before cancelling the 'Connecting...' screen
 	PleaseWaitTimeout: 10, // Seconds to wait before cancelling the 'Please Wait...' screen
-	WaitInLineTimeout: 60 // Seconds to wait before cancelling the 'Waiting in Line...' screen
+	WaitInLineTimeout: rand(600, 900) // Seconds to wait before cancelling the 'Waiting in Line...' screen
 };
 
 

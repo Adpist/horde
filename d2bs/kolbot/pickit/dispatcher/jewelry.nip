@@ -1,0 +1,4 @@
+[name] == jewel
+[name] == ring
+[name] == amulet && [quality] != set
+[name] == tokenofabsolution

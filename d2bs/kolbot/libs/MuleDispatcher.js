@@ -64,7 +64,7 @@ var MuleDispatcher = {
 	],
 	
 	// don't edit
-
+	
 	getMuleObject: function(dispatcherName){
 		var i, currentDispatchMule;
 		for (i = 0 ; i < this.DispatchMules.length ; ++i)
@@ -503,9 +503,9 @@ var MuleDispatcher = {
 		var tick, nextDispatchTick,
 			remainingDispatchs = [];
 
-		if (getScript("D2BotMuleLogDispatcher.dbj") && this.LogGame[0] && me.gamename.match(this.LogGame[0], "i")) {
+		if (getScript("D2BotMuleDispatcher.dbj") && this.LogGame[0] && me.gamename.match(this.LogGame[0], "i")) {
 			print("ÿc4MuleDispatcherÿc0: Logging items on " + me.account + " - " + me.name + ".");
-			MuleLogger.logChar();
+			this.logChar();
 			
 			if (this.UseDispatch)
 			{
@@ -515,8 +515,15 @@ var MuleDispatcher = {
 					me.maxgametime = 0;
 					remainingDispatchs = this.getDispatchs();
 					nextDispatchTick = getTickCount() + this.TimeBetweenDispatchs * 1000;
+					
 				} 
 			}
+			
+			if (remainingDispatchs.length == 0)
+			{
+				this.removeInProgressDispatch(me.account, me.realm, me.charname);
+			}
+			
 			this.logGame(remainingDispatchs);
 			
 			tick = getTickCount() + rand(1500, 1750) * 1000; // trigger anti-idle every ~30 minutes
@@ -540,10 +547,14 @@ var MuleDispatcher = {
 					{
 						this.dispatch(remainingDispatchs[0]);
 						remainingDispatchs.splice(0, 1);
-						MuleLogger.logChar();
+						this.logChar();
 						if (remainingDispatchs.length > 0)
 						{
 							nextDispatchTick = getTickCount() + this.TimeBetweenDispatchs * 1000;
+						}
+						else
+						{
+							this.removeInProgressDispatch(me.account, me.realm, me.charname);
 						}
 					}
 				}
@@ -553,12 +564,375 @@ var MuleDispatcher = {
 					tick += rand(1500, 1750) * 1000;
 				}
 			}
-
+			
 			quit();
 
 			return true;
 		}
 
 		return false;
+	},
+
+	load: function (hash) {
+		var filename = "data/secure/" + hash + ".txt";
+
+		if (!FileTools.exists(filename)) {
+            throw new Error("File " + filename + " does not exist!");
+		}
+
+        return FileTools.readText(filename);
+	},
+
+	save: function (hash, data) {
+		var filename = "data/secure/" + hash + ".txt";
+		FileTools.writeText(filename, data);
+	},
+
+	// Log kept item stats in the manager.
+	logItem: function (unit, logIlvl) {
+		if (!isIncluded("common/misc.js")) {
+			include("common/misc.js");
+		}
+
+		if (logIlvl === undefined) {
+			logIlvl = this.LogItemLevel;
+		}
+
+		var i, code, desc, sock,
+			header = "",
+			color = -1,
+			name = unit.itemType + "_" + unit.fname.split("\n").reverse().join(" ").replace(/(y|ÿ)c[0-9!"+<:;.*]|\/|\\/g, "").trim();
+
+		desc = this.getItemDesc(unit, logIlvl) + "$" + unit.gid + ":" + unit.classid + ":" + unit.location + ":" + unit.x + ":" + unit.y + (unit.getFlag(0x400000) ? ":eth" : "");
+		color = unit.getColor();
+
+		switch (unit.quality) {
+		case 5: // Set
+			switch (unit.classid) {
+			case 27: // Angelic sabre
+				code = "inv9sbu";
+
+				break;
+			case 74: // Arctic short war bow
+				code = "invswbu";
+
+				break;
+			case 308: // Berserker's helm
+				code = "invhlmu";
+
+				break;
+			case 330: // Civerb's large shield
+				code = "invlrgu";
+
+				break;
+			case 31: // Cleglaw's long sword
+			case 227: // Szabi's cryptic sword
+				code = "invlsdu";
+
+				break;
+			case 329: // Cleglaw's small shield
+				code = "invsmlu";
+
+				break;
+			case 328: // Hsaru's buckler
+				code = "invbucu";
+
+				break;
+			case 306: // Infernal cap / Sander's cap
+				code = "invcapu";
+
+				break;
+			case 30: // Isenhart's broad sword
+				code = "invbsdu";
+
+				break;
+			case 309: // Isenhart's full helm
+				code = "invfhlu";
+
+				break;
+			case 333: // Isenhart's gothic shield
+				code = "invgtsu";
+
+				break;
+			case 326: // Milabrega's ancient armor
+			case 442: // Immortal King's sacred armor
+				code = "invaaru";
+
+				break;
+			case 331: // Milabrega's kite shield
+				code = "invkitu";
+
+				break;
+			case 332: // Sigon's tower shield
+				code = "invtowu";
+
+				break;
+			case 325: // Tancred's full plate mail
+				code = "invfulu";
+
+				break;
+			case 3: // Tancred's military pick
+				code = "invmpiu";
+
+				break;
+			case 113: // Aldur's jagged star
+				code = "invmstu";
+
+				break;
+			case 234: // Bul-Kathos' colossus blade
+				code = "invgsdu";
+
+				break;
+			case 372: // Grizwold's ornate plate
+				code = "invxaru";
+
+				break;
+			case 366: // Heaven's cuirass
+			case 215: // Heaven's reinforced mace
+			case 449: // Heaven's ward
+			case 426: // Heaven's spired helm
+				code = "inv" + unit.code + "s";
+
+				break;
+			case 357: // Hwanin's grand crown
+				code = "invxrnu";
+
+				break;
+			case 195: // Nalya's scissors suwayyah
+				code = "invskru";
+
+				break;
+			case 395: // Nalya's grim helm
+			case 465: // Trang-Oul's bone visage
+				code = "invbhmu";
+
+				break;
+			case 261: // Naj's elder staff
+				code = "invcstu";
+
+				break;
+			case 375: // Orphan's round shield
+				code = "invxmlu";
+
+				break;
+			case 12: // Sander's bone wand
+				code = "invbwnu";
+
+				break;
+			}
+
+			break;
+		case 7: // Unique
+			for (i = 0; i < 401; i += 1) {
+				if (unit.code === getBaseStat(17, i, 4).trim() && unit.fname.split("\n").reverse()[0].indexOf(getLocaleString(getBaseStat(17, i, 2))) > -1) {
+					code = getBaseStat(17, i, "invfile");
+
+					break;
+				}
+			}
+
+			break;
+		}
+
+		if (!code) {
+			if (["ci2", "ci3"].indexOf(unit.code) > -1) { // Tiara/Diadem
+				code = unit.code;
+			} else {
+				code = getBaseStat(0, unit.classid, 'normcode') || unit.code;
+			}
+
+			code = code.replace(" ", "");
+
+			if ([10, 12, 58, 82, 83, 84].indexOf(unit.itemType) > -1) {
+				code += (unit.gfx + 1);
+			}
+		}
+
+		sock = unit.getItems();
+
+		if (sock) {
+			for (i = 0; i < sock.length; i += 1) {
+				if (sock[i].itemType === 58) {
+					desc += "\n\n";
+					desc += this.getItemDesc(sock[i]);
+				}
+			}
+		}
+
+		return {
+			itemColor: color,
+			image: code,
+			title: name,
+			description: desc,
+			header: header,
+			sockets: Misc.getItemSockets(unit)
+		};
+	},
+	
+	addInProgressDispatch: function(account, realm, password, character){
+		var obj;
+		if (FileTools.exists("logs/MuleLogDispatcher.json")) {
+			obj = JSON.parse(FileTools.readText("logs/MuleLogDispatcher.json"));
+			
+			if (!this.hasCharInProgress(obj, account, realm, character))
+			{
+				if(!obj.inProgress)
+				{
+					obj.inProgress = [{acc: account, realm: realm, pass: password, charname:character}];
+				}
+				else
+				{
+					obj.inProgress.push({acc: account, realm: realm, pass: password, charname:character});
+				}
+				
+				FileTools.writeText("logs/MuleLogDispatcher.json", JSON.stringify(obj));
+			}
+		}
+	},
+	
+	removeInProgressDispatch: function(account, realm, character){
+		var obj, i;
+		D2Bot.printToConsole("remove " + account + ":" + realm + ":" + character);
+		if (FileTools.exists("logs/MuleLogDispatcher.json")) {
+			obj = JSON.parse(FileTools.readText("logs/MuleLogDispatcher.json"));
+			
+			if (this.hasCharInProgress(obj, account, realm, character))
+			{
+				for (i = 0 ; i < obj.inProgress.length ; ++i)
+				{
+					if (obj.inProgress[i].acc === account && obj.inProgress[i].charname === character && obj.inProgress[i].realm.toLowerCase() === realm.toLowerCase())
+					{
+						obj.inProgress.splice(i, 1);
+						break;
+					}
+				}
+				
+				FileTools.writeText("logs/MuleLogDispatcher.json", JSON.stringify(obj));
+			}
+		}
+	},
+	
+	hasCharInProgress: function(obj, account, realm, character){
+		var i;
+		if (obj.inProgress)
+		{
+			for (i = 0 ; i < obj.inProgress.length ; ++i)
+			{
+				if (obj.inProgress[i].acc === account && obj.inProgress[i].charname === character && obj.inProgress[i].realm.toLowerCase() === realm.toLowerCase())
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	},
+
+	logChar: function (logIlvl, logName, saveImg) {
+		while (!me.gameReady) {
+			delay(100);
+		}
+
+		if (logIlvl === undefined) {
+			logIlvl = this.LogItemLevel;
+		}
+
+		if (logName === undefined) {
+			logName = this.LogNames;
+		}
+
+		if (saveImg === undefined) {
+			saveImg = this.SaveScreenShot;
+		}
+
+		var i, folder, string, parsedItem,
+			items = me.getItems(),
+			realm = me.realm || "Single Player",
+			merc,
+			finalString = "";
+
+		if (!FileTools.exists("mules/" + realm)) {
+			folder = dopen("mules");
+
+			folder.create(realm);
+		}
+
+		if (!FileTools.exists("mules/" + realm + "/" + me.account)) {
+			folder = dopen("mules/" + realm);
+
+			folder.create(me.account);
+		}
+
+		if (!items || !items.length) {
+			return;
+		}
+
+		function itemSort(a, b) {
+			return b.itemType - a.itemType;
+		}
+
+		items.sort(itemSort);
+
+		for (i = 0; i < items.length; i += 1) {
+			if ((this.LogEquipped || items[i].mode === 0) && (items[i].quality !== 2 || !Misc.skipItem(items[i].classid))) {
+				parsedItem = this.logItem(items[i], logIlvl);
+
+				// Log names to saved image
+				if (logName) {
+					parsedItem.header = (me.account || "Single Player") + " / " + me.name;
+				}
+
+				if (saveImg) {
+					D2Bot.saveItem(parsedItem);
+				}
+
+				// Always put name on Char Viewer items
+				if (!parsedItem.header) {
+					parsedItem.header = (me.account || "Single Player") + " / " + me.name;
+				}
+
+				// Remove itemtype_ prefix from the name
+				parsedItem.title = parsedItem.title.substr(parsedItem.title.indexOf("_") + 1);
+
+				if (items[i].mode === 1) {
+					parsedItem.title += " (equipped)";
+				}
+
+				string = JSON.stringify(parsedItem);
+				finalString += (string + "\n");
+			}
+		}
+
+		if (this.LogMerc) {
+			for (i = 0; i < 3; i += 1) {
+				merc = me.getMerc();
+
+				if (merc) {
+					break;
+				}
+
+				delay(50);
+			}
+
+			if (merc) {
+				items = merc.getItems();
+
+				for (i = 0; i < items.length; i += 1) {
+					parsedItem = this.logItem(items[i]);
+					parsedItem.title += " (merc)";
+					string = JSON.stringify(parsedItem);
+					finalString += (string + "\n");
+
+					if (this.SaveScreenShot) {
+						D2Bot.saveItem(parsedItem);
+					}
+				}
+			}
+		}
+
+		// hcl = hardcore class ladder
+		// sen = softcore expan nonladder
+		FileTools.writeText("mules/" + realm + "/" + me.account + "/" + me.name + "." + ( me.playertype ? "h" : "s" ) + (me.gametype ? "e" : "c" ) + ( me.ladder > 0 ? "l" : "n" ) + ".txt", finalString);
+		print("Item logging done.");
 	}
 };

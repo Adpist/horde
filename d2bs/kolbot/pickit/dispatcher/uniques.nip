@@ -1,0 +1,1 @@
+[quality] == unique && ([name] != smallcharm && [name] != largecharm && [name] != grandcharm)

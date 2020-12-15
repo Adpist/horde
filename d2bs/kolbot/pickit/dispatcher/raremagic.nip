@@ -1,0 +1,1 @@
+[quality] == rare || [quality] == magic && ([name] != jewel && [name] != ring && [name] != amulet && [name] != smallcharm && [name] != largecharm && [name] != grandcharm)
