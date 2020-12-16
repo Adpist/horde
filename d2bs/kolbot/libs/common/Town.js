@@ -563,7 +563,7 @@ MainLoop:
 				result = Pickit.checkItem(item);
 
 				// Force ID for unid items matching autoEquip criteria
-				if (result.result === 1 && !item.getFlag(0x10) && (Item.hasTier(list[i]) || Item.hasMercTier(list[i]))) {
+				if (result.result === 1 && !item.getFlag(0x10) && (Item.hasTier(item) || Item.hasMercTier(item))) {
 					result.result = -1;
 				}
 
