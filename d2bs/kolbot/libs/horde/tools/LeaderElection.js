@@ -107,8 +107,10 @@ var LeaderElection = {
 			D2Bot.updateStatus("Waiting ready for election");
 			print("Waiting elected leader");
 			if (!Party.waitSynchro("leader_election", HordeSettings.leaderElectionTimeoutMinutes * 60000)) {
-				print("leader synchro timed out");
-				delay(5000);
+				HordeDebug.logScriptError("Leader Election", "Leader election synchro failed. Restarting whole team");
+				Communication.Synchro.cleanup();
+				Communication.sendToList(HordeSystem.allTeamProfiles, "reboot");
+				delay(HordeSystem.getTeamIndex()*500);
 				D2Bot.restart();
 				return false;
 			}

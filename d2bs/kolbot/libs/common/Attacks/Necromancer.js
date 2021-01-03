@@ -529,7 +529,8 @@ MainLoop:
 				!unit.getState(99) && // redeemed
 				!unit.getState(104) && // nodraw
 				!unit.getState(107) && // shatter
-				!unit.getState(118) // noselect
+				!unit.getState(118) &&// noselect
+				(!revive || me.area !== 136)
 				) {
 			return true;
 		}

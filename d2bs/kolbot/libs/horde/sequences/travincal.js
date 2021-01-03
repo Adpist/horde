@@ -141,12 +141,18 @@ function travincal(mfRun) {
 		Pather.moveTo(orgX+12, orgY-31, 2, false, true);	// (<3 kolton)
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-31, 2, false, true);	// (<3 kolton)
+		delay(me.ping+50);
+		Pather.moveTo(me.x + rand(-3, 3), me.y + rand(-3, 3)); // Move off of waypoint so others can reach it.
 		Party.secureWaitSynchro("trav_lake");
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-59, 2, false, true);	// (<3 kolton)
+		delay(me.ping+50);
+		Pather.moveTo(me.x + rand(-3, 3), me.y + rand(-3, 3)); // Move off of waypoint so others can reach it.
 		Party.secureWaitSynchro("trav_entrance");
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-73, 2, false, true);	// (<3 kolton)
+		delay(me.ping+50);
+		Pather.moveTo(me.x + rand(-3, 3), me.y + rand(-3, 3)); // Move off of waypoint so others can reach it.
 		Party.secureWaitSynchro("trav_building");
 		Attack.clear(30);
 		Pather.moveTo(orgX+80, orgY-98, 2, false, true);	// (<3 kolton)
@@ -166,9 +172,16 @@ function travincal(mfRun) {
 
 	Pickit.pickItems();
 
-	Party.waitForMembers();
+	if (startNearWp) {
+		delay(me.ping+50);
+		Pather.moveTo(orgX+80, orgY-73, 2, false, true);	// (<3 kolton)
+		Pather.moveTo(me.x + rand(-3, 3), me.y + rand(-3, 3)); // Move off so others can reach position.
+	}
+	
 	
 	if (!mfRun) {
+		Party.waitForMembers();
+		
 		if (Role.teleportingChar && !me.getQuest(18, 0)) { // I am the Teleporting Sorc and I have not completed Khalim's Will yet. Will smash the orb while the others keep the area clear.
 			if(!me.getItem(174)){
 				print("get flail");
@@ -222,7 +235,7 @@ function travincal(mfRun) {
 		Pather.teleport = true;
 	}
 	
-	Town.goToTown();
+	Role.backToTown();
 
 	if (!mfRun) {
 		if (Role.teleportingChar){
@@ -230,8 +243,6 @@ function travincal(mfRun) {
 		}
 		
 		Item.autoEquip(); // For Role.teleportingChar to re-equip her weapon.
-
-		Party.waitForMembers(); // Wait for everyone to finish Travincal and come to town so I don't miss someone announcing team figurine.
 	}
 
 	Config.FastPick = ogFastPick;

@@ -169,6 +169,7 @@ var Sequencer = {
 			} catch(error) {
 				HordeDebug.logScriptError("Sequencer", "Error while running sequence " + sequence + " : " + error + "\n" + error.toSource());
 				sequenceResult = this.error;
+				quit();
 			}
 			
 			this.postSequence(sequence, timeline, sequenceResult);

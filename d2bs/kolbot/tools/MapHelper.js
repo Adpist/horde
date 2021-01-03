@@ -54,7 +54,12 @@ function main() {
 				if (obj) {
 					switch (obj.type) {
 					case "area":
-						Pather.moveToExit(obj.dest, true);
+						if ([133,134,135,136].indexOf(obj.dest) !== -1) {
+							print("use portal to " + obj.dest);
+							Pather.usePortal(obj.dest);
+						} else {
+							Pather.moveToExit(obj.dest, true);
+						}
 
 						break;
 					case "unit":

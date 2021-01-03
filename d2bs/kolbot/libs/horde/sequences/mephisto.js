@@ -102,7 +102,7 @@ function mephisto(mfRun) {
 	if (mfRun)
 	{
 		if (mfRun && clearLvl3) {
-			Pather.teleport = false;
+			Pather.teleport = HordeSystem.isEndGame();
 			Attack.clearLevel(0);
 			Pather.teleport = true;
 		}

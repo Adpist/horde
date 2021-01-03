@@ -502,13 +502,44 @@ var Hooks = {
 
 					break;
 				case 99: // Numpad 3
-					hook = this.getHook("POI");
-					obj.type = "unit";
+					if (me.area === 109) {
+						print("select uber3");
+						hook = this.getHook("Uber3");
+						obj.type = "area";
+					}
+					else {
+						hook = this.getHook("POI");
+						obj.type = "unit";
+					}
 
 					break;
 				case 100: // Numpad 4
-					hook = this.getHook("Side Area");
-					obj.type = "area";
+					if (me.area === 109) {
+						print("select uber4");
+						hook = this.getHook("Uber4");
+						obj.type = "area";
+					} else {
+						hook = this.getHook("Side Area");
+						obj.type = "area";
+					}
+
+					break;
+					
+				case 101: // Numpad 5
+					if (me.area === 109) {
+						print("select uber5");
+						hook = this.getHook("Uber5");
+						obj.type = "area";
+					}
+
+					break;
+					
+				case 102: // Numpad 6
+					if (me.area === 109) {
+						print("select uber6");
+						hook = this.getHook("Uber6");
+						obj.type = "area";
+					}
 
 					break;
 				}
@@ -667,6 +698,19 @@ var Hooks = {
 					hook: new Text("Num 4: " + Pather.getAreaName(80), 150, 525 - (this.hooks.length * 10))
 				});
 
+				break;
+			case 109:
+				for (var i = 0 ; i < 4 ; i+= 1) {
+					var areaId = 133+i;
+					if (Pather.getPortal(areaId))
+					{
+						this.hooks.push({
+							name: "Uber" + (3+i),
+							destination: areaId,
+							hook: new Text("Num " + (3+i) + ": " + Pather.getAreaName(areaId), 150, 525 - (this.hooks.length * 10))
+						});
+					}
+				}
 				break;
 			case 113: // Crystalline Passage
 				this.hooks.push({

@@ -84,7 +84,11 @@ NTIP.OpenFile = function (filepath, notify) {
 			string: lines[i]
 		};
 
-		line = NTIP.ParseLineInt(lines[i], info);
+		try {
+			line = NTIP.ParseLineInt(lines[i], info);
+		} catch(e) {
+			throw new Error("error when parsing line " + info.line + " of pickit file " + info.file);
+		}
 
 		if (line) {
 			entries += 1;

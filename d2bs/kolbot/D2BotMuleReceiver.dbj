@@ -489,7 +489,7 @@ function main() {
 
 				tick = getTickCount();
 
-				while (getTickCount() - tick < 60000) {
+				while (getTickCount() - tick < 150000) {
 					if (status === "begin") {
 						break;
 					}

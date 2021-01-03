@@ -157,6 +157,28 @@ function hellforge(mfRun) {
 			Pickit.pickItems();
 			
 			if (leaveParty) {
+				Town.goToTown();
+				
+				cain = getUnit(1, "deckard cain");
+				while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
+					Packet.flash(me.gid);
+
+					Town.move(NPC.Cain);
+					cain = getUnit(1, "deckard cain");
+
+					delay(1000);
+				}
+				
+				me.cancel();
+				
+				if (!me.getQuest(27,0)){
+					D2Bot.printToConsole(me.profile + " failed to complete hellforge", 7);
+				} else {
+					D2Bot.printToConsole(me.profile + " completed hellforge", 5);
+				}
+				
+				Pather.usePortal(107, me.name);
+				
 				for (var i = 0 ; i < 3 ; i += 1) {
 					if (Party.joinHordeParty()) {
 						break;
@@ -214,8 +236,7 @@ function hellforge(mfRun) {
 			
 			if (!me.getQuest(27,0)){
 				D2Bot.printToConsole(me.profile + " failed to complete hellforge", 7);
-			}
-			else {
+			} else {
 				D2Bot.printToConsole(me.profile + " completed hellforge", 5);
 			}
 		}

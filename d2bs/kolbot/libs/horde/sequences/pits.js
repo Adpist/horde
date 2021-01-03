@@ -18,7 +18,8 @@ function pits_requirements(mfRun) {
 }
 
 function pits(mfRun) { // SiC-666 TODO: Rewrite this.
-
+	var startLvl2 = true;
+	
 	if (Role.teleportingChar) {
 		Town.goToTown();
 		if (!Pather.useWaypoint(6)) {
@@ -28,13 +29,18 @@ function pits(mfRun) { // SiC-666 TODO: Rewrite this.
 		if (!Pather.moveToExit([7, 12], true)) {
 			throw new Error("Failed to move to Pit level 1");
 		}
+		if (startLvl2) {
+			if (!Pather.moveToExit(16, true)) {
+				throw new Error("Failed to move to Pit level 2");
+			}
+		}
 		Role.makeTeamJoinPortal();
 		delay(1750);
 	} else {
 		Town.goToTown(1);
 		Town.move("portalspot");
 		var j = 0;
-		while(!Pather.usePortal(12, null)) {
+		while(!Pather.usePortal(startLvl2 ? 16 : 12, null)) {
 			delay(250);
 
 			if (j % 20 == 0) { // Check for Team Members every 5 seconds.
@@ -46,22 +52,23 @@ function pits(mfRun) { // SiC-666 TODO: Rewrite this.
 	}
 	
 	if (HordeSystem.teamSize > 1) {
-		Pather.teleport = false;
+		Pather.teleport = HordeSystem.isEndGame();
+	}
+	if (!startLvl2) {
+		Party.waitForMembers();
+		Attack.clearLevel(Config.ClearType);
+
+		if (!Pather.moveToExit(16, true, Config.Pit.ClearPath)) {
+			throw new Error("Failed to move to Pit level 2");
+		}
 	}
 	
-	Party.waitForMembers();
-	Attack.clearLevel(Config.ClearType);
-
-	if (!Pather.moveToExit(16, true, Config.Pit.ClearPath)) {
-		throw new Error("Failed to move to Pit level 2");
-	}
 	Party.waitForMembers();
 
 	Attack.clearLevel();
 
 	Pather.teleport = true;
-	Town.goToTown();
-
+	Role.backToTown();
 
 	return Sequencer.done;
 }

@@ -100,7 +100,7 @@ function ancienttunnels(mfRun) {
 	}
 
 	if (HordeSystem.teamSize > 1 || me.diff === 0) {
-		Pather.teleport = false;
+		Pather.teleport = HordeSystem.isEndGame();
 	}
 
 	if(me.diff === 0){

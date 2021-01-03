@@ -171,8 +171,7 @@ function ScriptMsgEvent (msg) {
 
 			break;
 		case "muleTorch":
-			AutoMule.torchCheck = true;
-
+			AutoMule.torchAnniCheck = 1;
 			break;
 		case "torch":
 			TorchSystem.check = true;
@@ -249,6 +248,12 @@ function ReceiveCopyData (mode, data) {
 				if (msg.indexOf("ready ") !== -1) {
 					Communication.Synchro.onReceiveCommand(nick, msg);
 				}
+			}
+			
+			if (msg.indexOf("reboot") !== -1) {
+				Communication.Synchro.cleanup();
+				delay(HordeSystem.getTeamIndex()*500);
+				D2Bot.restart();
 			}
 		}
 		catch (e) {

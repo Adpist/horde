@@ -13,6 +13,7 @@ var HordeSystem = {
 	teleProfile: "",
 	boProfile: "",
 	questDropProfile: "",
+	uberProfile: "",
 	followerProfiles: [],
 	allTeamProfiles: [],
 	allTeamCharacters: [],
@@ -31,6 +32,10 @@ var HordeSystem = {
 		this.followerProfiles = [];
 		this.allTeamProfiles = [];
 		this.allTeamCharacters = [];
+	},
+	
+	isEndGame: function() {
+		return !this.team.endgame ? false : eval(this.team.endgame);
 	},
 	
 	getTeamIndex: function(profile) {
@@ -341,10 +346,18 @@ var HordeSystem = {
 					
 				case "questdrop":
 					HordeSystem.questDropProfile = profile;
-				case "follower":
 					HordeSystem.followerProfiles.push(profile);
 					break;
 				
+				case "uber":
+					HordeSystem.uberProfile = profile;
+					HordeSystem.followerProfiles.push(profile);
+					break
+					
+				case "follower":
+					HordeSystem.followerProfiles.push(profile);
+					break;
+					
 				default:
 					D2Bot.printToConsole("unhandled role : " + profileData.role + " => using follower");
 					HordeSystem.followerProfiles.push(profile);
@@ -465,6 +478,28 @@ var HordeSystem = {
 	boot: function() {
 		Sequencer.run();
 		Communication.Synchro.cleanup();
+	},
+	
+	toggleThreadsPause: function () {
+		var i,	script,
+			scripts = ["tools/townchicken.js", "tools/antihostile.js", "tools/party.js", "tools/rushthread.js", "tools/toolsthread.js"];
+
+		for (i = 0; i < scripts.length; i += 1) {
+			script = getScript(scripts[i]);
+
+			if (script) {
+				if (script.running) {
+					print("Pausing " + scripts[i]);
+					script.pause();
+				}
+				else {
+					print("Resuming " + scripts[i]);
+					script.resume();
+				}
+			}
+		}
+
+		return true;
 	},
 	
 	onToolThreadQuit: function() {

@@ -22,10 +22,10 @@ function andy_requirements(mfRun) {
 
 function andy(mfRun) {
 	var oldPickRange = Config.PickRange;
+	var bugAndy = false; //!mfRun && me.diff !== 0;
 	
 	Town.goToTown(1);
 	
-	Town.repair();
 	Party.wholeTeamInGame();
 
 	if (!mfRun) {
@@ -116,6 +116,12 @@ function andy(mfRun) {
 			Buff.Bo();
 		}
 		
+		if (bugAndy) {
+			Config.TownCheck = false;
+			Config.TownHP = 0;
+			Config.TownMP = 0;
+		}
+		
 		if (me.diff === 0) {
 			Pather.moveTo(22594, 9641, 3, Config.ClearType);
 			Pather.moveTo(22564, 9629, 3, Config.ClearType);
@@ -159,14 +165,24 @@ function andy(mfRun) {
 		delay(2000); // Wait for minions to die.
 
 		Pickit.pickItems();
-
-		Role.backToTown();
 	}
 
 	if (!mfRun)
 	{
+		if (bugAndy) {
+			delay(15000); //wait for tp to spawn
+		}
+		
+		Role.backToTown();
 		delay(3000);
 		Travel.changeAct(2);
+		
+		if (bugAndy) {
+			HordeDebug.logScriptInfo("Andy", "Bugging Andy");
+			quit();
+		}
+	} else {
+		Role.backToTown();
 	}
 	
 	return Sequencer.done;

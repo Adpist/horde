@@ -33,7 +33,7 @@ function nihlathak_requirements(mfRun) {
 }
 
 function nihlathak(mfRun) {
-	var useWaypoint = true;
+	var useWaypoint = false;
 	
 	Town.goToTown(5);
 	
@@ -78,6 +78,8 @@ function nihlathak(mfRun) {
 		Pather.moveToPreset(me.area, 2, 462, 0, 0, false, true);
 		
 		Role.makeTeamJoinPortal();
+		
+		Party.secureWaitSynchro("portal_nihlathak");
 	}
 	else
 	{
@@ -85,6 +87,7 @@ function nihlathak(mfRun) {
 		while(!Pather.usePortal(124, HordeSystem.team.profiles[HordeSystem.teleProfile].character)) {
 			delay(1000);
 		}
+		Party.secureWaitSynchro("portal_nihlathak");
 	}
 	
 	try {
@@ -106,10 +109,6 @@ function nihlathak(mfRun) {
 	Pickit.pickItems();
 	
 	Role.backToTown();
-	
-	print("nihlatak end");
-	print("quest[37, 0] : " + me.getQuest(37,0) + " | quest[37, 1] : " + me.getQuest(37,1));
-	print("quest[38, 0] : " + me.getQuest(38,0) + " | quest[38, 1] : " + me.getQuest(38,1));
 	
 	return Sequencer.done;
 }

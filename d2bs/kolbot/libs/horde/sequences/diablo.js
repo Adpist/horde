@@ -13,11 +13,11 @@ function diablo_requirements(mfRun) {
 		return mfRun ? Sequencer.skip : Sequencer.stop; //Stop, Mephisto isn't dead
 	}
 	
-	if (mfRun && !me.getQuest(28, 0)) {
+	if (mfRun && !me.getQuest(me.gametype === 0 ? 26 : 28, 0)) {
 		return Sequencer.skip; //Skip: mf run and diablo isn't dead
 	}
 	
-	if ((!mfRun && me.getQuest(28, 0))) {
+	if ((!mfRun && me.getQuest(me.gametype === 0 ? 26 : 28, 0))) {
 		return Sequencer.skip;//Skip, quest already complete
 	}
 	/***** END OF REQUIREMENTS ******/
@@ -443,7 +443,7 @@ function diablo(mfRun) {
 	if (me.classid === 1) {
 		Pather.teleport = true;
 	} else {
-		Pather.teleport = false;
+		Pather.teleport = HordeSystem.isEndGame();
 	}
 	var clearType;
 
@@ -609,11 +609,15 @@ function diablo(mfRun) {
 	Pather.teleport = true;
 
 	if (me.gametype === 0) { // Exit game in classic.
-		delay(2000); // Seems necessary to delay after Diablo dies for experience and quest to be gained.
-		while (me.ingame) {
-			D2Bot.restart(); // D2Bot# will restart this profile immediately (avoids congrats screen).
+		delay(2000 + 2000 * HordeSystem.getTeamIndex(me.profile)); // Seems necessary to delay after Diablo dies for experience and quest to be gained.
+		if (mfRun) {
+			quit();
+		} else {
+			while (me.ingame) {
+				D2Bot.restart(); // D2Bot# will restart this profile immediately (avoids congrats screen).
 
-			delay(1000);
+				delay(1000);
+			}	
 		}
 	} else {
 		Role.backToTown();

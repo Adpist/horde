@@ -129,6 +129,51 @@ var Communication = {
 			}
 		});
 	},
+		
+	OrgTorch: {
+		receivedReady: false,
+		isReady: false,
+		runArea: 0,
+		runDone: false,
+		
+		onReceiveCommand: function(nick, message) {
+			var args = message.split(' ');
+			
+			if (args[1] === "ask") {
+				var isReady = Role.orgTorchCheck();
+				Communication.sendToProfile(nick, "orgtorch " + (isReady ? "ready" : "notready"));
+			} else if (args[1] === "ready") {
+				this.receivedReady = true;
+				this.isReady = true;
+			} else if (args[1] === "notready") {
+				this.receivedReady = true;
+				this.isReady = false;
+			} else if (args[1] === "area") {
+				this.runArea = parseInt(args[2]);
+			} else if (args[1] === "done") {
+				this.runDone = true;
+				this.runArea = 0;
+			}
+		},
+		
+		askReady: function() {
+			if (HordeSystem.uberProfile !== "") {
+				Communication.sendToProfile(HordeSystem.uberProfile, "orgtorch ask");
+				print("ask orgtorch ready to " + HordeSystem.uberProfile);
+				var tick = getTickCount();
+				while (getTickCount() - tick < 5000 && !this.receivedReady) {
+					delay(50);
+				}
+				
+				if (this.receivedReady) {
+					print("received orgtorch ready : " + this.isReady);
+					return this.isReady;
+				}
+			}
+			print("didn't received orgtorchready");
+			return false;
+		},
+	},
 	
 	
 	receiveCopyData: function(id, data) {
@@ -150,13 +195,15 @@ var Communication = {
 				} else {
 					HordeDebug.logScriptError("Sequencer", "Invalid run command: " + msg);
 				}
-			} 
+			} else if (msg.indexOf("orgtorch ") !== -1) {
+				this.OrgTorch.onReceiveCommand(nick, msg);
+			}
 			//Synchro command
 			else if (msg.indexOf("ready ") !== -1) {
 				this.Synchro.onReceiveCommand(nick, msg, ingame);
 			} else if (msg.indexOf("sharing ") !== -1) {
 				Sharing.onReceiveCommand(nick, msg);
-			}else {
+			} else {
 				switch (msg) {
 				//sequencer command
 				case "HordeGameEnd":

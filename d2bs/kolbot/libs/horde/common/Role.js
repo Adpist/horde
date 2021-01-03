@@ -11,6 +11,7 @@ var Role = {
 	boChar: false,
 	otherChar: false,
 	questDropChar: false,
+	uberChar: false,
 	
 	initRole: function () { // Checks Config settings to determine role.
 		var leaderProfile = DataFile.getStats().hordeLeader;
@@ -22,6 +23,8 @@ var Role = {
 			this.boChar = true;
 		} else if (HordeSystem.questDropProfile === me.profile) {
 			this.questDropChar = true;
+		} else if (HordeSystem.uberProfile === me.profile) {
+			this.uberChar = true;
 		} else {
 			for (var i = 0 ; i < HordeSystem.followerProfiles.length ; i += 1) {
 				if (HordeSystem.followerProfiles[i] === me.profile) {
@@ -114,6 +117,12 @@ var Role = {
 		targetTown = this.getTownFromAct(me.act);
 		
 		if (!me.inTown && !me.dead) {
+			if (me.area === 136) {
+				Pather.moveTo(25105, 5140);
+				Pather.usePortal(109);
+				return true;
+			}
+			
 			print("backToTown: not in town. need tp to " + targetTown);
 			if (Pather.getPortal(targetTown, null)) {
 				print("backToTown: try use existing portal " + waitTime);
@@ -222,7 +231,7 @@ var Role = {
 					if (merc && merc.charlvl < 25 && me.charlvl >= 28) {
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, 25);
 					}
-					else if (merc && merc.charlvl <= me.charlvl - 10 && (HordeSystem.getGameDifficulty() === "Normal" || !hasAct2NightmareMerc)) {
+					else if (merc && merc.charlvl <= me.charlvl - 10 && !hasAct2NightmareMerc) {
 					
 						MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, enableMercRebuy, me.charlvl - 5);
 					}
@@ -241,5 +250,68 @@ var Role = {
 				}
 			}
 		}
+	},
+	
+	hasTorch: function() {
+		var item = me.getItem("cm2");
+		if (item) {
+			do {
+				if (item.quality === 7 && Pickit.checkItem(item).result === 1) {
+					return true;
+				}
+			} while (item.getNext());
+		}
+		return false;
+	},
+	
+	hasOrgSet: function() {
+		var horns = me.findItems("dhn"),
+			brains = me.findItems("mbr"),
+			eyes = me.findItems("bey");
+
+		if (!horns || !brains || !eyes) {
+			return false;
+		}
+
+		// We just need one set to make a torch
+		return horns.length && brains.length && eyes.length;
+	},
+	
+	hasKeySet: function() {
+		var tkeys = me.findItems("pk1", 0).length || 0;
+		var hkeys = me.findItems("pk2", 0).length || 0;
+		var dkeys = me.findItems("pk3", 0).length || 0;
+		
+		print("Has keys : terror : " + tkeys + " - hate : " + hkeys + " - destruction : " + dkeys);
+		
+		return tkeys >= 3 && hkeys >= 3 && dkeys >= 3;
+	},
+	
+	getKeysNeeds: function() {
+		var tkeys = me.findItems("pk1", 0).length || 0;
+		var hkeys = me.findItems("pk2", 0).length || 0;
+		var dkeys = me.findItems("pk3", 0).length || 0;
+		
+		return {terror: tkeys < 3 ? 3 - tkeys : 0, hate: hkeys < 3 ? 3 - hkeys : 0, dest: dkeys < 3 ? 3 - dkeys : 0};
+	},
+	
+	orgTorchCheck: function() {
+		if (this.uberChar) {
+			if (!this.hasTorch()) {
+				return this.hasKeySet() || this.hasOrgSet();
+			}else {
+				print("orgTorchCheck : already have torch");
+				if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("torchMuleInfo")) {
+					print("muling torch");
+					scriptBroadcast("muleTorch");
+					//quit();
+					scriptBroadcast("quit");
+					//delay(10000);
+				}
+			}
+		} else {
+			print("orgTorchCheck : not uber char");
+		}
+		return false;
 	}
 };

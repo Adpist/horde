@@ -32,6 +32,7 @@ function shenk_requirements(mfRun) {
 }
 
 function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
+	var killEldritch = false;
 	
 	Town.goToTown(4);
 	
@@ -48,8 +49,44 @@ function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
 		}
 	}
 	
+	if (killEldritch) {
+		if (Role.teleportingChar) {
+			if (!Pather.useWaypoint(111, false)) {
+				throw new Error();
+			}
+			Pather.makePortal();
+		}	else {
+			Town.goToTown(5);
+			Town.move("portalspot");
+			while(!Pather.usePortal(111, null)) {
+				delay(1000);
+			}
+		}
+		
+		Party.secureWaitSynchro("before_eldritch");
+		
+		Pather.moveTo(3745, 5084);
+		
+		try{
+			Attack.clear(15, 0, getLocaleString(22500)); // Eldritch the Rectifier
+		} catch(e) {
+			Attack.clear(20);
+		}
+		
+		Pickit.pickItems();
+		
+		Party.secureWaitSynchro("after_eldritch");
+		
+		if (!Role.teleportingChar) {
+			Role.backToTown();
+		} else {
+			Pather.makePortal();
+			delay(2000);
+		}
+	} 
+	
 	if (Role.teleportingChar) {
-		if (!Pather.useWaypoint(111, false)) {
+		if (!killEldritch && !Pather.useWaypoint(111, false)) {
 			throw new Error();
 		}
 		Pather.teleport = true;
@@ -80,10 +117,8 @@ function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
 	}
 	
 	Pickit.pickItems();
-
-	if (mfRun){
-		Role.backToTown();
-	}
+	
+	Role.backToTown();
 	
 	return Sequencer.done;
 }

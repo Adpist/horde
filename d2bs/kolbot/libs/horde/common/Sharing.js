@@ -580,7 +580,7 @@ var Sharing = {
 					for (var i = 0 ; i < this.sharableGear.length ; i += 1) {
 						var itemToShare = this.sharableGear[i];
 						var checkResult = Pickit.checkItem(itemToShare);
-						var targetProfiles = checkResult.result === 1 && (!!checkResult.tier || !!checkResult.mercTier) ? this.getHigherPriorityProfiles() : HordeSystem.allTeamProfiles;
+						var targetProfiles = checkResult.result === 1 && (!!checkResult.tier || !!checkResult.merctier) ? this.getHigherPriorityProfiles() : HordeSystem.allTeamProfiles;
 						
 						this.offeredGearAnswers = {};
 						
@@ -757,6 +757,9 @@ var Sharing = {
 		this.runeNeeds[profile] = {runes: runes, status: runes.length > 0 ? "need" : "done"};
 		
 		if(profile === me.profile) {
+			if (HordeSettings.Debug.Verbose.sharing) {
+				print("Sending need " + JSON.stringify(runes));
+			}
 			Communication.sendToList(HordeSystem.allTeamProfiles, "sharing rune need " + JSON.stringify(runes));
 		}
 	},
@@ -832,14 +835,28 @@ var Sharing = {
 	},
 	
 	processOfferList: function() {
+		var keyNeeds = Role.uberChar ? Role.getKeysNeeds() : false;
 		for (var i = 0 ; i < HordeSystem.allTeamProfiles.length ; i += 1) {
 			var profile = HordeSystem.allTeamProfiles[i];
 			if (profile != me.profile) {
 				var requestedRunes = [];
 				if (this.runeOffers[profile].length > 0) {
 					for (var j = 0 ; j < this.runeOffers[profile].length ; j += 1) {
+						//Accept runewords ingredient
 						if (Runewords.needList.indexOf(this.runeOffers[profile][j]) !== -1) {
 							requestedRunes.push(this.runeOffers[profile][j]);
+						}
+						//Accept cubing ingredients
+						else if (this.isInCubingNeedlist(this.runeOffers[profile][j])) {
+							requestedRunes.push(this.runeOffers[profile][j]);
+						}
+						//Accept keys
+						else if (Role.uberChar && [647,648,649].indexOf(this.runeOffers[profile][j]) !== -1) {
+							switch (this.runeOffers[profile][j]) {
+								case 647: if (keyNeeds.terror > 0) {keyNeeds.terror -= 1; requestedRunes.push(647);} break;
+								case 648: if (keyNeeds.hate > 0) {keyNeeds.hate -= 1; requestedRunes.push(648);} break;
+								case 649: if (keyNeeds.dest > 0) {keyNeeds.dest -= 1; requestedRunes.push(649);} break;
+							}
 						}
 					}
 				}
@@ -935,6 +952,15 @@ var Sharing = {
 		Pickit.pickItems();
 	},
 	
+	isInCubingNeedlist: function(classid) {
+		for (var i = 0 ; i < Cubing.neededIngredients.length ; i += 1) {
+			if (Cubing.neededIngredients[i].classid === classid) {
+				return true;
+			}
+		}
+		return false;
+	},
+	
 	getCraftingNeedList: function() {
 		var needList = [];
 		for (var i = 0 ; i < Runewords.needList.length ; i += 1) {
@@ -942,12 +968,26 @@ var Sharing = {
 				needList.push(Runewords.needList[i]);
 			}
 		}
+		
 		for (var i = 0 ; i < Cubing.neededIngredients.length ; i += 1) {
-			
-			if (needList.indexOf(Cubing.neededIngredients[i]) === -1) {
-				needList.push(Cubing.neededIngredients[i]);
+			var ingredientClassId = Cubing.neededIngredients[i].classid;
+			if ((ingredientClassId >= 610 && ingredientClassId <= 642) //runes
+				|| (ingredientClassId >= 557 && ingredientClassId <= 586) //gems
+				|| (ingredientClassId >= 597 && ingredientClassId <= 601) //skulls
+				) {
+				if (needList.indexOf(ingredientClassId) === -1) {
+					needList.push(ingredientClassId);
+				}
 			}
 		}
+		
+		if (Role.uberChar) {
+			var keyNeeds = Role.getKeysNeeds();
+			if (keyNeeds.terror > 0 ) { needList.push(647); }
+			if (keyNeeds.hate > 0 ) { needList.push(648); }
+			if (keyNeeds.dest > 0 ) { needList.push(649); }
+		}
+		
 		return needList;
 	},
 	

@@ -125,11 +125,15 @@ function summoner(mfRun) {
 	
 	}
 	
+	Pather.moveToPreset(74, 2, 357, -3, -3, true);
+	
 	Attack.clear(20);
 
 	Pickit.pickItems();
 
 	Pather.moveToPreset(74, 2, 357, -3, -3, true);
+	
+	Party.secureWaitSynchro("after_summoner");
 
 	journal = getUnit(2, 357);
 
@@ -160,7 +164,7 @@ function summoner(mfRun) {
 	if (i === 5) {
 		if(me.getQuest(13, 0)){
 			for (i = 0; i < 5; i += 1) {
-				Town.gotoTown();				
+				Town.goToTown();				
 				delay(1500);
 				Town.move("portalspot");				
 				delay(1500);
@@ -175,7 +179,14 @@ function summoner(mfRun) {
 		}
 	}
 
-	Pather.usePortal(46);
+	while(me.area !== 46) {
+		try{
+			Pather.usePortal(46);
+		} catch (e) {
+			Attack.clear(20);
+		}
+		
+	}
 
 	if (mfRun) {
 		Pather.useWaypoint(1);
