@@ -24,9 +24,11 @@
 [type] == boots && [class] == elite && [quality] < magic # # [tier] == 3
 [type] == boots && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + /*maxmana*/item.getStatEx(9)*0.5 + /*hpregen*/item.getStatEx(74)*7 + /*maxhp*/item.getStatEx(7)*0.5 + /*item_magicbonus*/item.getStatEx(80)*1.8 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.1)
 
-[name] == battleboots && [quality] == set && [flag] != ethereal # # [tier] == 4000 //aldur
-[name] == sharkskinboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == 5000
-[name] == battleboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == 10000
+[name] == battleboots && [quality] == set && [flag] != ethereal # # [tier] == 3000 //aldur
+[name] == demonhideboots && [quality] == unique && [flag] != ethereal # # [tier] == 4000 // infernostride
+[name] == sharkskinboots && [quality] == unique && [flag] != ethereal # # [tier] == 5000 //Waterwalks
+[name] == meshboots && [quality] == unique && [flag] != ethereal # # [tier] == 6000 //Silkweaves
+[name] == battleboots && [quality] == unique && [flag] != ethereal # # [tier] == 10000 //War travellers
 
 //gloves
 [type] == gloves && [quality] < magic # # [tier] == 1
@@ -76,7 +78,7 @@
 [name] == ring && [quality] == unique # [itemmaxmanapercent] >= 25 # [tier] == 10000 //stone of jordan
 
 // amulets
-[type] == amulet && [quality] == unique # [itemallskills] == 2 # [tier] == 10000 //mara
+[type] == amulet && [quality] == unique # [itemallskills] == 2 && [fireresist] + [lightresist] + [coldresist] >= 60 # [tier] == 10000 //mara
 
 
 

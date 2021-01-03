@@ -11,5 +11,5 @@ var HordeBuild = {
 	skillsBuild: "HammerSalvation",
 	autoBuildTemplate: "HammerSalvation",
 	mercAct2Normal: "Defiance",
-	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/paladin.hammer.common.xpac.nip", "horde/paladin.hammersalvation.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/paladin.hammer.common.xpac.nip", "horde/paladin.hammersalvation.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

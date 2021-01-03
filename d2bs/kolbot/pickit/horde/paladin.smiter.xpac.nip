@@ -1,17 +1,17 @@
 // gloves
-[type] == gloves && [quality] >= magic  # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] ==   (1 + /*ias*/item.getStatEx(8)*100 + /*maxmana*/item.getStatEx(9)*0.5 + /*hpregen*/item.getStatEx(74)*7 + /*hp*/item.getStatEx(7)*0.5 + /*mf*/item.getStatEx(80)*1.8 + /*fireres*/item.getStatEx(39)*2.4 + /*lightres*/item.getStatEx(41)*2.4 + /*coldres*/item.getStatEx(43)*2.4 + /*psnres*/item.getStatEx(45)*0.8 + /*armor*/item.getStatEx(31)*0.1)
+[type] == gloves && [quality] >= magic  # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] ==   (1 + /*ias*/item.getStatEx(93)*100 + /*maxmana*/item.getStatEx(9)*0.5 + /*hpregen*/item.getStatEx(74)*7 + /*hp*/item.getStatEx(7)*0.5 + /*mf*/item.getStatEx(80)*1.8 + /*fireres*/item.getStatEx(39)*2.4 + /*lightres*/item.getStatEx(41)*2.4 + /*coldres*/item.getStatEx(43)*2.4 + /*psnres*/item.getStatEx(45)*0.8 + /*armor*/item.getStatEx(31)*0.1)
 [name] == vampirebonegloves && [quality] == unique && [flag] != ethereal # # [tier] == 10000
 
 //belts 
 [name] == WarBelt && [quality] == unique && [flag] != ethereal # [EnhancedDefense] >= 100 # [tier] == (10007) //thundergods vigor
 
 //boots
-[name] == lightplatedboots && [quality] == unique && [flag] != ethereal # # [tier] == 10000 //goblin toe
+[name] == lightplatedboots && [quality] == unique && [flag] != ethereal # # [tier] == 11000 //goblin toe
 
 // helm
 ([type] == helm || [type] == circlet) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
 
-[name] == wingedhelm && [quality] == set && [flag] != ethereal # # [tier] == 10000 //Guillaume
+[name] == wingedhelm && [quality] == set && [flag] != ethereal # # [tier] == 11000 //Guillaume
 
 // amulet
 [type] == amulet && [quality] >= magic # # [tier] == (1 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
@@ -27,7 +27,7 @@
 [type] == armor && [flag] == runeword && [class] == elite # [fireresist] == 50 && [lightresist] == 50 # [tier] == 9000 //elite smoke (higher tier than common physical)
 
 // weapon
-([Name] == Club || [Name] == SpikedClub || [Name] == Mace || [Name] == MorningStar || [Name] == Flail || [Name] == WarHammer || [Name] == Cudgel || [Name] == BarbedClub || [Name] == FlangedMace || [Name] == JaggedStar || [Name] == Knout || [name] == scepter || [name] == warscepter || [name] == divinescepter || [name] == caduceus) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + /*crushingblow*/item.getStatEx(136)*10 + /*ias*/item.getStatEx(8)*10 + item.getStatEx(107,97)*25 + item.getStatEx(107,122)*20 + item.getStatEx(107,125)*15 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
+([Name] == Club || [Name] == SpikedClub || [Name] == Mace || [Name] == MorningStar || [Name] == Flail || [Name] == WarHammer || [Name] == Cudgel || [Name] == BarbedClub || [Name] == FlangedMace || [Name] == JaggedStar || [Name] == Knout || [name] == scepter || [name] == warscepter || [name] == divinescepter || [name] == caduceus) # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + /*crushingblow*/item.getStatEx(136)*10 + /*ias*/item.getStatEx(93)*10 + item.getStatEx(107,97)*25 + item.getStatEx(107,122)*20 + item.getStatEx(107,125)*15 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
 [name] == flail && [flag] == runeword # [ias] == 15 # [tier] == 10000 //Black
 [name] == phaseblade && [flag] == runeword # [ias] >= 30 # [tier] == 15000 //Grief
 

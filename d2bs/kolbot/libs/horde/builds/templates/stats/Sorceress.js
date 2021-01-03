@@ -72,6 +72,7 @@ var StatsBuilds = {
 		["vit", 125],
 		["str", 85],
 		["vit", 150],
+		["dex", 35],//hoto
 		["str", 100],
 		["vit", 200],
 		["str", 125],

@@ -162,9 +162,10 @@ AutoBuildTemplate[40] = {
     SkillPoints: [-1],
     StatPoints: [-1, -1, -1, -1, -1],
     Update: function() {
-        Config.AttackSkill = [-1, 97, 125, 97, 125, 97, 125]; // Fanatism + smite on boss ; Salvation + smite on mobs
+        Config.AttackSkill = [-1, 97, 125, 97, 125, 97, 125]; // Salvation + smite on boss ; Salvation + smite on mobs
         Config.LowManaSkill = [97, 125];
 		
+		Config.Vigor = false; // Swith to Vigor when running
         Config.LowGold = 35000;
     }
 };

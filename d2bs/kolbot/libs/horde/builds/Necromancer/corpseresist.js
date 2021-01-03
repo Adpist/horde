@@ -12,5 +12,5 @@ var HordeBuild = {
 	autoBuildTemplate: "CorpseResist",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Might",
-	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/necromancer.corpse.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/necromancer.corpse.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

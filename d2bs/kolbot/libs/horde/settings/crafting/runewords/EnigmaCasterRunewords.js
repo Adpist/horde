@@ -1,7 +1,7 @@
 /**
-*	@filename	SmiterRunewords.js
+*	@filename	CasterRunewords.js
 *	@author		Adpist
-*	@desc		Smiter runewords
+*	@desc		Basic caster runewords profile
 *	@credits	Adpist, JeanMax / SiC-666 / Dark-f, Alogwe, Imba, Kolton, Larryw, Noah, QQValpen, Sam, YGM
 */
 
@@ -12,8 +12,146 @@ var RunewordProfile = {
 	},
 	
 	character : { //Character Runewords
-
+		"shield" : {
+			"normal_rhyme" : {
+				runeword: Runeword.Rhyme,
+				sockets: 2,
+				bases: ["Kite Shield", "Large Shield", "Bone Shield"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[FireResist] >= 25 && [LightResist] >= 25",
+				tier: 250,
+				skipIf: ""
+			},
+			
+			"normal_ancients_pledge" : {
+				runeword: Runeword.AncientsPledge,
+				sockets: 3,
+				bases: ["Kite Shield", "Large Shield", "Bone Shield"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[FireResist] == 50 && [LightResist] == 50",
+				tier: 5000,
+				skipIf: ""
+			},
+			
+			"low_spirit_monarch" : {
+				runeword: Runeword.Spirit,
+				sockets: 4,
+				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] >= 25",
+				tier: 10000,
+				skipIf: ""
+			},
+			
+			"medium_spirit_monarch" : {
+				runeword: Runeword.Spirit,
+				sockets: 4,
+				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] >= 30",
+				tier: 11000,
+				skipIf: ""
+			},
+			
+			"high_spirit_monarch" : {
+				runeword: Runeword.Spirit,
+				sockets: 4,
+				bases: ["Monarch"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: true,
+				recipeType: Recipe.Socket.Shield,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] == 35",
+				tier: 12000,
+				skipIf: ""
+			}
+		},
+		
+		"weapon" : {
+			"spirit_sword" : {
+				runeword: Runeword.Spirit,
+				sockets: 4,
+				bases: ["Broad Sword", "Crystal Sword"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				typeCondition : "[type] == sword",
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[itemallskills] == 2",
+				tier: 10000,
+				skipIf: ""
+			},
+			
+			"hoto": {
+				runeword: Runeword.HeartoftheOak,
+				sockets: 4,
+				bases: ["Flail"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				typeCondition : "[name] == flail",
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[itemallskills] == 3",
+				tier: 13000,
+				skipIf: ""
+			},
+			
+			"hoto_max_res": {
+				runeword: Runeword.HeartoftheOak,
+				sockets: 4,
+				bases: ["Flail"], //capitals and spaces (ex : "Giant Thresher")
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				typeCondition : "[name] == flail",
+				statCondition: "[itemallskills] == 3 && [fireresist] == 40",
+				tier: 14000,
+				skipIf: ""
+			}
+		},
+		
 		"armor" : {
+			"normal_stealth" : {
+				runeword: Runeword.Stealth,
+				sockets: 2,
+				bases: ["Breast Plate", "Light Plate"],
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] == 25",
+				tier: 250,
+				skipIf: ""
+			},
+			"nm_stealth" : {
+				runeword: Runeword.Stealth,
+				sockets: 2,
+				bases: ["Ghost Armor", "Serpentskin Armor", "Demonhide Armor", "Cuirass", "Mage Plate"],
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] == 25",
+				tier: 350,
+				skipIf: ""
+			},
+			"hell_stealth" : {
+				runeword: Runeword.Stealth,
+				sockets: 2,
+				bases: ["Dusk Shroud", "Wyrmhide", "Scarab Husk", "Wire Fleece", "Great Hauberk", "Boneweave", "Balrog Skin", "Archon Plate"],
+				cubeBase: false,
+				roll: Roll.NonEth,
+				qualityCondition: "[quality] <= superior",
+				statCondition: "[fcr] == 25",
+				tier: 450,
+				skipIf: ""
+			},
 			"nm_smoke" : {
 				runeword: Runeword.Smoke,
 				sockets: 2,
@@ -33,7 +171,7 @@ var RunewordProfile = {
 				roll: Roll.All,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[FireResist] == 50 && [LightResist] == 50",
-				tier: 9000,
+				tier: 2000,
 				skipIf: ""
 			},
 			"enigma" :{
@@ -49,123 +187,6 @@ var RunewordProfile = {
 			},
 		},
 		
-		"weapon" : {
-			"black" : {
-				runeword: Runeword.Black,
-				sockets: 3,
-				bases: ["Flail"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				typeCondition : "[name] == flail",
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[ias] == 15",
-				tier: 10000,
-				skipIf: ""
-			},
-			
-			"grief" : {
-				runeword: Runeword.Grief,
-				sockets: 5,
-				bases: ["Phase Blade"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				typeCondition : "[name] == phaseblade",
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[ias] >= 30",
-				tier: 15000,
-				skipIf: ""
-			}
-		},
-		
-		"auricshields" : {
-			"normal_rhyme" : {
-				runeword: Runeword.Rhyme,
-				sockets: 2,
-				bases: ["Targe", "Rondache", "Aerin Shield", "Crown Shield","Heraldic Shield","Aerin Shield"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 25 && [LightResist] >= 25",
-				tier: 250,
-				skipIf: ""
-			},
-			
-			"normal_ancients_pledge" : {
-				runeword: Runeword.AncientsPledge,
-				sockets: 3,
-				bases: ["Targe", "Rondache", "Aerin Shield", "Crown Shield","Heraldic Shield","Aerin Shield"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 40 && [LightResist] >= 40",
-				tier: 5000,
-				skipIf: ""
-			},
-			"nightmare_ancients_pledge" : {
-				runeword: Runeword.AncientsPledge,
-				sockets: 3,
-				bases: ["Royal Shield","Akaran Targe", "Akaran Rondache", "Protector Shield", "Gilded Shield"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 40 && [LightResist] >= 40",
-				tier: 6000,
-				skipIf: ""
-			},
-			"hell_ancients_pledge" : {
-				runeword: Runeword.AncientsPledge,
-				sockets: 3,
-				bases: ["Sacred Targe", "Sacred Rondache"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 40 && [LightResist] >= 40",
-				tier: 7000,
-				skipIf: ""
-			},
-			
-			"hell_rhyme" : {
-				runeword: Runeword.Rhyme,
-				sockets: 2,
-				bases: ["Sacred Targe"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				baseCondition: "[fireresist] >= 25",
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 50 && [LightResist] >= 50",
-				tier: 8000,
-				skipIf: ""
-			},
-			
-			"good_hell_rhyme" : {
-				runeword: Runeword.Rhyme,
-				sockets: 2,
-				bases: ["Sacred Targe"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: true,
-				recipeType: Recipe.Socket.Shield,
-				roll: Roll.NonEth,
-				baseCondition: "[fireresist] >= 40",
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[FireResist] >= 65 && [LightResist] >= 65",
-				tier: 10000,
-				skipIf: ""
-			},
-			
-			"exile" : {
-				runeword: Runeword.Exile,
-				sockets: 4,
-				bases: ["Sacred Targe"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: true,
-				recipeType: Recipe.Socket.Shield,
-				roll: Roll.Eth,
-				baseCondition: "[fireresist] >= 40",
-				qualityCondition: "[quality] <= superior",
-				statCondition: "[defianceaura] >= 13",
-				tier: 15000,
-				skipIf: ""
-			},
-		},
-
 		"helm" : {
 			"Lore" : {
 				runeword: Runeword.Lore,
@@ -191,7 +212,7 @@ var RunewordProfile = {
 			}
 		}
 	},
-
+	
 	merc: { //Merc runewords
 		"polearm" : {
 			"normal_insight" : {
@@ -202,10 +223,10 @@ var RunewordProfile = {
 				roll: Roll.All,
 				qualityCondition: "[quality] <= superior",
 				statCondition: "[Meditationaura] <= 17",
-				tier: 50000000,
+				tier: 50000000, //Normal insig
 				skipIf: ""
 			},
-
+			
 			"nm_insight" : {
 				runeword: Runeword.Insight,
 				sockets: 4,
@@ -217,7 +238,7 @@ var RunewordProfile = {
 				tier: 100000000,
 				skipIf: ""
 			},
-
+			
 			"hell_insight" : {
 				runeword: Runeword.Insight,
 				sockets: 4,
@@ -229,7 +250,7 @@ var RunewordProfile = {
 				tier: 150000000,
 				skipIf: ""
 			},
-
+			
 			"hell_insight_endgame" : {
 				runeword: Runeword.Insight,
 				sockets: 4,

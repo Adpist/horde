@@ -2,6 +2,9 @@
 // 
 //-----------------------------------------------------------------------------------------------------
 
+//Boots
+[name] == meshboots && [quality] == unique && [flag] != ethereal # # [tier] == 6000 //Silkweaves
+
 //Belt
 [name] == WarBelt && [quality] == unique && [flag] != ethereal # [EnhancedDefense] >= 100 # [tier] == (12000) //thundergods vigor
 [name] == sharkskinbelt && [quality] == unique && [flag] != ethereal # # [tier] == 15000 //razortail
@@ -25,5 +28,7 @@
 // amulets
 [type] == amulet && [quality] >= magic # # [tier] == (1 + item.getStatEx(188,2)*30 + item.getStatEx(83,0)*55 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
 
+[name] == amulet && [quality] == unique # [lightresist] == 35 # [tier] == 10000 //highlords
+
 // gloves
-[type] == gloves && [quality] >= magic  # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] ==   (1 + /*ias*/item.getStatEx(8)*5000 + /*javaskills*/item.getStatEx(188,2)*100 + /*passiveskills*/item.getStatEx(188,1)*30 +/*hpregen*/item.getStatEx(74)*7 + /*hp*/item.getStatEx(7)*0.5 + /*mf*/item.getStatEx(80)*1 + /*fireres*/item.getStatEx(39)*2.4 + /*lightres*/item.getStatEx(41)*2.4 + /*coldres*/item.getStatEx(43)*2.4 + /*psnres*/item.getStatEx(45)*0.8 + /*armor*/item.getStatEx(31)*0.1)
+[type] == gloves && [quality] >= magic  # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] ==   (1 + /*ias*/item.getStatEx(93)*5000 + /*javaskills*/item.getStatEx(188,2)*100 + /*passiveskills*/item.getStatEx(188,1)*30 +/*hpregen*/item.getStatEx(74)*7 + /*hp*/item.getStatEx(7)*0.5 + /*mf*/item.getStatEx(80)*1 + /*fireres*/item.getStatEx(39)*2.4 + /*lightres*/item.getStatEx(41)*2.4 + /*coldres*/item.getStatEx(43)*2.4 + /*psnres*/item.getStatEx(45)*0.8 + /*armor*/item.getStatEx(31)*0.1)

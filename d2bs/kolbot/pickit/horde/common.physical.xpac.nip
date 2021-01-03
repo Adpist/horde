@@ -23,6 +23,11 @@
 [type] == boots && [class] == elite && [quality] < magic # # [tier] == 3
 [type] == boots && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + /*maxmana*/item.getStatEx(9)*0.1 + /*hpregen*/item.getStatEx(74)*7 + /*maxhp*/item.getStatEx(7)*1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.1)
 
+[name] == battleboots && [quality] == set && [flag] != ethereal # # [tier] == 3000 //aldur
+[name] == demonhideboots && [quality] == unique && [flag] != ethereal # # [tier] == 4000 // infernostride
+[name] == sharkskinboots && [quality] == unique && [flag] != ethereal # # [tier] == 5000 //Waterwalks
+[name] == battleboots && [quality] == unique && [flag] != ethereal # # [tier] == 10000 //War travellers
+
 //gloves
 [type] == gloves && [quality] < magic # # [tier] == 1
 [type] == gloves && [class] == exceptional && [quality] < magic # # [tier] == 2

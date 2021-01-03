@@ -7,8 +7,6 @@
 [name] == warbelt && [quality] == set # # [tier] == 20000 // IK
 
 // boots
-[name] == sharkskinboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == 2000
-[name] == battleboots && [quality] == unique && [flag] != ethereal # # [maxquantity] == 1 && [tier] == 3000
 [name] == warboots && [quality] == set # # [maxquantity] == 1 && [tier] == 20000 // IK
 
 // helm
