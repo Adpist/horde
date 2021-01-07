@@ -7,27 +7,33 @@
 
 function duriel_requirements(mfRun) {
 	/***** REQUIREMENTS ******/
-	if(!me.getQuest(7, 0)) {
-		if (!mfRun)
+	if (!me.getQuest(7, 0)) {
+		if (!mfRun) {
 			HordeDebug.logUserError("duriel", "andy isn't dead");
-		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 1
+		}
+		// Stop if still in Act 1
+		return mfRun ? Sequencer.skip : Sequencer.stop;
 	}
-	
-	if(!me.getQuest(13,0)) {
-		if (!mfRun)
+
+	if (!me.getQuest(13,0)) {
+		if (!mfRun) {
 			HordeDebug.logUserError("duriel", "summoner isn't dead");
-		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : summoner not completed
+		}
+		// Stop if Summoner isn't done
+		return mfRun ? Sequencer.skip : Sequencer.stop;
 	}
-	
-	if (!mfRun && me.getQuest(14, 0)){
+
+	if (!mfRun && me.getQuest(14, 0)) {
 		return Sequencer.skip;
 	}
 	if (mfRun &&!me.getQuest(15, 0)) {
-			return Sequencer.skip;//must do duriel quiest before mf style
+			// Need Duriel Quest before MF
+			return Sequencer.skip;
 	}
 	/***** END OF REQUIREMENTS ******/
-	
-	return Sequencer.ok;//We can process sequence
+
+	// We can process this sequence
+	return Sequencer.ok;
 }
 
 function duriel(mfRun) {
@@ -48,30 +54,31 @@ function duriel(mfRun) {
 
 		if (Role.teleportingChar) {
 			if (!mfRun) {
-				Travel.travel(5); // Travel to all waypoints up to and including Canyon Of The Magi if I don't have them.
+				// Travel to all WPs up to and including
+				// Canyon of the Magi if I don't have them
+				Travel.travel(5);
 			}
-			
-			Pather.useWaypoint(46, true);
 
+			Pather.useWaypoint(46, true);
 			Precast.doPrecast(true);
 
 			//MF Travelling
 			if (mfRun) {
 				Travel.moveToExit(46, getRoom().correcttomb, false);
-				
-				if(!Pather.moveToPreset(me.area, 2, 152, -11, 3))
-				{
+
+				if (!Pather.moveToPreset(me.area, 2, 152, -11, 3)) {
 					return Sequencer.fail;
 				}
-				try{
+				try {
 					delay(250);
 					unit = getUnit(2, 100);
-				} catch(error){ //hole didnt appear lets try again
+				} catch (e) {
+					 // Hole didn't appear, lets try again
 					delay(1000);
 
-					try{
+					try {
 						unit = getUnit(2, 100);
-					} catch(eerror){
+					} catch (e) {
 						HordeDebug.logUserError("duriel", "hole not found");
 						quit();
 					}
@@ -93,11 +100,11 @@ function duriel(mfRun) {
 					Attack.clear(10);
 					Pather.useUnit(2, 100, 73);
 				}
-				
+
 				if (me.area !== 73)
 					return Sequencer.fail;
 			}
-			//Quest Travelling
+			// Quest Travelling
 			else {
 				Travel.clearToExit(46, getRoom().correcttomb, false);
 
@@ -115,8 +122,6 @@ function duriel(mfRun) {
 					try {
 						Pather.moveToPreset(getRoom().correcttomb, 2, 152, 0, 0, false, false);
 					} catch (e) {
-						print("Caught Error.");
-
 						print(e);
 					}
 				}
@@ -126,64 +131,52 @@ function duriel(mfRun) {
 				}
 
 				Role.makeTeamJoinPortal();
-
 				delay(me.ping * 2 + 250);
-
 				Communication.sendToList(HordeSystem.allTeamProfiles, "clear orifice");
 
-				for (i = 0 ; i < 3 ; i += 1)
-				{
+				for (i = 0 ; i < 3 ; i += 1) {
 					Attack.clear(25);
-
 					Pather.moveToPreset(me.area, 2, 152, 0, 0, false, true);
 				}
-				
-				if (!me.getQuest(10, 0)) { //horadric staff
+				// Horadric Staff
+				if (!me.getQuest(10, 0)) {
 					Quest.placeStaff();
 				}
 
 				for (i = 0 ; i < 30 ; i += 1) {
 					delay(1000);
-
 					hole =  getUnit(2, 100);
-
 					delay(1000);
-
 					Attack.clear(20);
 
 					if (hole) {
 						break;
 					}
 				}
-				
-				Party.secureWaitSynchro("orifice_clear");
-				
-				if (hole) {
-					//Wait bo
-					delay(me.ping*2 + 1000);
-					
-					Precast.doPrecast(true);
 
+				Party.secureWaitSynchro("orifice_clear");
+
+				if (hole) {
+					// Wait for BO
 					delay(me.ping*2 + 1000);
-					
+					Precast.doPrecast(true);
+					delay(me.ping*2 + 1000);
 					Pather.useUnit(2, 100, 73);
 				}
 			}
-			
+
 			Pather.makePortal();
-			delay(1500);//save the sorc!
+			delay(1500); // save the sorc!
 		} else {
 			Town.goToTown(2);
 
-			//Talk to cain when doing the quest
+			// Talk to Cain when doing the quest
 			if (!mfRun) {
-				while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
+				// Try more than once to interact with Cain
+				while (!cain || !cain.openMenu()) { 
 					Packet.flash(me.gid);
-
 					Town.move(NPC.Cain);
-
 					cain = getUnit(1, "deckard cain");
-
 					delay(1000);
 				}
 
@@ -199,8 +192,8 @@ function duriel(mfRun) {
 
 				while (me.area === 40) {
 					delay(250);
-
-					if (j % 20 == 0) { // Check for Team Members every 5 seconds.
+					// Check for Team Members every 5 seconds
+					if (j % 20 == 0) {
 						Party.wholeTeamInGame();
 					}
 
@@ -211,26 +204,21 @@ function duriel(mfRun) {
 					}
 				}
 
-				for (i = 0 ; i < 2 ; i += 1)
-				{
+				for (i = 0 ; i < 2 ; i += 1) {
 					Attack.clear(25);
-
 					Pather.moveToPreset(me.area, 2, 152, 0, 0, false, true);
 				}
 
 				Party.secureWaitSynchro("orifice_clear");
-				
 				Precast.doPrecast(true);
-				
 				Role.backToTown();
-
 				print("Waiting for Duriel TP.");
 			}
-			
+
 			while (!Pather.usePortal(73, null)) {
 				delay(250);
-
-				if (j % 20 == 0) { // Check for Team Members every 5 seconds.
+				// Check for Team Members every 5 seconds
+				if (j % 20 == 0) {
 					Party.wholeTeamInGame();
 				}
 
@@ -239,9 +227,7 @@ function duriel(mfRun) {
 		}
 
 		Party.wholeTeamInGame();
-
 		Pather.teleport = true;
-			
 		Attack.clear(35);
 
 		try {
@@ -261,18 +247,15 @@ function duriel(mfRun) {
 
 		if (mfRun) {
 			Role.backToTown();
-
 			Town.move("waypoint");
-			
-			Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5)); // Move off of waypoint so others can reach it.
+			// Move off of waypoint so others can reach it
+			Pather.moveTo(me.x + rand(-5, 5), me.y + rand(-5, 5));
 		}
 		else {
 			Pather.teleport = false;
 
 			Pather.moveTo(22579, 15706);
-
 			Pather.moveTo(22577, 15649, 10);
-
 			Pather.moveTo(22577, 15609, 10);
 
 			npc = getUnit(1, "tyrael");
