@@ -11,5 +11,6 @@ var HordeBuild = {
 	skillsBuild: "WhirlBOIK",
 	autoBuildTemplate: "WhirlBO",
 	mercAct2Normal: "Defiance",
-	pickits: ["horde/common.physical.xpac.nip","horde/barbarian.whirlbo.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	xpacPickits: ["horde/common.physical.xpac.nip","horde/barbarian.whirlbo.xpac.nip", "horde/merc.act2.meditation.xpac.nip"],
+	classicPickits: ["horde/common.physical.classic.nip", "horde/barbarian.whirlbo.classic.nip"]
 };

@@ -56,7 +56,10 @@ var HordeTown = {
 
 		Town.buyPotions();
 		Town.buyKeys();
-		Town.reviveMerc();
+		
+		if (me.gametype !== 0 ) {
+			Town.reviveMerc();
+		}
 		
 		this.goToTownWp();
 		
@@ -90,7 +93,9 @@ var HordeTown = {
 		HordeStorage.stashQuestItems();
 		Town.heal();
 		Town.identify(Sharing.isGearSharingEnabled());
-		Town.reviveMerc();
+		if (me.gametype !== 0 ) {
+			Town.reviveMerc();
+		}
 		Cubing.doCubing();
 		Runewords.makeRunewords();
 		//this.clearStash();
@@ -117,7 +122,10 @@ var HordeTown = {
 		Sharing.shareGear();
 		Pickit.pickItems();
 		Item.autoEquip();
-		Item.autoEquipMerc();
+		
+		if (me.gametype !== 0 ) {
+			Item.autoEquipMerc();
+		}
 		
 		if (HordeSettings.Debug.Verbose.chores && Role.isLeader) {
 			HordeDebug.logScriptInfo("TownChores", "gear sharing time : " + (getTickCount() - gearTick) + " ms");
@@ -183,11 +191,14 @@ var HordeTown = {
 		
 		Town.stash(true);
 		Town.clearScrolls();
+		
 		if (Config.SortInventory) {
 			Town.sortInventory();
 		}
 		
-		Role.mercCheck();
+		if (me.gametype !== 0 ) {
+			Role.mercCheck();
+		}
 
 		for (i = 0; i < cancelFlags.length; i += 1) {
 			if (getUIFlag(cancelFlags[i])) {

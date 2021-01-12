@@ -12,5 +12,5 @@ var HordeBuild = {
 	autoBuildTemplate: "Trapsin",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/common.caster.xpac.nip", "horde/assassin.trapsin.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	xpacPickits: ["horde/common.caster.xpac.nip", "horde/assassin.trapsin.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

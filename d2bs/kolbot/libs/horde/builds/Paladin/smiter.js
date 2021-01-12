@@ -12,5 +12,6 @@ var HordeBuild = {
 	autoBuildTemplate: "Smiter",
 	mercAct2Normal: "Defiance",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/common.physical.xpac.nip", "horde/paladin.smiter.xpac.nip", "horde/enigma.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	xpacPickits: ["horde/common.physical.xpac.nip", "horde/paladin.smiter.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"],
+	classicPickits: ["horde/common.physical.classic.nip", "horde/paladin.smiter.classic.nip"]
 };

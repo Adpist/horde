@@ -6,26 +6,8 @@
 //shields
 ([type] == necromanceritem || [type] == voodooheads || [type] == shield) && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(107,70)*20 + item.getStatEx(107,69)*20 + item.getStatEx(107,74)*15 + item.getStatEx(188,18)*30 + item.getStatEx(83,2)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
 
-[name] == cantortrophy && [quality] == set && [flag] != ethereal # # [tier] == 8000 //trang
-[name] == hierophanttrophy && [quality] == unique && [flag] != ethereal # # [tier] == 15000 // homonculus
-
-//belts
-[name] == trollbelt && [quality] == set && [flag] != ethereal # # [tier] == 9000
-
-//boots
-[name] == boneweaveboots && [quality] == unique && [flag] != ethereal # # [tier] == 6000
-
-//gloves
-[name] == heavybracers && [quality] == set && [flag] != ethereal # [defense] >= 50 # [tier] == 15000
-[name] == heavybracers && [quality] == set && [flag] != ethereal # [defense] == 74 # [tier] == 20000
-
 //helms
 ([type] == helm || [type] == circlet) && (([quality] >= magic) || [flag] == runeword) && [flag] != ethereal # [durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1 # [tier] == (1 + item.getStatEx(188,18)*30 + item.getStatEx(83,2)*35 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
-[name] == bonevisage && [quality] == set && [flag] != ethereal # # [tier] == 5000
-
-
-//armors
-[name] == chaosarmor && [quality] == set && [flag] != ethereal # # [tier] == 15000
 
 // amulets
 [type] == amulet && [quality] >= magic # # [tier] == (1 + item.getStatEx(188,18)*30 + item.getStatEx(83,2)*55 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)

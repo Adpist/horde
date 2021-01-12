@@ -10,8 +10,6 @@
 //fire
 ([type] == sorceressitem || [type] == orb  || [type] == wand) && (([quality] >= magic) || [quality] < magic ) && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,47)*25 + item.getStatEx(107,56)*20 + item.getStatEx(107,36)*20 + item.getStatEx(107,41)*15 + item.getStatEx(188,8)*30 + item.getStatEx(83,1)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
 
-[type] == orb && [quality] >= unique && [flag] != ethereal # [itemmagicbonus] >= 50 # [tier] == 10001 //occy
-
 //shields
 //non pala/necro
 ([type] == shield) && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 

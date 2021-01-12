@@ -12,5 +12,6 @@ var HordeBuild = {
 	autoBuildTemplate: "Summon",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Might",
-	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/necromancer.summon.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	xpacPickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/necromancer.summon.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"],
+	classicPickits: ["horde/common.caster.classic.nip", "horde/necromancer.summon.classic.nip"]
 };

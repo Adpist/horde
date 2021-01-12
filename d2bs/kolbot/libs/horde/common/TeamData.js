@@ -217,8 +217,18 @@ var TeamData = {
 					var build = HordeSystem.getBuild(HordeSystem.team.profiles[profile].build, HordeSystem.team.profiles[profile].className);
 					
 					this.profilesGearPickits[profile] = {checkList: [], checkListNoTier: [], stringArray: []};
-					for (var j = 0 ; j < build.pickits.length ; j += 1) {
-						this.parseProfilePickit(profile, "pickit/" + build.pickits[j], false);
+					if (me.gametype === 0) {
+						if (!!build.classicPickits) {
+							for (var j = 0 ; j < build.classicPickits.length ; j += 1) {
+								this.parseProfilePickit(profile, "pickit/" + build.classicPickits[j], false);
+							}
+						}
+					} else {
+						if (!!build.xpacPickits) {
+							for (var j = 0 ; j < build.xpacPickits.length ; j += 1) {
+								this.parseProfilePickit(profile, "pickit/" + build.xpacPickits[j], false);
+							}
+						}
 					}
 				}
 			}

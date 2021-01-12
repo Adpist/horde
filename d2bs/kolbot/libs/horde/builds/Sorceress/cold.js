@@ -12,5 +12,6 @@ var HordeBuild = {
 	autoBuildTemplate: "Cold",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/sorceress.cold.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	xpacPickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/sorceress.cold.xpac.nip", "horde/merc.act2.meditation.xpac.nip"],
+	classicPickits: ["horde/common.caster.classic.nip", "horde/sorceress.cold.classic.nip"]
 };

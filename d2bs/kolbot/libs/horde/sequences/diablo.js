@@ -569,15 +569,11 @@ function diablo(mfRun) {
 
 		Town.move("portalspot");
 
-		getScript("tools/ToolsThread.js").pause(); // Pausing ToolsThread.js will effectively turn off chicken and leaving when other characters exit.
-
-		Communication.sendToList(HordeSystem.allTeamProfiles, "ready to kill diablo");
-
-		while (Communcation.Questing.readyToKillDiablo !== HordeSystem.teamSize - 1) {
-			delay(250);
+		if (!me.playertype) {//Don't remove chicken in hardcore
+			getScript("tools/ToolsThread.js").pause(); // Pausing ToolsThread.js will effectively turn off chicken and leaving when other characters exit.
 		}
-
-		Party.wholeTeamInGame();
+		
+		Party.waitSynchro("dia_kill");
 
 		Pather.usePortal(108, null);
 	}

@@ -494,7 +494,7 @@ MainLoop:
 
 		if (corpse) {
 			do {
-				if (getDistance(corpse, monster) <= range) {
+				if (getDistance(corpse, monster) <= range && me.area !== 136) {
 					return true;
 				}
 			} while (corpse.getNext());
@@ -530,7 +530,7 @@ MainLoop:
 				!unit.getState(104) && // nodraw
 				!unit.getState(107) && // shatter
 				!unit.getState(118) &&// noselect
-				(!revive || me.area !== 136)
+				me.area !== 136
 				) {
 			return true;
 		}

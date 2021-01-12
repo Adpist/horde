@@ -266,11 +266,13 @@ var Quest = {
 		if (!me.getQuest(28, 0) && me.getQuest(23, 0) ) { // if meph done, but not diablo
 			Town.goToTown(4);
 		}
-		if (!me.getQuest(28, 0) && (me.getQuest(26, 0) || me.getQuest(26, 1))) {
-			Travel.changeAct(5);
-		}
-		if (me.getQuest(28, 0)) { // if diablo done
-			Town.goToTown(5);
+		if (me.gametype !== 0) { //xpac only
+			if (!me.getQuest(28, 0) && (me.getQuest(26, 0) || me.getQuest(26, 1))) {
+				Travel.changeAct(5);
+			}
+			if (me.getQuest(28, 0)) { // if diablo done
+				Town.goToTown(5);
+			}
 		}
 		
 		delay(1000);

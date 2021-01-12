@@ -304,7 +304,7 @@ var Role = {
 				if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("torchMuleInfo")) {
 					print("muling torch");
 					scriptBroadcast("muleTorch");
-					//quit();
+					quit();
 					scriptBroadcast("quit");
 					//delay(10000);
 				}

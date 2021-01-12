@@ -110,9 +110,19 @@ var HordeSystem = {
 		
 		//Auto Equip
 		Config.AutoEquip = true;
-		HordeBuild.pickits.forEach(function(pickit) {
-			Config.PickitFiles.push(pickit);
-		});
+		if (me.gametype === 0 ) {
+			if (!!HordeBuild.classicPickits) {
+				HordeBuild.classicPickits.forEach(function(pickit) {
+					Config.PickitFiles.push(pickit);
+				});
+			}
+		} else {
+			if (!!HordeBuild.xpacPickits) {
+				HordeBuild.xpacPickits.forEach(function(pickit) {
+					Config.PickitFiles.push(pickit);
+				});
+			}
+		}
 	},
 	
 	trimBaseName: function(name) {

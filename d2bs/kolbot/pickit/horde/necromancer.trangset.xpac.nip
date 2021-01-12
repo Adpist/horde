@@ -5,14 +5,14 @@
 [name] == cantortrophy && [quality] == set && [flag] != ethereal # # [tier] == 20000 //trang
 
 //belts
-[name] == trollbelt && [quality] == set # # [tier] == 20000
+[name] == trollbelt && [quality] == set && [flag] != ethereal # # [tier] == 20000
 
 //gloves
 [name] == heavybracers && [quality] == set && [flag] != ethereal # [defense] >= 50 # [tier] == 15000
 [name] == heavybracers && [quality] == set && [flag] != ethereal # [defense] == 74 # [tier] == 20000
 
 //helms
-[name] == bonevisage && [quality] == set # # [tier] == 20000
+[name] == bonevisage && [quality] == set && [flag] != ethereal # # [tier] == 20000
 
 //armors
-[name] == chaosarmor && [quality] == set # # [tier] == 20000
+[name] == chaosarmor && [quality] == set && [flag] != ethereal # # [tier] == 20000

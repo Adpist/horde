@@ -12,5 +12,5 @@ var HordeBuild = {
 	autoBuildTemplate: "Javazon",
 	mercAct2Normal: "Prayer",
 	mercAct2Nightmare: "Holy Freeze",
-	pickits: ["horde/common.physical.xpac.nip", "horde/common.physical.shield.xpac.nip", "horde/amazon.java.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	xpacPickits: ["horde/common.physical.xpac.nip", "horde/common.physical.shield.xpac.nip", "horde/amazon.java.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.infinity.xpac.nip"]
 };

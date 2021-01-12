@@ -11,5 +11,5 @@ var HordeBuild = {
 	skillsBuild: "Wind",
 	autoBuildTemplate: "Wind",
 	mercAct2Normal: "Prayer",
-	pickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/druid.wind.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
+	xpacPickits: ["horde/common.caster.xpac.nip", "horde/common.caster.weapon.shield.nip", "horde/druid.wind.xpac.nip", "horde/enigma.xpac.nip", "horde/merc.act2.meditation.xpac.nip"]
 };

@@ -1,44 +1,14 @@
-// gloves
-[name] == wargauntlets && [quality] == set && [flag] != ethereal # # [tier] == 20000 // IK
-
-// belt
-[name] == meshbelt && [quality] == unique && [flag] != ethereal # [itemmaxmanapercent] == 15 # [tier] == 2000
-[name] == battlebelt && [quality] == unique && [flag] != ethereal # [itemabsorbcoldpercent] >= 0 # [tier] == 3000 
-[name] == warbelt && [quality] == set && [flag] != ethereal # # [tier] == 20000 // IK
-
-// boots
-[name] == warboots && [quality] == set && [flag] != ethereal # # [maxquantity] == 1 && [tier] == 20000 // IK
-
 // helm
 ([type] == helm || [type] == barbarianitem || [type] == PrimalHelm || [type] == circlet) && (([quality] >= magic) || [flag] == runeword) && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,149)*25 + item.getStatEx(107,138)*20 + item.getStatEx(107,145)*20 + item.getStatEx(107,153)*15 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.2)
-[name] == warhat && [quality] == unique && [flag] != ethereal # # [tier] == 5000
-[name] == sallet && [quality] == unique && [flag] != ethereal # [fireresist] >= 12 && [lightresist] >= 12 # [maxquantity] == 1 && [tier] == 6000
-[name] == deathmask && [quality] == set && [flag] != ethereal # [fireresist] >= 12 && [lightresist] >= 12 # [maxquantity] == 1 && [tier] == 7000
-[type] == helm && [flag] == runeword && [flag] != ethereal # [lightresist] >= 30 # [tier] == 8000
-[name] == wingedhelm && [quality] == set && [flag] != ethereal && [flag] != ethereal # # [tier] == 9000 //Guillaume
-[name] == avengerguard && [quality] == set && [flag] != ethereal # # [tier] == 10000 // IK
-[name] == avengerguard && [quality] == set && [flag] != ethereal # [itemmagicbonus] == 40 # [tier] == 20000 //IK
 
 // amulet
 [type] == amulet && [quality] >= magic # [itemchargedskill] >= 0 # [tier] == (1 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*55 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
-[type] == amulet && [quality] == unique # [itemallskills] == 2 # [tier] == 10000 //mara
 
 // ring
-[type] == ring && [quality] == unique # [itemmagicbonus] == 30 # [tier] == 5000 // perfect nagel
 [name] == ring && [quality] == unique # [maxmana] == 20 # [tier] == 10000 // stone of jordan
-
-// armor
-[name] == sacredarmor && [quality] == set && [flag] != ethereal # # [tier] == 20000 // IK
 
 // weapon
 [type] == mace && [class] == normal && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(107,149)*25 + item.getStatEx(107,138)*20 + item.getStatEx(107,145)*20 + item.getStatEx(107,153)*15 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*35 + item.getStatEx(127)*35 + /*maxhp*/item.getStatEx(7)*1 + /*maxmana*/item.getStatEx(9)*1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.2 + /*maxdamage*/item.getStatEx(24)* 0.5) 
 [name] == maul && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1000 + /*crushingblow*/item.getStatEx(136)*10 + item.getStatEx(107,149)*25 + item.getStatEx(107,138)*20 + item.getStatEx(107,145)*20 + item.getStatEx(107,153)*15 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*35 + item.getStatEx(127)*35 + /*maxhp*/item.getStatEx(7)*1 + /*maxmana*/item.getStatEx(9)*1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.2 + /*maxdamage*/item.getStatEx(24)* 0.5) 
 [name] == warclub && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (2000 +  /*crushingblow*/item.getStatEx(136)*10 + item.getStatEx(107,149)*25 + item.getStatEx(107,138)*20 + item.getStatEx(107,145)*20 + item.getStatEx(107,153)*15 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*35 + item.getStatEx(127)*35 + /*maxhp*/item.getStatEx(7)*1 + /*maxmana*/item.getStatEx(9)*1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.2 + /*maxdamage*/item.getStatEx(24)* 0.5) 
 [name] == ogremaul && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (3000 +  /*crushingblow*/item.getStatEx(136)*10 + item.getStatEx(107,149)*25 + item.getStatEx(107,138)*20 + item.getStatEx(107,145)*20 + item.getStatEx(107,153)*15 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*35 + item.getStatEx(127)*35 + /*maxhp*/item.getStatEx(7)*1 + /*maxmana*/item.getStatEx(9)*1 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.2 + /*maxdamage*/item.getStatEx(24)* 0.5) 
-[name] == maul && [flag] == runeword && [flag] != ethereal # [strength] == 20 # [tier] == 5000 //Strenght normal
-[name] == maul && [flag] == runeword && [flag] != ethereal # [ias] == 15 # [tier] == 5500 //Black normal
-[name] == warclub && [flag] == runeword && [flag] != ethereal # [strength] == 20 # [tier] == 6000 //Strenght nm
-[name] == warclub && [flag] == runeword && [flag] != ethereal # [ias] == 15 # [tier] == 6500 //Black nm
-[name] == ogremaul && [flag] == runeword && [flag] != ethereal # [strength] == 20 # [tier] == 7000 //Strenght hell
-[name] == ogremaul && [flag] == runeword && [flag] != ethereal # [ias] == 15 # [tier] == 7500 //Black hell
-[name] == ogremaul && [quality] == set && [flag] != ethereal # # [tier] == 20000 //IK

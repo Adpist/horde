@@ -5,24 +5,19 @@
 //helms
 //cold
 ([type] == helm || [type] == circlet) && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(188,10)*30 + item.getStatEx(83,1)*35 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
-[Name] == SpiredHelm && [Quality] == Unique && [Flag] != Ethereal # [PassiveColdMastery] >= 15 # [tier] == (10100) //nightwing
 
 //weapons
 //cold
 ([type] == sorceressitem || [type] == orb  || [type] == wand) && (([quality] >= magic) || [quality] < magic ) && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == ( 1+ item.getStatEx(107,59)*25 + item.getStatEx(107,55)*20 + item.getStatEx(107,45)*20 + item.getStatEx(107,39)*15 + item.getStatEx(188,10)*30 + item.getStatEx(83,1)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1 + item.getStatEx(22)* 0.01)
 
-[type] == orb && [quality] >= unique && [flag] != ethereal # [itemmagicbonus] >= 50 # [tier] == 10001 //occy
-
 //shields
 //non pala/necro
-([type] == shield) && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
+([type] == shield) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) && [flag] != ethereal # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
 
 // amulets
 //cold
 [type] == amulet && [quality] >= magic # # [tier] == (1 + item.getStatEx(188,10)*30 + item.getStatEx(83,1)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
 
-//belts
-[name] == battlebelt && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 1 # [tier] == 10100 //snowclash
 
 
 

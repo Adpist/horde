@@ -38,7 +38,7 @@ function orgtorch(mfRun) {
 					if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("torchMuleInfo")) {
 						print("muling torch");
 						scriptBroadcast("muleTorch");
-						//quit();
+						quit();
 						scriptBroadcast("quit");
 						//delay(10000);
 					}
@@ -376,7 +376,7 @@ function orgtorch(mfRun) {
 					Pather.teleport = true;
 					if (!meph) {
 						if (Role.uberChar) {
-							findLoc = [25040, 5101, 25040, 5166, 25122, 5170];
+							findLoc = [25040, 5200, 25129, 5198, 25122, 5170];
 
 							for (i = 0; i < findLoc.length; i += 2) {
 								Pather.moveTo(findLoc[i], findLoc[i + 1]);
@@ -518,9 +518,10 @@ function orgtorch(mfRun) {
 		}
 		
 		if (me.area === 136) {
-			Pather.moveTo(25105, 5140);
-			Pather.usePortal(109);
-			
+			while(me.area === 136) {
+				Pather.moveTo(25105, 5140);
+				Pather.usePortal(109);
+			}
 		} else {
 			HordeTown.lightChores();
 		}
@@ -537,9 +538,9 @@ function orgtorch(mfRun) {
 		oldMercWatch = Config.MercWatch;
 	
 	if (!me.playertype) {//Don't remove chicken in hardcore
-		Config.LifeChicken = 0; // Exit game if life is less or equal to designated percent.
+		Config.LifeChicken = 1; // Exit game if life is less or equal to designated percent.
 		Config.QuitList = [];
-		HordeSystem.toggleThreadsPause();
+		//HordeSystem.toggleThreadsPause();
 	}
 	
 	Config.TownHP = 0; // Go to town if life is under designated percent.
@@ -601,7 +602,7 @@ function orgtorch(mfRun) {
 	
 	//Restore config
 	if (!me.playertype) {
-		HordeSystem.toggleThreadsPause();
+		//HordeSystem.toggleThreadsPause();
 	}
 	
 	if (Role.uberChar) {

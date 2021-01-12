@@ -3,16 +3,16 @@
 
 //helms
 //pala
-([type] == helm || [type] == circlet) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+([type] == helm || [type] == circlet) && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(188,24)*30 + item.getStatEx(83,3)*35 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
 
 //shields
-[type] == auricshields && [flag] == runeword # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [tier] == 5500 //ancients pledge paladin
+[type] == auricshields && [flag] == runeword && [flag] != ethereal # [fireresist] >= 40 && [lightresist] >= 40 && [coldresist] >= 40 # [tier] == 5500 //ancients pledge paladin
 
-[type] == auricshields && [flag] == runeword # [fcr] >= 25 # [tier] == (13000) //spirit
-[type] == auricshields && [class] == elite && [flag] == runeword # [fcr] >= 25 # [tier] == (14000) //spirit
-[type] == auricshields && [class] == elite && [flag] == runeword # [fcr] >= 30 && [fireresist] >= 40 # [tier] == (15000) //spirit
-[type] == auricshields && [class] == elite && [flag] == runeword # [fcr] == 35 && [fireresist] >= 40 # [tier] == (16000) //spirit
-[type] == auricshields && [class] == elite && [flag] == runeword # [fcr] == 35 && [fireresist] >= 45 # [tier] == (20000) //spirit
+[type] == auricshields && [flag] == runeword && [flag] != ethereal # [fcr] >= 25 # [tier] == (13000) //spirit
+[type] == auricshields && [class] == elite && [flag] == runeword && [flag] != ethereal # [fcr] >= 25 # [tier] == (14000) //spirit
+[type] == auricshields && [class] == elite && [flag] == runeword && [flag] != ethereal # [fcr] >= 30 && [fireresist] >= 40 # [tier] == (15000) //spirit
+[type] == auricshields && [class] == elite && [flag] == runeword && [flag] != ethereal # [fcr] == 35 && [fireresist] >= 40 # [tier] == (16000) //spirit
+[type] == auricshields && [class] == elite && [flag] == runeword && [flag] != ethereal # [fcr] == 35 && [fireresist] >= 45 # [tier] == (20000) //spirit
 
 // amulets
 //pala 
