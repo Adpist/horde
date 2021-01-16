@@ -12,17 +12,8 @@
 
 //shields
 //non pala/necro
-([type] == shield) && [quality] >= magic # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) && [flag] != ethereal # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
+([type] == shield) && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) && [flag] != ethereal # [tier] == (1 +  item.getStatEx(7)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
 
 // amulets
 //cold
 [type] == amulet && [quality] >= magic # # [tier] == (1 + item.getStatEx(188,10)*30 + item.getStatEx(83,1)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
-
-
-
-
-
-
-
-
-
