@@ -1684,6 +1684,36 @@ var Misc = {
 		return false;
 	},
 
+	// Handle stuck item on the cursor. Inventory > Stash > Drop (Try Pickit if dropped)
+	cursorCheck: function () {
+		var item;
+
+		if (me.itemoncursor) {
+			item = getUnit(100);
+
+			if (item) {
+				if (Storage.Inventory.CanFit(item) && Storage.Inventory.MoveTo(item)) {
+					return true;
+				}
+
+				if (Storage.Stash.CanFit(item) && Storage.Stash.MoveTo(item)) {
+					return true;
+				}
+
+				Misc.itemLogger("Dropped", item, "cursorCheck");
+
+				if (item.drop()) {
+					Pickit.pickItems();
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		return true;
+	},
+
 	// Go to town when low on hp/mp or when out of potions. can be upgraded to check for curses etc.
 	townCheck: function () {
 		var i, potion, check,
@@ -2994,7 +3024,9 @@ Item.autoEquipMerc = function () {
 					
                     if (this.equipMerc(items[0], bodyLoc[j])) {
                         Misc.logItem("Merc Equipped", equippedItem,"Merc Tier: "+tier);
-                    }
+					}
+
+					Misc.cursorCheck();
 
                     break;
                 }

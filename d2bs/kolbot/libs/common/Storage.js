@@ -463,6 +463,8 @@ Loop:
 			}
 		}
 
+		Misc.cursorCheck();
+
 		return true;
 	};
 
