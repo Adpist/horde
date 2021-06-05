@@ -3022,8 +3022,8 @@ Item.autoEquipMerc = function () {
 					
 					print("Merc equip [" + bodyLoc[j] + "] : " + items[0].name + " - tier " + tier + " | Remove " + equippedItem.name + " - tier " + equippedTier);
 					
-                    if (this.equipMerc(items[0], bodyLoc[j])) {
-                        Misc.logItem("Merc Equipped", equippedItem,"Merc Tier: "+tier);
+					if (this.equipMerc(items[0], bodyLoc[j])) {
+						Misc.logItem("Merc Equipped", equippedItem,"Merc Tier: "+tier);
 					}
 
 					Misc.cursorCheck();
