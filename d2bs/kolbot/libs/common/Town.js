@@ -1999,7 +1999,7 @@ MainLoop:
 	},
 
 	sortInventory: function() {
-			Storage.Inventory.SortItems(Config.ItemsSortedFromLeft, Config.ItemsSortedFromRight);
+		Storage.Inventory.SortItems(Config.ItemsSortedFromLeft, Config.ItemsSortedFromRight);
 
 		return true;
 	},

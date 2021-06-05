@@ -51,7 +51,7 @@ function den(mfRun) {
 
 			delay(me.ping * 2 + 250);
 
-			if (me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
+			if (me.getQuest(1, 0) || me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
 				break;
 			}
 		}

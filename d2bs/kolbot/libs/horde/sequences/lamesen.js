@@ -104,8 +104,7 @@ function lamesen(mfRun) {
 
 	Party.waitSynchro("book_picked");
 	
-	if (!me.getQuest(17,0)) {
-		delay(HordeSystem.getTeamIndex()*5000);
+	if (!me.getQuest(17,0) && me.getItem(548)) {
 		Town.move("alkor");
 
 		target = getUnit(1, "alkor");

@@ -446,6 +446,7 @@ var HordeSystem = {
 	},
 	
 	preRunSetup: function() {
+		Misc.cursorCheck(); // handle any items that could be stuck on the cursor before doing anything else
 		Town.reviveMerc();
 		this.setupRunewords(this.team.profiles[me.profile].runewordsProfile);
 		Runewords.init();

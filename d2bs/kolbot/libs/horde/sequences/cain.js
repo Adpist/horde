@@ -32,70 +32,64 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				Travel.travel(0);
 		}
 		
-		if (!me.getQuest(4, 4) && !me.getQuest(4, 3) ) {
-			if (!me.getItem(524)) { 	// Scroll of Inifuss
-				if (!me.inTown) {
-					Role.backToTown();
-				}
-				if (me.diff === 0 ) {
-					Pather.useWaypoint(5); //dark wood
-				} else {
-					if (Role.teleportingChar ) {
-						Pather.useWaypoint(5); //dark wood
-						Pather.makePortal();
-					} else {
-						Town.move("portalspot");
-						var j = 0;
-						while (!Pather.usePortal(5, null)) {
-							delay(250);
-							if (j % 20 == 0) { // Check for Team Members every 5 seconds.
-								Party.wholeTeamInGame();
-							}
-							j += 1;
-							if (me.getQuest(4, 0))
-							{
-								return Sequencer.done;
-							}
-						}
-					}
-				}
-				Party.waitForMembers();
-
-				Precast.doPrecast(true);
-				Buff.Bo();
-				Pather.teleport = false;
-				Pather.moveToPreset(me.area, 1, 738, 0, 0, true, true); //move to tree
-				Attack.clear(40); // treehead
-
-				if (Role.teleportingChar) {
-					Quest.getQuestItem(524, 30);
-				} 
-				
+		if (!me.getItem(524)) { 	// Scroll of Inifuss
+			if (!me.inTown) {
 				Role.backToTown();
-				
-			/*	scroll1 = me.getItem(524);
-				if (scroll1) {
-					if ( scroll1.location !== 7 && Storage.Stash.CanFit(scroll1)) {
-						Storage.Stash.MoveTo(scroll1);
-						delay(me.ping + 1);
-						me.cancel();
+			}
+			if (me.diff === 0 ) {
+				Pather.useWaypoint(5); //dark wood
+			} else {
+				if (Role.teleportingChar ) {
+					Pather.useWaypoint(5); //dark wood
+					Pather.makePortal();
+				} else {
+					Town.move("portalspot");
+					var j = 0;
+					while (!Pather.usePortal(5, null)) {
+						delay(250);
+						if (j % 20 == 0) { // Check for Team Members every 5 seconds.
+							Party.wholeTeamInGame();
+						}
+						j += 1;
 					}
-				}*/
+				}
 			}
-			Town.move("akara");
-			akara = getUnit(1, "akara");
-			if (akara && akara.openMenu()) {
-				me.cancel();
+			Party.waitForMembers();
+
+			Precast.doPrecast(true);
+			Buff.Bo();
+			Pather.teleport = false;
+			Pather.moveToPreset(me.area, 1, 738, 0, 0, true, true); //move to tree
+			Attack.clear(40); // treehead
+
+			if (Role.isLeader) {
+				Quest.getQuestItem(524, 30);
 			}
-		/*	scroll2 = me.getItem(525);
-			if (scroll2) {
-				if ( scroll2.location !== 7 && Storage.Stash.CanFit(scroll2)) {
-					Storage.Stash.MoveTo(scroll2);
+			
+			Role.backToTown();
+			
+		/*	scroll1 = me.getItem(524);
+			if (scroll1) {
+				if ( scroll1.location !== 7 && Storage.Stash.CanFit(scroll1)) {
+					Storage.Stash.MoveTo(scroll1);
 					delay(me.ping + 1);
 					me.cancel();
 				}
 			}*/
 		}
+		Town.move("akara");
+		akara = getUnit(1, "akara");
+		if (akara && akara.openMenu()) {
+			me.cancel();
+		}
+	/*	scroll2 = me.getItem(525);
+		if (scroll2) {
+			if ( scroll2.location !== 7 && Storage.Stash.CanFit(scroll2)) {
+				Storage.Stash.MoveTo(scroll2);
+				delay(me.ping + 1);
+				me.cancel();
+			}
+		}*/
 
 		Party.wholeTeamInGame();
 		if (Role.teleportingChar) {
@@ -107,11 +101,6 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 			Town.move("portalspot");
 			while (!Pather.usePortal(4, null)) {
 				delay(250);
-				
-				if (me.getQuest(4, 0))
-				{
-					return Sequencer.done;
-				}
 			}
 		}
 		Party.waitForMembers();
@@ -142,7 +131,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 		}
 		if ( me.diff > 0 ) {
 			// Dark-f: now only leader finish the next job when Nightmare & Hell
-			if (Role.teleportingChar) {
+			if (Role.isLeader) {
 				Pather.teleport = true;
 				for (i = 0; i < 5; i += 1) {
 					if (Pather.usePortal(38)) {

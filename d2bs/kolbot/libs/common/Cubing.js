@@ -933,7 +933,7 @@ IngredientLoop:
 					return false;
 				}
 
-				this.cursorCheck();
+				Misc.cursorCheck();
 
 				i = -1;
 
@@ -995,34 +995,6 @@ IngredientLoop:
 				me.cancel();
 				delay(300);
 			}
-		}
-
-		return true;
-	},
-
-	cursorCheck: function () {
-		var item;
-
-		if (me.itemoncursor) {
-			item = getUnit(100);
-
-			if (item) {
-				if (Storage.Inventory.CanFit(item) && Storage.Inventory.MoveTo(item)) {
-					return true;
-				}
-
-				if (Storage.Stash.CanFit(item) && Storage.Stash.MoveTo(item)) {
-					return true;
-				}
-
-				Misc.itemLogger("Dropped", item, "cursorCheck");
-
-				if (item.drop()) {
-					return true;
-				}
-			}
-
-			return false;
 		}
 
 		return true;
