@@ -74,9 +74,9 @@ function blood(mfRun) {
 	while (!kashya || !kashya.openMenu()) { // Try more than once to interact with Kashya.
 		Packet.flash(me.gid);
 
-		Town.move("kashya");
+		Town.move(NPC.Kashya);
 
-		kashya = getUnit(1, "kashya");
+		kashya = getUnit(1, NPC.Kashya);
 
 		delay(1000);
 	}
