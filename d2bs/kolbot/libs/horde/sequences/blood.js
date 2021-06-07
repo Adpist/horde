@@ -27,22 +27,42 @@ function blood(mfRun) {
 	Party.wholeTeamInGame();
 
 	if (!me.getQuest(2, 1)) {
-		Pather.useWaypoint(3);
+		if (me.diff === 0) { // All characters grab Cold Plains Waypoint in Normal. Only the Teleporting Sorc grabs it in Nightmare and Hell.
+			Pather.useWaypoint(3);
 
-		Party.waitForMembers(me.area, 17);
+			Party.waitForMembers(me.area, 17);
 
-		Precast.doPrecast(true);
+			Precast.doPrecast(true);
 
-		Travel.clearToExit(3, 17, true);
+			Travel.clearToExit(3, 17, true);
+		}
+		else {
+			Town.goToTown(1);
+			if (Role.teleportingChar) {
+				Pather.useWaypoint(3);
 
+				Travel.clearToExit(3, 17, false);
+				
+				Role.makeTeamJoinPortal();
+			} else {
+				Town.move("portalspot");
+				while (!Pather.usePortal(17, null)) {
+					delay(250);
+				}
+				Buff.Bo();
+			}
+		}
 		Party.waitForMembers();
 
 		Party.wholeTeamInGame();
 
 		try {
+			Pather.teleport = false;
 			Pather.moveToPreset(17, 1, 805, 0, 0, true);
+			Pather.teleport = true;
 			Attack.kill(getLocaleString(3111)); // Blood Raven
 		} catch(e) {
+			Pather.teleport = true;
 			Attack.clear(30);
 		}
 
