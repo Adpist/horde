@@ -6,9 +6,10 @@
 */
 
 var HordeSettings = {
-	leaderElectionTimeoutMinutes: 10, //Max time to wait for leader election
+	leaderElectionTimeoutMinutes: 5, //Max time to wait for leader election
 	maxWaitTimeMinutes: 3, //Max time to wait in case horde synchronization fails
 	logChar: true, //Set to true if you want to log the char inventory as a mule
+	reportIPRotation: true, //If enabled, reports game server IP & queue time
 	
 	Overlay: {
 		banner: true, //Display the D2GM::HORDE banner
