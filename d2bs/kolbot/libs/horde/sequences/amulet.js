@@ -97,7 +97,7 @@ function amulet(mfRun) {
 
 	Party.wholeTeamInGame();
 
-	if (Role.teleportingChar)
+	if (Role.isLeader)
 		Quest.getQuestItem(521, 149);
 
 	Role.backToTown();

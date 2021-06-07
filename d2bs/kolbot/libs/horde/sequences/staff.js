@@ -74,7 +74,11 @@ function staff(mfRun) {
 			Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, true);
 		}
 
-		Quest.getQuestItem(92, 356);
+		if (Role.isLeader) {
+			Quest.getQuestItem(92, 356);
+		} else {
+			Role.makeTeamJoinPortal();
+		}
 
 		if (!Pather.usePortal(null, null)) {
 			Town.goToTown();
@@ -86,7 +90,35 @@ function staff(mfRun) {
 			Town.openStash();
 			Storage.Stash.MoveTo(me.getItem(92));
 		}
+	} else if (Role.isLeader) {
+		Town.goToTown(2);
+		
+		Town.move("portalspot");
 
+		var j = 0;
+
+		while (!Pather.usePortal(64, null)) {
+			delay(250);
+
+			if (j % 20 == 0) { // Check for Team Members every 5 seconds.
+				Party.wholeTeamInGame();
+			}
+
+			j += 1;
+		}
+		
+		Quest.getQuestItem(92, 356);
+		
+		if (!Pather.usePortal(null, null)) {
+			Town.goToTown();
+		}
+
+		if (me.getItem(92)) {
+			Town.move("stash");
+			delay(me.ping > 0 ? me.ping : 50);
+			Town.openStash();
+			Storage.Stash.MoveTo(me.getItem(92));
+		}
 	}
 
 	return Sequencer.done;
