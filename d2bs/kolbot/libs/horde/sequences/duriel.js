@@ -176,7 +176,7 @@ function duriel(mfRun) {
 				while (!cain || !cain.openMenu()) { 
 					Packet.flash(me.gid);
 					Town.move(NPC.Cain);
-					cain = getUnit(1, "deckard cain");
+					cain = getUnit(1, NPC.Cain);
 					delay(1000);
 				}
 
@@ -258,7 +258,7 @@ function duriel(mfRun) {
 			Pather.moveTo(22577, 15649, 10);
 			Pather.moveTo(22577, 15609, 10);
 
-			npc = getUnit(1, "tyrael");
+			npc = getUnit(1, NPC.Tyrael);
 
 			if (!npc) {
 				return Sequencer.fail;
