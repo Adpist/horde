@@ -149,8 +149,8 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 		}
 		
 		Role.backToTown();
-		Town.move("malah");
-		malah = getUnit(1, "malah");
+		Town.move(NPC.Malah);
+		malah = getUnit(1, NPC.Malah);
 		var j = 0;
 		while(true) {
 			malah.interact();
@@ -172,19 +172,19 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 	if (scroll) {
 		clickItem(1, scroll);
 	}
-	anya = getUnit(1, "anya");
-	Town.move("anya");
+	anya = getUnit(1, NPC.Anya);
+	Town.move(NPC.Anya);
 	if (!anya) {
 		for (waitAnya=0 ; waitAnya<30 ; waitAnya+=1) {
 			delay(1000);
-			anya = getUnit(1, "anya");
+			anya = getUnit(1, NPC.Anya);
 			if (anya) {
 				break;
 			}
 		}
 	}
 	if (anya) {
-		Town.move("anya");
+		Town.move(NPC.Anya);
 		anya.openMenu();
 		me.cancel();
 	}
