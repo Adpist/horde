@@ -233,18 +233,29 @@ function diablo(mfRun) {
 		if (this.seisLayout === 1) {
 			if (me.classid === 1) {
 				delay(3000);
-				Pather.moveTo(7771, 5216); //(7771, 5196);
-			} else {
+				//Pather.moveTo(7771, 5216); //(7771, 5196);
+			} /*else {
 				Pather.moveTo(7771, 5196, 3, true);
+			}*/
+			if (Role.boChar) {
+				delay(5000);
 			}
+			Pather.moveTo(7798, 5194, 3, true);
 		} else {
 			if (me.classid === 1) {
 				delay(3000);
-				Pather.moveTo(7798, 5206); //(7798, 5186);
-			} else {
+				//Pather.moveTo(7798, 5206); //(7798, 5186);
+			} /*else {
 				Pather.moveTo(7798, 5186, 3, true);
+			}*/
+			
+			if (Role.boChar) {
+				delay(5000);
 			}
+			Pather.moveTo(7796, 5155, 3, true);
 		}
+		
+		Attack.clear(40);
 
 		if (!this.getBoss(getLocaleString(2852))) {
 			HordeDebug.logScriptError("diablo", "Failed to kill de Seis");
@@ -482,15 +493,20 @@ function diablo(mfRun) {
 		Buff.selfBo();
 	}
 	Buff.Bo();
-	if(HordeSystem.team.walkChaosSancNorm && me.diff === 0){
+	if (mfRun) {
+		if(HordeSystem.team.walkChaosSancNorm && me.diff === 0){
+			Pather.teleport = false;
+		}
+		if(HordeSystem.team.walkChaosSancNm && me.diff === 1){
+			Pather.teleport = false;
+		}
+		if(HordeSystem.team.walkChaosSancHell && me.diff === 2){
+			Pather.teleport = false;
+		}
+	} else {
 		Pather.teleport = false;
 	}
-	if(HordeSystem.team.walkChaosSancNm && me.diff === 1){
-		Pather.teleport = false;
-	}
-	if(HordeSystem.team.walkChaosSancHell && me.diff === 2){
-		Pather.teleport = false;
-	}
+	
 	Attack.clear(10);
 	if (Role.teleportingChar) {
 		delay(5000);
