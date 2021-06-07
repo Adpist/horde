@@ -97,8 +97,8 @@ function izual(mfRun) {
 	}
 
 	if (!mfRun) {
-		Town.move("tyrael");
-		tyrael = getUnit(1, "tyrael");
+		Town.move(NPC.Tyrael);
+		tyrael = getUnit(1, NPC.Tyrael);
 		tyrael.openMenu();
 		me.cancel();
 	}
