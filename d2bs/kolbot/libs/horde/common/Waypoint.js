@@ -149,7 +149,9 @@ var Waypoint = {
 			}
 		}
 
-		// if (index === 33 && me.getQuest(39, 0)) { // SiC-666 TODO: Worldstone Keep Level 2 requires the completion of Rite of Passage, but talking to someone won't help. Is there anything that would help if this situation arises?
+		if (index === 33 && !me.getQuest(39, 0)) {
+			return false;
+		}
 
 		Town.move("portalspot");
 
