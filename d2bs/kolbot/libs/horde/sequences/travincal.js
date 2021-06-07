@@ -78,7 +78,7 @@ function travincal(mfRun) {
 
 			Town.move(NPC.Cain);
 
-			cain = getUnit(1, "deckard cain");
+			cain = getUnit(1, NPC.Cain);
 
 			delay(1000);
 		}
