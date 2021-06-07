@@ -25,7 +25,7 @@ function Horde() {
 		Party.waitWholeTeamJoined();
 		
 		//IP rotation data feed
-		if(Role.teleportingChar && !!me.gameserverip){
+		if(HordeSettings.reportIPRotation && Role.teleportingChar && !!me.gameserverip){
 			var iprotation = Number(me.gameserverip.split(".")[3]);
 
 			if (!!DataFile.getStats().QueueLength) {
@@ -43,7 +43,6 @@ function Horde() {
 			} else {
 				say("/w *channeldemon" + (me.ladder > 0? "Ladder" : "Non-Ladder") + iprotation, 2);
 			}
-
 		}
 		
 		//update highest town
@@ -61,7 +60,10 @@ function Horde() {
 		Waypoint.waitWaypointsAnnounced();
 		
 		Waypoint.shareWaypoints();
-		Buff.initialBo();
+		
+		if(!HordeSystem.team.skipFirstBo) {
+			Buff.initialBo();
+		}
 		
 		return true;
 	};

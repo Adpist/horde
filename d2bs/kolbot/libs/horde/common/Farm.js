@@ -13,7 +13,7 @@ var Farm = {
 			return;
 		}
 	
-		if (!me.getQuest(7, 0)) {
+		if (!me.getQuest(7, 0) && !getWaypoint(Pather.wpAreas.indexOf(35))) {
 			return; //right now not supported before andy
 		}
 		

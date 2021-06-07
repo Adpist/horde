@@ -109,15 +109,14 @@ const HordeTeam = {
     expansion: true, //Is Xpac team
     sequencesProfile: "mTeamBuilder", //The sequence profile to use for this team
 	enableGearSharing: "Party.hasReachedLevel(18)", //Condition to activate gear sharing. put "false" to disable gear sharing
-	walkChaosSancNorm: true, //Disable tele for clear of Chaos sanc in Normal
-	walkChaosSancNm: true, //Disable tele for clear of Chaos sanc in NM
-	walkChaosSancHell: true, //Disable tele for clear of Chaos sanc in Hell
-	walkThroneRoomNorm: true, //Disable tele for clear of Throne Room in Normal
+	clearInventoryBeforeSharing: "Party.hasReachedLevel(90)", //Condition to sell inventory stuff before sharing. Speeds up town chores but might be selling items not in pickit that would improve other characters stuff
+	skipFirstBo: false, //Skip first game BO (in case the first sequence of the run already does the BO
+	endgame: "Party.hasReachedLevel(90)", //Activates endgame sequences optimisations
+	disableMercRebuy: true, //Disable merc rebuy to improve its level
     minGameTime: 220, //min game time to use for the whole team
     maxGameTime: 0, //max game time to use for whole team,
     quitList: true, //quit when any team mate leave the game
 	instantQuitList: false,//Set this to true if you want all bots to leave instantly when a quit is triggered (ex : quitList on chicken in hardcore)
     manualPlay: false, //Use manual teleporter / follower script on others
-	disableMercRebuy: true, //Never re-buy (ONLY Revive) merc except on Norm -> Nightmare
     debug: false //debug mode
 };
