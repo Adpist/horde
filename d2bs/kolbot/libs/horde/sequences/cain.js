@@ -77,8 +77,8 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				}
 			}*/
 		}
-		Town.move("akara");
-		akara = getUnit(1, "akara");
+		Town.move(NPC.Akara);
+		akara = getUnit(1, NPC.Akara);
 		if (akara && akara.openMenu()) {
 			me.cancel();
 		}
@@ -192,8 +192,8 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 			Role.backToTown();
 		}
 	}
-	Town.move("akara");
-	akara = getUnit(1, "akara");
+	Town.move(NPC.Akara);
+	akara = getUnit(1, NPC.Akara);
 	if (akara && akara.openMenu()) {
 		me.cancel();
 	}
