@@ -250,7 +250,8 @@ var Pather = {
 						// Don't go berserk on longer paths
 						if (!cleared) {
 							Attack.clear(5);
-
+							Misc.openChests(2);
+							
 							cleared = true;
 						}
 
