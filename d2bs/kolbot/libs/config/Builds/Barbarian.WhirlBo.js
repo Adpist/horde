@@ -35,6 +35,9 @@ var AutoBuildTemplate = {
 				Config.BeltColumn		= ["hp", "hp", "hp", "hp"];		// Keep tons of health potions!
 				Config.MinColumn 		= [0, 0, 0, 0];
 				Config.OpenChests = true;								// Might as well open em.
+				Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
+				Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
+				Config.MPBuffer = 0; // Number of healing potions to keep in inventory.
 			}
 		},
 
@@ -254,6 +257,8 @@ var AutoBuildTemplate = {
 				Config.LowManaSkill[0] = 151;
 				Config.LowGold = 40000;
 				Config.StashGold = 5000;							// Minimum amount of gold to stash.
+				Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
+				Config.MPBuffer = 6; // Number of healing potions to keep in inventory.
 			}
 		},
 
@@ -401,6 +406,7 @@ var AutoBuildTemplate = {
 				Config.BeltColumn = ["hp", "hp", "mp", "rv"]; 			// Start keeping rejuvs
 				Config.LowGold = 100000;
 				Config.StashGold = 10000;							// Minimum amount of gold to stash.
+				Config.MPBuffer = 4; // Number of healing potions to keep in inventory.
 			}
 		},
 
@@ -620,6 +626,7 @@ var AutoBuildTemplate = {
 			Update: function () {
 				Config.LowGold = 300000;
 				Config.StashGold = 30000;							// Minimum amount of gold to stash.
+				Config.MPBuffer = 2; // Number of healing potions to keep in inventory.
 			}
 		},
 
