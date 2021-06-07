@@ -63,7 +63,7 @@ function tombs(mfRun) {
 				Packet.flash(me.gid);
 
 				Town.move(NPC.Cain);
-				cain = getUnit(1, "deckard cain");
+				cain = getUnit(1, NPC.Cain);
 
 				delay(1000);
 			}
