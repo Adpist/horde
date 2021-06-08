@@ -109,12 +109,12 @@ function hellforge(mfRun) {
 			if (me.getItem(90)) {
 			
 				Town.goToTown();
-				cain = getUnit(1, "deckard cain");
+				cain = getUnit(1, NPC.Cain);
 				while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
 					Packet.flash(me.gid);
 
 					Town.move(NPC.Cain);
-					cain = getUnit(1, "deckard cain");
+					cain = getUnit(1, NPC.Cain);
 
 					delay(1000);
 				}
@@ -159,12 +159,12 @@ function hellforge(mfRun) {
 			if (leaveParty) {
 				Town.goToTown();
 				
-				cain = getUnit(1, "deckard cain");
+				cain = getUnit(1, NPC.Cain);
 				while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
 					Packet.flash(me.gid);
 
 					Town.move(NPC.Cain);
-					cain = getUnit(1, "deckard cain");
+					cain = getUnit(1, NPC.Cain);
 
 					delay(1000);
 				}
@@ -222,12 +222,12 @@ function hellforge(mfRun) {
 	if ((Role.isLeader || !leaveParty) && !mfRun) {
 		if(!me.getQuest(27,0)) {
 			//Complete quest
-			cain = getUnit(1, "deckard cain");
+			cain = getUnit(1, NPC.Cain);
 			while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
 				Packet.flash(me.gid);
 
 				Town.move(NPC.Cain);
-				cain = getUnit(1, "deckard cain");
+				cain = getUnit(1, NPC.Cain);
 
 				delay(1000);
 			}

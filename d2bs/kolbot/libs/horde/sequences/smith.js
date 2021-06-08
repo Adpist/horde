@@ -110,7 +110,7 @@ function smith(mfRun) {
 	for (i = 0 ; i < 10 ; i += 1)
 	{
 		Town.move(NPC.Charsi);
-		charsi = getUnit(1, "charsi");
+		charsi = getUnit(1, NPC.Charsi);
 		charsi.openMenu();
 		me.cancel();
 		

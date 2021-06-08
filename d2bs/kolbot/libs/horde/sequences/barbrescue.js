@@ -89,9 +89,9 @@ function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
 	
 	Town.goToTown(5);
 	delay(1000+me.ping);
-	Town.move("qual-kehk");
+	Town.move(NPC.Qual_Kehk);
 	delay(1000+me.ping);
-	qual = getUnit(1, "qual-kehk");
+	qual = getUnit(1, NPC.Qual_Kehk);
 	completionTries = 0;
 	while(!me.getQuest(36,0)) {
 		if (completionTries >= 30) {

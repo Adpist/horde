@@ -105,9 +105,9 @@ function lamesen(mfRun) {
 	Party.waitSynchro("book_picked");
 	
 	if (!me.getQuest(17,0) && me.getItem(548)) {
-		Town.move("alkor");
+		Town.move(NPC.Alkor);
 
-		target = getUnit(1, "alkor");
+		target = getUnit(1, NPC.Alkor);
 
 		var tries = 0;
 		while(target && target.openMenu()) {

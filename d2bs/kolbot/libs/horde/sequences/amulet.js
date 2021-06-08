@@ -109,7 +109,7 @@ function amulet(mfRun) {
 		Storage.Stash.MoveTo(me.getItem(521));
 	}
 
-	Town.move("drognan");
+	Town.move(NPC.Drognan);
 
 	if (!Party.waitSynchro("complete_amulet", 60000)) {
 		quit();
@@ -118,9 +118,9 @@ function amulet(mfRun) {
 	while (!drognan || !drognan.openMenu()) { // Try more than once to interact with Drognan.
 		Packet.flash(me.gid);
 
-		Town.move("drognan");
+		Town.move(NPC.Drognan);
 
-		drognan = getUnit(1, "drognan");
+		drognan = getUnit(1, NPC.Drognan);
 
 		delay(1000);
 	}

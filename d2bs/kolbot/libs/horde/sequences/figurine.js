@@ -51,7 +51,7 @@ function figurine(mfRun) {
 			
 				Town.move(NPC.Cain);
 
-				cain = getUnit(1, "deckard cain");
+				cain = getUnit(1, NPC.Cain);
 
 				delay(1000);
 			}
@@ -59,9 +59,9 @@ function figurine(mfRun) {
 			me.cancel();
 		}
 
-		Town.move("meshif");
+		Town.move(NPC.Meshif);
 
-		meshif = getUnit(1, "meshif");
+		meshif = getUnit(1, NPC.Meshif);
 
 		meshif.openMenu();
 	}
@@ -74,7 +74,7 @@ function figurine(mfRun) {
 				
 				Town.move(NPC.Cain);
 
-				cain = getUnit(1, "deckard cain");
+				cain = getUnit(1, NPC.Cain);
 
 				delay(1000);
 			}
@@ -82,9 +82,9 @@ function figurine(mfRun) {
 			me.cancel();
 		}
 
-		Town.move("alkor");
+		Town.move(NPC.Alkor);
 
-		alkor = getUnit(1, "alkor");
+		alkor = getUnit(1, NPC.Alkor);
 
 		alkor.openMenu();
 
@@ -108,9 +108,9 @@ function figurine(mfRun) {
 	}
 
 	if (!me.getQuest(20, 0)) {
-		Town.move("alkor");
+		Town.move(NPC.Alkor);
 
-		alkor = getUnit(1, "alkor");
+		alkor = getUnit(1, NPC.Alkor);
 
 		alkor.openMenu();
 

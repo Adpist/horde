@@ -135,9 +135,9 @@ function den(mfRun) {
 			}
 		}
 
-		Town.move("akara");
+		Town.move(NPC.Akara);
 
-		akara = getUnit(1, "akara");
+		akara = getUnit(1, NPC.Akara);
 
 		akara.openMenu();
 
