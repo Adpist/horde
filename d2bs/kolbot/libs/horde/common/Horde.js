@@ -295,7 +295,7 @@ var HordeSystem = {
 			Config.MiniShopBot = true;
 			Config.CainID.Enable = false; // Identify items at Cain
 			Config.CainID.MinGold = 20000; // Minimum gold (stash + character) to have in order to use Cain.
-			Config.CainID.MinUnids = 1; // Minimum number of unid items in order to use Cain.
+			Config.CainID.MinUnids = 2; // Minimum number of unid items in order to use Cain.
 		}
 	},
 	
@@ -409,7 +409,7 @@ var HordeSystem = {
 			Config.PublicMode = (isTeleportChar) ? 1 : 2;
 			
 			Config.MinGameTime = this.team.minGameTime;
-			Config.MaxGameTIme = this.team.maxGameTime;
+			Config.MaxGameTime = this.team.maxGameTime;
 			
 			Config.ItemInfo = true;//Debug purposes
 		}
