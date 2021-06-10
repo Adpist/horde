@@ -904,8 +904,11 @@ var Misc = {
 
 		for (i = 0; i < 3; i += 1) {
 			if (Pather.moveTo(unit.x + 1, unit.y + 2, 3) && getDistance(me, unit.x + 1, unit.y + 2) < 5) {
-				//Misc.click(0, 0, unit);
-				sendPacket(1, 0x13, 4, unit.type, 4, unit.gid);
+				if (i === 2) {
+					Misc.click(0, 0, unit);
+				} else {
+					sendPacket(1, 0x13, 4, unit.type, 4, unit.gid);
+				}
 			}
 
 			tick = getTickCount();
@@ -2131,7 +2134,8 @@ var Experience = {
 	],
 	// Percent progress into the current level. Format: xx.xx%
 	progress: function () {
-		return me.getStat(12) === 99 ? 0 : (((me.getStat(13) - this.totalExp[me.getStat(12)]) / this.nextExp[me.getStat(12)]) * 100).toFixed(2);
+		var level = me.getStat(12);
+		return level === 99 || level === undefined ? 0 : (((me.getStat(13) - this.totalExp[level]) / this.nextExp[level]) * 100).toFixed(2);
 	},
 
 	// Total experience gained in current run

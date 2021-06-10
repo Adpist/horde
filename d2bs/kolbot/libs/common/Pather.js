@@ -218,6 +218,7 @@ var Pather = {
 			/* Right now getPath's first node is our own position so it's not necessary to take it into account
 				This will be removed if getPath changes
 			*/
+			cleared = false;
 			if (getDistance(me, node) > 2) {
 				// Make life in Maggot Lair easier
 				if ([62, 63, 64].indexOf(me.area) > -1) {
@@ -250,8 +251,10 @@ var Pather = {
 						// Don't go berserk on longer paths
 						if (!cleared) {
 							Attack.clear(5);
-							Misc.openChests(2);
-							
+							var oldOpenChests = Config.OpenChests;
+							Config.OpenChests = 2;
+							Misc.openChests(5);
+							Config.OpenChests = oldOpenChests;
 							cleared = true;
 						}
 
