@@ -129,6 +129,8 @@ function andy(mfRun) {
 
 			Config.PickRange = 0;
 			
+			Party.secureWaitSynchro("andy_buff");
+			
 			Buff.prebuffPoisonRes();
 			
 			Pather.moveTo(22568, 9582, 3, Config.ClearType);
