@@ -203,7 +203,10 @@ var Sharing = {
 		
 		this.goldAnswers = [];
 		
-		Party.waitSynchro("begin_gold");
+		if (!Party.waitSynchro("begin_gold")) {
+			HordeDebug.logCriticalError("gold sharing", "begin_gold synchro failed");
+			quit();
+		}
 
 		if (need) {
 			if (HordeSettings.Debug.Verbose.sharing) {
@@ -550,7 +553,10 @@ var Sharing = {
 		
 		Pickit.pickItems();
 		
-		Party.waitSynchro("begin_gear");
+		if (!Party.waitSynchro("begin_gear")) {
+			HordeDebug.logCriticalError("gear sharing", "begin_gear synchro failed");
+			quit();
+		}
 		
 		if (HordeSettings.Debug.Verbose.sharing) {
 			print("Begin gear sharing");
@@ -998,7 +1004,10 @@ var Sharing = {
 		
 		this.clearRuneSharingData();
 		
-		Party.waitSynchro("begin_runes");
+		if (!Party.waitSynchro("begin_runes")) {
+			HordeDebug.logCriticalError("rune sharing", "begin_runes synchro failed");
+			quit();
+		}
 		
 		if (HordeSettings.Debug.Verbose.sharing) {
 			print("Begin runes sharing");

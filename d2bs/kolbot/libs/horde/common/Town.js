@@ -63,7 +63,10 @@ var HordeTown = {
 		
 		this.goToTownWp();
 		
-		Party.waitSynchro("light_chores_done");
+		if (!Party.waitSynchro("light_chores_done")) {
+			HordeDebug.logCriticalError("light chores", "light_chores_done synchro failed");
+			quit();
+		}
 	},
 	
 	doChores: function (repair = false) {
@@ -80,7 +83,6 @@ var HordeTown = {
 		}
 		
 		TeamData.save();
-		var prepareTick = getTickCount();
 		
 		if (HordeSettings.Debug.Verbose.chores) {
 			print("Town chores prepare for sharing");
@@ -125,7 +127,10 @@ var HordeTown = {
 			print("Town chores wait all done");
 		}
 		
-		Party.waitSynchro("chores_done");
+		if (!Party.waitSynchro("chores_done")) {
+			HordeDebug.logCriticalError("town chores", "chores_done synchro failed");
+			quit();
+		}
 		
 		if (HordeSettings.Debug.Verbose.chores) {
 			if (Role.isLeader) {
@@ -140,6 +145,8 @@ var HordeTown = {
 	
 	doSharingChores: function (repair = false) {
 	
+		var prepareTick = getTickCount();
+		
 		if (HordeSettings.Debug.Verbose.chores) {
 			print("Town chores with sharing");
 		}
@@ -162,7 +169,10 @@ var HordeTown = {
 			print("Town chores wait all prepared");
 		}
 		
-		Party.waitSynchro("begin_gearing");
+		if (!Party.waitSynchro("begin_gearing")) {
+			HordeDebug.logCriticalError("town chores", "begin_gearing synchro failed");
+			quit();
+		}
 				
 		if (HordeSettings.Debug.Verbose.chores) {
 			
