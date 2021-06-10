@@ -39,9 +39,10 @@ function duriel_requirements(mfRun) {
 function duriel(mfRun) {
 	var i, cain, orifice, hole, npc, unit;
 
-	if (!mfRun && Role.teleportingChar) {
+	if (!mfRun && Role.isLeader) {
 		Quest.cubeStaff();
 	}
+	
 	Town.repair();
 	Party.wholeTeamInGame();
 
@@ -136,10 +137,11 @@ function duriel(mfRun) {
 
 				for (i = 0 ; i < 3 ; i += 1) {
 					Attack.clear(25);
-					Pather.moveToPreset(me.area, 2, 152, 0, 0, false, true);
+					Pather.moveToPreset(me.area, 2, 152, 0, 0, true, false);
 				}
+				
 				// Horadric Staff
-				if (!me.getQuest(10, 0)) {
+				if (!me.getQuest(10, 0) && Role.isLeader) {
 					Quest.placeStaff();
 				}
 
@@ -206,7 +208,12 @@ function duriel(mfRun) {
 
 				for (i = 0 ; i < 2 ; i += 1) {
 					Attack.clear(25);
-					Pather.moveToPreset(me.area, 2, 152, 0, 0, false, true);
+					Pather.moveToPreset(me.area, 2, 152, 0, 0, true, false);
+				}
+				
+				// Horadric Staff
+				if (!me.getQuest(10, 0) && Role.isLeader) {
+					Quest.placeStaff();
 				}
 
 				Party.secureWaitSynchro("orifice_clear");
