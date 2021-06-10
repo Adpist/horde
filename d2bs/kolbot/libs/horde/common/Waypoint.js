@@ -121,12 +121,20 @@ var Waypoint = {
 
 				delay(1000);
 			}
+			
+			if (!me.getQuest(11, 0)) {
+				return false;
+			}
 		}
 
 		if (index === 15 && !me.getQuest(13, 0)) { // Canyon Of The Magi requires completion of The Summoner.
 			var cain = getUnit(1, "deckard cain");
 
 			if (!cain || !cain.openMenu()) {
+				return false;
+			}
+			
+			if (!me.getQuest(13,0)) {
 				return false;
 			}
 		}
@@ -207,7 +215,7 @@ var Waypoint = {
 	},
 	
 	buildWaypointsToShare: function(){
-		if (Party.hasReachedLevel(6))
+		if (Party.hasReachedLevel(6) || HordeSystem.team.rushMode === true)
 		{
 			for (var i = 0 ; i < this.myWaypoints.length ; i += 1) { 		// Loop thru the Waypoint.myWaypoints list.
 				if (i < 8 || 										// Cold Plains thru Catacombs Level 2 have no additional requirements.
