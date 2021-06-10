@@ -108,9 +108,9 @@ var SkillsBuilds = {
 		[125, 1, false], //Salvation
 		[124, 1, false], //Redemption
 		[97, 20, true], //max smite
-		[122, 20, true], //max fanatism
-		[117, 20, true], //max Holy shield
 		[125, 20, true], //max Salvation
+		[117, 20, true], //max Holy shield
+		[122, 20, true], //max fanatism
 		[110, 10, true], //Resist Lightning
 		[100, 10, true], //Resist fire
 		[104, 20, true] //rest Defiance

@@ -34,7 +34,6 @@ var AutoBuildTemplate = {
 				Config.LowManaSkill		= [0];
 				Config.BeltColumn		= ["hp", "hp", "hp", "hp"];		// Keep tons of health potions!
 				Config.MinColumn 		= [0, 0, 0, 0];
-				Config.OpenChests = true;								// Might as well open em.
 				Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
 				Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
 				Config.MPBuffer = 0; // Number of healing potions to keep in inventory.
