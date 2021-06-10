@@ -220,12 +220,13 @@ var Role = {
 			if(HordeSystem.team.disableMercRebuy){
 				enableMercRebuy = false;
 			}
-			if (me.diff === 0)
+			
+			if (me.diff === 0 && (me.charlvl < 45 || !hasAct2NightmareMerc))
 			{
 				MercTools.hireMerc(2, HordeSystem.build.mercAct2Normal, false, 2);
 				
 				// make sure our merc can get levels
-				if (Party.lowestAct == 5) {
+				if (Party.lowestAct === 5) {
 					let merc = me.getMerc();
 
 					if (merc && merc.charlvl < 25 && me.charlvl >= 28) {
@@ -241,7 +242,7 @@ var Role = {
 			{
 				MercTools.hireMerc(2, HordeSystem.build.mercAct2Nightmare, false, 2);
 				
-				if (Party.lowestAct == 5) {
+				if (Party.lowestAct === 5) {
 					let merc = me.getMerc();
 
 					if (merc && merc.charlvl <= me.charlvl - 10) {
