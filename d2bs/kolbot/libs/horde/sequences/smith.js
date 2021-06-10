@@ -25,6 +25,8 @@ function smith(mfRun) {
 	
 	Town.goToTown();
 	
+	Pather.teleport = !clearPath;
+	
 	if (clearPath || Role.teleportingChar)
 	{
 		if (!getWaypoint(5))
@@ -99,8 +101,10 @@ function smith(mfRun) {
 	}
 	
 	Attack.clear(20);
-	if (Role.teleportingChar)
+	if (Role.isLeader)
 	{
+		Pather.moveToPreset(28, 2, 108, 0 ,0, clearPath);
+		print("try open smith chest");
 		Quest.getQuestItem(89, 108);
 	}
 	Pickit.pickItems();
@@ -119,6 +123,8 @@ function smith(mfRun) {
 			break;
 		}
 	}
+	
+	Pather.teleport = true;
 	
 	return Sequencer.done;
 }
