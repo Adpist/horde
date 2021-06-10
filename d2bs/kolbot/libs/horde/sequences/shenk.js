@@ -43,10 +43,6 @@ function shenk(mfRun) { // SiC-666 TODO: Rewrite this.
 	if (!mfRun)
 	{
 		Party.wholeTeamInGame();
-		
-		if (me.getQuest(35, 1)) {
-			return Sequencer.done;
-		}
 	}
 	
 	if (killEldritch) {
