@@ -100,7 +100,7 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 		}
 		
 		if (anya) {
-			if (Role.teleportingChar) {
+			if (Role.isLeader) {
 				Pather.moveToUnit(anya);
 				for (i = 0; i < 3; i += 1) {
 					if (getDistance(me, anya) > 3) {
@@ -152,19 +152,24 @@ function anya(mfRun) { // Dark-f: Rewrite this.
 		Town.move(NPC.Malah);
 		malah = getUnit(1, NPC.Malah);
 		var j = 0;
-		while(true) {
-			malah.interact();
-			malah.openMenu();
-			me.cancel(1);
-			if (me.getItem(646) || me.getQuest(37, 1))
-				break;
-			delay(1000);
-			if (j % 20 == 0) { // Check for Team Members every 5 seconds.
-				Party.wholeTeamInGame();
-				sendPacket(1, 0x40); // Refresh quest status				
+		if (!me.getQuest(37,0)) {
+			while(true) {
+				malah.interact();
+				malah.openMenu();
+				me.cancel(1);
+				if (me.getItem(646) || me.getQuest(37, 1))
+					break;
 				delay(1000);
+				if (j % 20 == 0) { // Check for Team Members every 5 seconds.
+					Party.wholeTeamInGame();
+					sendPacket(1, 0x40); // Refresh quest status				
+					delay(1000);
+				}
+				if (j > 60) {
+					return Sequencer.fail;
+				}
+				j += 1;
 			}
-			j += 1;
 		}
 	}
 	Town.goToTown(5);
