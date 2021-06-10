@@ -22,8 +22,11 @@ function countess_requirements(mfRun) {
 function countess(mfRun) {
 	var clearPath = me.diff === 0, poi;
 	
+	Pather.teleport = !clearPath;
+	
 	if (Role.teleportingChar || me.diff === 0)
 	{
+		
 		if (!getWaypoint(4))
 		{
 			Pather.useWaypoint(5);
@@ -105,6 +108,7 @@ function countess(mfRun) {
 	if (!Role.backToTown()) {
 		Town.goToTown();
 	}
+	Pather.teleport = true;
 	
 	return Sequencer.done;
 }

@@ -18,6 +18,8 @@ function cave_requirements(mfRun) {
 
 function cave(mfRun) {
 
+	Pather.teleport = false;
+	
 	if (!getWaypoint(1)) {
 		Travel.safeMoveToExit(2, true, true);
 		Party.wholeTeamInGame();
@@ -56,5 +58,8 @@ function cave(mfRun) {
 			}
 		}
 	}
+	
+	Pather.teleport = true;
+	
 	return Sequencer.done;
 }

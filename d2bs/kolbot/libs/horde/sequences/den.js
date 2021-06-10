@@ -24,6 +24,7 @@ function den(mfRun) {
 	var i, akara;
 	
 	if (me.diff === 0) { // All characters grab Cold Plains Waypoint in Normal. Only the Teleporting Sorc grabs it in Nightmare and Hell.
+		Pather.teleport = false;
 		if (!getWaypoint(1))
 		{
 			Travel.safeMoveToExit(2, true, true);
@@ -70,6 +71,8 @@ function den(mfRun) {
 				delay(me.ping * 2 + 250);
 			}
 		}
+		
+		Pather.teleport = true;
 	} else { // diff > 0		
 		Town.goToTown(1);
 		if (Role.teleportingChar) {

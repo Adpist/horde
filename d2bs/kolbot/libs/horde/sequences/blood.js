@@ -28,6 +28,8 @@ function blood(mfRun) {
 
 	if (!me.getQuest(2, 1)) {
 		if (me.diff === 0) { // All characters grab Cold Plains Waypoint in Normal. Only the Teleporting Sorc grabs it in Nightmare and Hell.
+			Pather.teleport = false;
+			
 			Pather.useWaypoint(3);
 
 			Party.waitForMembers(me.area, 17);

@@ -16,6 +16,8 @@ function bloodmoor_requirements(mfRun) {
 function bloodmoor(mfRun) {
 	var i, akara;
 	
+	Pather.teleport = false;
+	
 	if (!getWaypoint(1))
 	{
 		Travel.safeMoveToExit(2, true, true);
@@ -40,5 +42,7 @@ function bloodmoor(mfRun) {
 		delay(me.ping * 2 + 250);
 	}
 
+	Pather.teleport = true;
+	
 	return Sequencer.done;
 }
