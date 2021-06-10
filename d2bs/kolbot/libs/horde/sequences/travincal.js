@@ -73,6 +73,7 @@ function travincal(mfRun) {
 	delay(3000);
 	Party.allPlayersInArea(); //get team ready for portal
 	if (!mfRun) {
+		var tries = 0;
 		while (!cain || !cain.openMenu()) { // Try more than once to interact with Deckard Cain.
 			Packet.flash(me.gid);
 
@@ -81,6 +82,10 @@ function travincal(mfRun) {
 			cain = getUnit(1, NPC.Cain);
 
 			delay(1000);
+			tries += 1;
+			if (tries >= 3) {
+				break;
+			}
 		}
 
 		me.cancel();
@@ -182,7 +187,7 @@ function travincal(mfRun) {
 	if (!mfRun) {
 		Party.waitForMembers();
 		
-		if (Role.teleportingChar && !me.getQuest(18, 0)) { // I am the Teleporting Sorc and I have not completed Khalim's Will yet. Will smash the orb while the others keep the area clear.
+		if (Role.isLeader && !me.getQuest(18, 0)) { // I am the Teleporting Sorc and I have not completed Khalim's Will yet. Will smash the orb while the others keep the area clear.
 			if(!me.getItem(174)){
 				print("get flail");
 				Quest.getQuestItem(173); // Pick up Khalim's Flail.
@@ -226,7 +231,7 @@ function travincal(mfRun) {
 		}
 		
 		var unit = getUnit(4, 546);
-		if (unit && Role.teleportingChar) {
+		if (unit && Role.isLeader) {
 			Quest.getQuestItem(546);
 		}
 	}
@@ -238,7 +243,7 @@ function travincal(mfRun) {
 	Role.backToTown();
 
 	if (!mfRun) {
-		if (Role.teleportingChar){
+		if (Role.isLeader){
 			Pickit.pickItems();
 		}
 		
