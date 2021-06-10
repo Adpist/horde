@@ -27,29 +27,23 @@ function eye_requirements(mfRun) {
 }
 
 function eye(mfRun) {
+	Town.goToTown(3);
+
 	Party.wholeTeamInGame();
 	
 	if (Role.teleportingChar) {
 		Travel.travel(6); // Travel to all waypoints up to and including Travincal if I don't have them.
-	} else {
+	} else if (!Role.isLeader) {
 		return Sequencer.done;
 	}
-	
-	if (!me.inTown) {
-		Town.goToTown();
-	}
 
-	if (me.charlvl >=18 && me.classid ===1 ) { // Dark-f add only sorceress
-		Pather.teleport = true;
-	} else {
-		Pather.teleport = false;
-	}
+	Pather.teleport = true;
 
-	Pather.useWaypoint(76, true);
-
-	Precast.doPrecast(true);
-
-	if (Pather.teleport === true) {
+	if (Role.teleportingChar) {
+		Pather.useWaypoint(76, true);
+		
+		Precast.doPrecast(true);
+		
 		Travel.clearToExit(76, 85, false);
 
 		//Pather.moveToPreset(me.area, 2, 407);
@@ -60,17 +54,22 @@ function eye(mfRun) {
 		}
 
 		Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
-	} else {
-		Travel.clearToExit(76, 85, Config.ClearType);
-		if (!Pather.moveToPreset(me.area, 2, 407, 0, 0, Config.ClearType)) {
-			Pather.moveToPreset(me.area, 2, 407);
+		
+		if (Role.isLeader) {
+			Quest.getQuestItem(553, 407);
+		} else {
+			Role.makeTeamJoinPortal();
 		}
-		Attack.clear(20);
+	} else {
+		Town.move("portalspot");
+		while (!Pather.usePortal(85, null)) {
+			delay(250);
+		}
+		
+		Quest.getQuestItem(553, 407);
 	}
 
-	Quest.getQuestItem(553, 407);
-
-	Town.goToTown();
+	Role.backToTown();
 
 	if (me.getItem(553)) {
 		Town.move("stash");
@@ -78,8 +77,6 @@ function eye(mfRun) {
 		Town.openStash();
 		Storage.Stash.MoveTo(me.getItem(553));
 	}
-
-	//Pather.teleport = false;
 
 	return Sequencer.done;
 }
