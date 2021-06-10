@@ -9,7 +9,7 @@ function kurastchests_requirements(mfRun) {
 	/***** REQUIREMENTS ******/
 	if (!me.getQuest(15, 0)) {
 		if (mfRun){
-			HordeDebug.logUserError("eye", "Can't be done before duriel");
+			HordeDebug.logUserError("kurastchests", "Can't be done before duriel");
 		}
 		return mfRun ? Sequencer.skip : Sequencer.stop;//Stop : still Act 2
 	}
@@ -48,7 +48,7 @@ function kurastchests(mfRun) {
 		Travel.travel(6); // Travel to all waypoints up to and including Travincal if I don't have them.
 		Pickit.pickItems();
 
-		for (i = 0; i < ConfigChestManiaAct3.length; i += 1) {
+		for (var i = 0; i < ConfigChestManiaAct3.length; i += 1) {
 			Pather.journeyTo(ConfigChestManiaAct3[i]);
 			Precast.doPrecast(false);
 			Misc.openChestsInArea(ConfigChestManiaAct3[i]);

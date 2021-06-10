@@ -75,7 +75,7 @@ function nihlathak(mfRun) {
 		
 		Pather.moveToExit(124, true);
 				
-		Pather.moveToPreset(me.area, 2, 462, 0, 0, false, true);
+		Pather.moveToPreset(me.area, 2, 462, 0, 0, false, false);
 		
 		Role.makeTeamJoinPortal();
 		
@@ -97,9 +97,9 @@ function nihlathak(mfRun) {
 	}
 	
 	try {
-		Pather.moveToPreset(me.area, 2, 462, 0, 0, false, true);
+		Pather.moveToPreset(me.area, 2, 462, 0, 0, true, false);
 		Attack.clear(30);
-		Pather.moveToPreset(me.area, 2, 462, 0, 0, false, true);
+		Pather.moveToPreset(me.area, 2, 462, 0, 0, true, false);
 	} catch (e) {
 		Attack.clear(30);
 	}

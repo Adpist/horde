@@ -187,7 +187,7 @@ function orgtorch(mfRun) {
 			switch(area) {
 				case 133: // Matron's Den
 					if (!getUnit(1, 707)) {
-						Pather.moveToPreset(133, 2, 397, 2, 2, false, clearPath);
+						Pather.moveToPreset(133, 2, 397, 2, 2, clearPath, false);
 					}
 					break;
 				case 134: // Forgotten Sands
@@ -214,7 +214,7 @@ function orgtorch(mfRun) {
 					break;
 				case 135: // Furnace of Pain
 					if (!getUnit(1, 706)) {
-						Pather.moveToPreset(135, 2, 397, 2, 2, false, clearPath);
+						Pather.moveToPreset(135, 2, 397, 2, 2, clearPath, false);
 					}
 					break;
 			}

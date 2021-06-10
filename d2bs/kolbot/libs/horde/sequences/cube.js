@@ -67,7 +67,7 @@ function cube(mfRun) { // Only called in Normal Difficulty.
 
 	while (getDistance(me.x, me.y, chest.roomx * 5 + chest.x, chest.roomy * 5 + chest.y) > 10) {
 		try {
-			Pather.moveToPreset(60, 2, 354, 0, 0, false, true);
+			Pather.moveToPreset(60, 2, 354, 0, 0, true, false);
 		} catch (e) {
 			print("Caught Error.");
 
