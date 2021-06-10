@@ -9,6 +9,7 @@ var Communication = {
 	ingame: true,
 	
 	Questing: {
+		cainStartPoint: "none", //cain sequence
 		clearOrifice: false,//duriel sequence
 		readyToKillDiablo: 0, //diablo sequence
 		waitAncients: 0 //ancients sequence
@@ -203,6 +204,9 @@ var Communication = {
 				this.Synchro.onReceiveCommand(nick, msg, ingame);
 			} else if (msg.indexOf("sharing ") !== -1) {
 				Sharing.onReceiveCommand(nick, msg);
+			} else if (msg.indexOf("cain ") !== -1) {
+				var args = msg.split(' ');
+				this.Questing.cainStartPoint = args[1];
 			} else {
 				switch (msg) {
 				//sequencer command

@@ -23,8 +23,37 @@ function cain_requirements(mfRun) {
 function cain(mfRun) { // Dark-f: rewrite rescue cain
 	var i, j, akara, cain, slave, scroll1, scroll2, stoneA, stoneB, stoneC, stoneD, stoneE;
 	
+	Communication.Questing.cainStartPoint = "none";
+	
 	Party.wholeTeamInGame();
-	if (!me.getQuest(4, 1) ) { // Cain isn't rescued yet
+	
+	Party.waitSynchro("cain_start_point");
+	
+	//Compute cain sequence start point
+	if (Role.isLeader) {
+		if (!me.getQuest(4, 1)) { // Cain isn't rescued yet
+			if (!me.getQuest(4, 4) ) { //redportal isn't open
+				if (!me.getItem(524)) {
+					Communication.Questing.cainStartPoint = "scroll";
+				} else {
+					Communication.Questing.cainStartPoint = "tristram";
+				}
+			} else {
+				Communication.Questing.cainStartPoint = "tristram";
+			}
+		} else {
+			Communication.Questing.cainStartPoint = "completion";
+		}
+		
+		Communication.sendToList(HordeSystem.allTeamProfiles, "cain " + Communication.Questing.cainStartPoint);
+	} else {
+		while(Communication.Questing.cainStartPoint === "none") {
+			delay(100);
+		}
+	}
+	
+	Party.waitSynchro("cain_ready");
+	if (Communication.Questing.cainStartPoint !== "completion") { // Cain isn't rescued yet
 		if (me.diff === 0) {
 			Travel.travel(0);
 		} else {
@@ -32,7 +61,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				Travel.travel(0);
 		}
 		
-		if (!me.getItem(524)) { 	// Scroll of Inifuss
+		if (Communication.Questing.cainStartPoint === "scroll") { 	// Scroll of Inifuss
 			if (!me.inTown) {
 				Role.backToTown();
 			}
@@ -66,6 +95,10 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				Quest.getQuestItem(524, 30);
 			}
 			
+			Pather.moveToPreset(me.area, 1, 738, 0, 0, true, true); //move to tree
+			
+			Party.waitForMembers();
+			
 			Role.backToTown();
 			
 		/*	scroll1 = me.getItem(524);
@@ -77,10 +110,15 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				}
 			}*/
 		}
-		Town.move(NPC.Akara);
-		akara = getUnit(1, NPC.Akara);
-		if (akara && akara.openMenu()) {
-			me.cancel();
+		
+		if (Role.isLeader) {
+			Role.backToTown();
+			
+			Town.move(NPC.Akara);
+			akara = getUnit(1, NPC.Akara);
+			if (akara && akara.openMenu()) {
+				me.cancel();
+			}
 		}
 	/*	scroll2 = me.getItem(525);
 		if (scroll2) {
@@ -115,7 +153,7 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 			Attack.clear(20);
 		}
 		Attack.clear(20);
-		if (!me.getQuest(4, 4) ) {		 //redportal already open
+		if (Role.isLeader && !me.getQuest(4, 4) ) {		 //redportal already open
 			stoneA = getUnit(2, 17);
 			stoneB = getUnit(2, 18);
 			stoneC = getUnit(2, 19);
@@ -158,6 +196,8 @@ function cain(mfRun) { // Dark-f: rewrite rescue cain
 				Role.backToTown();
 			}
 		} else {
+		
+			Party.secureWaitSynchro("enter_tristram");
 			// all team
 			for (i = 0; i < 5; i += 1) {
 				if (Pather.usePortal(38)) {
