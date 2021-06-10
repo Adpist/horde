@@ -103,7 +103,7 @@ function gidbinn(mfRun) {
 	//Secure sync
 	Party.secureWaitSynchro("after_gidbinn", 60000);
 	
-	if (Role.teleportingChar) {
+	if (Role.isLeader) {
 		Quest.getQuestItem(87);
 	}	
 	
