@@ -12,6 +12,48 @@ var Buff = {
 	toldBarb: false,
 	readyToDrink: 0,
 	
+	/* TODO WIP
+	boWps = [{index: 29, area: 107}
+			 {index: 8, area: 35},
+			 {index: 0, area: 1}],
+			 
+	getMyBoWaypoint: function() {		
+		for (var i = 0 ; i < this.boWps.length ; i += 1) {
+			if (getWaypoint(this.boWps[i].index)) {
+				return i;
+			}
+		}
+		
+		return this.boWps.length - 1;
+	},
+	
+	teamBo: function() {
+		if (HordeSystem.teamSize === 1) {
+			return;
+		}
+		
+		if (HordeSystem.boProfile !== "") {
+			if (Role.boChar) {
+				if (canBo) {
+					//Wait for all teammate answers to see if we do bo or skip
+				} else {
+					//skip bo
+				}
+			} else {
+				//All profiles send to bo profile if they need or not
+			}
+			
+			if (doBo) {
+				//All give highest bo location
+				
+				//Pick lowest available bo location
+				
+				//go to location
+				
+				//bo
+			}
+		}
+	},*/
 	giveBo: function () {
 		var orgX, orgY;
 		var usingWaypoint = true;
@@ -21,7 +63,7 @@ var Buff = {
 
 		var i;
 
-		if (!Pather.accessToAct(2)) {
+		if (Party.lowestAct < 2) {
 			usingWaypoint = false;
 			Town.goToTown(1);
 
@@ -35,7 +77,7 @@ var Buff = {
 				delay(me.ping * 2 + 250);
 			}
 		} else {			
-			getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);			
+			getWaypoint(29) && Party.lowestAct >= 4 ? Pather.useWaypoint(107) : Pather.useWaypoint(35);			
 		}
 
 		var waypoint;
@@ -76,7 +118,7 @@ var Buff = {
 		}
 		Communication.sendToList(HordeSystem.allTeamProfiles, "I'm bored -.-");
 
-		if (!Pather.accessToAct(2)) {
+		if (Party.lowestAct < 2) {
 			if (!Pather.moveToExit(1, true)) {
 				Town.goToTown();
 			}
@@ -95,7 +137,7 @@ var Buff = {
 		
 		print("being bo");
 
-		if (!Pather.accessToAct(2)) {
+		if (Party.lowestAct < 2) {
 			Town.goToTown(1);
 			usingWaypoint = false;
 
@@ -109,7 +151,7 @@ var Buff = {
 				delay(me.ping * 2 + 250);
 			}
 		} else {
-			getWaypoint(29) ? Pather.useWaypoint(107) : Pather.useWaypoint(35);	
+			getWaypoint(29) && Party.lowestAct >= 4 ? Pather.useWaypoint(107) : Pather.useWaypoint(35);	
 			
 		}
 		
@@ -160,7 +202,7 @@ var Buff = {
 			j += 1;
 		}
 
-		if (!Pather.accessToAct(2)) {
+		if (Party.lowestAct < 2) {
 			if (!Pather.moveToExit(1, true)) {
 				Town.goToTown();
 			}
@@ -218,10 +260,8 @@ var Buff = {
 
 		print("Buying Antidote Potions");
 
-		Town.goToTown();
-
-		Town.doChores();
-
+		Town.goToTown(1);
+		
 		Town.move("akara");
 
 		akara = getUnit(1, "akara");
