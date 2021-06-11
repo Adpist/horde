@@ -16,8 +16,8 @@ function UserAddon() {
 	this.keyEvent = function (key) {
 		switch (key) {
 		case 32:
-			FileTools.copy("libs/config/" + classes[me.classid] + ".js", "libs/config/" + classes[me.classid] + "." + me.name + ".js");
-			D2Bot.printToConsole("libs/config/" + classes[me.classid] + "." + me.name + ".js has been created.");
+			FileTools.copy("libs/config/" + classes[me.classid] + "HordeTemplate.js", "libs/config/" + classes[me.classid] + "." + me.profile + ".js");
+			D2Bot.printToConsole("libs/config/" + classes[me.classid] + "." + me.profile + ".js has been created.");
 			D2Bot.printToConsole("Please configure your bot and start it again.");
 			D2Bot.stop();
 
@@ -29,7 +29,7 @@ function UserAddon() {
 		addEventListener("itemaction", this.itemEvent);
 	}
 
-	if (!FileTools.exists("libs/config/" + classes[me.classid] + "." + me.name + ".js")) {
+	if (!FileTools.exists("libs/config/" + classes[me.classid] + "." + me.profile + ".js")) {
 		showConsole();
 		print("ÿc4UserAddonÿc0: Press HOME and then press SPACE if you want to create character config.");
 		addEventListener("keyup", this.keyEvent);
