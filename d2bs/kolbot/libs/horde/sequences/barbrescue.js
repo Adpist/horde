@@ -68,7 +68,8 @@ function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
 			door = getUnit(1, 434);
 			if (!Role.isLeader) {
 				Town.goToTown();
-				Party.waitSynchro("portal_barb_rescue_"+k);
+				Party.waitSynchro("portal_barb_rescue_"+k, 30000);
+				Party.waitSynchro("team_in_barb_rescue_"+k, 10000);
 				while (!Pather.usePortal(111, HordeSystem.team.profiles[HordeSystem.teleProfile].character)) {
 					delay(250);
 				}
@@ -104,10 +105,11 @@ function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
 		for ( i = 0  ; i < barbSpots.length ; i += 1) {
 			Town.move("portalspot");
 			
-			Party.waitSynchro("portal_barb_rescue_"+i);
+			Party.waitSynchro("portal_barb_rescue_"+i, 30000);
 			while (!Pather.usePortal(111, HordeSystem.team.profiles[HordeSystem.teleProfile].character)) {
 				delay(250);
 			}
+			Party.waitSynchro("team_in_barb_rescue_"+i, 10000);
 			Party.secureWaitSynchro("done_barb_rescue_"+i, 30000);
 			Role.backToTown();
 		}
@@ -117,7 +119,7 @@ function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
 	
 	Town.goToTown(5);
 	
-	Party.waitSynchro("barb_quest_done");
+	Party.waitSynchro("barb_quest_done", 30000);
 	
 	delay(1000+me.ping);
 	Town.move(NPC.Qual_Kehk);
