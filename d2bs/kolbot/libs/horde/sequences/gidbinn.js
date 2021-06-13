@@ -120,7 +120,7 @@ function gidbinn(mfRun) {
 	while(target && target.openMenu()) {
 		me.cancel();
 		sendPacket(1, 0x40); //to refresh the status of me.getQuest(19, 0).
-		if (me.getQuest(19, 0)) { // Have completed Gidbinn
+		if (me.getQuest(19, 2) || me.getQuest(19, 0)) { // Have completed Gidbinn
 			break;
 		}
 		tries += 1;
