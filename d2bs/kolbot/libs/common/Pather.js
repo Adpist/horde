@@ -251,10 +251,7 @@ var Pather = {
 						// Don't go berserk on longer paths
 						if (!cleared) {
 							Attack.clear(5);
-							var oldOpenChests = Config.OpenChests;
-							Config.OpenChests = 2;
-							Misc.openChests(5);
-							Config.OpenChests = oldOpenChests;
+							Misc.openChests(5, true);
 							cleared = true;
 						}
 

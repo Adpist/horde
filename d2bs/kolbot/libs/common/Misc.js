@@ -983,7 +983,7 @@ var Misc = {
 		return true;
 	},
 
-	openChests: function (range) {
+	openChests: function (range, all) {
 		var unit,
 			unitList = [],
 			containers = ["chest", "chest3", "armorstand", "weaponrack"];
@@ -993,7 +993,7 @@ var Misc = {
 		}
 
 		// Testing all container code
-		if (Config.OpenChests === 2) {
+		if (Config.OpenChests === 2 || all) {
 			containers = [
 				"chest", "loose rock", "hidden stash", "loose boulder", "corpseonstick", "casket", "armorstand", "weaponrack", "barrel", "holeanim", "tomb2",
 				"tomb3", "roguecorpse", "ratnest", "corpse", "goo pile", "largeurn", "urn", "chest3", "jug", "skeleton", "guardcorpse", "sarcophagus", "object2",
