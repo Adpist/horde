@@ -386,6 +386,7 @@ var HordeSystem = {
 		}
 		if(this.team.manualPlay){
 			Scripts.Horde = false;
+			Config.PublicMode = (isTeleportChar) ? 1 : 2;
 			if (isTeleportChar) {
 				Scripts.UserAddon = true;
 			}
