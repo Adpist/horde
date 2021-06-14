@@ -45,6 +45,10 @@ var Quest = {
 				if (Storage.Inventory.CanFit(item)) {
 					Pickit.pickItem(item);
 
+					if (me.findItem(classid)) {
+						break;
+					}
+
 					delay(me.ping * 2 + 500);
 				} else {
 					if (Pickit.canMakeRoom()) {
