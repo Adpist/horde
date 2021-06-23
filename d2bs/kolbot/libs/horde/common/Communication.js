@@ -158,7 +158,9 @@ var Communication = {
 		},
 		
 		askReady: function() {
-			if (HordeSystem.uberProfile !== "") {
+			if (Role.uberChar) {
+				return Role.orgTorchCheck();
+			}else if (HordeSystem.uberProfile !== "") {
 				Communication.sendToProfile(HordeSystem.uberProfile, "orgtorch ask");
 				print("ask orgtorch ready to " + HordeSystem.uberProfile);
 				var tick = getTickCount();
