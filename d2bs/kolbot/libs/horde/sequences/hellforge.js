@@ -26,7 +26,7 @@ function hellforge_requirements(mfRun) {
 }
 
 function hellforge(mfRun) {
-	var leaveParty = false;
+	var leaveParty = false;//me.diff !== 0;
 	var cain;
 	
 	Town.goToTown(4);
@@ -80,11 +80,11 @@ function hellforge(mfRun) {
 		print(e);
 	}
 	
-	Pather.moveToPreset(me.area, 2, 376, 0, 0, false, true);
+	Pather.moveToPreset(me.area, 2, 376, 0, 0, true, false);
 	
 	Attack.clear(40);
 	
-	Pather.moveToPreset(me.area, 2, 376, 0, 0, false, true);
+	Pather.moveToPreset(me.area, 2, 376, 0, 0, true, false);
 	
 	Party.secureWaitSynchro("secure_hellforge");
 
@@ -177,7 +177,7 @@ function hellforge(mfRun) {
 					D2Bot.printToConsole(me.profile + " completed hellforge", 5);
 				}
 				
-				Pather.usePortal(107, me.name);
+				delay(2500);
 				
 				for (var i = 0 ; i < 3 ; i += 1) {
 					if (Party.joinHordeParty()) {
@@ -187,6 +187,8 @@ function hellforge(mfRun) {
 						throw new Error("Failed to rejoin party after hellforge");
 					}
 				}
+				
+				Pather.usePortal(107, me.name);
 				
 				Party.secureWaitSynchro("hellforge_joined_party", 30000);
 			}
@@ -206,7 +208,7 @@ function hellforge(mfRun) {
 		
 		delay(me.ping*2 + 2500);
 		
-		Pather.moveToPreset(me.area, 2, 376, 0, 0, false, true);
+		Pather.moveToPreset(me.area, 2, 376, 0, 0, true, false);
 		
 		Pickit.pickItems();
 	}
