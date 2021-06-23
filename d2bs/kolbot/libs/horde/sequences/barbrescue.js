@@ -26,6 +26,10 @@ function barbrescue_requirements(mfRun) {
 	if (!mfRun && me.getQuest(36,0)) {
 		return Sequencer.skip;//skip, quest is done
 	}
+	
+	if (!Role.teleportingChar && !getWaypoint(Pather.wpAreas.indexOf(111))){
+		return Sequencer.skip;
+	}
 	/***** END OF REQUIREMENTS ******/
 	
 	return Sequencer.ok;//We can process sequence
@@ -43,14 +47,19 @@ function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
 		coords =[],
 		barbSpots = [];
 
+	
+	
 	Party.wholeTeamInGame();
-	Pather.teleport = true;
-	Pather.useWaypoint(111, false);
-	Precast.doPrecast(true);
-	barbSpots = getPresetUnits (me.area, 2, 473);
+	
+	if (Role.teleportingChar || HordeSystem.leaderProfile !== HordeSystem.teleProfile) {
+		Pather.teleport = true;
+		Pather.useWaypoint(111, false);
+		Precast.doPrecast(true);
+		barbSpots = getPresetUnits (me.area, 2, 473);
 
-	if (!barbSpots) {
-		return Sequencer.fail;
+		if (!barbSpots) {
+			return Sequencer.fail;
+		}
 	}
 	
 	if (Role.teleportingChar) {
@@ -87,7 +96,7 @@ function barbrescue(mfRun) { // SiC-666 TODO: Rewrite this.
 						Skill.cast(47, 0, door.x, door.y);
 					delay(50);
 					if (me.getSkill(49, 1))
-						Skill.cast(40, 0, door.x, door.y);
+						Skill.cast(49, 0, door.x, door.y);
 					delay(50);
 				}
 			}
