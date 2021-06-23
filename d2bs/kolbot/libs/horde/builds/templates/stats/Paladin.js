@@ -38,6 +38,7 @@ var StatsBuilds = {
 		["vit", 205],
 		["dex", 100],
 		["str", 156],
+		["dex", 136],
 		["vit", 250],
 		["dex", 150],
 		["vit", "all"]
