@@ -121,6 +121,7 @@ function travincal(mfRun) {
 		
 		Role.makeTeamJoinPortal();
 	} else { // I am not a Sorc, enter the Sorc's Travincal portal.
+		Town.goToTown(3);
 		Town.move("portalspot");
 
 		var j = 0;
