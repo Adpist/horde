@@ -805,8 +805,14 @@ IngredientLoop:
 					return true;
 				}
 			// Main item, NOT matching a pickit entry
-			} else if (unit.quality === 4 && Math.floor(me.charlvl / 2) + Math.floor(unit.ilvl / 2) >= recipe.Level && NTIP.CheckItem(unit) === 0) {
-				return true;
+			} else if (unit.quality === 4 && Math.floor(me.charlvl / 2) + Math.floor(unit.ilvl / 2) >= recipe.Level) {
+				if (NTIP.CheckItem(unit) === 0) {
+					return true;
+				} else if (NTIP.CheckItem(unit, NTIP_CheckListNoTier, true).result === 0) {
+					if (!Item.autoEquipCheck(unit) && !Item.autoEquipCheckMerc(unit)) {
+						return true;
+					}
+				}
 			}
 
 			return false;
@@ -864,16 +870,28 @@ IngredientLoop:
 		}
 
 		if (recipe.Index === Recipe.Reroll.Magic) {
-			if (unit.quality === 4 && unit.ilvl >= recipe.Level && NTIP.CheckItem(unit) === 0) {
-				return true;
+			if (unit.quality === 4 && unit.ilvl >= recipe.Level) {
+				if (NTIP.CheckItem(unit) === 0) {
+					return true;
+				} else if (NTIP.CheckItem(unit, NTIP_CheckListNoTier, true).result === 0) {
+					if (!Item.autoEquipCheck(unit) && !Item.autoEquipCheckMerc(unit)) {
+						return true;
+					}
+				}
 			}
 
 			return false;
 		}
 
 		if (recipe.Index === Recipe.Reroll.Rare) {
-			if (unit.quality === 6 && NTIP.CheckItem(unit) === 0) {
-				return true;
+			if (unit.quality === 6) {
+				if (NTIP.CheckItem(unit) === 0) {
+					return true;
+				} else if (NTIP.CheckItem(unit, NTIP_CheckListNoTier, true).result === 0) {
+					if (!Item.autoEquipCheck(unit) && !Item.autoEquipCheckMerc(unit)) {
+						return true;
+					}
+				}
 			}
 
 			return false;
