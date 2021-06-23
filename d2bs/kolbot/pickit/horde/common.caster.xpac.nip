@@ -36,16 +36,19 @@
 [type] == gloves && [class] == elite && [quality] < magic && [flag] != ethereal # # [tier] == 3
 [type] == gloves && [quality] >= magic && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] ==   (1 + /*maxmana*/item.getStatEx(9)*0.5 + /*hpregen*/item.getStatEx(74)*7 + /*maxhp*/item.getStatEx(7)*0.5 + /*item_magicbonus*/item.getStatEx(80)*1.8 + /*fireresist*/item.getStatEx(39)*2.4 + /*lightresist*/item.getStatEx(41)*2.4 + /*coldresist*/item.getStatEx(43)*2.4 + /*poisonresist*/item.getStatEx(45)*0.8 + /*armorclass*/item.getStatEx(31)*0.1)
 
-[name] == gauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 10 # [tier] == 5000 // frostburn (increased mana %)
-[name] == lightgauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 20 # [tier] == 6000 // magefist (mana regen)
+[name] == gauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 10 # [tier] == 4000 // frostburn (increased mana %)
+[name] == chaingloves && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 25 && [itemmagicbonus] >= 25 # [tier] == 5000
+[name] == chaingloves && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 25 && [itemmagicbonus] >= 30 # [tier] == 5250
+[name] == chaingloves && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 25 && [itemmagicbonus] >= 35 # [tier] == 5500
+[name] == lightgauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 20 # [tier] == 6000 // magefist (fcr + mana regen)
 
 //helms
 [type] == helm && [quality] < magic && [flag] != ethereal # # [tier] == 1
 [type] == helm && [class] == exceptional && [quality] < magic && [flag] != ethereal # # [tier] == 2
 [type] == helm && [class] == elite && [quality] < magic && [flag] != ethereal # # [tier] == 3
 
-[name] == warhat && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 100 # [tier] == (9998) // peasant crown (1 @ skills/40mana/40life)
-[name] == sallet && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 160 # [tier] == (9999) // rockstopper (10%dr/20-40@res/30life)
+[name] == warhat && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 100 # [tier] == (8000) // peasant crown (1 @ skills/40mana/40life)
+[name] == sallet && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 160 # [tier] == (9000) // rockstopper (10%dr/20-40@res/30life)
 [name] == shako && [quality] == unique && [flag] != ethereal # [defense] >= 98 # [tier] == (10000) // shako
 
 //armors

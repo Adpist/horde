@@ -1,6 +1,7 @@
 //helms
 //druid wind
 ([type] == helm || [type] == pelt || [type] == druiditem || [type] == circlet) && (([quality] >= magic) || [flag] == runeword) && [flag] != ethereal # ([durability] >=1 || [ItemReplenishDurability] >= 1 || [ItemIndestructible] >= 1) # [tier] == (1 + item.getStatEx(107,226)*30 + item.getStatEx(107,250)*20 + item.getStatEx(107,245)*20 + item.getStatEx(107,240)*15 + item.getStatEx(188,42)*30 + item.getStatEx(83,5)*35 + item.getStatEx(127)*35 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1) 
+[name] == totemicmask && [quality] == unique && [flag] != ethereal # # [tier] == 9500 //jalal
 
 //weapons
 //druid wind

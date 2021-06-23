@@ -17,10 +17,12 @@
 [type] == helm && [flag] == runeword && [flag] != ethereal # [lightresist] >= 30 # [tier] == 8000
 [name] == wingedhelm && [quality] == set && [flag] != ethereal && [flag] != ethereal # # [tier] == 9000 //Guillaume
 [name] == avengerguard && [quality] == set && [flag] != ethereal # # [tier] == 10000 // IK
-[name] == avengerguard && [quality] == set && [flag] != ethereal # [itemmagicbonus] == 40 # [tier] == 20000 //IK
+[name] == avengerguard && [quality] == set && [flag] != ethereal # [itemmagicbonus] >= 40 # [tier] == 20000 //IK
 
 // amulet
 [type] == amulet && [quality] >= magic # [itemchargedskill] >= 0 # [tier] == (1 + item.getStatEx(188,34)*30 + item.getStatEx(83,4)*55 + item.getStatEx(127)*35 + item.getStatEx(74)*7 + item.getStatEx(105)*5 + item.getStatEx(7)*1 + item.getStatEx(9)*1 + item.getStatEx(39)*2.4 + item.getStatEx(41)*2.4 + item.getStatEx(43)*2.4 + item.getStatEx(45)*0.8 + item.getStatEx(31)*0.1)
+
+[name] == amulet && [quality] == unique # [lightresist] == 35 # [tier] == 9000 //highlords
 [type] == amulet && [quality] == unique # [itemallskills] == 2 # [tier] == 10000 //mara
 
 // ring
