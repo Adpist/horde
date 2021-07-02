@@ -779,7 +779,11 @@ var Sharing = {
 	},
 	
 	isRuneSharingEnabled: function() {
-		return this.isGearSharingEnabled();//For now binded to gear sharing activation
+		if (HordeSystem.team.enableRuneSharing !== undefined) {
+			return eval(HordeSystem.team.enableRuneSharing);
+		}
+		
+		return this.isGearSharingEnabled();//Fallback on gear sharing activation
 	},
 	
 	hasReceivedAllProfilesNeedList: function() {

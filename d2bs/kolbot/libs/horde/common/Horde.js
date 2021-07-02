@@ -89,14 +89,14 @@ var HordeSystem = {
 		}
 		
 		//Stats
-		Config.AutoStat.Enabled = true;
+		Config.AutoStat.Enabled = this.team.enableAutoStats !== undefined ? eval(this.team.enableAutoStats ): true;
 		Config.AutoStat.Save = 0;
 		Config.AutoStat.BlockChance = 0;
 		Config.AutoStat.UseBulk = false;
 		Config.AutoStat.Build = statBuild;
 		
 		//Skills
-		Config.AutoSkill.Enabled = true;
+		Config.AutoSkill.Enabled = this.team.enableAutoSkills !== undefined ? eval(this.team.enableAutoSkills) : true;
 		Config.AutoSkill.Save = 0;
 		Config.AutoSkill.Build = skillsBuild;
 		
@@ -109,18 +109,20 @@ var HordeSystem = {
 		Config.AutoBuild.DebugMode = true;			//	Debug mode prints a little more information to console and
 		
 		//Auto Equip
-		Config.AutoEquip = true;
-		if (me.gametype === 0 ) {
-			if (!!HordeBuild.classicPickits) {
-				HordeBuild.classicPickits.forEach(function(pickit) {
-					Config.PickitFiles.push(pickit);
-				});
-			}
-		} else {
-			if (!!HordeBuild.xpacPickits) {
-				HordeBuild.xpacPickits.forEach(function(pickit) {
-					Config.PickitFiles.push(pickit);
-				});
+		Config.AutoEquip = this.team.enableAutoEquip !== undefined ? eval(this.team.enableAutoEquip) : true;
+		if (this.team.enableAutoEquip === undefined || eval(this.team.enableAutoEquip)) {
+			if (me.gametype === 0 ) {
+				if (!!HordeBuild.classicPickits) {
+					HordeBuild.classicPickits.forEach(function(pickit) {
+						Config.PickitFiles.push(pickit);
+					});
+				}
+			} else {
+				if (!!HordeBuild.xpacPickits) {
+					HordeBuild.xpacPickits.forEach(function(pickit) {
+						Config.PickitFiles.push(pickit);
+					});
+				}
 			}
 		}
 	},
@@ -228,6 +230,10 @@ var HordeSystem = {
 	
 	setupRunewords: function(runewordProfile) {
 		if (runewordProfile === undefined) {
+			return;
+		}
+		
+		if (this.team.enableAutoEquip !== undefined && !eval(this.team.enableAutoEquip)) {
 			return;
 		}
 		
@@ -360,6 +366,7 @@ var HordeSystem = {
 					break;
 				
 				case "uber":
+					HordeSystem.questDropProfile = profile;
 					HordeSystem.uberProfile = profile;
 					HordeSystem.followerProfiles.push(profile);
 					break

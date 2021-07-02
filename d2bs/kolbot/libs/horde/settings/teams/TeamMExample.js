@@ -107,11 +107,16 @@ const HordeTeam = {
     ladder: true, //Is ladder team
     hardcore: false, //Is Hardcore team
     expansion: true, //Is Xpac team
-    sequencesProfile: "mTeamBuilder", //The sequence profile to use for this team
+	rushMode: false, //high level chars are rushing other characters
+    sequencesProfile: "mTeamBuilder", //The sequence profile to use for this team (a .js file in kolbot\libs\horde\settings\sequences\)
 	enableGearSharing: "Party.hasReachedLevel(18)", //Condition to activate gear sharing. put "false" to disable gear sharing
+	enableRuneSharing: "true", //Condition to activate rune sharing. put "true" to always activate and "false" to completely disable rune sharing
+	enableAutoStats: "true", //Condition to activate auto stats. Needed when levelling
+	enableAutoSkills: "true", //Condition to activate auto skills. Needed when levelling
+	enableAutoEquip: "true", //Condition to activate auto equip. Needed when levelling
 	clearInventoryBeforeSharing: "Party.hasReachedLevel(90)", //Condition to sell inventory stuff before sharing. Speeds up town chores but might be selling items not in pickit that would improve other characters stuff
-	skipFirstBo: false, //Skip first game BO (in case the first sequence of the run already does the BO
 	endgame: "Party.hasReachedLevel(90)", //Activates endgame sequences optimisations
+	skipFirstBo: false, //Skip first game BO (in case the first sequence of the run already does the BO
 	disableMercRebuy: true, //Disable merc rebuy to improve its level
     minGameTime: 220, //min game time to use for the whole team
     maxGameTime: 0, //max game time to use for whole team,
