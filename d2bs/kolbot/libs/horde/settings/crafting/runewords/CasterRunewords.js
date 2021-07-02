@@ -102,19 +102,6 @@ var RunewordProfile = {
 				statCondition: "[itemallskills] == 3",
 				tier: 13000,
 				skipIf: ""
-			},
-			
-			"hoto_max_res": {
-				runeword: Runeword.HeartoftheOak,
-				sockets: 4,
-				bases: ["Flail"], //capitals and spaces (ex : "Giant Thresher")
-				cubeBase: false,
-				roll: Roll.NonEth,
-				qualityCondition: "[quality] <= superior",
-				typeCondition : "[name] == flail",
-				statCondition: "[itemallskills] == 3 && [fireresist] == 40",
-				tier: 14000,
-				skipIf: ""
 			}
 		},
 		
