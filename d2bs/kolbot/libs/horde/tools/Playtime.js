@@ -7,8 +7,11 @@
 
 var Playtime = {
 	lastTick: 0,
-	updateFrequency: 1000,
+	updateFrequency: 60000,
 	inGame: false,
+	
+	lastOOG: 0,
+	lastIG: 0,
 	
 	formatTime: function(time) {
 		var sec = time/1000;
@@ -27,6 +30,12 @@ var Playtime = {
 		return "" + h + "h " + this.padStart(m, 2, '0') + "m " + this.padStart(s, 2, '0') + "s";
 	},
 	
+	init: function() {
+		this.readPlaytime();
+		this.lastTick = getTickCount();
+		this.inGame = false;
+	},
+	
 	padStart : function(number, min, character) {
 		var str = "" + number, checked = 1;
 		
@@ -40,72 +49,99 @@ var Playtime = {
 	},
 	
 	getInGameTime: function() {
-		var playtime = 0;
-		if (!!DataFile.getStats().playtime) {
-			var recordedPlaytime = JSON.parse(DataFile.getStats().playtime);
-			if (recordedPlaytime.hasOwnProperty("ingame") ){
-				playtime = recordedPlaytime.ingame;
-			}
+		var playtime = this.lastIG;
+		if (this.inGame) {
+			playtime += getTickCount() - this.lastTick;
 		}
 		return this.formatTime(playtime);
 	},
 	
 	getOutOfGameTime: function() {
-		var playtime = 0;
-		if (!!DataFile.getStats().playtime){
-			var recordedPlaytime = JSON.parse(DataFile.getStats().playtime);
-			if (recordedPlaytime.hasOwnProperty("oog") ){
-				playtime = recordedPlaytime.oog;
-			}
+		var playtime = this.lastOOG;
+		if (!this.inGame) {
+			playtime += getTickCount() - this.lastTick;
 		}
 		return this.formatTime(playtime);
 	},
 	
 	getTotalTime: function() {
-		var playtime = 0;
-		if (!!DataFile.getStats().playtime) {
-			var recordedPlaytime = JSON.parse(DataFile.getStats().playtime);
-			if (recordedPlaytime.hasOwnProperty("ingame") ){
-				playtime += recordedPlaytime.ingame;
-			}
-		}
-		if (!!DataFile.getStats().playtime){
-			var recordedPlaytime = JSON.parse(DataFile.getStats().playtime);
-			if (recordedPlaytime.hasOwnProperty("oog") ){
-				playtime += recordedPlaytime.oog;
-			}
-		}
+		var playtime = this.lastIG + this.lastOOG + getTickCount() - this.lastTick;
 		return this.formatTime(playtime);
 	},
 	
 	track: function(inGame) {
+		this.recordPlaytime(true);
 		this.lastTick = getTickCount();
 		this.inGame = inGame;
+		scriptBroadcast("playtime " + (inGame ? "ingame" : "oog"));
 	},
 	
-	recordPlaytime: function() {
+	onReceivePlaytime: function(playtimeString) {
+		if (playtimeString === "ingame") {
+			this.inGame = true;
+		} else if (playtimeString === "oog") {
+			this.inGame = false;
+		} else {
+			var json = JSON.parse(playtimeString);
+			this.lastIG = json.ingame;
+			this.lastOOG = json.oog;
+		}
+		this.lastTick = getTickCount();
+	},
+	
+	recordPlaytime: function(force) {
 		var newTick = getTickCount(), dt = newTick - this.lastTick, play = false;
 		var oogPlaytime = 0, ingamePlaytime = 0;
 		
-		if (dt >= this.updateFrequency ) {
-			if (!!DataFile.getStats().playtime) {
-				var recordedPlaytime = JSON.parse(DataFile.getStats().playtime);
-				if (recordedPlaytime.hasOwnProperty("oog")) {
-					oogPlaytime = recordedPlaytime.oog;
-				}
-				if (recordedPlaytime.hasOwnProperty("ingame")) {
-					ingamePlaytime = recordedPlaytime.ingame;
-				}
-			}
-			
+		if (force === undefined) {
+			force = false;
+		}
+		
+		if (dt >= this.updateFrequency || force) {			
 			if (this.inGame) {
-				ingamePlaytime += dt;
+				this.lastIG += dt;
 			} else {
-				oogPlaytime += dt;
+				this.lastOOG += dt;
 			}
 			
 			this.lastTick = newTick;
-			DataFile.updateStats("playtime", JSON.stringify({oog: oogPlaytime, ingame: ingamePlaytime}));
+			var jsonString = JSON.stringify({oog: this.lastOOG, ingame: this.lastIG});
+			this.writePlaytime(jsonString);
+			scriptBroadcast("playtime " + jsonString);
 		}
+	},
+	
+	writePlaytime: function(string) {
+		try {
+			FileTools.writeText("data/"+me.profile+"-playtime.json", string);
+		} catch (e) {
+			return false;
+		}
+		
+		return true;
+	},
+	
+	readPlaytime: function() {
+		var tick = getTickCount();
+		if (FileTools.exists("data/"+me.profile+"-playtime.json")) {
+			var string, json;
+			
+			try {
+				string = FileTools.readText("data/"+me.profile+"-playtime.json");
+				json = JSON.parse(string);
+			} catch(e) {
+				this.lastIG = 0;
+				this.lastOOG = 0;
+				return false;
+			}
+			
+			this.lastIG = json.ingame;
+			this.lastOOG = json.oog;
+		} else {
+			this.lastIG = 0;
+			this.lastOOG = 0;
+		}
+		
+		return true;
 	}
 };

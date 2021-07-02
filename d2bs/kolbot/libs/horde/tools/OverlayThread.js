@@ -41,6 +41,65 @@ var HordeHooks = {
 				} else {
 					this.getHook("totaltime").hook.text = "TOTAL : " + Playtime.getTotalTime();
 				}
+
+				if (me.gameReady && me.ingame) {
+					
+					var RealFireRes = 0;
+					var RealColdRes = 0;
+					var RealLightRes = 0;
+					var RealPoisRes = 0;
+
+					var FireRes = me.getStat(39);
+					var ColdRes = me.getStat(43);
+					var LightRes = me.getStat(41);
+					var PoisRes = me.getStat(45);
+					
+					var MaxFireRes = me.getStat(40);
+					var MaxColdRes = me.getStat(44);
+					var MaxLightRes = me.getStat(42);
+					var MaxPoisRes = me.getStat(46);
+					
+					switch (me.diff) {
+						case 0: // Normal Difficulty
+							(FireRes > 75 ? (MaxFireRes > 20 ? (RealFireRes = 95) : (RealFireRes = 75 + MaxFireRes)) : (RealFireRes = FireRes));
+							(ColdRes > 75 ? (MaxColdRes > 20 ? (RealColdRes = 95) : (RealColdRes = 75 + MaxColdRes)) : (RealColdRes = ColdRes));
+							(LightRes > 75 ? (MaxLightRes > 20 ? (RealLightRes = 95) : (RealLightRes = 75 + MaxLightRes)) : (RealLightRes = LightRes));
+							(PoisRes > 75 ? (MaxPoisRes > 20 ? (RealPoisRes = 95) : (RealPoisRes = 75 + MaxPoisRes)) : (RealPoisRes = PoisRes));
+							break;
+						
+						case 1:	// NM DIfficulty
+							var FireResNM = FireRes -40;
+							var ColdResNM = ColdRes -40;
+							var LightResNM = LightRes -40;
+							var PoisResNM = PoisRes -40;
+
+							(FireResNM > 75 ? (MaxFireRes > 20 ? (RealFireRes = 95) : (RealFireRes = 75 + MaxFireRes)) : (RealFireRes = FireResNM));
+							(ColdResNM > 75 ? (MaxColdRes > 20 ? (RealColdRes = 95) : (RealColdRes = 75 + MaxColdRes)) : (RealColdRes = ColdResNM));
+							(LightResNM > 75 ? (MaxLightRes > 20 ? (RealLightRes = 95) : (RealLightRes = 75 + MaxLightRes)) : (RealLightRes = LightResNM));
+							(PoisResNM > 75 ? (MaxPoisRes > 20 ? (RealPoisRes = 95) : (RealPoisRes = 75 + MaxPoisRes)) : (RealPoisRes = PoisResNM));
+							break;
+						
+						case 2: // Hell Difficulty
+							var FireResH = FireRes -100;
+							var ColdResH = ColdRes -100;
+							var LightResH = LightRes -100;
+							var PoisResH = PoisRes -100;
+
+							(FireResH > 75 ? (MaxFireRes > 20 ? (RealFireRes = 95) : (RealFireRes = 75 + MaxFireRes)) : (RealFireRes = FireResH));
+							(ColdResH > 75 ? (MaxColdRes > 20 ? (RealColdRes = 95) : (RealColdRes = 75 + MaxColdRes)) : (RealColdRes = ColdResH));
+							(LightResH > 75 ? (MaxLightRes > 20 ? (RealLightRes = 95) : (RealLightRes = 75 + MaxLightRes)) : (RealLightRes = LightResH));
+							(PoisResH > 75 ? (MaxPoisRes > 20 ? (RealPoisRes = 95) : (RealPoisRes = 75 + MaxPoisRes)) : (RealPoisRes = PoisResH));
+							break;
+					}
+					
+					if (!this.getHook("stats")) {
+						this.add("stats");
+					} else {
+						this.getHook("stats").hook.text = "RES : ÿc1" + RealFireRes + " ÿc3" + RealColdRes + " ÿc9" + RealLightRes + " ÿc2" + RealPoisRes; // Show Resis
+					}	
+
+				}
+				
 			}
 
 		},
@@ -78,9 +137,22 @@ var HordeHooks = {
 				});
 				
 				break;
+
+			case "stats":
+					var RealFireRes = 0;
+					var RealColdRes = 0;
+					var RealLightRes = 0;
+					var RealPoisRes = 0;
+
+				this.hooks.push({
+					name: "stats",
+					hook: new Text("RES: ÿc1" + RealFireRes + " ÿc3" + RealColdRes + " ÿc9" + RealLightRes + " ÿc2" + RealPoisRes, 10, 148, 0/*color*/, 1/*font*/, 0/*align*/)
+				});
+
+				break;
+
 			}
-			
-			
+	
 		},
 
 		getHook: function (name) {
@@ -140,7 +212,13 @@ function main() {
 		hideFlags = [0x09, 0x0C, 0x0D, 0x01, 0x02, 0x0F, 0x18, 0x19, 0x1A, 0x21];
 
 	//addEventListener("keyup", this.keyEvent);
-
+	addEventListener("scriptmsg",
+		function (msg) {
+			var args = msg.split(' ');
+			if (args[0] === "playtime") {
+				Playtime.onReceivePlaytime(args[1]);
+			}
+		});
 	while (true) {
 
 		//this.revealArea(me.area);

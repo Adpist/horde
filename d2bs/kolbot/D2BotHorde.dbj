@@ -11,6 +11,8 @@ var StarterConfig = {
 	CreateGameDelay: 10, // Seconds to wait before creating a new game
 	JoinRetryDelay: 5, // Time in seconds to wait before next join attempt
 	SwitchKeyDelay: 5, // Seconds to wait before switching a used/banned key or after realm down
+	
+	FollowerJoinBaseDelay: 3000, //Base value to compute join delay & avoid all characters joining at the same time.
 
 	CrashDelay: rand(120, 150), // Seconds to wait after a d2 window crash
 	FTJDelay: rand(600,900), // Seconds to wait after failing to create a game
@@ -146,7 +148,7 @@ function updateCount () {
 
 function ScriptMsgEvent (msg) {
 	if (typeof msg === 'string' || msg instanceof String) {
-		print("ScriptMsgEvent : " + msg);
+		
 		if (msg.indexOf("run ") !== -1) {
 			var	args = msg.split(' ');
 			if (args.length >= 3) {
@@ -300,6 +302,7 @@ function main () {
 	Communication.ingame = false;
 	DataFile.updateStats("handle", handle);
 	D2Bot.init();
+	Playtime.init();
 	HordeSystem.init();
 	Config.init(false, true);
 	minGameTime = Config.MinGameTime;
@@ -351,11 +354,12 @@ function main () {
 					DataFile.updateStats("runs", gameCount);
 				}
 				
-				Playtime.recordPlaytime();
 
 				if (!wasInGame) {
 					Playtime.track(true);
 					wasInGame = true;
+				} else {
+					Playtime.recordPlaytime();
 				}
 
 				gold = me.getStat(14) + me.getStat(15);
@@ -374,7 +378,6 @@ function main () {
 		}
 
 		if (wasInGame) {
-			Playtime.recordPlaytime();
 			Playtime.track(false);
 			wasInGame = false;
 		}
@@ -788,7 +791,7 @@ MainSwitch:
 							if (offset <= 0 ) {
 								offset = HordeSystem.allTeamProfiles.length;//We're teleport char and not leader, join last
 							}
-							var hordeJoinDelay = offset * 6000 + rand(500, 2000);
+							var hordeJoinDelay = offset * StarterConfig.FollowerJoinBaseDelay + rand(StarterConfig.FollowerJoinBaseDelay/6, StarterConfig.FollowerJoinBaseDelay/3);
 							ControlAction.timeoutDelay("Custom Join Delay", hordeJoinDelay);
 						}
 
