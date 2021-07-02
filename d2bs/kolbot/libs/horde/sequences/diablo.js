@@ -181,7 +181,12 @@ function diablo(mfRun) {
 			if (boss) {
 				this.chaosPreattack(name, 8);
 
-				return Attack.clear(40, 0, name, this.sort);
+				try {
+					return Attack.clear(40, 0, name, this.sort);
+				} catch(e) {
+					Attack.clear(40);
+					return false;
+				}
 			}
 
 			delay(250);
