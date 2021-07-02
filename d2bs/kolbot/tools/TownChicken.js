@@ -80,7 +80,7 @@ function main() {
 	Cubing.init();
 
 	while (true) {
-		if (!me.inTown && (townCheck ||
+		if (!me.inTown && me.area !== 136 && (townCheck ||
 			(Config.TownHP > 0 && me.hp < Math.floor(me.hpmax * Config.TownHP / 100)) ||
 			(Config.TownMP > 0 && me.mp < Math.floor(me.mpmax * Config.TownMP / 100)))) {
 			this.togglePause();
