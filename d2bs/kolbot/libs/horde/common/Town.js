@@ -156,6 +156,10 @@ var HordeTown = {
 		HordeStorage.stashQuestItems();
 		Town.heal();
 		Town.identify(Sharing.isGearSharingEnabled());
+		Town.buyPotions();
+		Town.buyKeys();
+		Town.fillTome(518);
+		Town.repair(repair);
 		if (me.gametype !== 0 ) {
 			Town.reviveMerc();
 		}
@@ -270,6 +274,9 @@ var HordeTown = {
 		HordeStorage.stashQuestItems();
 		Town.heal();
 		Town.identify(Sharing.isGearSharingEnabled());
+		Town.buyPotions();
+		Town.buyKeys();
+		Town.repair(repair);
 		Item.autoEquip();
 		if (me.gametype !== 0 ) {
 			Item.autoEquipMerc();
@@ -285,9 +292,6 @@ var HordeTown = {
 			Town.fillTome(519);
 		}
 
-		Town.buyPotions();
-		Town.buyKeys();
-		Town.repair(repair);
 		Town.gamble();//need to update this to check against other players pickits
 		
 		Town.stash(true);
@@ -332,6 +336,11 @@ var HordeTown = {
 		
 		//Share gold if needed
 		Sharing.shareGold();
+		
+		Town.buyPotions();
+		Town.buyKeys();
+		Town.repair(repair);
+		Town.fillTome(518);
 		
 		this.goToTownWp();
 		
