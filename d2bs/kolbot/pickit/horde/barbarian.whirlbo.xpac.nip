@@ -16,6 +16,7 @@
 [name] == deathmask && [quality] == set && [flag] != ethereal # [fireresist] >= 12 && [lightresist] >= 12 # [maxquantity] == 1 && [tier] == 7000
 [type] == helm && [flag] == runeword && [flag] != ethereal # [lightresist] >= 30 # [tier] == 8000
 [name] == wingedhelm && [quality] == set && [flag] != ethereal && [flag] != ethereal # # [tier] == 9000 //Guillaume
+[Name] == SlayerGuard && [Quality] == unique && [flag] != ethereal # [enhanceddefense] >= 150 # [tier] == 9500 // arreat
 [name] == avengerguard && [quality] == set && [flag] != ethereal # # [tier] == 10000 // IK
 [name] == avengerguard && [quality] == set && [flag] != ethereal # [itemmagicbonus] >= 40 # [tier] == 20000 //IK
 

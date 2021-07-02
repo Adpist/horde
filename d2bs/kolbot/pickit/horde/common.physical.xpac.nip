@@ -59,3 +59,4 @@
 
 [type] == ring && [quality] == unique # [magicdamagereduction] >= 12 # [tier] == (2000) //dwarf
 [Type] == ring && [Quality] == Unique # [Dexterity] >= 10 && [ToHit] >= 100 # [tier] == (5000) //raven
+[name] == ring && [quality] == unique # [lifeleech] >= 3 && [MaxStamina] == 50 # [tier] == 9000 //bul kathos

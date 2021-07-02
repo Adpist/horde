@@ -77,7 +77,7 @@
 [type] == ring && [quality] == unique # [magicdamagereduction] >= 12 # [tier] == 5000 //dwarf
 [Type] == ring && [Quality] == Unique # [Dexterity] >= 10 && [ToHit] >= 100 # [tier] == 6000 //raven
 [type] == ring && [quality] == unique # [itemabsorblightpercent]+[itemmagicbonus] >= 30 # [tier] == 8000 //wisp
-[name] == ring && [quality] == unique # [lifeleech] >= 3 # [tier] == 9000 //bul kathos
+[name] == ring && [quality] == unique # [lifeleech] >= 3 && [MaxStamina] == 50 # [tier] == 9000 //bul kathos
 [name] == ring && [quality] == unique # [itemmaxmanapercent] >= 25 # [tier] == 10000 //stone of jordan
 
 // amulets
