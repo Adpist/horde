@@ -16,13 +16,14 @@ var Role = {
 	initRole: function () { // Checks Config settings to determine role.
 		var leaderProfile = DataFile.getStats().hordeLeader;
 		
+		if (HordeSystem.questDropProfile === me.profile) {
+			this.questDropChar = true;
+		}
+		
 		if (HordeSystem.teleProfile === me.profile) {
 			this.teleportingChar = true;
-
 		} else if (HordeSystem.boProfile === me.profile) {
 			this.boChar = true;
-		} else if (HordeSystem.questDropProfile === me.profile) {
-			this.questDropChar = true;
 		} else if (HordeSystem.uberProfile === me.profile) {
 			this.uberChar = true;
 		} else {
@@ -137,7 +138,7 @@ var Role = {
 				scrollsCount = this.getTpTome().getStat(70);
 				print("backToTown: have " + scrollsCount + " scrolls");
 				if (scrollsCount === 20) {
-					waitTime = HordeSystem.getTeamIndex(me.profile) * 50;// we wait [0;400] depending on our index in the team profiles.
+					waitTime = HordeSystem.getTeamIndex(me.profile) * 50 + 50;// we wait [0;400] depending on our index in the team profiles.
 				} else {
 					waitTime = 400 + 30 * (20-scrollsCount);//we're not full of scrolls, wait [400;1000] depending on how many scrolls we have
 				}
